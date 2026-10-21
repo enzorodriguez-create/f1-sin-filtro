@@ -1,0 +1,1115 @@
+```html
+<link
+    href="https://fonts.googleapis.com/css2?family=Chivo:wght@400;600;700;900&family=Geist:wght@400;500;600;700&display=swap"
+    rel="stylesheet"
+>
+
+<link
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0"
+    rel="stylesheet"
+>
+
+<link
+    rel="stylesheet"
+    href="{{ url_for('static', filename='styles/editor/dashboard.css') }}"
+>
+
+
+<div class="editor-page">
+
+    <!-- =========================
+         SIDEBAR
+    ========================== -->
+
+    <aside class="editor-sidebar" id="editor-sidebar">
+
+        <div class="sidebar-head">
+
+            <div class="sidebar-brand">
+
+                <div class="brand-row">
+
+                    <span class="material-symbols-outlined brand-icon">
+                        sports_motorsports
+                    </span>
+
+                    <span class="brand-name">
+                        F1 <strong>SIN FILTRO</strong>
+                    </span>
+
+                </div>
+
+                <div class="brand-sub">
+
+                    <span class="status-dot"></span>
+
+                    <span>
+                        PANEL DE EDITOR
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <button
+                class="sidebar-close"
+                type="button"
+                onclick="document.getElementById('editor-sidebar').classList.remove('open')"
+            >
+                <span class="material-symbols-outlined">
+                    close
+                </span>
+            </button>
+
+        </div>
+
+
+        <div class="session-box">
+
+            <span>
+                SESIÓN ACTIVA
+            </span>
+
+            <strong>
+                PADDOCK LIVE
+            </strong>
+
+        </div>
+
+
+        <nav class="sidebar-nav">
+
+            <a
+                class="sidebar-link active"
+                href="{{ url_for('editor') }}"
+            >
+                <span class="material-symbols-outlined">
+                    speed
+                </span>
+
+                Dashboard
+            </a>
+
+
+            <a
+                class="sidebar-link"
+                href="#"
+            >
+                <span class="material-symbols-outlined">
+                    article
+                </span>
+
+                Mis Publicaciones
+            </a>
+
+
+            <a
+                class="sidebar-link"
+                href="#"
+            >
+                <span class="material-symbols-outlined">
+                    edit_document
+                </span>
+
+                Crear Publicación
+            </a>
+
+
+            <a
+                class="sidebar-link"
+                href="#"
+            >
+                <span class="material-symbols-outlined">
+                    forum
+                </span>
+
+                Comentarios
+            </a>
+
+
+            <a
+                class="sidebar-link"
+                href="#"
+            >
+                <span class="material-symbols-outlined">
+                    category
+                </span>
+
+                Categorías
+            </a>
+
+
+            <a
+                class="sidebar-link"
+                href="#"
+            >
+                <span class="material-symbols-outlined">
+                    label
+                </span>
+
+                Etiquetas
+            </a>
+
+
+            <a
+                class="sidebar-link"
+                href="{{ url_for('perfil') }}"
+            >
+                <span class="material-symbols-outlined">
+                    badge
+                </span>
+
+                Mi Perfil
+            </a>
+
+        </nav>
+
+
+        <div class="sidebar-bottom">
+
+            <div class="cms-card">
+
+                <div>
+                    <span class="cms-label">
+                        SISTEMA EDITORIAL
+                    </span>
+
+                    <strong>
+                        F1 SIN FILTRO
+                    </strong>
+                </div>
+
+                <span class="material-symbols-outlined">
+                    verified
+                </span>
+
+            </div>
+
+
+            <a
+                class="portal-link"
+                href="{{ url_for('inicio') }}"
+            >
+                <span class="material-symbols-outlined">
+                    public
+                </span>
+
+                Volver al Portal
+            </a>
+
+        </div>
+
+    </aside>
+
+
+    <!-- =========================
+         CONTENIDO
+    ========================== -->
+
+    <div class="editor-content">
+
+
+        <!-- TOPBAR -->
+
+        <header class="editor-topbar">
+
+            <div class="topbar-left">
+
+                <button
+                    class="menu-btn"
+                    type="button"
+                    onclick="document.getElementById('editor-sidebar').classList.add('open')"
+                >
+                    <span class="material-symbols-outlined">
+                        menu
+                    </span>
+                </button>
+
+
+                <div class="editor-search">
+
+                    <span class="material-symbols-outlined">
+                        search
+                    </span>
+
+                    <input
+                        type="text"
+                        placeholder="Buscar publicaciones, comentarios, categorías..."
+                    >
+
+                </div>
+
+            </div>
+
+
+            <div class="topbar-right">
+
+                <div class="role-badge">
+
+                    <span class="role-dot"></span>
+
+                    <span>
+                        ROL:
+                    </span>
+
+                    <strong>
+                        EDITOR
+                    </strong>
+
+                </div>
+
+
+                <button
+                    class="notification-btn"
+                    type="button"
+                >
+
+                    <span class="material-symbols-outlined">
+                        notifications
+                    </span>
+
+                    <span class="notification-dot"></span>
+
+                </button>
+
+
+                <div class="editor-user">
+
+                    <div class="editor-user-data">
+
+                        <strong>
+                            {{ usuario.nombre if usuario else "Editor" }}
+                        </strong>
+
+                        <span>
+                            {{ usuario.email if usuario else "editor@f1sinfiltro.com" }}
+                        </span>
+
+                    </div>
+
+
+                    {% if usuario and usuario.foto %}
+
+                        <img
+                            class="editor-avatar editor-avatar-img"
+                            src="{{ usuario.foto }}"
+                            alt="{{ usuario.nombre }}"
+                        >
+
+                    {% else %}
+
+                        <div class="editor-avatar">
+
+                            <span class="material-symbols-outlined">
+                                person
+                            </span>
+
+                        </div>
+
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+        </header>
+
+
+        <!-- MAIN -->
+
+        <main class="editor-main">
+
+            <div class="editor-container">
+
+
+                <!-- ESTADO -->
+
+                <div class="live-banner">
+
+                    <div class="live-left">
+
+                        <span class="live-pill">
+                            PADDOCK FEED
+                        </span>
+
+                        <span class="material-symbols-outlined">
+                            sensors
+                        </span>
+
+                        <span>
+                            Sistema editorial de F1 Sin Filtro operativo.
+                        </span>
+
+                    </div>
+
+
+                    <div class="live-right">
+
+                        <span>
+                            ONLINE
+                        </span>
+
+                        <span class="live-dot"></span>
+
+                    </div>
+
+                </div>
+
+
+                <!-- CABECERA -->
+
+                <section class="dashboard-head">
+
+                    <div>
+
+                        <div class="dashboard-path">
+
+                            <strong>
+                                PANEL DE CONTROL // EDITOR
+                            </strong>
+
+                            <span>
+                                /
+                            </span>
+
+                            <span>
+                                TEMPORADA 2026
+                            </span>
+
+                        </div>
+
+
+                        <h1>
+                            Bienvenido,
+                            <span>
+                                {{ usuario.nombre if usuario else "Editor" }}
+                            </span>
+                        </h1>
+
+
+                        <p>
+
+                            <span class="material-symbols-outlined">
+                                verified_user
+                            </span>
+
+                            Editor de F1 Sin Filtro
+
+                        </p>
+
+                    </div>
+
+
+                    <div class="dashboard-actions">
+
+                        <button
+                            class="btn-secondary"
+                            type="button"
+                        >
+
+                            <span class="material-symbols-outlined">
+                                draft
+                            </span>
+
+                            Borradores (1)
+
+                        </button>
+
+
+                        <a
+                            class="btn-primary"
+                            href="#"
+                        >
+
+                            <span class="material-symbols-outlined">
+                                add_circle
+                            </span>
+
+                            Nueva Publicación
+
+                        </a>
+
+                    </div>
+
+                </section>
+
+
+                <!-- ESTADÍSTICAS -->
+
+                <section class="editor-stats">
+
+
+                    <article class="editor-stat">
+
+                        <div class="stat-head">
+
+                            <span>
+                                TOTAL PUBLICACIONES
+                            </span>
+
+                            <div class="stat-icon">
+                                <span class="material-symbols-outlined">
+                                    article
+                                </span>
+                            </div>
+
+                        </div>
+
+
+                        <div class="stat-value">
+                            48
+                        </div>
+
+                        <div class="stat-extra">
+                            +3 este mes
+                        </div>
+
+                    </article>
+
+
+                    <article class="editor-stat">
+
+                        <div class="stat-head">
+
+                            <span>
+                                COMENTARIOS RECIBIDOS
+                            </span>
+
+                            <div class="stat-icon">
+                                <span class="material-symbols-outlined">
+                                    forum
+                                </span>
+                            </div>
+
+                        </div>
+
+
+                        <div class="stat-value">
+                            1.420
+                        </div>
+
+                        <div class="stat-extra">
+                            +85 esta semana
+                        </div>
+
+                    </article>
+
+
+                    <article class="editor-stat">
+
+                        <div class="stat-head">
+
+                            <span>
+                                CATEGORÍAS
+                            </span>
+
+                            <div class="stat-icon neutral">
+                                <span class="material-symbols-outlined">
+                                    folder_special
+                                </span>
+                            </div>
+
+                        </div>
+
+
+                        <div class="stat-value">
+                            8
+                        </div>
+
+
+                        <div class="stat-chips">
+
+                            <span>
+                                Técnica
+                            </span>
+
+                            <span>
+                                Equipos
+                            </span>
+
+                            <span>
+                                Pilotos
+                            </span>
+
+                        </div>
+
+                    </article>
+
+
+                    <article class="editor-stat">
+
+                        <div class="stat-head">
+
+                            <span>
+                                ETIQUETAS UTILIZADAS
+                            </span>
+
+                            <div class="stat-icon neutral">
+                                <span class="material-symbols-outlined">
+                                    label
+                                </span>
+                            </div>
+
+                        </div>
+
+
+                        <div class="stat-value">
+                            34
+                        </div>
+
+
+                        <div class="stat-chips">
+
+                            <span>
+                                #Ferrari
+                            </span>
+
+                            <span>
+                                #F1
+                            </span>
+
+                            <span>
+                                +32
+                            </span>
+
+                        </div>
+
+                    </article>
+
+                </section>
+
+
+                <!-- CONTENIDO PRINCIPAL -->
+
+                <section class="dashboard-grid">
+
+
+                    <!-- PUBLICACIONES -->
+
+                    <div class="publications-section">
+
+                        <div class="section-head">
+
+                            <div class="section-title">
+
+                                <span class="material-symbols-outlined">
+                                    format_list_bulleted
+                                </span>
+
+                                <h2>
+                                    Últimas Publicaciones
+                                </h2>
+
+                            </div>
+
+
+                            <div class="filters">
+
+                                <span>
+                                    FILTRO:
+                                </span>
+
+                                <button class="filter active">
+                                    Todas
+                                </button>
+
+                                <button class="filter">
+                                    Publicadas
+                                </button>
+
+                                <button class="filter">
+                                    Borradores
+                                </button>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="publications-panel">
+
+                            <div class="table-wrap">
+
+                                <table>
+
+                                    <thead>
+
+                                        <tr>
+                                            <th>
+                                                Publicación
+                                            </th>
+
+                                            <th>
+                                                Categoría
+                                            </th>
+
+                                            <th>
+                                                Fecha
+                                            </th>
+
+                                            <th>
+                                                Estado
+                                            </th>
+
+                                            <th>
+                                                Comentarios
+                                            </th>
+
+                                            <th>
+                                                Acciones
+                                            </th>
+                                        </tr>
+
+                                    </thead>
+
+
+                                    <tbody>
+
+                                        <tr>
+
+                                            <td>
+
+                                                <strong class="post-title">
+                                                    Ferrari prepara mejoras para la próxima carrera
+                                                </strong>
+
+                                                <span class="post-meta">
+                                                    ID #ART-001
+                                                </span>
+
+                                            </td>
+
+
+                                            <td>
+                                                <span class="category-pill">
+                                                    EQUIPOS
+                                                </span>
+                                            </td>
+
+
+                                            <td>
+                                                Hoy, 14:30
+                                            </td>
+
+
+                                            <td>
+                                                <span class="post-status">
+                                                    <span></span>
+                                                    PUBLICADO
+                                                </span>
+                                            </td>
+
+
+                                            <td>
+                                                42
+                                            </td>
+
+
+                                            <td>
+
+                                                <div class="table-actions">
+
+                                                    <button type="button">
+                                                        <span class="material-symbols-outlined">
+                                                            visibility
+                                                        </span>
+                                                    </button>
+
+                                                    <button type="button">
+                                                        <span class="material-symbols-outlined">
+                                                            edit
+                                                        </span>
+                                                    </button>
+
+                                                    <button
+                                                        class="delete-btn"
+                                                        type="button"
+                                                    >
+                                                        <span class="material-symbols-outlined">
+                                                            delete
+                                                        </span>
+                                                    </button>
+
+                                                </div>
+
+                                            </td>
+
+                                        </tr>
+
+
+                                        <tr>
+
+                                            <td>
+
+                                                <strong class="post-title">
+                                                    Análisis de la batalla por el campeonato 2026
+                                                </strong>
+
+                                                <span class="post-meta">
+                                                    ID #ART-002
+                                                </span>
+
+                                            </td>
+
+
+                                            <td>
+                                                <span class="category-pill">
+                                                    CAMPEONATO
+                                                </span>
+                                            </td>
+
+
+                                            <td>
+                                                Ayer, 18:15
+                                            </td>
+
+
+                                            <td>
+                                                <span class="post-status">
+                                                    <span></span>
+                                                    PUBLICADO
+                                                </span>
+                                            </td>
+
+
+                                            <td>
+                                                89
+                                            </td>
+
+
+                                            <td>
+
+                                                <div class="table-actions">
+
+                                                    <button type="button">
+                                                        <span class="material-symbols-outlined">
+                                                            visibility
+                                                        </span>
+                                                    </button>
+
+                                                    <button type="button">
+                                                        <span class="material-symbols-outlined">
+                                                            edit
+                                                        </span>
+                                                    </button>
+
+                                                    <button
+                                                        class="delete-btn"
+                                                        type="button"
+                                                    >
+                                                        <span class="material-symbols-outlined">
+                                                            delete
+                                                        </span>
+                                                    </button>
+
+                                                </div>
+
+                                            </td>
+
+                                        </tr>
+
+
+                                        <tr>
+
+                                            <td>
+
+                                                <strong class="post-title">
+                                                    Previa del próximo Gran Premio
+                                                </strong>
+
+                                                <span class="post-meta">
+                                                    ID #ART-003 · En progreso
+                                                </span>
+
+                                            </td>
+
+
+                                            <td>
+                                                <span class="category-pill">
+                                                    PREVIA
+                                                </span>
+                                            </td>
+
+
+                                            <td>
+                                                Hace 3 días
+                                            </td>
+
+
+                                            <td>
+                                                <span class="post-status draft">
+                                                    BORRADOR
+                                                </span>
+                                            </td>
+
+
+                                            <td>
+                                                0
+                                            </td>
+
+
+                                            <td>
+
+                                                <div class="table-actions">
+
+                                                    <button type="button">
+                                                        <span class="material-symbols-outlined">
+                                                            edit_note
+                                                        </span>
+                                                    </button>
+
+                                                    <button
+                                                        class="delete-btn"
+                                                        type="button"
+                                                    >
+                                                        <span class="material-symbols-outlined">
+                                                            delete
+                                                        </span>
+                                                    </button>
+
+                                                </div>
+
+                                            </td>
+
+                                        </tr>
+
+                                    </tbody>
+
+                                </table>
+
+                            </div>
+
+
+                            <div class="table-footer">
+
+                                <span>
+                                    Mostrando 3 publicaciones
+                                </span>
+
+                                <a href="#">
+                                    VER TODAS
+                                </a>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- TRABAJO ACTIVO -->
+
+                        <div class="active-work">
+
+                            <div class="active-work-icon">
+
+                                <span class="material-symbols-outlined">
+                                    edit_document
+                                </span>
+
+                            </div>
+
+
+                            <div class="active-work-info">
+
+                                <span>
+                                    BORRADOR ACTIVO
+                                </span>
+
+                                <h3>
+                                    Previa del próximo Gran Premio
+                                </h3>
+
+                                <p>
+                                    Última modificación guardada automáticamente.
+                                </p>
+
+                            </div>
+
+
+                            <button type="button">
+                                CONTINUAR
+                            </button>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- COMENTARIOS -->
+
+                    <aside class="comments-section">
+
+                        <div class="section-head">
+
+                            <div class="section-title">
+
+                                <span class="material-symbols-outlined">
+                                    reviews
+                                </span>
+
+                                <h2>
+                                    Comentarios
+                                </h2>
+
+                            </div>
+
+
+                            <span class="new-badge">
+                                2 NUEVOS
+                            </span>
+
+                        </div>
+
+
+                        <div class="comments-list">
+
+
+                            <article class="comment-card">
+
+                                <div class="comment-user">
+
+                                    <div class="comment-avatar">
+                                        A
+                                    </div>
+
+
+                                    <div>
+
+                                        <strong>
+                                            @ApexHunter
+                                        </strong>
+
+                                        <span>
+                                            Hace 18 minutos
+                                        </span>
+
+                                    </div>
+
+                                </div>
+
+
+                                <div class="comment-post">
+
+                                    <span class="material-symbols-outlined">
+                                        article
+                                    </span>
+
+                                    Ferrari prepara mejoras...
+                                </div>
+
+
+                                <p>
+                                    “Muy buen análisis. ¿Creés que estas mejoras
+                                    pueden cambiar el rendimiento del equipo?”
+                                </p>
+
+
+                                <div class="comment-actions">
+
+                                    <button type="button">
+                                        <span class="material-symbols-outlined">
+                                            reply
+                                        </span>
+
+                                        Responder
+                                    </button>
+
+
+                                    <button type="button">
+                                        <span class="material-symbols-outlined">
+                                            shield
+                                        </span>
+
+                                        Moderar
+                                    </button>
+
+                                </div>
+
+                            </article>
+
+
+                            <article class="comment-card">
+
+                                <div class="comment-user">
+
+                                    <div class="comment-avatar grey">
+                                        P
+                                    </div>
+
+
+                                    <div>
+
+                                        <strong>
+                                            @PolePosition
+                                        </strong>
+
+                                        <span>
+                                            Hace 1 hora
+                                        </span>
+
+                                    </div>
+
+                                </div>
+
+
+                                <div class="comment-post">
+
+                                    <span class="material-symbols-outlined">
+                                        article
+                                    </span>
+
+                                    Análisis del campeonato...
+                                </div>
+
+
+                                <p>
+                                    “La temporada está cada vez más cerrada.
+                                    Gran resumen de la situación actual.”
+                                </p>
+
+
+                                <div class="comment-actions">
+
+                                    <button type="button">
+                                        <span class="material-symbols-outlined">
+                                            reply
+                                        </span>
+
+                                        Responder
+                                    </button>
+
+
+                                    <button type="button">
+                                        <span class="material-symbols-outlined">
+                                            shield
+                                        </span>
+
+                                        Moderar
+                                    </button>
+
+                                </div>
+
+                            </article>
+
+                        </div>
+
+
+                        <a
+                            class="all-comments"
+                            href="#"
+                        >
+                            VER TODOS LOS COMENTARIOS
+                        </a>
+
+                    </aside>
+
+                </section>
+
+            </div>
+
+        </main>
+
+    </div>
+
+</div>
+```
