@@ -1,9 +1,25 @@
-from flask import Flask, render_template
+import os
 import requests
 
+from flask import Flask, render_template, redirect, url_for, session
+from dotenv import load_dotenv
+from authlib.integrations.flask_client import OAuth
+
+load_dotenv()
 
 app = Flask(__name__)
 
+app.config["SECRET_KEY"] = os.environ.get("SECRET_KEY", "bd1xd")
+
+oauth = OAuth(app)
+
+google = oauth.register(
+    name="google",
+    client_id=os.environ.get("GOOGLE_CLIENT_ID"),
+    client_secret=os.environ.get("GOOGLE_CLIENT_SECRET"),
+    server_metadata_url="https://accounts.google.com/.well-known/openid-configuration",
+    client_kwargs={"scope": "openid email profile"},
+)
 
 @app.route("/")
 def inicio():
@@ -95,6 +111,26 @@ def categorias():
 @app.route("/premium/suscripcion")
 def suscripcion():
     return render_template("suscripcion.html")
+
+@app.route("/auth/google")
+def login_google():
+    return google.authorize_redirect(
+        url_for("callback_google", _external=True)
+    )
+
+
+@app.route("/auth/google/callback")
+def callback_google():
+    token = google.authorize_access_token()
+    info = token["userinfo"]
+
+    session["usuario_google"] = {
+        "nombre": info.get("name"),
+        "email": info.get("email"),
+        "foto": info.get("picture")
+    }
+
+    return redirect(url_for("perfil"))
 
 
 if __name__ == "__main__":
