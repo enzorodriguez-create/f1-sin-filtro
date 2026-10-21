@@ -48,7 +48,10 @@ def post():
 
 @app.route("/perfil")
 def perfil():
-    return render_template("perfil/perfil.html")
+    usuario = session.get("usuario")
+
+
+    return render_template("perfil/perfil.html", usuario=usuario)
 
 @app.route("/calendario")
 def calendario():
@@ -127,10 +130,12 @@ def callback_google():
     token = google.authorize_access_token()
     info = token["userinfo"]
 
-    session["usuario_google"] = {
+    session["usuario"] = {
         "nombre": info.get("name"),
         "email": info.get("email"),
-        "foto": info.get("picture")
+        "foto": info.get("picture"),
+        "rol": "usuario",
+        "tipo_login": "google"
     }
 
     return redirect(url_for("perfil"))
