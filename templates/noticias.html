@@ -1,0 +1,398 @@
+{% include 'base/header.html' %}
+
+<link
+    rel="stylesheet"
+    href="{{ url_for('static', filename='styles/noticias.css') }}"
+>
+
+<div class="noticias-page">
+
+    <div class="noticias-pattern"></div>
+
+    <div class="noticias-container">
+
+        <!-- ENCABEZADO -->
+        <section class="noticias-head">
+
+            <div>
+
+                <span class="noticias-label">
+                    // ACTUALIDAD
+                </span>
+
+                <h1>Noticias</h1>
+
+                <p>
+                    Todas las novedades de Fórmula 1,
+                    ordenadas desde las publicaciones más recientes.
+                </p>
+
+            </div>
+
+        </section>
+
+
+        <!-- FILTROS VISUALES -->
+        <section class="noticias-toolbar">
+
+            <div class="noticias-filtros">
+
+                <button class="noticias-filtro active">
+                    TODAS
+                </button>
+
+                <button class="noticias-filtro">
+                    PILOTOS
+                </button>
+
+                <button class="noticias-filtro">
+                    ESCUDERÍAS
+                </button>
+
+                <button class="noticias-filtro">
+                    CARRERAS
+                </button>
+
+                <button class="noticias-filtro">
+                    CLASIFICACIÓN
+                </button>
+
+            </div>
+
+
+            <div class="noticias-search">
+
+                <input
+                    type="text"
+                    placeholder="BUSCAR NOTICIAS..."
+                >
+
+                <span class="material-symbols-outlined">
+                    search
+                </span>
+
+            </div>
+
+        </section>
+
+
+        <!-- DESTACADA -->
+        <section class="noticia-destacada">
+
+            <div class="noticia-destacada-img">
+
+                <img
+                    src="https://images.unsplash.com/photo-1503736334956-4c8f8e92946d?auto=format&fit=crop&w=1400&q=80"
+                    alt="Ferrari prepara mejoras para la próxima carrera"
+                >
+
+                <div class="noticia-img-overlay"></div>
+
+            </div>
+
+
+            <div class="noticia-destacada-content">
+
+                <div>
+
+                    <div class="noticia-meta">
+
+                        <span class="noticia-categoria">
+                            ESCUDERÍAS
+                        </span>
+
+                        <span class="noticia-fecha">
+                            14 OCT 2026
+                        </span>
+
+                    </div>
+
+
+                    <h2>
+                        Ferrari prepara mejoras para la próxima carrera
+                    </h2>
+
+
+                    <p>
+                        La escudería italiana trabaja en nuevas
+                        actualizaciones para mejorar el rendimiento
+                        del monoplaza y acercarse a los equipos de adelante.
+                    </p>
+
+                </div>
+
+
+                <a
+                    href="{{ url_for('post') }}"
+                    class="noticia-btn-primary"
+                >
+
+                    LEER NOTICIA
+
+                    <span class="material-symbols-outlined">
+                        arrow_forward
+                    </span>
+
+                </a>
+
+            </div>
+
+        </section>
+
+
+        <!-- GRILLA DE NOTICIAS -->
+        <section class="noticias-grid">
+
+
+            <!-- NOTICIA 2 -->
+            <article class="noticia-card">
+
+                <div class="noticia-card-img">
+
+                    <img
+                        src="https://images.unsplash.com/photo-1553440569-bcc63803a83d?auto=format&fit=crop&w=900&q=80"
+                        alt="Mercado de pilotos"
+                    >
+
+                    <span class="noticia-card-tag">
+                        PILOTOS
+                    </span>
+
+                </div>
+
+
+                <div class="noticia-card-body">
+
+                    <div class="noticia-meta">
+
+                        <span>
+                            12 OCT 2026
+                        </span>
+
+                    </div>
+
+
+                    <h3>
+                        Últimas novedades del mercado de pilotos
+                    </h3>
+
+
+                    <p>
+                        Varias escuderías empiezan a definir
+                        sus alineaciones para la próxima temporada.
+                    </p>
+
+
+                    <a
+                        href="#"
+                        class="noticia-link"
+                    >
+
+                        LEER MÁS
+
+                        <span class="material-symbols-outlined">
+                            arrow_forward
+                        </span>
+
+                    </a>
+
+                </div>
+
+            </article>
+
+
+            <!-- NOTICIA 3 -->
+            <article class="noticia-card">
+
+                <div class="noticia-card-img">
+
+                    <img
+                        src="https://images.unsplash.com/photo-1515569067071-ec3b51335dd0?auto=format&fit=crop&w=900&q=80"
+                        alt="Resultados de carrera"
+                    >
+
+                    <span class="noticia-card-tag">
+                        CARRERAS
+                    </span>
+
+                </div>
+
+
+                <div class="noticia-card-body">
+
+                    <div class="noticia-meta">
+
+                        <span>
+                            10 OCT 2026
+                        </span>
+
+                    </div>
+
+
+                    <h3>
+                        Resultados del último Gran Premio
+                    </h3>
+
+
+                    <p>
+                        Repasamos las posiciones finales,
+                        los momentos clave y los protagonistas
+                        de la última carrera.
+                    </p>
+
+
+                    <a
+                        href="#"
+                        class="noticia-link"
+                    >
+
+                        LEER MÁS
+
+                        <span class="material-symbols-outlined">
+                            arrow_forward
+                        </span>
+
+                    </a>
+
+                </div>
+
+            </article>
+
+
+            <!-- NOTICIA 4 -->
+            <article class="noticia-card">
+
+                <div class="noticia-card-img">
+
+                    <img
+                        src="https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?auto=format&fit=crop&w=900&q=80"
+                        alt="Clasificación del campeonato"
+                    >
+
+                    <span class="noticia-card-tag">
+                        CLASIFICACIÓN
+                    </span>
+
+                </div>
+
+
+                <div class="noticia-card-body">
+
+                    <div class="noticia-meta">
+
+                        <span>
+                            08 OCT 2026
+                        </span>
+
+                    </div>
+
+
+                    <h3>
+                        Así quedó el campeonato después de la última fecha
+                    </h3>
+
+
+                    <p>
+                        La lucha por el título sigue abierta
+                        y cada punto empieza a ser decisivo.
+                    </p>
+
+
+                    <a
+                        href="#"
+                        class="noticia-link"
+                    >
+
+                        LEER MÁS
+
+                        <span class="material-symbols-outlined">
+                            arrow_forward
+                        </span>
+
+                    </a>
+
+                </div>
+
+            </article>
+
+
+            <!-- NOTICIA 5 -->
+            <article class="noticia-card">
+
+                <div class="noticia-card-img">
+
+                    <img
+                        src="https://images.unsplash.com/photo-1532906619279-a4b7267faa66?auto=format&fit=crop&w=900&q=80"
+                        alt="Red Bull"
+                    >
+
+                    <span class="noticia-card-tag">
+                        ESCUDERÍAS
+                    </span>
+
+                </div>
+
+
+                <div class="noticia-card-body">
+
+                    <div class="noticia-meta">
+
+                        <span>
+                            06 OCT 2026
+                        </span>
+
+                    </div>
+
+
+                    <h3>
+                        Red Bull analiza cambios para las próximas carreras
+                    </h3>
+
+
+                    <p>
+                        El equipo trabaja en ajustes técnicos
+                        para mejorar el rendimiento en circuitos
+                        de alta carga aerodinámica.
+                    </p>
+
+
+                    <a
+                        href="#"
+                        class="noticia-link"
+                    >
+
+                        LEER MÁS
+
+                        <span class="material-symbols-outlined">
+                            arrow_forward
+                        </span>
+
+                    </a>
+
+                </div>
+
+            </article>
+
+        </section>
+
+
+        <!-- CARGAR MÁS -->
+        <div class="noticias-more">
+
+            <button class="noticias-more-btn">
+
+                CARGAR MÁS NOTICIAS
+
+                <span class="material-symbols-outlined">
+                    keyboard_arrow_down
+                </span>
+
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% include 'base/footer.html' %}

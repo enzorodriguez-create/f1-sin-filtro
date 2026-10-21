@@ -1,0 +1,954 @@
+/* =========================================
+   PERFIL DASHBOARD
+========================================= */
+
+.perfil-page {
+    --perfil-red: #E10600;
+    --perfil-red-dark: #b00500;
+
+    --perfil-black: #000000;
+    --perfil-carbon: #1A1A1A;
+    --perfil-surface: #131313;
+    --perfil-surface-low: #1b1b1b;
+    --perfil-elevated: #2A2A2A;
+
+    --perfil-text: #e2e2e2;
+    --perfil-muted: #a7a7a7;
+    --perfil-soft: #c6c6c7;
+
+    width: 100%;
+
+    min-height: 100vh;
+
+    background: transparent;
+
+    color: var(--perfil-text);
+
+    font-family: "Sora", sans-serif;
+}
+
+
+/* =========================================
+   CONTENEDOR
+========================================= */
+
+.perfil-container {
+    width: 100%;
+
+    max-width: 1400px;
+
+    margin: 0 auto;
+
+    padding: 3rem 2rem 5rem;
+}
+
+
+/* =========================================
+   CABECERA
+========================================= */
+
+.perfil-head {
+    position: relative;
+
+    overflow: hidden;
+
+    margin-bottom: 3rem;
+
+    padding: 2rem;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 2rem;
+
+    background: rgba(26, 26, 26, 0.92);
+
+    backdrop-filter: blur(6px);
+
+    -webkit-backdrop-filter: blur(6px);
+
+    border-top: 3px solid var(--perfil-red);
+
+    border-left: 1px solid #262626;
+
+    border-right: 1px solid #262626;
+
+    border-bottom: 1px solid #262626;
+}
+
+
+.perfil-grid-bg {
+    position: absolute;
+
+    inset: 0;
+
+    pointer-events: none;
+
+    background-image: none;
+}
+
+
+/* =========================================
+   PERFIL IZQUIERDO
+========================================= */
+
+.perfil-left {
+    position: relative;
+
+    z-index: 2;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 1.5rem;
+}
+
+
+/* =========================================
+   AVATAR
+========================================= */
+
+.avatar-wrap {
+    position: relative;
+
+    flex-shrink: 0;
+}
+
+
+.perfil-avatar {
+    width: 120px;
+
+    height: 120px;
+
+    object-fit: cover;
+
+    border: 2px solid var(--perfil-red);
+
+    filter: grayscale(1);
+
+    transition:
+        filter 0.3s,
+        transform 0.3s;
+}
+
+
+.perfil-head:hover .perfil-avatar {
+    filter: grayscale(0);
+
+    transform: scale(1.02);
+}
+
+
+.perfil-verified {
+    position: absolute;
+
+    right: -8px;
+
+    bottom: -8px;
+
+    width: 32px;
+
+    height: 32px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    background: #000;
+
+    border: 1px solid var(--perfil-red);
+}
+
+
+.perfil-verified .material-symbols-outlined {
+    color: var(--perfil-red);
+
+    font-size: 18px;
+}
+
+
+/* =========================================
+   INFO USUARIO
+========================================= */
+
+.perfil-info {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 0.35rem;
+}
+
+
+.perfil-label {
+    color: var(--perfil-red);
+
+    font-family: "JetBrains Mono", monospace;
+
+    font-size: 10px;
+
+    font-weight: 700;
+
+    letter-spacing: 0.12em;
+}
+
+
+.perfil-info h1 {
+    margin: 0;
+
+    color: #fff;
+
+    font-family: "Anybody", sans-serif;
+
+    font-size: 2.5rem;
+
+    font-weight: 900;
+
+    line-height: 1;
+
+    letter-spacing: -0.03em;
+
+    text-transform: uppercase;
+}
+
+
+.perfil-handle {
+    color: var(--perfil-red);
+
+    font-family: "JetBrains Mono", monospace;
+
+    font-size: 12px;
+
+    font-weight: 700;
+
+    letter-spacing: 0.08em;
+}
+
+
+.perfil-meta {
+    display: flex;
+
+    flex-wrap: wrap;
+
+    gap: 1rem;
+
+    margin-top: 0.75rem;
+}
+
+
+.perfil-meta-item {
+    display: flex;
+
+    align-items: center;
+
+    gap: 0.4rem;
+
+    color: var(--perfil-muted);
+}
+
+
+.perfil-meta-item .material-symbols-outlined {
+    font-size: 16px;
+}
+
+
+.perfil-meta-item span:last-child {
+    font-family: "JetBrains Mono", monospace;
+
+    font-size: 10px;
+
+    font-weight: 600;
+}
+
+
+/* =========================================
+   EDITAR PERFIL
+========================================= */
+
+.perfil-action {
+    position: relative;
+
+    z-index: 2;
+}
+
+
+.perfil-btn-edit {
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 0.5rem;
+
+    padding: 0.8rem 1.2rem;
+
+    border: 1px solid var(--perfil-red);
+
+    background: rgba(0, 0, 0, 0.75);
+
+    color: #fff;
+
+    font-family: "JetBrains Mono", monospace;
+
+    font-size: 11px;
+
+    font-weight: 700;
+
+    letter-spacing: 0.08em;
+
+    text-decoration: none;
+
+    transition:
+        background 0.2s,
+        color 0.2s;
+}
+
+
+.perfil-btn-edit:hover {
+    background: var(--perfil-red);
+
+    color: #fff;
+}
+
+
+.perfil-btn-edit .material-symbols-outlined {
+    font-size: 18px;
+}
+
+
+/* =========================================
+   BLOQUES
+========================================= */
+
+.perfil-block {
+    margin-bottom: 3rem;
+}
+
+
+.perfil-block-last {
+    margin-bottom: 0;
+}
+
+
+.perfil-block-title {
+    display: flex;
+
+    align-items: center;
+
+    gap: 0.75rem;
+
+    margin: 0 0 1.5rem;
+
+    color: #fff;
+
+    font-family: "Anybody", sans-serif;
+
+    font-size: 1.5rem;
+
+    font-weight: 900;
+
+    text-transform: uppercase;
+}
+
+
+.perfil-title-mark {
+    width: 7px;
+
+    height: 26px;
+
+    display: inline-block;
+
+    background: var(--perfil-red);
+}
+
+
+.perfil-block-head {
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: flex-end;
+
+    gap: 1rem;
+
+    margin-bottom: 1.5rem;
+
+    padding-bottom: 1rem;
+
+    border-bottom: 1px solid var(--perfil-elevated);
+}
+
+
+.perfil-block-head .perfil-block-title {
+    margin: 0;
+}
+
+
+.perfil-see-all {
+    color: var(--perfil-red);
+
+    font-family: "JetBrains Mono", monospace;
+
+    font-size: 10px;
+
+    font-weight: 700;
+
+    letter-spacing: 0.1em;
+
+    text-decoration: none;
+}
+
+
+.perfil-see-all:hover {
+    color: #fff;
+}
+
+
+/* =========================================
+   TELEMETRÍA
+========================================= */
+
+.perfil-stats {
+    display: grid;
+
+    grid-template-columns:
+        repeat(4, 1fr);
+
+    gap: 1rem;
+}
+
+
+.perfil-stat {
+    position: relative;
+
+    min-height: 165px;
+
+    overflow: hidden;
+
+    padding: 1.5rem;
+
+    display: flex;
+
+    flex-direction: column;
+
+    justify-content: space-between;
+
+    background: rgba(26, 26, 26, 0.92);
+
+    backdrop-filter: blur(5px);
+
+    -webkit-backdrop-filter: blur(5px);
+
+    border-top: 2px solid var(--perfil-red);
+
+    border-left: 1px solid #262626;
+
+    border-right: 1px solid #262626;
+
+    border-bottom: 1px solid #262626;
+
+    transition:
+        transform 0.2s,
+        border-color 0.2s;
+}
+
+
+.perfil-stat:hover {
+    transform: translateY(-3px);
+
+    border-color: #3b3b3b;
+}
+
+
+.perfil-stat-icon {
+    position: absolute;
+
+    right: 0;
+
+    bottom: -8px;
+
+    opacity: 0.08;
+
+    pointer-events: none;
+}
+
+
+.perfil-stat-icon .material-symbols-outlined {
+    color: #fff;
+
+    font-size: 6rem;
+}
+
+
+.perfil-stat-label {
+    position: relative;
+
+    z-index: 1;
+
+    color: var(--perfil-red);
+
+    font-family: "JetBrains Mono", monospace;
+
+    font-size: 10px;
+
+    font-weight: 700;
+
+    letter-spacing: 0.1em;
+
+    text-transform: uppercase;
+}
+
+
+.perfil-stat-value {
+    position: relative;
+
+    z-index: 1;
+
+    margin-top: 0.5rem;
+
+    color: #fff;
+
+    font-family: "Anybody", sans-serif;
+
+    font-size: 3.6rem;
+
+    font-weight: 900;
+
+    line-height: 1;
+}
+
+
+.perfil-stat-text {
+    position: relative;
+
+    z-index: 1;
+
+    margin-top: 0.5rem;
+
+    color: #fff;
+
+    font-family: "Anybody", sans-serif;
+
+    font-size: 2rem;
+
+    font-weight: 900;
+
+    line-height: 1;
+}
+
+
+.perfil-stat-description {
+    position: relative;
+
+    z-index: 1;
+
+    margin-top: 0.5rem;
+
+    color: var(--perfil-muted);
+
+    font-size: 11px;
+}
+
+
+/* =========================================
+   ACCESOS MI ACTIVIDAD
+========================================= */
+
+.perfil-links {
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, 1fr);
+
+    gap: 1rem;
+}
+
+
+.perfil-link-card {
+    position: relative;
+
+    min-height: 150px;
+
+    padding: 1.5rem;
+
+    display: flex;
+
+    align-items: flex-start;
+
+    gap: 1rem;
+
+    background: rgba(27, 27, 27, 0.92);
+
+    backdrop-filter: blur(5px);
+
+    -webkit-backdrop-filter: blur(5px);
+
+    border: 1px solid var(--perfil-elevated);
+
+    color: var(--perfil-text);
+
+    text-decoration: none;
+
+    transition:
+        border-color 0.2s,
+        transform 0.2s,
+        background 0.2s;
+}
+
+
+.perfil-link-card:hover {
+    transform: translateY(-3px);
+
+    border-color: var(--perfil-red);
+
+    background: rgba(32, 32, 32, 0.96);
+}
+
+
+.perfil-link-card > .material-symbols-outlined:first-child {
+    width: 44px;
+
+    height: 44px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    background: rgba(225, 6, 0, 0.1);
+
+    border: 1px solid rgba(225, 6, 0, 0.35);
+
+    color: var(--perfil-red);
+}
+
+
+.perfil-link-card h3 {
+    margin: 0 0 0.5rem;
+
+    color: #fff;
+
+    font-family: "Anybody", sans-serif;
+
+    font-size: 1.05rem;
+
+    font-weight: 800;
+
+    text-transform: uppercase;
+}
+
+
+.perfil-link-card p {
+    margin: 0;
+
+    color: var(--perfil-muted);
+
+    font-size: 12px;
+
+    line-height: 1.6;
+}
+
+
+.perfil-link-arrow {
+    position: absolute;
+
+    right: 1rem;
+
+    bottom: 1rem;
+
+    color: #666;
+
+    font-size: 18px;
+
+    transition:
+        color 0.2s,
+        transform 0.2s;
+}
+
+
+.perfil-link-card:hover .perfil-link-arrow {
+    color: var(--perfil-red);
+
+    transform: translateX(3px);
+}
+
+
+/* =========================================
+   ACTIVIDAD RECIENTE
+========================================= */
+
+.perfil-log {
+    display: flex;
+
+    flex-direction: column;
+
+    border: 1px solid var(--perfil-elevated);
+
+    background: rgba(26, 26, 26, 0.82);
+
+    backdrop-filter: blur(5px);
+
+    -webkit-backdrop-filter: blur(5px);
+}
+
+
+.perfil-log-row {
+    display: grid;
+
+    grid-template-columns:
+        130px
+        130px
+        1fr
+        30px;
+
+    align-items: center;
+
+    gap: 1rem;
+
+    padding: 1rem;
+
+    border-bottom: 1px solid var(--perfil-elevated);
+
+    transition: background 0.15s;
+}
+
+
+.perfil-log-row:last-child {
+    border-bottom: none;
+}
+
+
+.perfil-log-row:hover {
+    background: rgba(42, 42, 42, 0.55);
+}
+
+
+.perfil-log-time {
+    color: var(--perfil-red);
+
+    font-family: "JetBrains Mono", monospace;
+
+    font-size: 10px;
+
+    font-weight: 700;
+}
+
+
+.perfil-log-action {
+    display: flex;
+
+    align-items: center;
+
+    gap: 0.5rem;
+
+    color: #fff;
+
+    font-family: "JetBrains Mono", monospace;
+
+    font-size: 10px;
+
+    font-weight: 700;
+
+    letter-spacing: 0.06em;
+}
+
+
+.perfil-dot {
+    width: 7px;
+
+    height: 7px;
+
+    flex-shrink: 0;
+}
+
+
+.perfil-dot-red {
+    background: var(--perfil-red);
+}
+
+
+.perfil-dot-white {
+    background: #fff;
+}
+
+
+.perfil-dot-grey {
+    background: #555;
+}
+
+
+.perfil-log-detail {
+    min-width: 0;
+
+    overflow: hidden;
+
+    color: #bbb;
+
+    font-size: 13px;
+
+    white-space: nowrap;
+
+    text-overflow: ellipsis;
+}
+
+
+.perfil-log-detail a {
+    color: #fff;
+
+    font-weight: 700;
+
+    text-decoration: none;
+}
+
+
+.perfil-log-detail a:hover {
+    color: var(--perfil-red);
+}
+
+
+.perfil-log-detail strong {
+    color: var(--perfil-red);
+}
+
+
+.perfil-log-row > .material-symbols-outlined {
+    color: #777;
+
+    font-size: 18px;
+}
+
+
+/* =========================================
+   TABLET
+========================================= */
+
+@media (max-width: 991px) {
+
+    .perfil-stats {
+        grid-template-columns:
+            repeat(2, 1fr);
+    }
+
+
+    .perfil-links {
+        grid-template-columns:
+            1fr;
+    }
+
+
+    .perfil-log-row {
+        grid-template-columns:
+            110px
+            110px
+            1fr
+            30px;
+    }
+
+}
+
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 576px) {
+
+    .perfil-container {
+        padding:
+            1.5rem
+            0.75rem
+            3rem;
+    }
+
+
+    .perfil-head {
+        flex-direction: column;
+
+        align-items: flex-start;
+
+        padding: 1.5rem;
+    }
+
+
+    .perfil-left {
+        flex-direction: column;
+
+        align-items: flex-start;
+    }
+
+
+    .perfil-avatar {
+        width: 95px;
+
+        height: 95px;
+    }
+
+
+    .perfil-info h1 {
+        font-size: 2rem;
+    }
+
+
+    .perfil-meta {
+        flex-direction: column;
+
+        gap: 0.5rem;
+    }
+
+
+    .perfil-action {
+        width: 100%;
+    }
+
+
+    .perfil-btn-edit {
+        width: 100%;
+
+        justify-content: center;
+    }
+
+
+    .perfil-stats {
+        grid-template-columns:
+            1fr;
+    }
+
+
+    .perfil-link-card {
+        min-height: auto;
+    }
+
+
+    .perfil-block-head {
+        align-items: flex-start;
+
+        flex-direction: column;
+    }
+
+
+    .perfil-log-row {
+        grid-template-columns:
+            1fr;
+
+        gap: 0.5rem;
+    }
+
+
+    .perfil-log-detail {
+        white-space: normal;
+    }
+
+
+    .perfil-log-row > .material-symbols-outlined {
+        display: none;
+    }
+
+}

@@ -1,0 +1,649 @@
+/* =========================================
+   ETIQUETAS GUARDADAS
+========================================= */
+
+.etiquetas-page {
+    --etiquetas-red: #E10600;
+    --etiquetas-red-dark: #b00500;
+
+    --etiquetas-bg: #000;
+    --etiquetas-card: #1A1A1A;
+    --etiquetas-card-hover: #202020;
+
+    --etiquetas-border: #353535;
+
+    --etiquetas-text: #e2e2e2;
+    --etiquetas-muted: #999;
+
+    width: 100%;
+
+    min-height: 100vh;
+
+    background: transparent;
+
+    color: var(--etiquetas-text);
+
+    font-family: "Sora", sans-serif;
+}
+
+
+/* =========================================
+   CONTENEDOR
+========================================= */
+
+.etiquetas-container {
+    width: 100%;
+
+    max-width: 1400px;
+
+    margin: 0 auto;
+
+    padding: 3rem 2rem 5rem;
+}
+
+
+/* =========================================
+   ENCABEZADO
+========================================= */
+
+.etiquetas-head {
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: flex-end;
+
+    gap: 2rem;
+
+    margin-bottom: 2rem;
+
+    padding-bottom: 1.5rem;
+
+    border-bottom:
+        1px solid
+        var(--etiquetas-border);
+}
+
+
+.etiquetas-label {
+    display: block;
+
+    margin-bottom: 0.4rem;
+
+    color: var(--etiquetas-red);
+
+    font-family:
+        "JetBrains Mono",
+        monospace;
+
+    font-size: 10px;
+
+    font-weight: 700;
+
+    letter-spacing: 0.12em;
+}
+
+
+.etiquetas-head h1 {
+    margin:
+        0
+        0
+        0.5rem;
+
+    color: #fff;
+
+    font-family:
+        "Anybody",
+        sans-serif;
+
+    font-size: 2.6rem;
+
+    font-weight: 900;
+
+    line-height: 1;
+
+    text-transform: uppercase;
+}
+
+
+.etiquetas-head p {
+    max-width: 650px;
+
+    margin: 0;
+
+    color: var(--etiquetas-muted);
+
+    font-size: 14px;
+
+    line-height: 1.6;
+}
+
+
+.etiquetas-volver {
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 0.4rem;
+
+    color: #aaa;
+
+    font-family:
+        "JetBrains Mono",
+        monospace;
+
+    font-size: 10px;
+
+    font-weight: 700;
+
+    letter-spacing: 0.08em;
+
+    text-decoration: none;
+
+    transition: color 0.2s;
+}
+
+
+.etiquetas-volver:hover {
+    color: var(--etiquetas-red);
+}
+
+
+.etiquetas-volver
+.material-symbols-outlined {
+    font-size: 17px;
+}
+
+
+/* =========================================
+   BUSCADOR
+========================================= */
+
+.etiquetas-tools {
+    display: flex;
+
+    justify-content: flex-end;
+
+    margin-bottom: 2rem;
+}
+
+
+.etiquetas-search {
+    position: relative;
+
+    width: 300px;
+}
+
+
+.etiquetas-search input {
+    width: 100%;
+
+    min-height: 42px;
+
+    padding:
+        0.7rem
+        1rem
+        0.7rem
+        2.6rem;
+
+    background:
+        rgba(13, 13, 14, 0.92);
+
+    border:
+        1px solid
+        var(--etiquetas-border);
+
+    outline: none;
+
+    color: #fff;
+
+    font-family:
+        "JetBrains Mono",
+        monospace;
+
+    font-size: 10px;
+
+    font-weight: 700;
+
+    letter-spacing: 0.06em;
+
+    transition:
+        border-color 0.2s;
+}
+
+
+.etiquetas-search input::placeholder {
+    color: #666;
+}
+
+
+.etiquetas-search input:focus {
+    border-color:
+        var(--etiquetas-red);
+}
+
+
+.etiquetas-search
+.material-symbols-outlined {
+    position: absolute;
+
+    top: 50%;
+
+    left: 12px;
+
+    transform:
+        translateY(-50%);
+
+    color: #777;
+
+    font-size: 18px;
+
+    pointer-events: none;
+}
+
+
+/* =========================================
+   GRILLA
+========================================= */
+
+.etiquetas-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, 1fr);
+
+    gap: 1rem;
+}
+
+
+/* =========================================
+   CARD
+========================================= */
+
+.etiqueta-card {
+    position: relative;
+
+    min-width: 0;
+
+    min-height: 320px;
+
+    padding: 1.5rem;
+
+    display: flex;
+
+    flex-direction: column;
+
+    background:
+        rgba(26, 26, 26, 0.92);
+
+    backdrop-filter: blur(5px);
+
+    -webkit-backdrop-filter: blur(5px);
+
+    border:
+        1px solid
+        var(--etiquetas-border);
+
+    border-top:
+        3px solid
+        var(--etiquetas-red);
+
+    overflow: hidden;
+
+    transition:
+        background 0.2s,
+        border-color 0.2s,
+        transform 0.2s;
+}
+
+
+.etiqueta-card:hover {
+    transform:
+        translateY(-3px);
+
+    background:
+        rgba(32, 32, 32, 0.96);
+
+    border-color:
+        #444;
+}
+
+
+/* =========================================
+   ICONO
+========================================= */
+
+.etiqueta-icon {
+    position: absolute;
+
+    right: -15px;
+
+    top: -15px;
+
+    opacity: 0.06;
+
+    pointer-events: none;
+}
+
+
+.etiqueta-icon
+.material-symbols-outlined {
+    color: #fff;
+
+    font-size: 8rem;
+}
+
+
+/* =========================================
+   CONTENIDO
+========================================= */
+
+.etiqueta-content {
+    position: relative;
+
+    z-index: 1;
+
+    flex-grow: 1;
+
+    min-width: 0;
+}
+
+
+.etiqueta-code {
+    display: block;
+
+    margin-bottom: 0.7rem;
+
+    color: #777;
+
+    font-family:
+        "JetBrains Mono",
+        monospace;
+
+    font-size: 9px;
+
+    font-weight: 700;
+
+    letter-spacing: 0.08em;
+}
+
+
+.etiqueta-card h2 {
+    margin:
+        0
+        0
+        0.8rem;
+
+    color:
+        var(--etiquetas-red);
+
+    font-family:
+        "Anybody",
+        sans-serif;
+
+    font-size:
+        clamp(
+            1.35rem,
+            2vw,
+            1.7rem
+        );
+
+    font-weight: 900;
+
+    line-height: 1.05;
+
+    text-transform: uppercase;
+
+    overflow-wrap: anywhere;
+
+    word-break: break-word;
+}
+
+
+.etiqueta-card p {
+    margin:
+        0
+        0
+        1.5rem;
+
+    color:
+        #aaa;
+
+    font-size: 13px;
+
+    line-height: 1.65;
+}
+
+
+/* =========================================
+   DATOS
+========================================= */
+
+.etiqueta-data {
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, 1fr);
+
+    gap: 1rem;
+
+    margin-top: 1.5rem;
+
+    padding-top: 1rem;
+
+    border-top:
+        1px solid
+        var(--etiquetas-border);
+}
+
+
+.etiqueta-data > div {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 0.2rem;
+}
+
+
+.etiqueta-data-value {
+    color: #fff;
+
+    font-family:
+        "Anybody",
+        sans-serif;
+
+    font-size: 1.5rem;
+
+    font-weight: 900;
+
+    line-height: 1;
+}
+
+
+.etiqueta-data-label {
+    color: #777;
+
+    font-family:
+        "JetBrains Mono",
+        monospace;
+
+    font-size: 8px;
+
+    font-weight: 700;
+
+    letter-spacing: 0.07em;
+}
+
+
+/* =========================================
+   FOOTER CARD
+========================================= */
+
+.etiqueta-footer {
+    position: relative;
+
+    z-index: 1;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 1rem;
+
+    margin-top: 1.5rem;
+
+    padding-top: 1rem;
+
+    border-top:
+        1px solid
+        var(--etiquetas-border);
+}
+
+
+.etiqueta-view {
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 0.4rem;
+
+    color: #ddd;
+
+    font-family:
+        "JetBrains Mono",
+        monospace;
+
+    font-size: 9px;
+
+    font-weight: 700;
+
+    letter-spacing: 0.06em;
+
+    text-decoration: none;
+
+    transition:
+        color 0.2s;
+}
+
+
+.etiqueta-view:hover {
+    color:
+        var(--etiquetas-red);
+}
+
+
+.etiqueta-view
+.material-symbols-outlined {
+    font-size: 16px;
+}
+
+
+.etiqueta-remove {
+    padding: 0.4rem;
+
+    border: none;
+
+    background: transparent;
+
+    color: #666;
+
+    transition:
+        color 0.2s;
+}
+
+
+.etiqueta-remove:hover {
+    color:
+        var(--etiquetas-red);
+}
+
+
+.etiqueta-remove
+.material-symbols-outlined {
+    font-size: 20px;
+}
+
+
+/* =========================================
+   TABLET
+========================================= */
+
+@media (max-width: 991px) {
+
+    .etiquetas-grid {
+        grid-template-columns:
+            repeat(2, 1fr);
+    }
+
+}
+
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 576px) {
+
+    .etiquetas-container {
+        padding:
+            1.5rem
+            0.75rem
+            3rem;
+    }
+
+
+    .etiquetas-head {
+        flex-direction:
+            column;
+
+        align-items:
+            flex-start;
+    }
+
+
+    .etiquetas-head h1 {
+        font-size:
+            2rem;
+    }
+
+
+    .etiquetas-tools {
+        justify-content:
+            stretch;
+    }
+
+
+    .etiquetas-search {
+        width:
+            100%;
+    }
+
+
+    .etiquetas-grid {
+        grid-template-columns:
+            1fr;
+    }
+
+
+    .etiqueta-card h2 {
+        font-size: 1.5rem;
+    }
+
+}
+
+
+/* =========================================
+   PANTALLAS GRANDES
+========================================= */
+
+@media (min-width: 1600px) {
+
+    .etiquetas-container {
+        max-width:
+            1550px;
+    }
+
+}

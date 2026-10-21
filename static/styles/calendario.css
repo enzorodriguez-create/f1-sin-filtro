@@ -1,0 +1,793 @@
+/* =========================================
+   CALENDARIO
+========================================= */
+
+.calendario-page {
+    --cal-red: #E10600;
+    --cal-red-dark: #b00500;
+
+    --cal-bg: #000;
+
+    --cal-card: #151517;
+    --cal-card-hover: #1c1c1e;
+
+    --cal-border: #353535;
+
+    --cal-text: #e5e2e1;
+    --cal-muted: #999;
+
+    position: relative;
+
+    width: 100%;
+    min-height: 100vh;
+
+    overflow: hidden;
+
+    background: transparent;
+
+    color: var(--cal-text);
+
+    font-family: "Sora", sans-serif;
+}
+
+
+/* =========================================
+   FONDO
+========================================= */
+
+.calendario-pattern {
+    position: absolute;
+
+    inset: 0;
+
+    pointer-events: none;
+
+    opacity: 0.08;
+
+    background-image: none;
+
+    background-size: 32px 32px;
+}
+
+
+/* =========================================
+   CONTENEDOR
+========================================= */
+
+.calendario-container {
+    position: relative;
+
+    z-index: 1;
+
+    width: 100%;
+
+    max-width: 1400px;
+
+    margin: 0 auto;
+
+    padding: 4rem 2rem 6rem;
+}
+
+
+/* =========================================
+   ENCABEZADO
+========================================= */
+
+.calendario-head {
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: flex-end;
+
+    gap: 2rem;
+
+    margin-bottom: 2rem;
+
+    padding-bottom: 2rem;
+
+    border-bottom:
+        1px solid
+        var(--cal-border);
+}
+
+
+.calendario-label {
+    display: block;
+
+    margin-bottom: 0.5rem;
+
+    color: var(--cal-red);
+
+    font-family:
+        "JetBrains Mono",
+        monospace;
+
+    font-size: 10px;
+
+    font-weight: 700;
+
+    letter-spacing: 0.12em;
+}
+
+
+.calendario-head h1 {
+    margin: 0 0 1rem;
+
+    color: #fff;
+
+    font-family:
+        "Anybody",
+        sans-serif;
+
+    font-size:
+        clamp(
+            3rem,
+            5vw,
+            4.5rem
+        );
+
+    font-weight: 900;
+
+    line-height: 1;
+
+    letter-spacing: -0.035em;
+
+    text-transform: uppercase;
+}
+
+
+.calendario-head p {
+    max-width: 650px;
+
+    margin: 0;
+
+    color: var(--cal-muted);
+
+    font-size: 15px;
+
+    line-height: 1.7;
+}
+
+
+/* =========================================
+   ESTADO API
+========================================= */
+
+.calendario-api {
+    display: flex;
+
+    align-items: center;
+
+    gap: 0.5rem;
+
+    color: #888;
+
+    font-family:
+        "JetBrains Mono",
+        monospace;
+
+    font-size: 9px;
+
+    font-weight: 700;
+
+    letter-spacing: 0.08em;
+}
+
+
+.calendario-api-dot {
+    width: 7px;
+
+    height: 7px;
+
+    border-radius: 50%;
+
+    background: #35c759;
+
+    box-shadow:
+        0 0 8px
+        rgba(53, 199, 89, 0.7);
+}
+
+
+/* =========================================
+   INFORMACIÓN GENERAL
+========================================= */
+
+.calendario-info {
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, 1fr);
+
+    margin-bottom: 2rem;
+
+    border:
+        1px solid
+        var(--cal-border);
+
+    background: #111;
+}
+
+
+.calendario-info > div {
+    display: flex;
+
+    align-items: center;
+
+    gap: 1rem;
+
+    padding: 1.25rem;
+
+    border-right:
+        1px solid
+        var(--cal-border);
+}
+
+
+.calendario-info > div:last-child {
+    border-right: none;
+}
+
+
+.calendario-info
+.material-symbols-outlined {
+    color: var(--cal-red);
+
+    font-size: 26px;
+}
+
+
+.calendario-info > div > div {
+    display: flex;
+
+    flex-direction: column;
+}
+
+
+.calendario-info-number {
+    color: #fff;
+
+    font-family:
+        "Anybody",
+        sans-serif;
+
+    font-size: 1.3rem;
+
+    font-weight: 900;
+}
+
+
+.calendario-info-label {
+    color: #777;
+
+    font-family:
+        "JetBrains Mono",
+        monospace;
+
+    font-size: 8px;
+
+    font-weight: 700;
+
+    letter-spacing: 0.08em;
+}
+
+
+/* =========================================
+   GRILLA
+========================================= */
+
+.calendario-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, 1fr);
+
+    gap: 1rem;
+}
+
+
+/* =========================================
+   TARJETA
+========================================= */
+
+.carrera-card {
+    overflow: hidden;
+
+    background:
+        var(--cal-card);
+
+    border:
+        1px solid
+        var(--cal-border);
+
+    border-top:
+        3px solid
+        var(--cal-red);
+
+    transition:
+        transform 0.25s,
+        background 0.25s,
+        border-color 0.25s;
+}
+
+
+.carrera-card:hover {
+    transform:
+        translateY(-4px);
+
+    background:
+        var(--cal-card-hover);
+
+    border-color:
+        #484848;
+}
+
+
+/* =========================================
+   IMAGEN CIRCUITO
+========================================= */
+
+.carrera-image {
+    position: relative;
+
+    height: 220px;
+
+    padding: 1.5rem;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    overflow: hidden;
+
+    background:
+        radial-gradient(
+            circle at center,
+            #252525,
+            #0d0d0e
+        );
+
+    border-bottom:
+        1px solid
+        var(--cal-border);
+}
+
+
+/* Imagen que viene de OpenF1 */
+
+.carrera-image > img {
+    width: 90%;
+
+    height: 90%;
+
+    object-fit: contain;
+
+    filter:
+        brightness(1.15);
+
+    transition:
+        transform 0.3s;
+}
+
+
+.carrera-card:hover
+.carrera-image > img {
+    transform:
+        scale(1.05);
+}
+
+
+/* =========================================
+   FALLBACK IMAGEN
+========================================= */
+
+.carrera-image-fallback {
+    width: 100%;
+
+    height: 100%;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 0.7rem;
+
+    color: #555;
+
+    text-align: center;
+}
+
+
+.carrera-image-error {
+    display: none;
+}
+
+
+.carrera-image-fallback
+.material-symbols-outlined {
+    color: #555;
+
+    font-size: 70px;
+}
+
+
+.carrera-image-error-text {
+    color: #666;
+
+    font-family:
+        "JetBrains Mono",
+        monospace;
+
+    font-size: 8px;
+
+    font-weight: 700;
+
+    letter-spacing: 0.08em;
+
+    text-transform: uppercase;
+}
+
+
+/* =========================================
+   NUMERO
+========================================= */
+
+.carrera-number {
+    position: absolute;
+
+    top: 1rem;
+
+    left: 1rem;
+
+    z-index: 2;
+
+    color:
+        rgba(255, 255, 255, 0.12);
+
+    font-family:
+        "Anybody",
+        sans-serif;
+
+    font-size: 2.5rem;
+
+    font-weight: 900;
+
+    line-height: 1;
+}
+
+
+/* =========================================
+   BANDERA
+========================================= */
+
+.carrera-flag {
+    position: absolute;
+
+    top: 1rem;
+
+    right: 1rem;
+
+    z-index: 2;
+
+    width: 42px;
+
+    height: 28px;
+
+    overflow: hidden;
+
+    border:
+        1px solid
+        #555;
+
+    background: #111;
+}
+
+
+.carrera-flag img {
+    width: 100%;
+
+    height: 100%;
+
+    object-fit: cover;
+}
+
+
+/* =========================================
+   CONTENIDO
+========================================= */
+
+.carrera-content {
+    padding: 1.5rem;
+}
+
+
+.carrera-meta {
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    gap: 1rem;
+
+    margin-bottom: 0.7rem;
+}
+
+
+.carrera-country {
+    color: var(--cal-red);
+
+    font-family:
+        "JetBrains Mono",
+        monospace;
+
+    font-size: 9px;
+
+    font-weight: 700;
+
+    letter-spacing: 0.08em;
+
+    text-transform: uppercase;
+}
+
+
+.carrera-year {
+    color: #777;
+
+    font-family:
+        "JetBrains Mono",
+        monospace;
+
+    font-size: 9px;
+
+    font-weight: 700;
+}
+
+
+.carrera-card h2 {
+    margin: 0 0 1rem;
+
+    min-height: 54px;
+
+    color: #fff;
+
+    font-family:
+        "Anybody",
+        sans-serif;
+
+    font-size: 1.45rem;
+
+    font-weight: 900;
+
+    line-height: 1.2;
+
+    text-transform: uppercase;
+}
+
+
+/* =========================================
+   UBICACIÓN
+========================================= */
+
+.carrera-location {
+    display: flex;
+
+    align-items: center;
+
+    gap: 0.4rem;
+
+    margin-bottom: 1.5rem;
+
+    color: #aaa;
+
+    font-size: 12px;
+}
+
+
+.carrera-location
+.material-symbols-outlined {
+    color: var(--cal-red);
+
+    font-size: 17px;
+}
+
+
+/* =========================================
+   DATOS
+========================================= */
+
+.carrera-data {
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, 1fr);
+
+    gap: 1rem;
+
+    padding: 1rem 0;
+
+    border-top:
+        1px solid
+        var(--cal-border);
+
+    border-bottom:
+        1px solid
+        var(--cal-border);
+}
+
+
+.carrera-data > div {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 0.2rem;
+}
+
+
+.carrera-data-label {
+    color: #666;
+
+    font-family:
+        "JetBrains Mono",
+        monospace;
+
+    font-size: 8px;
+
+    font-weight: 700;
+
+    letter-spacing: 0.08em;
+}
+
+
+.carrera-data-value {
+    color: #ddd;
+
+    font-size: 11px;
+
+    font-weight: 600;
+}
+
+
+/* =========================================
+   FOOTER
+========================================= */
+
+.carrera-footer {
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    margin-top: 1rem;
+
+    color: #777;
+
+    font-family:
+        "JetBrains Mono",
+        monospace;
+
+    font-size: 8px;
+
+    font-weight: 700;
+
+    letter-spacing: 0.08em;
+}
+
+
+.carrera-footer
+.material-symbols-outlined {
+    color: var(--cal-red);
+
+    font-size: 17px;
+}
+
+
+/* =========================================
+   TABLET
+========================================= */
+
+@media (max-width: 991px) {
+
+    .calendario-grid {
+        grid-template-columns:
+            repeat(2, 1fr);
+    }
+
+}
+
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 576px) {
+
+    .calendario-container {
+        padding:
+            2rem
+            0.75rem
+            4rem;
+    }
+
+
+    .calendario-head {
+        flex-direction: column;
+
+        align-items: flex-start;
+    }
+
+
+    .calendario-head h1 {
+        font-size: 2.6rem;
+    }
+
+
+    .calendario-info {
+        grid-template-columns:
+            1fr;
+    }
+
+
+    .calendario-info > div {
+        border-right: none;
+
+        border-bottom:
+            1px solid
+            var(--cal-border);
+    }
+
+
+    .calendario-info > div:last-child {
+        border-bottom: none;
+    }
+
+
+    .calendario-grid {
+        grid-template-columns:
+            1fr;
+    }
+
+
+    .carrera-image {
+        height: 200px;
+    }
+
+
+    .carrera-card h2 {
+        min-height: auto;
+    }
+
+}
+
+
+/* =========================================
+   PANTALLAS GRANDES
+========================================= */
+
+@media (min-width: 1600px) {
+
+    .calendario-container {
+        max-width: 1650px;
+    }
+
+
+    .calendario-grid {
+        grid-template-columns:
+            repeat(4, 1fr);
+    }
+
+
+    .carrera-image {
+        height: 240px;
+    }
+
+}

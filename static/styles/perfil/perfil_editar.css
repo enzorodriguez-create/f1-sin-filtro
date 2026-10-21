@@ -1,0 +1,675 @@
+/* =========================================
+   EDITAR PERFIL
+========================================= */
+
+.editar-page {
+    --editar-red: #E10600;
+    --editar-red-dark: #b00500;
+
+    --editar-bg: #0a0a0b;
+    --editar-card: #151517;
+
+    --editar-border: #2e2e2e;
+
+    --editar-text: #e5e2e1;
+    --editar-muted: #999;
+
+    width: 100%;
+    min-height: 100vh;
+
+    background: transparent;
+
+    color: var(--editar-text);
+
+    font-family: "Sora", sans-serif;
+}
+
+
+/* =========================================
+   CONTENEDOR
+========================================= */
+
+.editar-container {
+    width: 100%;
+
+    max-width: 1000px;
+
+    margin: 0 auto;
+
+    padding: 3rem 2rem 5rem;
+}
+
+
+/* =========================================
+   ENCABEZADO
+========================================= */
+
+.editar-head {
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: flex-end;
+
+    gap: 2rem;
+
+    margin-bottom: 2rem;
+
+    padding-bottom: 1.5rem;
+
+    border-bottom: 1px solid var(--editar-border);
+}
+
+
+.editar-label {
+    display: block;
+
+    margin-bottom: 0.4rem;
+
+    color: var(--editar-red);
+
+    font-family: "JetBrains Mono", monospace;
+
+    font-size: 10px;
+
+    font-weight: 700;
+
+    letter-spacing: 0.12em;
+}
+
+
+.editar-head h1 {
+    margin: 0 0 0.5rem;
+
+    color: #fff;
+
+    font-family: "Anybody", sans-serif;
+
+    font-size: 2.5rem;
+
+    font-weight: 900;
+
+    text-transform: uppercase;
+}
+
+
+.editar-head p {
+    margin: 0;
+
+    color: var(--editar-muted);
+
+    font-size: 14px;
+}
+
+
+.editar-volver {
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 0.4rem;
+
+    color: #aaa;
+
+    font-family: "JetBrains Mono", monospace;
+
+    font-size: 10px;
+
+    font-weight: 700;
+
+    letter-spacing: 0.08em;
+
+    text-decoration: none;
+
+    transition: color 0.2s;
+}
+
+
+.editar-volver:hover {
+    color: var(--editar-red);
+}
+
+
+.editar-volver .material-symbols-outlined {
+    font-size: 17px;
+}
+
+
+/* =========================================
+   FORMULARIO
+========================================= */
+
+.editar-form {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 1.5rem;
+}
+
+
+/* =========================================
+   TARJETAS
+========================================= */
+
+.editar-card {
+    padding: 2rem;
+
+    background: rgba(21, 21, 23, 0.92);
+
+    backdrop-filter: blur(5px);
+
+    -webkit-backdrop-filter: blur(5px);
+
+    border: 1px solid var(--editar-border);
+
+    border-top: 3px solid var(--editar-red);
+
+    box-shadow:
+        0 15px 35px rgba(0, 0, 0, 0.25);
+}
+
+
+.editar-card-head {
+    display: flex;
+
+    align-items: center;
+
+    gap: 0.9rem;
+
+    margin-bottom: 1.75rem;
+
+    padding-bottom: 1rem;
+
+    border-bottom: 1px solid #252527;
+}
+
+
+.editar-card-head > .material-symbols-outlined {
+    width: 42px;
+
+    height: 42px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    background: rgba(225, 6, 0, 0.1);
+
+    border: 1px solid rgba(225, 6, 0, 0.35);
+
+    color: var(--editar-red);
+
+    font-size: 21px;
+}
+
+
+.editar-card-label {
+    display: block;
+
+    margin-bottom: 0.2rem;
+
+    color: var(--editar-muted);
+
+    font-family: "JetBrains Mono", monospace;
+
+    font-size: 10px;
+
+    font-weight: 700;
+
+    letter-spacing: 0.12em;
+}
+
+
+.editar-card h2 {
+    margin: 0;
+
+    color: #fff;
+
+    font-family: "Anybody", sans-serif;
+
+    font-size: 1.4rem;
+
+    font-weight: 800;
+
+    text-transform: uppercase;
+}
+
+
+/* =========================================
+   FOTO
+========================================= */
+
+.editar-foto {
+    display: flex;
+
+    align-items: center;
+
+    gap: 2rem;
+}
+
+
+.editar-avatar-wrap {
+    position: relative;
+
+    width: 130px;
+
+    height: 130px;
+
+    flex-shrink: 0;
+
+    overflow: hidden;
+
+    background: #000;
+
+    border: 2px solid var(--editar-red);
+
+    box-shadow:
+        0 0 25px rgba(225, 6, 0, 0.15);
+
+    cursor: pointer;
+}
+
+
+.editar-avatar {
+    width: 100%;
+
+    height: 100%;
+
+    object-fit: cover;
+}
+
+
+.editar-avatar-overlay {
+    position: absolute;
+
+    inset: 0;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    background: rgba(0, 0, 0, 0.65);
+
+    opacity: 0;
+
+    transition: opacity 0.2s;
+}
+
+
+.editar-avatar-wrap:hover .editar-avatar-overlay {
+    opacity: 1;
+}
+
+
+.editar-avatar-overlay .material-symbols-outlined {
+    color: var(--editar-red);
+
+    font-size: 32px;
+}
+
+
+.editar-foto-info {
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: flex-start;
+
+    gap: 0.7rem;
+}
+
+
+.editar-foto-info p {
+    margin: 0;
+
+    color: var(--editar-muted);
+
+    font-size: 12px;
+}
+
+
+/* =========================================
+   GRID
+========================================= */
+
+.editar-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, 1fr);
+
+    gap: 1.5rem;
+}
+
+
+/* =========================================
+   CAMPOS
+========================================= */
+
+.editar-field {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 0.5rem;
+}
+
+
+.editar-field label {
+    color: #aaa;
+
+    font-family: "JetBrains Mono", monospace;
+
+    font-size: 10px;
+
+    font-weight: 700;
+
+    letter-spacing: 0.08em;
+}
+
+
+.editar-field input {
+    width: 100%;
+
+    min-height: 48px;
+
+    padding: 0.75rem 1rem;
+
+    border: 1px solid #353535;
+
+    border-radius: 4px;
+
+    outline: none;
+
+    background: rgba(13, 13, 14, 0.92);
+
+    color: #fff;
+
+    font-family: "Sora", sans-serif;
+
+    font-size: 14px;
+
+    transition:
+        border 0.2s,
+        box-shadow 0.2s;
+}
+
+
+.editar-field input:focus {
+    border-color: var(--editar-red);
+
+    box-shadow:
+        0 0 0 1px var(--editar-red);
+}
+
+
+.editar-field input::placeholder {
+    color: #555;
+}
+
+
+/* =========================================
+   INPUT CON ICONO
+========================================= */
+
+.editar-input-icon {
+    position: relative;
+}
+
+
+.editar-input-icon .material-symbols-outlined {
+    position: absolute;
+
+    top: 50%;
+
+    left: 14px;
+
+    transform: translateY(-50%);
+
+    color: #666;
+
+    font-size: 18px;
+
+    pointer-events: none;
+}
+
+
+.editar-input-icon input {
+    padding-left: 2.7rem;
+}
+
+
+/* =========================================
+   SEGURIDAD
+========================================= */
+
+.editar-security {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 1.5rem;
+}
+
+
+/* =========================================
+   BOTÓN OUTLINE
+========================================= */
+
+.editar-btn-outline {
+    padding: 0.7rem 1rem;
+
+    border: 1px solid var(--editar-red);
+
+    background: transparent;
+
+    color: #fff;
+
+    font-family: "JetBrains Mono", monospace;
+
+    font-size: 10px;
+
+    font-weight: 700;
+
+    letter-spacing: 0.08em;
+
+    transition:
+        background 0.2s,
+        border-color 0.2s;
+}
+
+
+.editar-btn-outline:hover {
+    background: rgba(225, 6, 0, 0.1);
+}
+
+
+/* =========================================
+   ACCIONES
+========================================= */
+
+.editar-actions {
+    display: flex;
+
+    justify-content: flex-end;
+
+    align-items: center;
+
+    gap: 1rem;
+
+    margin-top: 0.5rem;
+}
+
+
+.editar-btn-cancelar {
+    min-height: 45px;
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    padding: 0.75rem 1.5rem;
+
+    border: 1px solid #444;
+
+    color: #aaa;
+
+    font-family: "JetBrains Mono", monospace;
+
+    font-size: 10px;
+
+    font-weight: 700;
+
+    letter-spacing: 0.08em;
+
+    text-decoration: none;
+
+    transition:
+        border-color 0.2s,
+        color 0.2s;
+}
+
+
+.editar-btn-cancelar:hover {
+    border-color: #fff;
+
+    color: #fff;
+}
+
+
+.editar-btn-guardar {
+    min-height: 45px;
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 0.5rem;
+
+    padding: 0.75rem 1.5rem;
+
+    border: none;
+
+    background: var(--editar-red);
+
+    color: #fff;
+
+    font-family: "JetBrains Mono", monospace;
+
+    font-size: 10px;
+
+    font-weight: 700;
+
+    letter-spacing: 0.08em;
+
+    box-shadow:
+        0 0 18px rgba(225, 6, 0, 0.25);
+
+    transition:
+        background 0.2s,
+        box-shadow 0.2s;
+}
+
+
+.editar-btn-guardar:hover {
+    background: var(--editar-red-dark);
+
+    box-shadow:
+        0 0 25px rgba(225, 6, 0, 0.4);
+}
+
+
+.editar-btn-guardar .material-symbols-outlined {
+    font-size: 18px;
+}
+
+
+/* =========================================
+   TABLET
+========================================= */
+
+@media (max-width: 768px) {
+
+    .editar-container {
+        padding:
+            2rem
+            1.25rem
+            4rem;
+    }
+
+
+    .editar-head {
+        flex-direction: column;
+
+        align-items: flex-start;
+    }
+
+
+    .editar-grid {
+        grid-template-columns:
+            1fr;
+    }
+
+}
+
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 576px) {
+
+    .editar-container {
+        padding:
+            1.5rem
+            0.75rem
+            3rem;
+    }
+
+
+    .editar-card {
+        padding: 1.25rem;
+    }
+
+
+    .editar-foto {
+        flex-direction: column;
+
+        align-items: center;
+
+        text-align: center;
+    }
+
+
+    .editar-foto-info {
+        align-items: center;
+    }
+
+
+    .editar-head h1 {
+        font-size: 2rem;
+    }
+
+
+    .editar-actions {
+        flex-direction: column-reverse;
+    }
+
+
+    .editar-btn-cancelar,
+    .editar-btn-guardar {
+        width: 100%;
+    }
+
+}

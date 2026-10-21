@@ -1,0 +1,547 @@
+{% include 'base/header.html' %}
+
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename='styles/perfil/perfil_etiquetas.css') }}"
+>
+
+<div class="etiquetas-page">
+
+  <div class="etiquetas-container">
+
+    <!-- ENCABEZADO -->
+    <div class="etiquetas-head">
+
+      <div>
+
+        <span class="etiquetas-label">
+          // MI ACTIVIDAD
+        </span>
+
+        <h1>Etiquetas Guardadas</h1>
+
+        <p>
+          Consultá los temas de Fórmula 1 que seguís
+          y accedé rápidamente a las publicaciones relacionadas.
+        </p>
+
+      </div>
+
+      <a
+        href="{{ url_for('perfil') }}"
+        class="etiquetas-volver"
+      >
+        <span class="material-symbols-outlined">
+          arrow_back
+        </span>
+
+        VOLVER AL PERFIL
+      </a>
+
+    </div>
+
+
+    <!-- BUSCADOR -->
+    <div class="etiquetas-tools">
+
+      <div class="etiquetas-search">
+
+        <span class="material-symbols-outlined">
+          search
+        </span>
+
+        <input
+          type="text"
+          placeholder="BUSCAR ETIQUETAS..."
+        >
+
+      </div>
+
+    </div>
+
+
+    <!-- GRILLA DE ETIQUETAS -->
+    <div class="etiquetas-grid">
+
+
+      <!-- FERRARI -->
+      <article class="etiqueta-card">
+
+        <div class="etiqueta-icon">
+
+          <span class="material-symbols-outlined">
+            label
+          </span>
+
+        </div>
+
+        <div class="etiqueta-content">
+
+          <span class="etiqueta-code">
+            TAG // 001
+          </span>
+
+          <h2>
+            #Ferrari
+          </h2>
+
+          <p>
+            Noticias, análisis y novedades relacionadas
+            con la Scuderia Ferrari.
+          </p>
+
+          <div class="etiqueta-data">
+
+            <div>
+              <span class="etiqueta-data-value">
+                24
+              </span>
+
+              <span class="etiqueta-data-label">
+                PUBLICACIONES
+              </span>
+            </div>
+
+            <div>
+              <span class="etiqueta-data-value">
+                8
+              </span>
+
+              <span class="etiqueta-data-label">
+                NUEVAS
+              </span>
+            </div>
+
+          </div>
+
+        </div>
+
+        <div class="etiqueta-footer">
+
+          <a
+            href="#"
+            class="etiqueta-view"
+          >
+            VER PUBLICACIONES
+
+            <span class="material-symbols-outlined">
+              arrow_forward
+            </span>
+          </a>
+
+          <button
+            type="button"
+            class="etiqueta-remove"
+            title="Quitar etiqueta guardada"
+          >
+            <span class="material-symbols-outlined">
+              bookmark_remove
+            </span>
+          </button>
+
+        </div>
+
+      </article>
+
+
+      <!-- RED BULL -->
+      <article class="etiqueta-card">
+
+        <div class="etiqueta-icon">
+
+          <span class="material-symbols-outlined">
+            label
+          </span>
+
+        </div>
+
+        <div class="etiqueta-content">
+
+          <span class="etiqueta-code">
+            TAG // 002
+          </span>
+
+          <h2>
+            #RedBull
+          </h2>
+
+          <p>
+            Información sobre Red Bull Racing,
+            sus pilotos y el desarrollo del monoplaza.
+          </p>
+
+          <div class="etiqueta-data">
+
+            <div>
+              <span class="etiqueta-data-value">
+                19
+              </span>
+
+              <span class="etiqueta-data-label">
+                PUBLICACIONES
+              </span>
+            </div>
+
+            <div>
+              <span class="etiqueta-data-value">
+                5
+              </span>
+
+              <span class="etiqueta-data-label">
+                NUEVAS
+              </span>
+            </div>
+
+          </div>
+
+        </div>
+
+        <div class="etiqueta-footer">
+
+          <a
+            href="#"
+            class="etiqueta-view"
+          >
+            VER PUBLICACIONES
+
+            <span class="material-symbols-outlined">
+              arrow_forward
+            </span>
+          </a>
+
+          <button
+            type="button"
+            class="etiqueta-remove"
+          >
+            <span class="material-symbols-outlined">
+              bookmark_remove
+            </span>
+          </button>
+
+        </div>
+
+      </article>
+
+
+      <!-- MERCADO -->
+      <article class="etiqueta-card">
+
+        <div class="etiqueta-icon">
+
+          <span class="material-symbols-outlined">
+            label
+          </span>
+
+        </div>
+
+        <div class="etiqueta-content">
+
+          <span class="etiqueta-code">
+            TAG // 003
+          </span>
+
+          <h2>
+            #MercadoDePilotos
+          </h2>
+
+          <p>
+            Rumores, renovaciones, cambios de equipo
+            y novedades del mercado de pilotos.
+          </p>
+
+          <div class="etiqueta-data">
+
+            <div>
+              <span class="etiqueta-data-value">
+                16
+              </span>
+
+              <span class="etiqueta-data-label">
+                PUBLICACIONES
+              </span>
+            </div>
+
+            <div>
+              <span class="etiqueta-data-value">
+                3
+              </span>
+
+              <span class="etiqueta-data-label">
+                NUEVAS
+              </span>
+            </div>
+
+          </div>
+
+        </div>
+
+        <div class="etiqueta-footer">
+
+          <a
+            href="#"
+            class="etiqueta-view"
+          >
+            VER PUBLICACIONES
+
+            <span class="material-symbols-outlined">
+              arrow_forward
+            </span>
+          </a>
+
+          <button
+            type="button"
+            class="etiqueta-remove"
+          >
+            <span class="material-symbols-outlined">
+              bookmark_remove
+            </span>
+          </button>
+
+        </div>
+
+      </article>
+
+
+      <!-- ESTRATEGIA -->
+      <article class="etiqueta-card">
+
+        <div class="etiqueta-icon">
+
+          <span class="material-symbols-outlined">
+            label
+          </span>
+
+        </div>
+
+        <div class="etiqueta-content">
+
+          <span class="etiqueta-code">
+            TAG // 004
+          </span>
+
+          <h2>
+            #Estrategia
+          </h2>
+
+          <p>
+            Paradas en boxes, neumáticos y decisiones
+            estratégicas durante los Grandes Premios.
+          </p>
+
+          <div class="etiqueta-data">
+
+            <div>
+              <span class="etiqueta-data-value">
+                12
+              </span>
+
+              <span class="etiqueta-data-label">
+                PUBLICACIONES
+              </span>
+            </div>
+
+            <div>
+              <span class="etiqueta-data-value">
+                2
+              </span>
+
+              <span class="etiqueta-data-label">
+                NUEVAS
+              </span>
+            </div>
+
+          </div>
+
+        </div>
+
+        <div class="etiqueta-footer">
+
+          <a
+            href="#"
+            class="etiqueta-view"
+          >
+            VER PUBLICACIONES
+
+            <span class="material-symbols-outlined">
+              arrow_forward
+            </span>
+          </a>
+
+          <button
+            type="button"
+            class="etiqueta-remove"
+          >
+            <span class="material-symbols-outlined">
+              bookmark_remove
+            </span>
+          </button>
+
+        </div>
+
+      </article>
+
+
+      <!-- REGLAMENTO -->
+      <article class="etiqueta-card">
+
+        <div class="etiqueta-icon">
+
+          <span class="material-symbols-outlined">
+            label
+          </span>
+
+        </div>
+
+        <div class="etiqueta-content">
+
+          <span class="etiqueta-code">
+            TAG // 005
+          </span>
+
+          <h2>
+            #Reglamento
+          </h2>
+
+          <p>
+            Cambios técnicos y deportivos que afectan
+            al presente y futuro de la Fórmula 1.
+          </p>
+
+          <div class="etiqueta-data">
+
+            <div>
+              <span class="etiqueta-data-value">
+                9
+              </span>
+
+              <span class="etiqueta-data-label">
+                PUBLICACIONES
+              </span>
+            </div>
+
+            <div>
+              <span class="etiqueta-data-value">
+                1
+              </span>
+
+              <span class="etiqueta-data-label">
+                NUEVA
+              </span>
+            </div>
+
+          </div>
+
+        </div>
+
+        <div class="etiqueta-footer">
+
+          <a
+            href="#"
+            class="etiqueta-view"
+          >
+            VER PUBLICACIONES
+
+            <span class="material-symbols-outlined">
+              arrow_forward
+            </span>
+          </a>
+
+          <button
+            type="button"
+            class="etiqueta-remove"
+          >
+            <span class="material-symbols-outlined">
+              bookmark_remove
+            </span>
+          </button>
+
+        </div>
+
+      </article>
+
+
+      <!-- NEUMÁTICOS -->
+      <article class="etiqueta-card">
+
+        <div class="etiqueta-icon">
+
+          <span class="material-symbols-outlined">
+            label
+          </span>
+
+        </div>
+
+        <div class="etiqueta-content">
+
+          <span class="etiqueta-code">
+            TAG // 006
+          </span>
+
+          <h2>
+            #Neumáticos
+          </h2>
+
+          <p>
+            Información sobre compuestos, degradación
+            y gestión de neumáticos en carrera.
+          </p>
+
+          <div class="etiqueta-data">
+
+            <div>
+              <span class="etiqueta-data-value">
+                14
+              </span>
+
+              <span class="etiqueta-data-label">
+                PUBLICACIONES
+              </span>
+            </div>
+
+            <div>
+              <span class="etiqueta-data-value">
+                4
+              </span>
+
+              <span class="etiqueta-data-label">
+                NUEVAS
+              </span>
+            </div>
+
+          </div>
+
+        </div>
+
+        <div class="etiqueta-footer">
+
+          <a
+            href="#"
+            class="etiqueta-view"
+          >
+            VER PUBLICACIONES
+
+            <span class="material-symbols-outlined">
+              arrow_forward
+            </span>
+          </a>
+
+          <button
+            type="button"
+            class="etiqueta-remove"
+          >
+            <span class="material-symbols-outlined">
+              bookmark_remove
+            </span>
+          </button>
+
+        </div>
+
+      </article>
+
+    </div>
+
+  </div>
+
+</div>
+
+{% include 'base/footer.html' %}

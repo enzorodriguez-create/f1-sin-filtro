@@ -1,0 +1,1292 @@
+/* =========================================
+   POST
+========================================= */
+
+.post-page {
+    --post-red: #E10600;
+    --post-red-dark: #b00500;
+
+    --post-bg: #0a0a0b;
+
+    --post-panel: #151517;
+    --post-panel-low: #1b1b1d;
+
+    --post-border: #353535;
+
+    --post-text: #e5e2e1;
+    --post-muted: #a1a1a1;
+
+    position: relative;
+
+    width: 100%;
+    min-height: 100vh;
+
+    overflow: hidden;
+
+    background: var(--post-bg);
+
+    color: var(--post-text);
+
+    font-family: "Sora", sans-serif;
+}
+
+
+/* =========================================
+   FONDO
+========================================= */
+
+.post-pattern {
+    position: absolute;
+
+    inset: 0;
+
+    pointer-events: none;
+
+    opacity: 0.12;
+
+    background-image:
+        linear-gradient(
+            to right,
+            #353535 1px,
+            transparent 1px
+        ),
+        linear-gradient(
+            to bottom,
+            #353535 1px,
+            transparent 1px
+        );
+
+    background-size: 32px 32px;
+}
+
+
+/* =========================================
+   CONTENEDOR
+========================================= */
+
+.post-container {
+    position: relative;
+
+    z-index: 1;
+
+    width: 100%;
+
+    max-width: 1400px;
+
+    margin: 0 auto;
+
+    padding: 3rem 2rem 5rem;
+}
+
+
+.post-layout {
+    display: grid;
+
+    grid-template-columns:
+        minmax(0, 2fr)
+        minmax(280px, 0.8fr);
+
+    gap: 2.5rem;
+}
+
+
+/* =========================================
+   ARTÍCULO
+========================================= */
+
+.post-article {
+    min-width: 0;
+}
+
+
+/* =========================================
+   CABECERA
+========================================= */
+
+.post-head {
+    margin-bottom: 2rem;
+}
+
+
+.post-category {
+    display: flex;
+
+    align-items: center;
+
+    gap: 0.5rem;
+
+    margin-bottom: 1rem;
+
+    color: var(--post-red);
+
+    font-family: "JetBrains Mono", monospace;
+
+    font-size: 11px;
+
+    font-weight: 700;
+
+    letter-spacing: 0.12em;
+}
+
+
+.post-category .material-symbols-outlined {
+    font-size: 18px;
+}
+
+
+.post-head h1 {
+    max-width: 1000px;
+
+    margin: 0 0 1rem;
+
+    color: #fff;
+
+    font-family: "Anybody", sans-serif;
+
+    font-size: clamp(
+        2.3rem,
+        5vw,
+        4.2rem
+    );
+
+    font-weight: 900;
+
+    line-height: 1.05;
+
+    letter-spacing: -0.035em;
+
+    text-transform: uppercase;
+}
+
+
+.post-subtitle {
+    max-width: 800px;
+
+    margin: 0 0 2rem;
+
+    color: var(--post-muted);
+
+    font-size: 1.1rem;
+
+    line-height: 1.6;
+}
+
+
+/* =========================================
+   ETIQUETAS DEL POST
+========================================= */
+
+.post-page .post-tags {
+    display: flex;
+
+    flex-wrap: wrap;
+
+    align-items: center;
+
+    gap: 0.5rem;
+
+    margin-bottom: 1.5rem;
+}
+
+
+.post-page .post-tags-label {
+    margin-right: 0.25rem;
+
+    color: #777;
+
+    font-family: "JetBrains Mono", monospace;
+
+    font-size: 10px;
+
+    font-weight: 700;
+
+    letter-spacing: 0.1em;
+}
+
+
+.post-page .post-tag {
+    display: inline-block;
+
+    padding: 0.4rem 0.7rem;
+
+    border: 1px solid #353535;
+
+    background: #151517;
+
+    color: #aaa !important;
+
+    font-family: "JetBrains Mono", monospace;
+
+    font-size: 10px;
+
+    font-weight: 700;
+
+    letter-spacing: 0.04em;
+
+    text-decoration: none !important;
+
+    transition:
+        color 0.2s,
+        border-color 0.2s,
+        background 0.2s;
+}
+
+
+.post-page .post-tag:visited {
+    color: #aaa !important;
+}
+
+
+.post-page .post-tag:hover {
+    border-color: var(--post-red);
+
+    background: rgba(225, 6, 0, 0.08);
+
+    color: var(--post-red) !important;
+
+    text-decoration: none !important;
+}
+
+
+.post-page .post-tag:focus {
+    border-color: var(--post-red);
+
+    color: var(--post-red) !important;
+
+    outline: none;
+}
+
+
+/* =========================================
+   META
+========================================= */
+
+.post-meta {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 1rem;
+
+    padding: 1rem 0;
+
+    border-top:
+        1px solid var(--post-border);
+
+    border-bottom:
+        1px solid var(--post-border);
+}
+
+
+.post-author {
+    display: flex;
+
+    align-items: center;
+
+    gap: 0.8rem;
+}
+
+
+.post-author-avatar {
+    width: 45px;
+
+    height: 45px;
+
+    flex-shrink: 0;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border:
+        1px solid var(--post-red);
+
+    border-radius: 50%;
+
+    background:
+        rgba(225, 6, 0, 0.1);
+
+    color: var(--post-red);
+
+    font-family:
+        "Anybody",
+        sans-serif;
+
+    font-size: 12px;
+
+    font-weight: 900;
+}
+
+
+.post-author-name {
+    margin: 0;
+
+    color: #fff;
+
+    font-weight: 700;
+}
+
+
+.post-author-date {
+    margin: 0.2rem 0 0;
+
+    color: var(--post-muted);
+
+    font-family:
+        "JetBrains Mono",
+        monospace;
+
+    font-size: 10px;
+}
+
+
+.post-meta-actions {
+    display: flex;
+
+    gap: 0.5rem;
+}
+
+
+.post-icon-btn {
+    width: 40px;
+
+    height: 40px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border:
+        1px solid var(--post-border);
+
+    background:
+        var(--post-panel);
+
+    color: #aaa;
+
+    transition: all 0.2s;
+}
+
+
+.post-icon-btn:hover {
+    border-color:
+        var(--post-red);
+
+    color:
+        var(--post-red);
+}
+
+
+.post-icon-btn .material-symbols-outlined {
+    font-size: 19px;
+}
+
+
+/* =========================================
+   IMAGEN PRINCIPAL
+========================================= */
+
+.post-hero {
+    position: relative;
+
+    width: 100%;
+
+    height: 500px;
+
+    margin:
+        0
+        0
+        2.5rem;
+
+    overflow: hidden;
+
+    border:
+        1px solid var(--post-border);
+
+    background: #111;
+}
+
+
+.post-hero img {
+    width: 100%;
+
+    height: 100%;
+
+    object-fit: cover;
+
+    transition:
+        transform 0.6s;
+}
+
+
+.post-hero:hover img {
+    transform:
+        scale(1.02);
+}
+
+
+.post-hero figcaption {
+    position: absolute;
+
+    bottom: 0;
+
+    left: 0;
+
+    width: 100%;
+
+    padding: 0.8rem 1rem;
+
+    background:
+        rgba(10, 10, 11, 0.9);
+
+    color: #aaa;
+
+    font-family:
+        "JetBrains Mono",
+        monospace;
+
+    font-size: 10px;
+}
+
+
+/* =========================================
+   CUERPO
+========================================= */
+
+.post-body {
+    max-width: 900px;
+
+    color: #dedede;
+
+    font-size: 17px;
+
+    line-height: 1.8;
+}
+
+
+.post-body p {
+    margin:
+        0
+        0
+        1.5rem;
+}
+
+
+.post-drop-cap::first-letter {
+    float: left;
+
+    margin-right: 0.5rem;
+
+    color:
+        var(--post-red);
+
+    font-family:
+        "Anybody",
+        sans-serif;
+
+    font-size: 3.6rem;
+
+    font-weight: 900;
+
+    line-height: 0.85;
+}
+
+
+.post-body h2 {
+    margin:
+        2.5rem
+        0
+        1rem;
+
+    padding-left:
+        1rem;
+
+    border-left:
+        4px solid
+        var(--post-red);
+
+    color: #fff;
+
+    font-family:
+        "Anybody",
+        sans-serif;
+
+    font-size: 1.65rem;
+
+    font-weight: 800;
+
+    text-transform: uppercase;
+}
+
+
+/* =========================================
+   FRASE
+========================================= */
+
+.post-quote {
+    margin:
+        2rem
+        0;
+
+    padding:
+        1.5rem;
+
+    background:
+        var(--post-panel);
+
+    border:
+        1px solid var(--post-border);
+
+    border-left:
+        4px solid var(--post-red);
+}
+
+
+.post-quote p {
+    margin: 0;
+
+    color: #fff;
+
+    font-size: 1rem;
+
+    font-style: italic;
+}
+
+
+/* =========================================
+   PANELES
+========================================= */
+
+.post-panel {
+    background:
+        rgba(21, 21, 23, 0.96);
+
+    border:
+        1px solid var(--post-border);
+}
+
+
+/* =========================================
+   COMENTARIOS
+========================================= */
+
+.post-comments {
+    margin-top: 4rem;
+
+    padding-top: 2rem;
+
+    border-top:
+        1px solid var(--post-border);
+}
+
+
+.post-comments-title {
+    display: flex;
+
+    align-items: center;
+
+    gap: 0.6rem;
+
+    margin:
+        0
+        0
+        1.5rem;
+
+    color: #fff;
+
+    font-family:
+        "Anybody",
+        sans-serif;
+
+    font-size: 2rem;
+
+    font-weight: 900;
+
+    text-transform: uppercase;
+}
+
+
+.post-comments-title .material-symbols-outlined {
+    color:
+        var(--post-red);
+}
+
+
+.post-comment-form {
+    margin-bottom:
+        2rem;
+
+    padding:
+        1.5rem;
+}
+
+
+.post-comment-form textarea {
+    width: 100%;
+
+    padding:
+        1rem;
+
+    resize: vertical;
+
+    border:
+        1px solid var(--post-border);
+
+    outline: none;
+
+    background:
+        #0d0d0e;
+
+    color: #fff;
+
+    font-family:
+        "Sora",
+        sans-serif;
+}
+
+
+.post-comment-form textarea:focus {
+    border-color:
+        var(--post-red);
+}
+
+
+.post-form-end {
+    display: flex;
+
+    justify-content: flex-end;
+
+    margin-top:
+        1rem;
+}
+
+
+/* =========================================
+   BOTÓN ROJO
+========================================= */
+
+.post-btn-primary {
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 0.5rem;
+
+    padding:
+        0.8rem
+        1.2rem;
+
+    border: none;
+
+    background:
+        var(--post-red);
+
+    color: #fff;
+
+    font-family:
+        "JetBrains Mono",
+        monospace;
+
+    font-size: 11px;
+
+    font-weight: 700;
+
+    letter-spacing:
+        0.08em;
+
+    text-decoration: none;
+
+    transition:
+        all 0.2s;
+}
+
+
+.post-btn-primary:hover {
+    background:
+        var(--post-red-dark);
+
+    color: #fff;
+}
+
+
+.post-btn-primary .material-symbols-outlined {
+    font-size: 17px;
+}
+
+
+/* =========================================
+   COMENTARIOS PUBLICADOS
+========================================= */
+
+.post-comment-list {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 1.5rem;
+}
+
+
+.post-comment {
+    display: flex;
+
+    gap: 1rem;
+
+    padding-bottom:
+        1.5rem;
+
+    border-bottom:
+        1px solid #252527;
+}
+
+
+.post-comment-avatar {
+    width: 42px;
+
+    height: 42px;
+
+    flex-shrink: 0;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    background:
+        #171719;
+
+    border:
+        1px solid var(--post-border);
+
+    color:
+        var(--post-red);
+
+    font-family:
+        "Anybody",
+        sans-serif;
+
+    font-size: 11px;
+
+    font-weight: 900;
+}
+
+
+.post-comment-body {
+    flex-grow: 1;
+}
+
+
+.post-comment-head {
+    display: flex;
+
+    justify-content: space-between;
+
+    gap: 1rem;
+
+    margin-bottom:
+        0.5rem;
+}
+
+
+.post-comment-user {
+    color: #fff;
+
+    font-family:
+        "JetBrains Mono",
+        monospace;
+
+    font-size: 11px;
+
+    font-weight: 700;
+}
+
+
+.post-comment-time {
+    color:
+        var(--post-muted);
+
+    font-size:
+        10px;
+}
+
+
+.post-comment-body p {
+    margin:
+        0
+        0
+        0.6rem;
+
+    color: #bbb;
+
+    font-size: 14px;
+
+    line-height: 1.6;
+}
+
+
+.post-reply {
+    display: flex;
+
+    align-items: center;
+
+    gap: 0.3rem;
+
+    padding: 0;
+
+    border: none;
+
+    background: transparent;
+
+    color:
+        var(--post-red);
+
+    font-family:
+        "JetBrains Mono",
+        monospace;
+
+    font-size: 10px;
+
+    font-weight: 700;
+}
+
+
+.post-reply .material-symbols-outlined {
+    font-size:
+        15px;
+}
+
+
+/* =========================================
+   SIDEBAR
+========================================= */
+
+.post-sidebar {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 1rem;
+}
+
+
+.post-sidebar .post-panel {
+    padding:
+        1.5rem;
+}
+
+
+.post-sidebar-label,
+.post-trend-category {
+    color:
+        var(--post-red);
+
+    font-family:
+        "JetBrains Mono",
+        monospace;
+
+    font-size: 10px;
+
+    font-weight: 700;
+
+    letter-spacing:
+        0.1em;
+}
+
+
+.post-premium {
+    border-top:
+        3px solid
+        var(--post-red);
+}
+
+
+.post-premium h3,
+.post-trending h3 {
+    margin:
+        0.5rem
+        0
+        1rem;
+
+    color: #fff;
+
+    font-family:
+        "Anybody",
+        sans-serif;
+
+    font-size:
+        1.45rem;
+
+    font-weight:
+        800;
+
+    text-transform:
+        uppercase;
+}
+
+
+.post-premium p {
+    margin:
+        0
+        0
+        1.5rem;
+
+    color:
+        var(--post-muted);
+
+    font-size:
+        13px;
+
+    line-height:
+        1.6;
+}
+
+
+.post-btn-full {
+    width:
+        100%;
+}
+
+
+/* =========================================
+   MÁS NOTICIAS
+========================================= */
+
+.post-trending h3 {
+    display: flex;
+
+    align-items: center;
+
+    gap:
+        0.5rem;
+
+    padding-bottom:
+        1rem;
+
+    border-bottom:
+        1px solid
+        var(--post-border);
+}
+
+
+.post-trending h3 .material-symbols-outlined {
+    color:
+        var(--post-red);
+}
+
+
+.post-trending ul {
+    margin: 0;
+
+    padding: 0;
+
+    list-style: none;
+}
+
+
+.post-trending li {
+    padding:
+        1rem
+        0;
+
+    border-bottom:
+        1px solid #252527;
+}
+
+
+.post-trending li:last-child {
+    border-bottom:
+        none;
+}
+
+
+.post-trend-category {
+    display: block;
+
+    margin-bottom:
+        0.4rem;
+}
+
+
+.post-trending a {
+    color:
+        #ddd;
+
+    font-size:
+        13px;
+
+    line-height:
+        1.5;
+
+    text-decoration:
+        none;
+
+    transition:
+        color 0.2s;
+}
+
+
+.post-trending a:hover {
+    color:
+        var(--post-red);
+}
+
+
+/* =========================================
+   VOLVER
+========================================= */
+
+.post-back-news {
+    display: flex;
+
+    align-items: center;
+
+    gap:
+        0.5rem;
+
+    padding:
+        1rem;
+
+    border:
+        1px solid var(--post-border);
+
+    color:
+        #aaa;
+
+    font-family:
+        "JetBrains Mono",
+        monospace;
+
+    font-size:
+        10px;
+
+    font-weight:
+        700;
+
+    text-decoration:
+        none;
+
+    transition:
+        all 0.2s;
+}
+
+
+.post-back-news:hover {
+    border-color:
+        var(--post-red);
+
+    color:
+        var(--post-red);
+}
+
+
+.post-back-news .material-symbols-outlined {
+    font-size:
+        16px;
+}
+
+
+/* =========================================
+   ACCESIBILIDAD
+========================================= */
+
+.post-sr-only {
+    position: absolute;
+
+    width: 1px;
+
+    height: 1px;
+
+    margin: -1px;
+
+    overflow: hidden;
+
+    clip:
+        rect(0, 0, 0, 0);
+
+    white-space: nowrap;
+}
+
+
+/* =========================================
+   TABLET
+========================================= */
+
+@media (max-width: 991px) {
+
+    .post-layout {
+        grid-template-columns:
+            1fr;
+    }
+
+
+    .post-sidebar {
+        display: grid;
+
+        grid-template-columns:
+            repeat(2, 1fr);
+    }
+
+
+    .post-back-news {
+        grid-column:
+            1 / -1;
+    }
+
+}
+
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 576px) {
+
+    .post-container {
+        padding:
+            1.5rem
+            0.75rem
+            3rem;
+    }
+
+
+    .post-head h1 {
+        font-size:
+            2rem;
+    }
+
+
+    .post-subtitle {
+        font-size:
+            0.95rem;
+    }
+
+
+    .post-meta {
+        align-items:
+            flex-start;
+    }
+
+
+    .post-author-date {
+        max-width:
+            180px;
+    }
+
+
+    .post-hero {
+        height:
+            280px;
+    }
+
+
+    .post-body {
+        font-size:
+            15px;
+    }
+
+
+    .post-body h2 {
+        font-size:
+            1.35rem;
+    }
+
+
+    .post-comments-title {
+        font-size:
+            1.5rem;
+    }
+
+
+    .post-sidebar {
+        grid-template-columns:
+            1fr;
+    }
+
+
+    .post-comment-head {
+        flex-direction:
+            column;
+
+        gap:
+            0.2rem;
+    }
+
+
+    .post-form-end {
+        justify-content:
+            stretch;
+    }
+
+
+    .post-btn-primary {
+        width:
+            100%;
+    }
+
+
+    .post-tags {
+        align-items:
+            flex-start;
+    }
+
+}
+
+/* =========================================
+   PANTALLAS GRANDES
+========================================= */
+
+@media (min-width: 1600px) {
+
+    .post-container {
+        max-width: 1750px;
+        padding-left: 3rem;
+        padding-right: 3rem;
+    }
+
+
+    .post-layout {
+        grid-template-columns:
+            minmax(0, 2.3fr)
+            minmax(320px, 0.8fr);
+
+        gap: 3rem;
+    }
+
+
+    .post-head h1 {
+        max-width: 1150px;
+        font-size: 4.4rem;
+    }
+
+
+    .post-subtitle {
+        max-width: 900px;
+        font-size: 1.2rem;
+    }
+
+
+    .post-hero {
+        height: 600px;
+    }
+
+
+    .post-body {
+        max-width: 1050px;
+        font-size: 18px;
+    }
+
+
+    .post-sidebar {
+        gap: 1.25rem;
+    }
+
+}

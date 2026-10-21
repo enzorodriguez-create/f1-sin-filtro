@@ -1,0 +1,251 @@
+{% include 'base/header.html' %}
+
+<link
+    rel="stylesheet"
+    href="{{ url_for('static', filename='styles/suscripcion.css') }}"
+>
+
+<div class="suscripcion-page">
+
+    <div class="suscripcion-pattern"></div>
+
+    <div class="suscripcion-container">
+
+        <!-- ENCABEZADO -->
+        <section class="suscripcion-head">
+
+            <div>
+
+                <span class="suscripcion-label">
+                    // PREMIUM
+                </span>
+
+                <h1>Confirmar Suscripción</h1>
+
+                <p>
+                    Revisá el plan antes de continuar con el pago.
+                </p>
+
+            </div>
+
+            <a
+                href="{{ url_for('premium') }}"
+                class="suscripcion-volver"
+            >
+                <span class="material-symbols-outlined">
+                    arrow_back
+                </span>
+
+                VOLVER A PREMIUM
+            </a>
+
+        </section>
+
+
+        <!-- CONTENIDO -->
+        <section class="suscripcion-layout">
+
+
+            <!-- PLAN -->
+            <div class="suscripcion-plan">
+
+                <div class="suscripcion-plan-top">
+
+                    <span class="suscripcion-plan-badge">
+                        PLAN PREMIUM
+                    </span>
+
+                    <span class="material-symbols-outlined suscripcion-plan-icon">
+                        workspace_premium
+                    </span>
+
+                </div>
+
+
+                <h2>
+                    F1 Sin Filtro Premium
+                </h2>
+
+
+                <p class="suscripcion-plan-description">
+                    Accedé a contenido exclusivo y disfrutá
+                    una experiencia completa dentro de F1 Sin Filtro.
+                </p>
+
+
+                <div class="suscripcion-price">
+
+                    <span class="suscripcion-price-symbol">
+                        $
+                    </span>
+
+                    <span class="suscripcion-price-value">
+                        5.000
+                    </span>
+
+                    <div>
+
+                        <span class="suscripcion-price-currency">
+                            ARS
+                        </span>
+
+                        <span class="suscripcion-price-period">
+                            / mes
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <div class="suscripcion-benefits">
+
+                    <div>
+                        <span class="material-symbols-outlined">
+                            check_circle
+                        </span>
+
+                        <span>
+                            Contenido exclusivo para usuarios Premium
+                        </span>
+                    </div>
+
+
+                    <div>
+                        <span class="material-symbols-outlined">
+                            check_circle
+                        </span>
+
+                        <span>
+                            Análisis y publicaciones especiales
+                        </span>
+                    </div>
+
+
+                    <div>
+                        <span class="material-symbols-outlined">
+                            check_circle
+                        </span>
+
+                        <span>
+                            Acceso a contenido destacado
+                        </span>
+                    </div>
+
+
+                    <div>
+                        <span class="material-symbols-outlined">
+                            check_circle
+                        </span>
+
+                        <span>
+                            Experiencia sin publicidad
+                        </span>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- RESUMEN -->
+            <aside class="suscripcion-resumen">
+
+                <span class="suscripcion-resumen-label">
+                    RESUMEN DE COMPRA
+                </span>
+
+
+                <h3>
+                    Tu suscripción
+                </h3>
+
+
+                <div class="suscripcion-resumen-row">
+
+                    <div>
+
+                        <span class="suscripcion-resumen-title">
+                            Premium mensual
+                        </span>
+
+                        <span class="suscripcion-resumen-sub">
+                            Renovación mensual
+                        </span>
+
+                    </div>
+
+                    <span>
+                        $5.000
+                    </span>
+
+                </div>
+
+
+                <div class="suscripcion-divider"></div>
+
+
+                <div class="suscripcion-total">
+
+                    <span>
+                        TOTAL
+                    </span>
+
+                    <div>
+
+                        <strong>
+                            $5.000
+                        </strong>
+
+                        <small>
+                            ARS / mes
+                        </small>
+
+                    </div>
+
+                </div>
+
+
+                <!-- BOTÓN MERCADO PAGO -->
+                <button
+                    type="button"
+                    class="suscripcion-pay-btn"
+                >
+
+                    <span class="material-symbols-outlined">
+                        payments
+                    </span>
+
+                    CONTINUAR CON MERCADO PAGO
+
+                </button>
+
+
+                <div class="suscripcion-secure">
+
+                    <span class="material-symbols-outlined">
+                        lock
+                    </span>
+
+                    <span>
+                        Pago seguro mediante Mercado Pago
+                    </span>
+
+                </div>
+
+
+                <p class="suscripcion-note">
+                    Por ahora este botón es visual.
+                    La integración real con Mercado Pago se conectará
+                    más adelante.
+                </p>
+
+            </aside>
+
+        </section>
+
+    </div>
+
+</div>
+
+{% include 'base/footer.html' %}

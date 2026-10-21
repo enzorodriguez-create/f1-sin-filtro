@@ -1,0 +1,329 @@
+{% include 'base/header.html' %}
+
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename='styles/perfil/perfil_editar.css') }}"
+>
+
+<div class="editar-page">
+
+  <div class="editar-container">
+
+    <!-- ENCABEZADO -->
+    <div class="editar-head">
+
+      <div>
+        <span class="editar-label">
+          // MI PERFIL
+        </span>
+
+        <h1>Editar Perfil</h1>
+
+        <p>
+          Actualizá tus datos personales y la configuración de tu cuenta.
+        </p>
+      </div>
+
+      <a
+        href="{{ url_for('perfil') }}"
+        class="editar-volver"
+      >
+        <span class="material-symbols-outlined">
+          arrow_back
+        </span>
+
+        VOLVER AL PERFIL
+      </a>
+
+    </div>
+
+
+    <form
+      class="editar-form"
+      action="#"
+      method="POST"
+    >
+
+      <!-- FOTO -->
+      <section class="editar-card editar-foto">
+
+        <div class="editar-avatar-wrap">
+
+          <img
+            class="editar-avatar"
+            src="https://lh3.googleusercontent.com/aida-public/AB6AXuD91V7PE9so08ncdq2i94Gy613yj4KyC8Yqg1_FZyMq8k8rJvwtNOusuijNXGxa_obpHeAkiY12i3b53h5fWK9_4_vt_M2sqNk1uN9SdcSR21iwUfuUnsUkiy5aKZ4nOTar_RQ0nu2zQCUfJPRd0Qn3ghwIJCPGH1zzzJhzcCs4pmUJ8lPqOVQvDMZz9ZWVM7wDo_SBtPHsYEpUi2OJBX6ZLFgQFwKGcpBcp4mjAeCou_CtYdC7e5yE"
+            alt="Foto de perfil"
+          >
+
+          <div class="editar-avatar-overlay">
+            <span class="material-symbols-outlined">
+              photo_camera
+            </span>
+          </div>
+
+        </div>
+
+        <div class="editar-foto-info">
+
+          <span class="editar-card-label">
+            IDENTIFICACIÓN VISUAL
+          </span>
+
+          <h2>Foto de Perfil</h2>
+
+          <p>
+            Formatos soportados: JPG y PNG. Tamaño máximo: 5 MB.
+          </p>
+
+          <button
+            type="button"
+            class="editar-btn-outline"
+          >
+            CAMBIAR IMAGEN
+          </button>
+
+        </div>
+
+      </section>
+
+
+      <!-- DATOS PERSONALES -->
+      <section class="editar-card">
+
+        <div class="editar-card-head">
+
+          <span class="material-symbols-outlined">
+            person
+          </span>
+
+          <div>
+            <span class="editar-card-label">
+              INFORMACIÓN PERSONAL
+            </span>
+
+            <h2>Datos Personales</h2>
+          </div>
+
+        </div>
+
+
+        <div class="editar-grid">
+
+          <div class="editar-field">
+
+            <label for="nombre">
+              NOMBRE
+            </label>
+
+            <input
+              id="nombre"
+              name="nombre"
+              type="text"
+              value="Juan"
+            >
+
+          </div>
+
+
+          <div class="editar-field">
+
+            <label for="apellido">
+              APELLIDO
+            </label>
+
+            <input
+              id="apellido"
+              name="apellido"
+              type="text"
+              value="Pérez"
+            >
+
+          </div>
+
+
+          <div class="editar-field">
+
+            <label for="usuario">
+              USUARIO
+            </label>
+
+            <div class="editar-input-icon">
+
+              <span class="material-symbols-outlined">
+                alternate_email
+              </span>
+
+              <input
+                id="usuario"
+                name="usuario"
+                type="text"
+                value="juan_f1"
+              >
+
+            </div>
+
+          </div>
+
+
+          <div class="editar-field">
+
+            <label for="email">
+              EMAIL
+            </label>
+
+            <div class="editar-input-icon">
+
+              <span class="material-symbols-outlined">
+                mail
+              </span>
+
+              <input
+                id="email"
+                name="email"
+                type="email"
+                value="juan.perez@f1sinfiltro.com"
+              >
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <!-- SEGURIDAD -->
+      <section class="editar-card">
+
+        <div class="editar-card-head">
+
+          <span class="material-symbols-outlined">
+            lock
+          </span>
+
+          <div>
+            <span class="editar-card-label">
+              SEGURIDAD
+            </span>
+
+            <h2>Cambiar Contraseña</h2>
+          </div>
+
+        </div>
+
+
+        <div class="editar-security">
+
+          <div class="editar-field">
+
+            <label for="pass-actual">
+              CONTRASEÑA ACTUAL
+            </label>
+
+            <div class="editar-input-icon">
+
+              <span class="material-symbols-outlined">
+                lock
+              </span>
+
+              <input
+                id="pass-actual"
+                name="pass_actual"
+                type="password"
+                placeholder="••••••••"
+              >
+
+            </div>
+
+          </div>
+
+
+          <div class="editar-grid">
+
+            <div class="editar-field">
+
+              <label for="pass-nueva">
+                NUEVA CONTRASEÑA
+              </label>
+
+              <div class="editar-input-icon">
+
+                <span class="material-symbols-outlined">
+                  password
+                </span>
+
+                <input
+                  id="pass-nueva"
+                  name="pass_nueva"
+                  type="password"
+                  placeholder="••••••••"
+                >
+
+              </div>
+
+            </div>
+
+
+            <div class="editar-field">
+
+              <label for="pass-confirm">
+                CONFIRMAR CONTRASEÑA
+              </label>
+
+              <div class="editar-input-icon">
+
+                <span class="material-symbols-outlined">
+                  verified_user
+                </span>
+
+                <input
+                  id="pass-confirm"
+                  name="pass_confirm"
+                  type="password"
+                  placeholder="••••••••"
+                >
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <!-- BOTONES -->
+      <div class="editar-actions">
+
+        <a
+          href="{{ url_for('perfil') }}"
+          class="editar-btn-cancelar"
+        >
+          CANCELAR
+        </a>
+
+        <button
+          type="submit"
+          class="editar-btn-guardar"
+        >
+
+          <span class="material-symbols-outlined">
+            save
+          </span>
+
+          GUARDAR CAMBIOS
+
+        </button>
+
+      </div>
+
+    </form>
+
+  </div>
+
+</div>
+
+{% include 'base/footer.html' %}

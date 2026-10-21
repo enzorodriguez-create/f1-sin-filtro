@@ -1,0 +1,220 @@
+{% include 'base/header.html' %}
+
+<link
+    rel="stylesheet"
+    href="{{ url_for('static', filename='styles/categorias.css') }}"
+>
+
+<div class="categorias-page">
+
+    <div class="categorias-pattern"></div>
+
+    <div class="categorias-container">
+
+        <!-- ENCABEZADO -->
+        <section class="categorias-head">
+
+            <span class="categorias-label">
+                // EXPLORAR
+            </span>
+
+            <h1>Categorías</h1>
+
+            <p>
+                Explorá las publicaciones de F1 Sin Filtro
+                según el tema que más te interese.
+            </p>
+
+        </section>
+
+
+        <!-- CATEGORÍAS -->
+        <section class="categorias-grid">
+
+
+            <!-- PILOTOS -->
+            <a href="#" class="categoria-card">
+
+                <div class="categoria-number">
+                    01
+                </div>
+
+                <div class="categoria-icon">
+                    <span class="material-symbols-outlined">
+                        sports_motorsports
+                    </span>
+                </div>
+
+                <div class="categoria-content">
+
+                    <span class="categoria-code">
+                        CATEGORÍA // DRIVERS
+                    </span>
+
+                    <h2>
+                        Pilotos
+                    </h2>
+
+                    <p>
+                        Noticias, rendimiento, declaraciones,
+                        contratos y actualidad de los pilotos.
+                    </p>
+
+                </div>
+
+                <div class="categoria-footer">
+
+                    <span>
+                        VER PUBLICACIONES
+                    </span>
+
+                    <span class="material-symbols-outlined">
+                        arrow_forward
+                    </span>
+
+                </div>
+
+            </a>
+
+
+            <!-- ESCUDERÍAS -->
+            <a href="#" class="categoria-card">
+
+                <div class="categoria-number">
+                    02
+                </div>
+
+                <div class="categoria-icon">
+                    <span class="material-symbols-outlined">
+                        garage
+                    </span>
+                </div>
+
+                <div class="categoria-content">
+
+                    <span class="categoria-code">
+                        CATEGORÍA // TEAMS
+                    </span>
+
+                    <h2>
+                        Escuderías
+                    </h2>
+
+                    <p>
+                        Actualizaciones, rendimiento y novedades
+                        de los equipos de Fórmula 1.
+                    </p>
+
+                </div>
+
+                <div class="categoria-footer">
+
+                    <span>
+                        VER PUBLICACIONES
+                    </span>
+
+                    <span class="material-symbols-outlined">
+                        arrow_forward
+                    </span>
+
+                </div>
+
+            </a>
+
+
+            <!-- CARRERAS -->
+            <a href="#" class="categoria-card">
+
+                <div class="categoria-number">
+                    03
+                </div>
+
+                <div class="categoria-icon">
+                    <span class="material-symbols-outlined">
+                        flag
+                    </span>
+                </div>
+
+                <div class="categoria-content">
+
+                    <span class="categoria-code">
+                        CATEGORÍA // RACES
+                    </span>
+
+                    <h2>
+                        Carreras
+                    </h2>
+
+                    <p>
+                        Previas, resultados, análisis y todo
+                        lo ocurrido durante cada Gran Premio.
+                    </p>
+
+                </div>
+
+                <div class="categoria-footer">
+
+                    <span>
+                        VER PUBLICACIONES
+                    </span>
+
+                    <span class="material-symbols-outlined">
+                        arrow_forward
+                    </span>
+
+                </div>
+
+            </a>
+
+
+            <!-- CLASIFICACIÓN -->
+            <a href="#" class="categoria-card">
+
+                <div class="categoria-number">
+                    04
+                </div>
+
+                <div class="categoria-icon">
+                    <span class="material-symbols-outlined">
+                        leaderboard
+                    </span>
+                </div>
+
+                <div class="categoria-content">
+
+                    <span class="categoria-code">
+                        CATEGORÍA // STANDINGS
+                    </span>
+
+                    <h2>
+                        Clasificación
+                    </h2>
+
+                    <p>
+                        Posiciones del campeonato, puntos
+                        y evolución de pilotos y constructores.
+                    </p>
+
+                </div>
+
+                <div class="categoria-footer">
+
+                    <span>
+                        VER PUBLICACIONES
+                    </span>
+
+                    <span class="material-symbols-outlined">
+                        arrow_forward
+                    </span>
+
+                </div>
+
+            </a>
+
+        </section>
+
+    </div>
+
+</div>
+
+{% include 'base/footer.html' %}

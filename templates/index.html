@@ -1,0 +1,518 @@
+{% include 'base/header.html' %}
+
+<link
+    href="https://fonts.googleapis.com/css2?family=Anybody:wght@400;700;800;900&family=JetBrains+Mono:wght@500;700&family=Sora:wght@400&display=swap"
+    rel="stylesheet"
+>
+
+<link
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0"
+    rel="stylesheet"
+>
+
+<link
+    rel="stylesheet"
+    href="{{ url_for('static', filename='styles/home.css') }}"
+>
+
+
+<div class="home-page">
+
+    <div class="home-background"></div>
+
+
+    <div class="home-main">
+
+        <!-- ========================================
+             NOTICIA PRINCIPAL + CLASIFICACIÓN
+        ========================================= -->
+
+        <section class="hero">
+
+            <!-- Noticia principal -->
+            <div class="hero-main">
+
+                <div
+                    class="hero-bg"
+                    style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuD4tfVWTWyCeO_HnfZP9m2IWnxZUq7yZgtXTglGthnrzVXg_0H2r3TZ6Rp3YC5m7yvl9pt1wOqB-ukU5fj0W9d42MegeKfpSZwOSwH2sSavZHMDUmhmdvsizpqR8LEM_8g5MKxaGq2Q2Two8bXCMlDcu-m0pH51lqumcxyVX0cR91l_Ha5J7PxRTF5m12x3KgfyvvgOa-IbPdd4F4ATJ4z19_qdH4IKVjQBz7vKu4AEb83ZgDkPr_fd');">
+                </div>
+
+                <div class="hero-overlay"></div>
+
+
+                <div class="hero-content">
+
+                    <div class="hero-meta">
+
+                        <span class="badge-live">
+                            <span class="badge-dot"></span>
+                            ÚLTIMA HORA
+                        </span>
+
+                        <span class="hero-round">
+                            GP DE MÓNACO
+                        </span>
+
+                    </div>
+
+
+                    <h1>
+                        Verstappen domina bajo la lluvia en Mónaco
+                    </h1>
+
+
+                    <p>
+                        Una exhibición de control y estrategia en una carrera
+                        marcada por condiciones cambiantes y múltiples incidentes.
+                    </p>
+
+
+                    <a
+                        class="hero-btn"
+                        href="{{ url_for('post') }}"
+                    >
+                        LEER NOTICIA
+
+                        <span class="material-symbols-outlined">
+                            arrow_forward
+                        </span>
+                    </a>
+
+                </div>
+
+            </div>
+
+
+            <!-- Clasificación -->
+            <aside class="ranking">
+
+                <div class="ranking-bar"></div>
+
+
+                <div class="ranking-head">
+
+                    <div class="ranking-title">
+
+                        <span class="ranking-mark"></span>
+
+                        <h2>
+                            Clasificación
+                        </h2>
+
+                    </div>
+
+                    <span class="ranking-tag">
+                        TOP 5
+                    </span>
+
+                </div>
+
+
+                <div class="ranking-body">
+
+
+                    <div class="rank-row">
+
+                        <div class="rank-info">
+
+                            <span class="rank-pos first">
+                                01
+                            </span>
+
+                            <div>
+
+                                <div class="rank-name">
+                                    M. VERSTAPPEN
+                                </div>
+
+                                <div class="rank-team">
+                                    Red Bull Racing
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        <span class="rank-pts">
+                            161
+                            <small>PTS</small>
+                        </span>
+
+                    </div>
+
+
+                    <div class="rank-row">
+
+                        <div class="rank-info">
+
+                            <span class="rank-pos">
+                                02
+                            </span>
+
+                            <div>
+
+                                <div class="rank-name">
+                                    C. LECLERC
+                                </div>
+
+                                <div class="rank-team">
+                                    Scuderia Ferrari
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        <span class="rank-pts">
+                            113
+                            <small>PTS</small>
+                        </span>
+
+                    </div>
+
+
+                    <div class="rank-row">
+
+                        <div class="rank-info">
+
+                            <span class="rank-pos">
+                                03
+                            </span>
+
+                            <div>
+
+                                <div class="rank-name">
+                                    S. PÉREZ
+                                </div>
+
+                                <div class="rank-team">
+                                    Red Bull Racing
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        <span class="rank-pts">
+                            107
+                            <small>PTS</small>
+                        </span>
+
+                    </div>
+
+
+                    <div class="rank-row">
+
+                        <div class="rank-info">
+
+                            <span class="rank-pos">
+                                04
+                            </span>
+
+                            <div>
+
+                                <div class="rank-name">
+                                    L. NORRIS
+                                </div>
+
+                                <div class="rank-team">
+                                    McLaren F1 Team
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        <span class="rank-pts">
+                            101
+                            <small>PTS</small>
+                        </span>
+
+                    </div>
+
+
+                    <div class="rank-row">
+
+                        <div class="rank-info">
+
+                            <span class="rank-pos">
+                                05
+                            </span>
+
+                            <div>
+
+                                <div class="rank-name">
+                                    C. SAINZ
+                                </div>
+
+                                <div class="rank-team">
+                                    Scuderia Ferrari
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        <span class="rank-pts">
+                            93
+                            <small>PTS</small>
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <div class="ranking-foot">
+
+                    <a href="{{ url_for('calendario') }}">
+
+                        <span>
+                            VER CALENDARIO
+                        </span>
+
+                        <span class="material-symbols-outlined">
+                            arrow_forward_ios
+                        </span>
+
+                    </a>
+
+                </div>
+
+            </aside>
+
+        </section>
+
+
+
+        <!-- ========================================
+             NOTICIAS
+        ========================================= -->
+
+        <section class="home-news">
+
+            <div class="section-head">
+
+                <div class="section-title">
+
+                    <div class="section-mark"></div>
+
+                    <h2>
+                        Paddock News
+                    </h2>
+
+                </div>
+
+
+                <a
+                    class="see-all"
+                    href="{{ url_for('noticias') }}"
+                >
+
+                    <span>
+                        VER TODO
+                    </span>
+
+                    <span class="material-symbols-outlined">
+                        arrow_forward
+                    </span>
+
+                </a>
+
+            </div>
+
+
+            <div class="news-grid">
+
+
+                <!-- Noticia Premium -->
+                <article class="news-card premium">
+
+                    <div class="premium-badge">
+
+                        <span class="material-symbols-outlined">
+                            lock
+                        </span>
+
+                        PREMIUM
+
+                    </div>
+
+
+                    <div class="news-img">
+
+                        <div
+                            class="news-img-bg"
+                            style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBWA73nOS0RkOcjxg25DBTY3w2qG9O1O-4AaROjQ1fER6AfhmabTth5Rqs9KbfQT0zlrdakfKKDrngcYYhYMX_GcGB122sa3jWsvHL70a1FtkJXTabYEAzIL0rPX_P-ewuYg3XyS34lJ_TEoeOTBzqLHi7hwkh1eliPjI_OMj8kLXNwupnynYcqU2g4mj9VxhlZPoWHM8ceX-tr1SlGabeGtrOmRBQqpbCpw5k2sSkjhK3hqP8LYEJC');">
+                        </div>
+
+                        <div class="news-img-fade"></div>
+
+                    </div>
+
+
+                    <div class="news-body">
+
+                        <span class="news-cat">
+                            // TÉCNICA
+                        </span>
+
+                        <h3>
+                            El secreto del fondo plano de McLaren
+                        </h3>
+
+                        <p>
+                            Un análisis detallado de las recientes
+                            actualizaciones aerodinámicas del equipo.
+                        </p>
+
+
+                        <div class="news-foot">
+
+                            <span class="news-author">
+                                F1 SIN FILTRO
+                            </span>
+
+                            <span class="news-time">
+                                PREMIUM
+                            </span>
+
+                        </div>
+
+
+                        <a
+                            href="{{ url_for('premium') }}"
+                            class="news-link"
+                        >
+                            VER PREMIUM
+                        </a>
+
+                    </div>
+
+                </article>
+
+
+
+                <!-- Noticia normal -->
+                <article class="news-card">
+
+                    <div class="news-img">
+
+                        <div
+                            class="news-img-bg"
+                            style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAZSIj0SqzaN2GxwSA6Q4K5te3jYqzqsc4ZpolNEGg-O-l8yRZfVReZ5b8-VbRK8jw3pKIxhpGCzsO93rimHQ8xoIIMy2B3p66-Pi8WsRTEzvo-OwhRMkWVK3C5mV85AE184XZ2Vy96EkKX8GXiBsOcvLjmZ2ENmKAbEkPFs9wMLJHeGvAh7oaWni7ySnrjjP126BK2ZDfoD2mJO1UWwN2DvZMKLJFrBW5au0ckI6qv6eWivuYqfkuA');">
+                        </div>
+
+                        <div class="news-img-fade"></div>
+
+                    </div>
+
+
+                    <div class="news-body">
+
+                        <span class="news-cat">
+                            // RUMORES
+                        </span>
+
+                        <h3>
+                            Tensiones en el mercado de pilotos
+                        </h3>
+
+                        <p>
+                            Con varios asientos todavía sin confirmar,
+                            las negociaciones en el paddock continúan.
+                        </p>
+
+
+                        <div class="news-foot">
+
+                            <span class="news-author">
+                                F1 SIN FILTRO
+                            </span>
+
+                            <span class="news-time">
+                                3 MIN
+                            </span>
+
+                        </div>
+
+
+                        <a
+                            href="{{ url_for('post') }}"
+                            class="news-link"
+                        >
+                            LEER NOTICIA
+                        </a>
+
+                    </div>
+
+                </article>
+
+
+
+                <!-- Noticia normal -->
+                <article class="news-card">
+
+                    <div class="news-img">
+
+                        <div
+                            class="news-img-bg"
+                            style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCsG93QF-3S8JbQ4j2YpDKDRLSVnvX-4YRGhSDT8rQ_45CbtFCobU__0twSidA9sWGzZxSZdxI7KB8aALQikXcF8Sr5asFZgWOUPy6jGRRbs9zWSyjhY33H1Z6BRykxsz88CQ_QhQ4Yo7YgruXm7cp7hASgJyBb6VSvAhsnXEJScGMztnM7wtFrcvOFywWjSoNOi_ckZ7dlTCjGJzVzVHjIckeCfPwT5uojaG7Yp0tTnixTUZ1N7mSB');">
+                        </div>
+
+                        <div class="news-img-fade"></div>
+
+                    </div>
+
+
+                    <div class="news-body">
+
+                        <span class="news-cat">
+                            // HISTORIA
+                        </span>
+
+                        <h3>
+                            Spa-Francorchamps asegura su futuro
+                        </h3>
+
+                        <p>
+                            El histórico circuito belga continuará
+                            formando parte del calendario de Fórmula 1.
+                        </p>
+
+
+                        <div class="news-foot">
+
+                            <span class="news-author">
+                                F1 SIN FILTRO
+                            </span>
+
+                            <span class="news-time">
+                                2 MIN
+                            </span>
+
+                        </div>
+
+
+                        <a
+                            href="{{ url_for('post') }}"
+                            class="news-link"
+                        >
+                            LEER NOTICIA
+                        </a>
+
+                    </div>
+
+                </article>
+
+
+            </div>
+
+        </section>
+
+    </div>
+
+</div>
+
+
+{% include 'base/footer.html' %}

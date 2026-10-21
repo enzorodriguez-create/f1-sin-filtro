@@ -1,0 +1,362 @@
+{% include 'base/header.html' %}
+
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename='styles/perfil/perfil_comentarios.css') }}"
+>
+
+<div class="comentarios-page">
+
+  <div class="comentarios-container">
+
+    <!-- ENCABEZADO -->
+    <div class="comentarios-head">
+
+      <div>
+
+        <span class="comentarios-label">
+          // MI ACTIVIDAD
+        </span>
+
+        <h1>Mis Comentarios</h1>
+
+        <p>
+          Revisá los comentarios que realizaste en las publicaciones
+          de F1 Sin Filtro.
+        </p>
+
+      </div>
+
+      <a
+        href="{{ url_for('perfil') }}"
+        class="comentarios-volver"
+      >
+        <span class="material-symbols-outlined">
+          arrow_back
+        </span>
+
+        VOLVER AL PERFIL
+      </a>
+
+    </div>
+
+
+    <!-- BUSCADOR -->
+    <div class="comentarios-tools">
+
+      <div class="comentarios-search">
+
+        <span class="material-symbols-outlined">
+          search
+        </span>
+
+        <input
+          type="text"
+          placeholder="BUSCAR COMENTARIOS..."
+        >
+
+      </div>
+
+    </div>
+
+
+    <!-- LISTA DE COMENTARIOS -->
+    <div class="comentarios-list">
+
+
+      <!-- COMENTARIO 1 -->
+      <article class="comentario-card">
+
+        <div class="comentario-top">
+
+          <div class="comentario-meta">
+
+            <span class="comentario-tag">
+              #Ferrari
+            </span>
+
+            <span class="comentario-date">
+              14 OCT 2026 • 14:32
+            </span>
+
+          </div>
+
+
+          <h2>
+            Ferrari prepara mejoras para la próxima carrera
+          </h2>
+
+
+          <p class="comentario-text">
+            Me parece interesante que Ferrari siga apostando por las
+            actualizaciones. Si consiguen mejorar el ritmo de carrera,
+            podrían acercarse mucho más a los equipos de adelante.
+          </p>
+
+        </div>
+
+
+        <div class="comentario-bottom">
+
+          <a
+            class="comentario-view"
+            href="{{ url_for('post') }}"
+          >
+            <span class="material-symbols-outlined">
+              open_in_new
+            </span>
+
+            VER PUBLICACIÓN
+          </a>
+
+
+          <div class="comentario-actions">
+
+            <button
+              type="button"
+              class="comentario-action comentario-edit"
+            >
+              <span class="material-symbols-outlined">
+                edit
+              </span>
+
+              EDITAR
+            </button>
+
+
+            <button
+              type="button"
+              class="comentario-action comentario-delete"
+            >
+              <span class="material-symbols-outlined">
+                delete
+              </span>
+
+              ELIMINAR
+            </button>
+
+          </div>
+
+        </div>
+
+      </article>
+
+
+      <!-- COMENTARIO 2 -->
+      <article class="comentario-card">
+
+        <div class="comentario-top">
+
+          <div class="comentario-meta">
+
+            <span class="comentario-tag">
+              #MercadoDePilotos
+            </span>
+
+            <span class="comentario-date">
+              12 OCT 2026 • 09:15
+            </span>
+
+          </div>
+
+
+          <h2>
+            El mercado de pilotos empieza a moverse
+          </h2>
+
+
+          <p class="comentario-text">
+            Hay varios pilotos que todavía no tienen asegurado su futuro.
+            Va a ser interesante ver qué equipos se mueven primero y
+            cómo afecta eso a la próxima temporada.
+          </p>
+
+        </div>
+
+
+        <div class="comentario-bottom">
+
+          <a
+            class="comentario-view"
+            href="{{ url_for('post') }}"
+          >
+            <span class="material-symbols-outlined">
+              open_in_new
+            </span>
+
+            VER PUBLICACIÓN
+          </a>
+
+
+          <div class="comentario-actions">
+
+            <button
+              type="button"
+              class="comentario-action comentario-edit"
+            >
+              <span class="material-symbols-outlined">
+                edit
+              </span>
+
+              EDITAR
+            </button>
+
+
+            <button
+              type="button"
+              class="comentario-action comentario-delete"
+            >
+              <span class="material-symbols-outlined">
+                delete
+              </span>
+
+              ELIMINAR
+            </button>
+
+          </div>
+
+        </div>
+
+      </article>
+
+
+      <!-- COMENTARIO 3 -->
+      <article class="comentario-card">
+
+        <div class="comentario-top">
+
+          <div class="comentario-meta">
+
+            <span class="comentario-tag">
+              #Formula1
+            </span>
+
+            <span class="comentario-date">
+              05 OCT 2026 • 18:45
+            </span>
+
+          </div>
+
+
+          <h2>
+            La lucha por el campeonato sigue abierta
+          </h2>
+
+
+          <p class="comentario-text">
+            Todavía quedan varias carreras y cualquier error puede cambiar
+            completamente el campeonato. La regularidad va a ser clave.
+          </p>
+
+        </div>
+
+
+        <div class="comentario-bottom">
+
+          <a
+            class="comentario-view"
+            href="{{ url_for('post') }}"
+          >
+            <span class="material-symbols-outlined">
+              open_in_new
+            </span>
+
+            VER PUBLICACIÓN
+          </a>
+
+
+          <div class="comentario-actions">
+
+            <button
+              type="button"
+              class="comentario-action comentario-edit"
+            >
+              <span class="material-symbols-outlined">
+                edit
+              </span>
+
+              EDITAR
+            </button>
+
+
+            <button
+              type="button"
+              class="comentario-action comentario-delete"
+            >
+              <span class="material-symbols-outlined">
+                delete
+              </span>
+
+              ELIMINAR
+            </button>
+
+          </div>
+
+        </div>
+
+      </article>
+
+    </div>
+
+
+    <!-- PAGINACIÓN -->
+    <div class="comentarios-pagination">
+
+      <button
+        type="button"
+        class="comentarios-page-btn"
+        disabled
+      >
+        <span class="material-symbols-outlined">
+          chevron_left
+        </span>
+      </button>
+
+      <button
+        type="button"
+        class="comentarios-page-btn current"
+      >
+        1
+      </button>
+
+      <button
+        type="button"
+        class="comentarios-page-btn"
+      >
+        2
+      </button>
+
+      <button
+        type="button"
+        class="comentarios-page-btn"
+      >
+        3
+      </button>
+
+      <span class="comentarios-dots">
+        ...
+      </span>
+
+      <button
+        type="button"
+        class="comentarios-page-btn"
+      >
+        12
+      </button>
+
+      <button
+        type="button"
+        class="comentarios-page-btn"
+      >
+        <span class="material-symbols-outlined">
+          chevron_right
+        </span>
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+
+{% include 'base/footer.html' %}

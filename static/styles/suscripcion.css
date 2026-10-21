@@ -1,0 +1,798 @@
+/* =========================================
+   SUSCRIPCION PREMIUM
+========================================= */
+
+.suscripcion-page {
+    --suscripcion-red: #E10600;
+    --suscripcion-red-dark: #b00500;
+
+    --suscripcion-bg: #000;
+
+    --suscripcion-panel: #151517;
+    --suscripcion-panel-soft: #1b1b1d;
+
+    --suscripcion-border: #353535;
+
+    --suscripcion-text: #e5e2e1;
+    --suscripcion-muted: #999;
+
+    position: relative;
+
+    min-height: 100vh;
+
+    overflow: hidden;
+
+    background: transparent;
+
+    color: var(--suscripcion-text);
+
+    font-family: "Sora", sans-serif;
+}
+
+
+/* =========================================
+   FONDO
+========================================= */
+
+.suscripcion-pattern {
+    position: absolute;
+
+    inset: 0;
+
+    pointer-events: none;
+
+    opacity: 0.08;
+
+    background-image: none;
+
+    background-size: 32px 32px;
+}
+
+
+/* =========================================
+   CONTENEDOR
+========================================= */
+
+.suscripcion-container {
+    position: relative;
+
+    z-index: 1;
+
+    width: 100%;
+
+    max-width: 1250px;
+
+    margin: 0 auto;
+
+    padding: 4rem 2rem 6rem;
+}
+
+
+/* =========================================
+   ENCABEZADO
+========================================= */
+
+.suscripcion-head {
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: flex-end;
+
+    gap: 2rem;
+
+    margin-bottom: 2rem;
+
+    padding-bottom: 1.5rem;
+
+    border-bottom:
+        1px solid
+        var(--suscripcion-border);
+}
+
+
+.suscripcion-label {
+    display: block;
+
+    margin-bottom: 0.5rem;
+
+    color: var(--suscripcion-red);
+
+    font-family: "JetBrains Mono", monospace;
+
+    font-size: 10px;
+
+    font-weight: 700;
+
+    letter-spacing: 0.12em;
+}
+
+
+.suscripcion-head h1 {
+    margin: 0 0 0.7rem;
+
+    color: #fff;
+
+    font-family: "Anybody", sans-serif;
+
+    font-size:
+        clamp(
+            2.5rem,
+            5vw,
+            4rem
+        );
+
+    font-weight: 900;
+
+    line-height: 1;
+
+    text-transform: uppercase;
+}
+
+
+.suscripcion-head p {
+    margin: 0;
+
+    color: var(--suscripcion-muted);
+
+    font-size: 14px;
+}
+
+
+.suscripcion-volver {
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 0.4rem;
+
+    color: #aaa;
+
+    font-family: "JetBrains Mono", monospace;
+
+    font-size: 10px;
+
+    font-weight: 700;
+
+    letter-spacing: 0.08em;
+
+    text-decoration: none;
+
+    transition: color 0.2s;
+}
+
+
+.suscripcion-volver:hover {
+    color: var(--suscripcion-red);
+}
+
+
+.suscripcion-volver
+.material-symbols-outlined {
+    font-size: 17px;
+}
+
+
+/* =========================================
+   LAYOUT
+========================================= */
+
+.suscripcion-layout {
+    display: grid;
+
+    grid-template-columns:
+        minmax(0, 1.5fr)
+        minmax(320px, 0.8fr);
+
+    gap: 1.5rem;
+
+    align-items: start;
+}
+
+
+/* =========================================
+   PLAN
+========================================= */
+
+.suscripcion-plan {
+    min-height: 520px;
+
+    padding: 2rem;
+
+    background:
+        var(--suscripcion-panel);
+
+    border:
+        1px solid
+        var(--suscripcion-border);
+
+    border-top:
+        3px solid
+        var(--suscripcion-red);
+}
+
+
+.suscripcion-plan-top {
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    gap: 1rem;
+
+    margin-bottom: 2rem;
+}
+
+
+.suscripcion-plan-badge {
+    padding:
+        0.4rem
+        0.7rem;
+
+    border:
+        1px solid
+        var(--suscripcion-red);
+
+    background:
+        rgba(225, 6, 0, 0.08);
+
+    color:
+        var(--suscripcion-red);
+
+    font-family:
+        "JetBrains Mono",
+        monospace;
+
+    font-size: 9px;
+
+    font-weight: 700;
+
+    letter-spacing:
+        0.08em;
+}
+
+
+.suscripcion-plan-icon {
+    color:
+        var(--suscripcion-red);
+
+    font-size: 34px;
+}
+
+
+.suscripcion-plan h2 {
+    max-width: 600px;
+
+    margin:
+        0
+        0
+        1rem;
+
+    color: #fff;
+
+    font-family:
+        "Anybody",
+        sans-serif;
+
+    font-size: 2.2rem;
+
+    font-weight: 900;
+
+    line-height: 1.1;
+
+    text-transform: uppercase;
+}
+
+
+.suscripcion-plan-description {
+    max-width: 620px;
+
+    margin:
+        0
+        0
+        2rem;
+
+    color: #aaa;
+
+    font-size: 14px;
+
+    line-height: 1.7;
+}
+
+
+/* =========================================
+   PRECIO
+========================================= */
+
+.suscripcion-price {
+    display: flex;
+
+    align-items: flex-end;
+
+    gap: 0.4rem;
+
+    margin-bottom: 2.5rem;
+
+    padding-bottom: 2rem;
+
+    border-bottom:
+        1px solid
+        var(--suscripcion-border);
+}
+
+
+.suscripcion-price-symbol {
+    margin-bottom: 0.55rem;
+
+    color:
+        var(--suscripcion-red);
+
+    font-family:
+        "Anybody",
+        sans-serif;
+
+    font-size: 1.6rem;
+
+    font-weight: 900;
+}
+
+
+.suscripcion-price-value {
+    color: #fff;
+
+    font-family:
+        "Anybody",
+        sans-serif;
+
+    font-size: 4rem;
+
+    font-weight: 900;
+
+    line-height: 0.9;
+
+    white-space: nowrap;
+}
+
+
+.suscripcion-price > div {
+    display: flex;
+
+    flex-direction: column;
+
+    margin-bottom: 0.35rem;
+}
+
+
+.suscripcion-price-currency {
+    color: #fff;
+
+    font-family:
+        "JetBrains Mono",
+        monospace;
+
+    font-size: 10px;
+
+    font-weight: 700;
+}
+
+
+.suscripcion-price-period {
+    color: #777;
+
+    font-size: 11px;
+}
+
+
+/* =========================================
+   BENEFICIOS
+========================================= */
+
+.suscripcion-benefits {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 1rem;
+}
+
+
+.suscripcion-benefits > div {
+    display: flex;
+
+    align-items: center;
+
+    gap: 0.7rem;
+
+    color: #ccc;
+
+    font-size: 13px;
+}
+
+
+.suscripcion-benefits
+.material-symbols-outlined {
+    color:
+        var(--suscripcion-red);
+
+    font-size: 19px;
+}
+
+
+/* =========================================
+   RESUMEN
+========================================= */
+
+.suscripcion-resumen {
+    padding: 1.75rem;
+
+    background: #111;
+
+    border:
+        1px solid
+        var(--suscripcion-border);
+
+    border-top:
+        3px solid
+        var(--suscripcion-red);
+}
+
+
+.suscripcion-resumen-label {
+    display: block;
+
+    margin-bottom: 0.5rem;
+
+    color:
+        var(--suscripcion-red);
+
+    font-family:
+        "JetBrains Mono",
+        monospace;
+
+    font-size: 9px;
+
+    font-weight: 700;
+
+    letter-spacing: 0.08em;
+}
+
+
+.suscripcion-resumen h3 {
+    margin:
+        0
+        0
+        1.5rem;
+
+    color: #fff;
+
+    font-family:
+        "Anybody",
+        sans-serif;
+
+    font-size: 1.5rem;
+
+    font-weight: 900;
+
+    text-transform: uppercase;
+}
+
+
+/* =========================================
+   FILAS RESUMEN
+========================================= */
+
+.suscripcion-resumen-row {
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: flex-start;
+
+    gap: 1rem;
+}
+
+
+.suscripcion-resumen-row > div {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 0.2rem;
+}
+
+
+.suscripcion-resumen-title {
+    color: #ddd;
+
+    font-size: 13px;
+
+    font-weight: 600;
+}
+
+
+.suscripcion-resumen-sub {
+    color: #777;
+
+    font-size: 10px;
+}
+
+
+.suscripcion-resumen-row > span {
+    color: #fff;
+
+    font-family:
+        "JetBrains Mono",
+        monospace;
+
+    font-size: 11px;
+
+    font-weight: 700;
+}
+
+
+.suscripcion-divider {
+    height: 1px;
+
+    margin:
+        1.5rem
+        0;
+
+    background:
+        var(--suscripcion-border);
+}
+
+
+/* =========================================
+   TOTAL
+========================================= */
+
+.suscripcion-total {
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: flex-end;
+
+    gap: 1rem;
+
+    margin-bottom: 1.5rem;
+}
+
+
+.suscripcion-total > span {
+    color: #888;
+
+    font-family:
+        "JetBrains Mono",
+        monospace;
+
+    font-size: 9px;
+
+    font-weight: 700;
+
+    letter-spacing: 0.08em;
+}
+
+
+.suscripcion-total > div {
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: flex-end;
+}
+
+
+.suscripcion-total strong {
+    color: #fff;
+
+    font-family:
+        "Anybody",
+        sans-serif;
+
+    font-size: 1.9rem;
+
+    line-height: 1;
+
+    white-space: nowrap;
+}
+
+
+.suscripcion-total small {
+    margin-top: 0.25rem;
+
+    color: #777;
+
+    font-size: 9px;
+}
+
+
+/* =========================================
+   BOTON PAGAR
+========================================= */
+
+.suscripcion-pay-btn {
+    width: 100%;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 0.6rem;
+
+    padding:
+        0.95rem
+        1rem;
+
+    border: none;
+
+    background:
+        var(--suscripcion-red);
+
+    color: #fff;
+
+    font-family:
+        "JetBrains Mono",
+        monospace;
+
+    font-size: 10px;
+
+    font-weight: 700;
+
+    letter-spacing: 0.05em;
+
+    transition:
+        background 0.2s,
+        transform 0.2s;
+}
+
+
+.suscripcion-pay-btn:hover {
+    background:
+        var(--suscripcion-red-dark);
+
+    transform:
+        translateY(-1px);
+}
+
+
+.suscripcion-pay-btn
+.material-symbols-outlined {
+    font-size: 18px;
+}
+
+
+/* =========================================
+   SEGURIDAD
+========================================= */
+
+.suscripcion-secure {
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    gap: 0.4rem;
+
+    margin-top: 1rem;
+
+    color: #777;
+
+    font-family:
+        "JetBrains Mono",
+        monospace;
+
+    font-size: 8px;
+
+    font-weight: 700;
+}
+
+
+.suscripcion-secure
+.material-symbols-outlined {
+    font-size: 14px;
+}
+
+
+.suscripcion-note {
+    margin:
+        1rem
+        0
+        0;
+
+    padding-top: 1rem;
+
+    border-top:
+        1px solid
+        var(--suscripcion-border);
+
+    color: #666;
+
+    font-size: 10px;
+
+    line-height: 1.6;
+
+    text-align: center;
+}
+
+
+/* =========================================
+   TABLET
+========================================= */
+
+@media (max-width: 991px) {
+
+    .suscripcion-layout {
+        grid-template-columns:
+            1fr;
+    }
+
+
+    .suscripcion-plan {
+        min-height:
+            auto;
+    }
+
+}
+
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 576px) {
+
+    .suscripcion-container {
+        padding:
+            2rem
+            0.75rem
+            4rem;
+    }
+
+
+    .suscripcion-head {
+        flex-direction:
+            column;
+
+        align-items:
+            flex-start;
+    }
+
+
+    .suscripcion-head h1 {
+        font-size:
+            2.4rem;
+    }
+
+
+    .suscripcion-plan,
+    .suscripcion-resumen {
+        padding:
+            1.4rem;
+    }
+
+
+    .suscripcion-price-value {
+        font-size:
+            3.2rem;
+    }
+
+}
+
+
+/* =========================================
+   PANTALLAS GRANDES
+========================================= */
+
+@media (min-width: 1600px) {
+
+    .suscripcion-container {
+        max-width:
+            1450px;
+    }
+
+}

@@ -1,0 +1,455 @@
+/* =========================================
+   CATEGORIAS
+========================================= */
+
+.categorias-page {
+    --categorias-red: #E10600;
+
+    --categorias-bg: #000;
+
+    --categorias-card: #151517;
+
+    --categorias-card-hover: #1d1d1f;
+
+    --categorias-border: #353535;
+
+    --categorias-text: #e5e2e1;
+
+    --categorias-muted: #999;
+
+    position: relative;
+
+    min-height: 100vh;
+
+    overflow: hidden;
+
+    background: transparent;
+
+    color: var(--categorias-text);
+
+    font-family: "Sora", sans-serif;
+}
+
+
+/* =========================================
+   FONDO
+========================================= */
+
+.categorias-pattern {
+    position: absolute;
+
+    inset: 0;
+
+    pointer-events: none;
+
+    opacity: 0.1;
+
+    background-image: none;
+
+    background-size: 32px 32px;
+}
+
+
+/* =========================================
+   CONTENEDOR
+========================================= */
+
+.categorias-container {
+    position: relative;
+
+    z-index: 1;
+
+    width: 100%;
+
+    max-width: 1400px;
+
+    margin: 0 auto;
+
+    padding:
+        4rem
+        2rem
+        6rem;
+}
+
+
+/* =========================================
+   HEADER
+========================================= */
+
+.categorias-head {
+    max-width: 750px;
+
+    margin-bottom: 3rem;
+}
+
+
+.categorias-label {
+    display: block;
+
+    margin-bottom: 0.5rem;
+
+    color: var(--categorias-red);
+
+    font-family: "JetBrains Mono", monospace;
+
+    font-size: 10px;
+
+    font-weight: 700;
+
+    letter-spacing: 0.12em;
+}
+
+
+.categorias-head h1 {
+    margin:
+        0
+        0
+        1rem;
+
+    color: #fff;
+
+    font-family: "Anybody", sans-serif;
+
+    font-size: clamp(
+        3rem,
+        5vw,
+        4.5rem
+    );
+
+    font-weight: 900;
+
+    line-height: 1;
+
+    letter-spacing: -0.035em;
+
+    text-transform: uppercase;
+}
+
+
+.categorias-head p {
+    margin: 0;
+
+    color: var(--categorias-muted);
+
+    font-size: 1rem;
+
+    line-height: 1.7;
+}
+
+
+/* =========================================
+   GRID
+========================================= */
+
+.categorias-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, 1fr);
+
+    gap: 1rem;
+}
+
+
+/* =========================================
+   CARD
+========================================= */
+
+.categoria-card {
+    position: relative;
+
+    min-height: 320px;
+
+    padding: 2rem;
+
+    display: flex;
+
+    flex-direction: column;
+
+    overflow: hidden;
+
+    background:
+        var(--categorias-card);
+
+    border:
+        1px solid
+        var(--categorias-border);
+
+    border-top:
+        3px solid
+        var(--categorias-red);
+
+    color:
+        var(--categorias-text);
+
+    text-decoration: none;
+
+    transition:
+        transform 0.25s,
+        background 0.25s,
+        border-color 0.25s;
+}
+
+
+.categoria-card:hover {
+    transform:
+        translateY(-5px);
+
+    background:
+        var(--categorias-card-hover);
+
+    border-color:
+        #494949;
+
+    color:
+        var(--categorias-text);
+}
+
+
+/* =========================================
+   NUMERO
+========================================= */
+
+.categoria-number {
+    position: absolute;
+
+    right: 1.5rem;
+
+    top: 1rem;
+
+    color: rgba(255, 255, 255, 0.05);
+
+    font-family: "Anybody", sans-serif;
+
+    font-size: 6rem;
+
+    font-weight: 900;
+
+    line-height: 1;
+}
+
+
+/* =========================================
+   ICONO
+========================================= */
+
+.categoria-icon {
+    width: 50px;
+
+    height: 50px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    margin-bottom: 2rem;
+
+    border:
+        1px solid
+        var(--categorias-red);
+
+    background:
+        rgba(225, 6, 0, 0.08);
+
+    color:
+        var(--categorias-red);
+}
+
+
+.categoria-icon
+.material-symbols-outlined {
+    font-size: 26px;
+}
+
+
+/* =========================================
+   TEXTO
+========================================= */
+
+.categoria-content {
+    position: relative;
+
+    z-index: 1;
+}
+
+
+.categoria-code {
+    display: block;
+
+    margin-bottom: 0.5rem;
+
+    color: #777;
+
+    font-family: "JetBrains Mono", monospace;
+
+    font-size: 9px;
+
+    font-weight: 700;
+
+    letter-spacing: 0.08em;
+}
+
+
+.categoria-card h2 {
+    margin:
+        0
+        0
+        0.8rem;
+
+    color: #fff;
+
+    font-family: "Anybody", sans-serif;
+
+    font-size: 2rem;
+
+    font-weight: 900;
+
+    text-transform: uppercase;
+}
+
+
+.categoria-card p {
+    max-width: 450px;
+
+    margin: 0;
+
+    color: #aaa;
+
+    font-size: 13px;
+
+    line-height: 1.7;
+}
+
+
+/* =========================================
+   FOOTER
+========================================= */
+
+.categoria-footer {
+    position: relative;
+
+    z-index: 1;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    margin-top: auto;
+
+    padding-top: 1.5rem;
+
+    border-top:
+        1px solid
+        var(--categorias-border);
+
+    color: #aaa;
+
+    font-family: "JetBrains Mono", monospace;
+
+    font-size: 9px;
+
+    font-weight: 700;
+
+    letter-spacing: 0.07em;
+
+    transition: color 0.2s;
+}
+
+
+.categoria-card:hover
+.categoria-footer {
+    color:
+        var(--categorias-red);
+}
+
+
+.categoria-footer
+.material-symbols-outlined {
+    font-size: 18px;
+
+    transition:
+        transform 0.2s;
+}
+
+
+.categoria-card:hover
+.categoria-footer
+.material-symbols-outlined {
+    transform:
+        translateX(5px);
+}
+
+
+/* =========================================
+   TABLET
+========================================= */
+
+@media (max-width: 768px) {
+
+    .categorias-grid {
+        grid-template-columns:
+            1fr;
+    }
+
+}
+
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 576px) {
+
+    .categorias-container {
+        padding:
+            2rem
+            0.75rem
+            4rem;
+    }
+
+
+    .categorias-head h1 {
+        font-size:
+            2.5rem;
+    }
+
+
+    .categoria-card {
+        min-height:
+            290px;
+
+        padding:
+            1.5rem;
+    }
+
+
+    .categoria-number {
+        font-size:
+            4.5rem;
+    }
+
+}
+
+
+/* =========================================
+   PANTALLAS GRANDES
+========================================= */
+
+@media (min-width: 1600px) {
+
+    .categorias-container {
+        max-width:
+            1650px;
+    }
+
+
+    .categoria-card {
+        min-height:
+            350px;
+    }
+
+}

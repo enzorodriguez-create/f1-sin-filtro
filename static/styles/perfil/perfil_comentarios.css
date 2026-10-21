@@ -1,0 +1,847 @@
+/* =========================================
+   MIS COMENTARIOS
+========================================= */
+
+.comentarios-page {
+    --comentarios-red: #E10600;
+    --comentarios-red-dark: #b00500;
+
+    --comentarios-bg: #0a0a0b;
+    --comentarios-card: #1A1A1A;
+    --comentarios-card-hover: #222222;
+
+    --comentarios-border: #2A2A2A;
+
+    --comentarios-text: #e2e2e2;
+    --comentarios-muted: #aaa;
+
+    width: 100%;
+
+    min-height: 100vh;
+
+    background: transparent;
+
+    color:
+        var(--comentarios-text);
+
+    font-family:
+        "Sora",
+        sans-serif;
+}
+
+
+/* =========================================
+   CONTENEDOR
+========================================= */
+
+.comentarios-container {
+    width: 100%;
+
+    max-width: 1250px;
+
+    margin:
+        0 auto;
+
+    padding:
+        3rem
+        2rem
+        5rem;
+}
+
+
+/* =========================================
+   CABECERA
+========================================= */
+
+.comentarios-head {
+    display: flex;
+
+    align-items: flex-end;
+
+    justify-content: space-between;
+
+    gap: 2rem;
+
+    margin-bottom:
+        2rem;
+
+    padding-bottom:
+        1.5rem;
+
+    border-bottom:
+        1px solid
+        var(--comentarios-border);
+}
+
+
+.comentarios-label {
+    display: block;
+
+    margin-bottom:
+        0.4rem;
+
+    color:
+        var(--comentarios-red);
+
+    font-family:
+        "JetBrains Mono",
+        monospace;
+
+    font-size:
+        10px;
+
+    font-weight:
+        700;
+
+    letter-spacing:
+        0.12em;
+}
+
+
+.comentarios-head h1 {
+    margin:
+        0
+        0
+        0.5rem;
+
+    color:
+        #fff;
+
+    font-family:
+        "Anybody",
+        sans-serif;
+
+    font-size:
+        2.6rem;
+
+    font-weight:
+        900;
+
+    line-height:
+        1;
+
+    text-transform:
+        uppercase;
+}
+
+
+.comentarios-head p {
+    max-width:
+        650px;
+
+    margin:
+        0;
+
+    color:
+        var(--comentarios-muted);
+
+    font-size:
+        14px;
+}
+
+
+.comentarios-volver {
+    display:
+        inline-flex;
+
+    align-items:
+        center;
+
+    gap:
+        0.4rem;
+
+    color:
+        #aaa;
+
+    font-family:
+        "JetBrains Mono",
+        monospace;
+
+    font-size:
+        10px;
+
+    font-weight:
+        700;
+
+    letter-spacing:
+        0.08em;
+
+    text-decoration:
+        none;
+
+    transition:
+        color 0.2s;
+}
+
+
+.comentarios-volver:hover {
+    color:
+        var(--comentarios-red);
+}
+
+
+.comentarios-volver
+.material-symbols-outlined {
+    font-size:
+        17px;
+}
+
+
+/* =========================================
+   HERRAMIENTAS
+========================================= */
+
+.comentarios-tools {
+    display:
+        flex;
+
+    justify-content:
+        flex-end;
+
+    margin-bottom:
+        1.5rem;
+}
+
+
+.comentarios-search {
+    position:
+        relative;
+
+    width:
+        300px;
+}
+
+
+.comentarios-search input {
+    width:
+        100%;
+
+    min-height:
+        42px;
+
+    padding:
+        0.7rem
+        1rem
+        0.7rem
+        2.6rem;
+
+    background:
+        #0d0d0e;
+
+    border:
+        1px solid
+        var(--comentarios-border);
+
+    outline:
+        none;
+
+    color:
+        #fff;
+
+    font-family:
+        "JetBrains Mono",
+        monospace;
+
+    font-size:
+        10px;
+
+    font-weight:
+        700;
+
+    letter-spacing:
+        0.06em;
+
+    transition:
+        border-color 0.2s;
+}
+
+
+.comentarios-search input::placeholder {
+    color:
+        #777;
+}
+
+
+.comentarios-search input:focus {
+    border-color:
+        var(--comentarios-red);
+}
+
+
+.comentarios-search
+.material-symbols-outlined {
+    position:
+        absolute;
+
+    top:
+        50%;
+
+    left:
+        12px;
+
+    transform:
+        translateY(-50%);
+
+    color:
+        #777;
+
+    font-size:
+        18px;
+
+    pointer-events:
+        none;
+}
+
+
+/* =========================================
+   LISTA
+========================================= */
+
+.comentarios-list {
+    display:
+        flex;
+
+    flex-direction:
+        column;
+
+    gap:
+        1.5rem;
+}
+
+
+/* =========================================
+   TARJETA
+========================================= */
+
+.comentario-card {
+    position:
+        relative;
+
+    padding:
+        1.5rem;
+
+    background:
+        var(--comentarios-card);
+
+    border:
+        1px solid
+        #252525;
+
+    border-top:
+        3px solid
+        var(--comentarios-red);
+
+    transition:
+        background 0.2s,
+        border-color 0.2s,
+        transform 0.2s;
+}
+
+
+.comentario-card:hover {
+    background:
+        var(--comentarios-card-hover);
+
+    border-color:
+        #3a3a3a;
+
+    transform:
+        translateY(-2px);
+}
+
+
+/* =========================================
+   META
+========================================= */
+
+.comentario-meta {
+    display:
+        flex;
+
+    flex-wrap:
+        wrap;
+
+    align-items:
+        center;
+
+    gap:
+        0.6rem;
+
+    margin-bottom:
+        0.8rem;
+}
+
+
+.comentario-tag {
+    display:
+        inline-block;
+
+    padding:
+        0.3rem
+        0.55rem;
+
+    background:
+        #000;
+
+    border:
+        1px solid
+        var(--comentarios-red);
+
+    color:
+        var(--comentarios-red);
+
+    font-family:
+        "JetBrains Mono",
+        monospace;
+
+    font-size:
+        9px;
+
+    font-weight:
+        700;
+
+    letter-spacing:
+        0.06em;
+}
+
+
+.comentario-date {
+    color:
+        #888;
+
+    font-family:
+        "JetBrains Mono",
+        monospace;
+
+    font-size:
+        9px;
+
+    font-weight:
+        700;
+
+    letter-spacing:
+        0.05em;
+}
+
+
+/* =========================================
+   TEXTO
+========================================= */
+
+.comentario-card h2 {
+    margin:
+        0
+        0
+        0.7rem;
+
+    color:
+        #fff;
+
+    font-family:
+        "Anybody",
+        sans-serif;
+
+    font-size:
+        1.35rem;
+
+    font-weight:
+        800;
+
+    text-transform:
+        uppercase;
+}
+
+
+.comentario-text {
+    margin:
+        0;
+
+    color:
+        #bbb;
+
+    font-size:
+        14px;
+
+    line-height:
+        1.7;
+}
+
+
+/* =========================================
+   PIE DE TARJETA
+========================================= */
+
+.comentario-bottom {
+    display:
+        flex;
+
+    justify-content:
+        space-between;
+
+    align-items:
+        center;
+
+    gap:
+        1rem;
+
+    margin-top:
+        1.5rem;
+
+    padding-top:
+        1rem;
+
+    border-top:
+        1px solid
+        var(--comentarios-border);
+}
+
+
+/* =========================================
+   VER PUBLICACIÓN
+========================================= */
+
+.comentario-view {
+    display:
+        inline-flex;
+
+    align-items:
+        center;
+
+    gap:
+        0.4rem;
+
+    color:
+        #ddd;
+
+    font-family:
+        "JetBrains Mono",
+        monospace;
+
+    font-size:
+        10px;
+
+    font-weight:
+        700;
+
+    letter-spacing:
+        0.06em;
+
+    text-decoration:
+        none;
+
+    transition:
+        color 0.2s;
+}
+
+
+.comentario-view:hover {
+    color:
+        var(--comentarios-red);
+}
+
+
+.comentario-view
+.material-symbols-outlined {
+    font-size:
+        16px;
+}
+
+
+/* =========================================
+   ACCIONES
+========================================= */
+
+.comentario-actions {
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    gap:
+        1rem;
+}
+
+
+.comentario-action {
+    display:
+        inline-flex;
+
+    align-items:
+        center;
+
+    gap:
+        0.3rem;
+
+    padding:
+        0;
+
+    border:
+        none;
+
+    background:
+        transparent;
+
+    color:
+        #999;
+
+    font-family:
+        "JetBrains Mono",
+        monospace;
+
+    font-size:
+        9px;
+
+    font-weight:
+        700;
+
+    letter-spacing:
+        0.06em;
+
+    transition:
+        color 0.2s;
+}
+
+
+.comentario-action
+.material-symbols-outlined {
+    font-size:
+        16px;
+}
+
+
+.comentario-edit:hover {
+    color:
+        #fff;
+}
+
+
+.comentario-delete:hover {
+    color:
+        var(--comentarios-red);
+}
+
+
+/* =========================================
+   PAGINACIÓN
+========================================= */
+
+.comentarios-pagination {
+    display:
+        flex;
+
+    justify-content:
+        center;
+
+    align-items:
+        center;
+
+    gap:
+        0.5rem;
+
+    margin-top:
+        3rem;
+}
+
+
+.comentarios-page-btn {
+    width:
+        40px;
+
+    height:
+        40px;
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        center;
+
+    border:
+        1px solid
+        var(--comentarios-border);
+
+    background:
+        #111;
+
+    color:
+        #ddd;
+
+    font-family:
+        "JetBrains Mono",
+        monospace;
+
+    font-size:
+        10px;
+
+    font-weight:
+        700;
+
+    transition:
+        all 0.2s;
+}
+
+
+.comentarios-page-btn:hover {
+    border-color:
+        var(--comentarios-red);
+
+    color:
+        var(--comentarios-red);
+}
+
+
+.comentarios-page-btn.current {
+    background:
+        var(--comentarios-red);
+
+    border-color:
+        var(--comentarios-red);
+
+    color:
+        #fff;
+}
+
+
+.comentarios-page-btn:disabled {
+    opacity:
+        0.35;
+
+    cursor:
+        default;
+}
+
+
+.comentarios-page-btn:disabled:hover {
+    border-color:
+        var(--comentarios-border);
+
+    color:
+        #ddd;
+}
+
+
+.comentarios-page-btn
+.material-symbols-outlined {
+    font-size:
+        18px;
+}
+
+
+.comentarios-dots {
+    color:
+        #777;
+
+    font-family:
+        "JetBrains Mono",
+        monospace;
+
+    font-size:
+        11px;
+}
+
+
+/* =========================================
+   TABLET
+========================================= */
+
+@media (max-width: 768px) {
+
+    .comentarios-container {
+        padding:
+            2rem
+            1.25rem
+            4rem;
+    }
+
+
+    .comentarios-head {
+        flex-direction:
+            column;
+
+        align-items:
+            flex-start;
+    }
+
+
+    .comentarios-tools {
+        justify-content:
+            stretch;
+    }
+
+
+    .comentarios-search {
+        width:
+            100%;
+    }
+
+}
+
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 576px) {
+
+    .comentarios-container {
+        padding:
+            1.5rem
+            0.75rem
+            3rem;
+    }
+
+
+    .comentarios-head h1 {
+        font-size:
+            2rem;
+    }
+
+
+    .comentario-card {
+        padding:
+            1.25rem;
+    }
+
+
+    .comentario-bottom {
+        flex-direction:
+            column;
+
+        align-items:
+            flex-start;
+    }
+
+
+    .comentario-actions {
+        width:
+            100%;
+
+        justify-content:
+            space-between;
+    }
+
+
+    .comentarios-pagination {
+        flex-wrap:
+            wrap;
+    }
+
+}
+
+
+/* =========================================
+   PANTALLAS GRANDES
+========================================= */
+
+@media (min-width: 1600px) {
+
+    .comentarios-container {
+        max-width:
+            1450px;
+    }
+
+}

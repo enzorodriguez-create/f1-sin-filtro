@@ -1,0 +1,418 @@
+{% include 'base/header.html' %}
+
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename='styles/perfil/perfil_guardados.css') }}"
+>
+
+<div class="guardados-page">
+
+  <div class="guardados-container">
+
+    <!-- ENCABEZADO -->
+    <div class="guardados-head">
+
+      <div>
+
+        <span class="guardados-label">
+          // MI ACTIVIDAD
+        </span>
+
+        <h1>Publicaciones Guardadas</h1>
+
+        <p>
+          Accedé rápidamente a las noticias y publicaciones
+          de Fórmula 1 que guardaste.
+        </p>
+
+      </div>
+
+
+      <a
+        href="{{ url_for('perfil') }}"
+        class="guardados-volver"
+      >
+        <span class="material-symbols-outlined">
+          arrow_back
+        </span>
+
+        VOLVER AL PERFIL
+      </a>
+
+    </div>
+
+
+    <!-- FILTROS -->
+    <div class="guardados-toolbar">
+
+      <div class="guardados-chips">
+
+        <button
+          type="button"
+          class="guardados-chip active"
+        >
+          TODAS (12)
+        </button>
+
+        <button
+          type="button"
+          class="guardados-chip"
+        >
+          FERRARI
+        </button>
+
+        <button
+          type="button"
+          class="guardados-chip"
+        >
+          CARRERAS
+        </button>
+
+        <button
+          type="button"
+          class="guardados-chip"
+        >
+          MERCADO
+        </button>
+
+      </div>
+
+
+      <div class="guardados-search">
+
+        <input
+          type="text"
+          placeholder="BUSCAR GUARDADAS..."
+        >
+
+        <span class="material-symbols-outlined">
+          search
+        </span>
+
+      </div>
+
+    </div>
+
+
+    <!-- GRILLA -->
+    <div class="guardados-grid">
+
+
+      <!-- DESTACADA -->
+      <article class="guardado-card guardado-destacado">
+
+        <div class="guardado-destacado-img">
+
+          <img
+            src="https://images.unsplash.com/photo-1503736334956-4c8f8e92946d?auto=format&fit=crop&w=1200&q=80"
+            alt="Ferrari prepara mejoras para la próxima carrera"
+          >
+
+          <div class="guardado-img-grid"></div>
+
+        </div>
+
+
+        <div class="guardado-destacado-body">
+
+          <div>
+
+            <div class="guardado-row-between">
+
+              <span class="guardado-category">
+                FERRARI
+              </span>
+
+              <span class="guardado-date">
+                14 OCT 2026
+              </span>
+
+            </div>
+
+
+            <h2>
+              Ferrari prepara mejoras para la próxima carrera
+            </h2>
+
+
+            <p>
+              La escudería italiana trabaja en nuevas actualizaciones
+              para mejorar el rendimiento del monoplaza y acercarse
+              a los equipos de adelante.
+            </p>
+
+          </div>
+
+
+          <div class="guardado-card-footer">
+
+            <a
+              class="guardado-btn-primary"
+              href="{{ url_for('post') }}"
+            >
+              VER PUBLICACIÓN
+
+              <span class="material-symbols-outlined">
+                arrow_forward
+              </span>
+            </a>
+
+
+            <button
+              type="button"
+              class="guardado-delete"
+              title="Quitar de guardados"
+            >
+              <span class="material-symbols-outlined">
+                bookmark_remove
+              </span>
+            </button>
+
+          </div>
+
+        </div>
+
+      </article>
+
+
+      <!-- CARD 2 -->
+      <article class="guardado-card">
+
+        <div class="guardado-card-img">
+
+          <img
+            src="https://images.unsplash.com/photo-1553440569-bcc63803a83d?auto=format&fit=crop&w=900&q=80"
+            alt="Estrategia de carrera"
+          >
+
+          <span class="guardado-img-tag">
+            ESTRATEGIA
+          </span>
+
+        </div>
+
+
+        <div class="guardado-card-body">
+
+          <div class="guardado-row-between">
+
+            <span class="guardado-reference">
+              POST #002
+            </span>
+
+            <span class="guardado-date">
+              12 OCT
+            </span>
+
+          </div>
+
+
+          <h3>
+            La estrategia vuelve a ser clave en la lucha por el campeonato
+          </h3>
+
+
+          <p>
+            Los equipos analizan cada parada y cada compuesto para encontrar
+            la mejor oportunidad durante la carrera.
+          </p>
+
+
+          <div class="guardado-card-footer">
+
+            <a
+              href="{{ url_for('post') }}"
+              class="guardado-btn-outline"
+            >
+              VER NOTICIA
+            </a>
+
+            <button
+              type="button"
+              class="guardado-delete"
+            >
+              <span class="material-symbols-outlined">
+                bookmark_remove
+              </span>
+            </button>
+
+          </div>
+
+        </div>
+
+      </article>
+
+
+      <!-- CARD 3 -->
+      <article class="guardado-card">
+
+        <div class="guardado-card-img">
+
+          <img
+            src="https://images.unsplash.com/photo-1515569067071-ec3b51335dd0?auto=format&fit=crop&w=900&q=80"
+            alt="Mercado de pilotos"
+          >
+
+          <span class="guardado-img-tag">
+            MERCADO
+          </span>
+
+        </div>
+
+
+        <div class="guardado-card-body">
+
+          <div class="guardado-row-between">
+
+            <span class="guardado-reference">
+              POST #003
+            </span>
+
+            <span class="guardado-date">
+              08 OCT
+            </span>
+
+          </div>
+
+
+          <h3>
+            El mercado de pilotos empieza a definir la próxima temporada
+          </h3>
+
+
+          <p>
+            Varias escuderías ya analizan sus alineaciones y los posibles
+            cambios para el próximo campeonato.
+          </p>
+
+
+          <div class="guardado-card-footer">
+
+            <a
+              href="{{ url_for('post') }}"
+              class="guardado-btn-outline"
+            >
+              VER NOTICIA
+            </a>
+
+            <button
+              type="button"
+              class="guardado-delete"
+            >
+              <span class="material-symbols-outlined">
+                bookmark_remove
+              </span>
+            </button>
+
+          </div>
+
+        </div>
+
+      </article>
+
+
+      <!-- CARD 4 -->
+      <article class="guardado-card guardado-card-text">
+
+        <span class="guardado-category">
+          REGLAMENTO
+        </span>
+
+        <h3>
+          La Fórmula 1 prepara nuevos cambios para las próximas temporadas
+        </h3>
+
+        <p>
+          Los equipos continúan analizando cómo las nuevas reglas pueden
+          modificar el rendimiento y el desarrollo de los monoplazas.
+        </p>
+
+
+        <div class="guardado-card-footer guardado-push-bottom">
+
+          <a
+            href="{{ url_for('post') }}"
+            class="guardado-btn-text"
+          >
+            VER PUBLICACIÓN
+          </a>
+
+          <button
+            type="button"
+            class="guardado-delete"
+          >
+            <span class="material-symbols-outlined">
+              bookmark_remove
+            </span>
+          </button>
+
+        </div>
+
+      </article>
+
+
+      <!-- CARD 5 -->
+      <article class="guardado-card guardado-card-text">
+
+        <span class="guardado-category">
+          NEUMÁTICOS
+        </span>
+
+        <h3>
+          La gestión de neumáticos vuelve a marcar diferencias
+        </h3>
+
+        <p>
+          La degradación y la temperatura de los compuestos continúan siendo
+          factores fundamentales para definir las estrategias.
+        </p>
+
+
+        <div class="guardado-card-footer guardado-push-bottom">
+
+          <a
+            href="{{ url_for('post') }}"
+            class="guardado-btn-text"
+          >
+            VER PUBLICACIÓN
+          </a>
+
+          <button
+            type="button"
+            class="guardado-delete"
+          >
+            <span class="material-symbols-outlined">
+              bookmark_remove
+            </span>
+          </button>
+
+        </div>
+
+      </article>
+
+    </div>
+
+
+    <!-- CARGAR MÁS -->
+    <div class="guardados-more">
+
+      <button
+        type="button"
+        class="guardados-more-btn"
+      >
+        <span>
+          CARGAR MÁS
+        </span>
+
+        <span class="material-symbols-outlined">
+          keyboard_arrow_down
+        </span>
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+
+{% include 'base/footer.html' %}
