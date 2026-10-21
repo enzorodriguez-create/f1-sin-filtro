@@ -4,10 +4,13 @@ import requests
 from flask import Flask, render_template, redirect, url_for, session
 from dotenv import load_dotenv
 from authlib.integrations.flask_client import OAuth
+from werkzeug.middleware.proxy_fix import ProxyFix
 
 load_dotenv()
 
 app = Flask(__name__)
+
+app.wsgi_app = ProxyFix(app.wsgi_app, x_proto=1, x_host=1)
 
 app.config["SECRET_KEY"] = os.environ.get("SECRET_KEY", "bd1xd")
 
