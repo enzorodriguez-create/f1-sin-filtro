@@ -3,298 +3,192 @@
 <link
   rel="stylesheet"
   href="{{ url_for('static', filename='styles/perfil/perfil_dashboard.css') }}"
->
+/>
 
 <div class="perfil-page">
-
   <div class="perfil-container">
-
     <!-- CABECERA DEL PERFIL -->
     <section class="perfil-head">
-
       <div class="perfil-grid-bg"></div>
 
       <div class="perfil-left">
-
         <div class="avatar-wrap">
+          {% if usuario and usuario.foto %}
           <img
             class="perfil-avatar"
-            alt="Juan Pérez"
-            src="https://lh3.googleusercontent.com/aida-public/AB6AXuDs1GPzzaZzrQAnqoZZ1YtZZT8syqOZHTKLp1FqnAjCDikVV5fJuHu3ki24iCML8RX62NWAYpa5jGcweD1ufla9Yld6IN5Xk5FUfpFy0gVNYSSbAkktYgjBLYfEWIKcc1prWqTSDlDHfQozKWmo9YzximlvYy7USpCE8HYYC2JsJJQSBvWjxomwb1TCwZlMGEazsaZcsMOqew10McFUCJGThUA5NqvuD_mMc0c0FQqsOOjZ-id_d4IZ"
-          >
+            alt="{{ usuario.nombre }}"
+            src="{{ usuario.foto }}"
+          />
+          {% else %}
+          <img
+            class="perfil-avatar"
+            alt="Usuario"
+            src="{{ url_for('static', filename='images/avatar-default.png') }}"
+          />
+          {% endif %}
 
           <div class="perfil-verified">
-            <span class="material-symbols-outlined">
-              verified
-            </span>
+            <span class="material-symbols-outlined"> verified </span>
           </div>
         </div>
 
         <div class="perfil-info">
+          <span class="perfil-label"> // MI PADDOCK </span>
 
-          <span class="perfil-label">
-            // MI PADDOCK
-          </span>
+          <h1>{{ usuario.nombre if usuario else "Usuario" }}</h1>
 
-          <h1>Juan Pérez</h1>
-
-          <span class="perfil-handle">
-            @juan_f1
-          </span>
+          <span class="perfil-handle">  @usuario </span>
 
           <div class="perfil-meta">
-
             <div class="perfil-meta-item">
-              <span class="material-symbols-outlined">
-                mail
-              </span>
+              <span class="material-symbols-outlined"> mail </span>
 
-              <span>
-                juan.perez@f1sinfiltro.com
-              </span>
+              <span> {{ usuario.email if usuario else "usuario@f1sinfiltro.com" }}</span>
             </div>
 
             <div class="perfil-meta-item">
-              <span class="material-symbols-outlined">
-                calendar_today
-              </span>
+              <span class="material-symbols-outlined"> calendar_today </span>
 
-              <span>
-                REGISTRO: ENE 2024
-              </span>
+              <span> REGISTRO: ENE 2024 </span>
             </div>
-
           </div>
-
         </div>
-
       </div>
 
       <div class="perfil-action">
-
-        <a
-          class="perfil-btn-edit"
-          href="{{ url_for('editar_perfil') }}"
-        >
-          <span class="material-symbols-outlined">
-            edit
-          </span>
+        <a class="perfil-btn-edit" href="{{ url_for('editar_perfil') }}">
+          <span class="material-symbols-outlined"> edit </span>
 
           EDITAR PERFIL
         </a>
-
       </div>
-
     </section>
-
 
     <!-- TELEMETRÍA -->
     <section class="perfil-block">
-
       <h2 class="perfil-block-title">
         <span class="perfil-title-mark"></span>
         Telemetría de Usuario
       </h2>
 
       <div class="perfil-stats">
-
         <!-- COMENTARIOS -->
         <div class="perfil-stat">
-
           <div class="perfil-stat-icon">
-            <span class="material-symbols-outlined">
-              forum
-            </span>
+            <span class="material-symbols-outlined"> forum </span>
           </div>
 
-          <span class="perfil-stat-label">
-            Comentarios
-          </span>
+          <span class="perfil-stat-label"> Comentarios </span>
 
-          <span class="perfil-stat-value">
-            142
-          </span>
+          <span class="perfil-stat-value"> 142 </span>
 
-          <span class="perfil-stat-description">
-            comentarios realizados
-          </span>
-
+          <span class="perfil-stat-description"> comentarios realizados </span>
         </div>
-
 
         <!-- GUARDADOS -->
         <div class="perfil-stat">
-
           <div class="perfil-stat-icon">
-            <span class="material-symbols-outlined">
-              bookmark
-            </span>
+            <span class="material-symbols-outlined"> bookmark </span>
           </div>
 
-          <span class="perfil-stat-label">
-            Publicaciones Guardadas
-          </span>
+          <span class="perfil-stat-label"> Publicaciones Guardadas </span>
 
-          <span class="perfil-stat-value">
-            38
-          </span>
+          <span class="perfil-stat-value"> 38 </span>
 
-          <span class="perfil-stat-description">
-            noticias guardadas
-          </span>
-
+          <span class="perfil-stat-description"> noticias guardadas </span>
         </div>
-
 
         <!-- ETIQUETAS -->
         <div class="perfil-stat">
-
           <div class="perfil-stat-icon">
-            <span class="material-symbols-outlined">
-              label
-            </span>
+            <span class="material-symbols-outlined"> label </span>
           </div>
 
-          <span class="perfil-stat-label">
-            Etiquetas Guardadas
-          </span>
+          <span class="perfil-stat-label"> Etiquetas Guardadas </span>
 
-          <span class="perfil-stat-value">
-            6
-          </span>
+          <span class="perfil-stat-value"> 6 </span>
 
-          <span class="perfil-stat-description">
-            temas seguidos
-          </span>
-
+          <span class="perfil-stat-description"> temas seguidos </span>
         </div>
-
 
         <!-- ÚLTIMA ACTIVIDAD -->
         <div class="perfil-stat">
-
           <div class="perfil-stat-icon">
-            <span class="material-symbols-outlined">
-              history
-            </span>
+            <span class="material-symbols-outlined"> history </span>
           </div>
 
-          <span class="perfil-stat-label">
-            Última Actividad
-          </span>
+          <span class="perfil-stat-label"> Última Actividad </span>
 
-          <span class="perfil-stat-text">
-            2H
-          </span>
+          <span class="perfil-stat-text"> 2H </span>
 
-          <span class="perfil-stat-description">
-            hace 2 horas
-          </span>
-
+          <span class="perfil-stat-description"> hace 2 horas </span>
         </div>
-
       </div>
-
     </section>
-
 
     <!-- ACCESOS -->
     <section class="perfil-block">
-
       <h2 class="perfil-block-title">
         <span class="perfil-title-mark"></span>
         Mi Actividad
       </h2>
 
       <div class="perfil-links">
-
         <a href="{{ url_for('mis_comentarios') }}" class="perfil-link-card">
-
-          <span class="material-symbols-outlined">
-            forum
-          </span>
+          <span class="material-symbols-outlined"> forum </span>
 
           <div>
             <h3>Mis Comentarios</h3>
-            <p>
-              Revisá los comentarios que hiciste en las publicaciones.
-            </p>
+            <p>Revisá los comentarios que hiciste en las publicaciones.</p>
           </div>
 
           <span class="material-symbols-outlined perfil-link-arrow">
             arrow_forward
           </span>
-
         </a>
 
-
         <a href="{{ url_for('guardados') }}" class="perfil-link-card">
-
-          <span class="material-symbols-outlined">
-            bookmark
-          </span>
+          <span class="material-symbols-outlined"> bookmark </span>
 
           <div>
             <h3>Publicaciones Guardadas</h3>
-            <p>
-              Accedé a todas las noticias que guardaste.
-            </p>
+            <p>Accedé a todas las noticias que guardaste.</p>
           </div>
 
           <span class="material-symbols-outlined perfil-link-arrow">
             arrow_forward
           </span>
-
         </a>
 
-
         <a href="{{ url_for('etiquetas_guardadas') }}" class="perfil-link-card">
-
-          <span class="material-symbols-outlined">
-            label
-          </span>
+          <span class="material-symbols-outlined"> label </span>
 
           <div>
             <h3>Etiquetas Guardadas</h3>
-            <p>
-              Consultá los temas y etiquetas que seguís.
-            </p>
+            <p>Consultá los temas y etiquetas que seguís.</p>
           </div>
 
           <span class="material-symbols-outlined perfil-link-arrow">
             arrow_forward
           </span>
-
         </a>
-
       </div>
-
     </section>
-
 
     <!-- ACTIVIDAD RECIENTE -->
     <section class="perfil-block perfil-block-last">
-
       <div class="perfil-block-head">
-
         <h2 class="perfil-block-title">
           <span class="perfil-title-mark"></span>
           Actividad Reciente
         </h2>
 
-        <a href="#" class="perfil-see-all">
-          VER TODO_
-        </a>
-
+        <a href="#" class="perfil-see-all"> VER TODO_ </a>
       </div>
 
       <div class="perfil-log">
-
         <div class="perfil-log-row">
-
-          <div class="perfil-log-time">
-            [14:23:05]
-          </div>
+          <div class="perfil-log-time">[14:23:05]</div>
 
           <div class="perfil-log-action">
             <span class="perfil-dot perfil-dot-red"></span>
@@ -308,18 +202,11 @@
             </a>
           </div>
 
-          <span class="material-symbols-outlined">
-            forum
-          </span>
-
+          <span class="material-symbols-outlined"> forum </span>
         </div>
 
-
         <div class="perfil-log-row">
-
-          <div class="perfil-log-time">
-            [09:12:44]
-          </div>
+          <div class="perfil-log-time">[09:12:44]</div>
 
           <div class="perfil-log-action">
             <span class="perfil-dot perfil-dot-white"></span>
@@ -333,18 +220,11 @@
             </a>
           </div>
 
-          <span class="material-symbols-outlined">
-            bookmark
-          </span>
-
+          <span class="material-symbols-outlined"> bookmark </span>
         </div>
 
-
         <div class="perfil-log-row">
-
-          <div class="perfil-log-time">
-            [AYER]
-          </div>
+          <div class="perfil-log-time">[AYER]</div>
 
           <div class="perfil-log-action">
             <span class="perfil-dot perfil-dot-grey"></span>
@@ -353,23 +233,14 @@
 
           <div class="perfil-log-detail">
             Etiqueta
-            <strong>
-              #Ferrari
-            </strong>
+            <strong> #Ferrari </strong>
           </div>
 
-          <span class="material-symbols-outlined">
-            label
-          </span>
-
+          <span class="material-symbols-outlined"> label </span>
         </div>
-
       </div>
-
     </section>
-
   </div>
-
 </div>
 
 {% include 'base/footer.html' %}
