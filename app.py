@@ -88,7 +88,7 @@ def premium():
 
 @app.route("/editor")
 def editor():
-    return render_template("editor.html")
+    return render_template("editor/dashboard.html")
 
 @app.route("/admin")
 def admin():
