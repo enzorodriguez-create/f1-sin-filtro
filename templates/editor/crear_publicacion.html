@@ -1,0 +1,2183 @@
+
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <meta charset="utf-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        F1 SIN FILTRO - Crear Publicación
+    </title>
+
+    <link
+        href="https://fonts.googleapis.com"
+        rel="preconnect"
+    >
+
+    <link
+        href="https://fonts.gstatic.com"
+        rel="preconnect"
+        crossorigin
+    >
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Chivo:ital,wght@0,400;0,600;0,700;0,900;1,700&family=Geist:wght@400;500;600;700&display=swap"
+        rel="stylesheet"
+    >
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0"
+        rel="stylesheet"
+    >
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='styles/editor/crear_publicacion.css') }}"
+    >
+
+</head>
+
+
+<body>
+
+
+<div class="editor-layout">
+
+
+    <!-- =========================
+         SIDEBAR
+    ========================== -->
+
+    <aside class="sidebar">
+
+
+        <div class="sidebar-head">
+
+            <div class="brand-row">
+
+                <span class="material-symbols-outlined i22 c-primary">
+                    sports_motorsports
+                </span>
+
+                <span class="brand-name">
+                    F1
+                    <span class="c-primary">
+                        SIN FILTRO
+                    </span>
+                </span>
+
+            </div>
+
+
+            <div class="brand-sub">
+
+                <div class="dot dot-6 bg-primary"></div>
+
+                <span class="lbl up c-variant">
+                    Panel de Editor
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <div class="session">
+
+            <div class="session-box">
+
+                <span class="lbl up c-variant">
+                    Sesión Activa
+                </span>
+
+                <span class="badge-blue">
+                    PADDOCK LIVE
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <nav class="side-nav">
+
+
+            <a
+                class="side-link"
+                href="{{ url_for('editor') }}"
+            >
+
+                <span class="material-symbols-outlined i20">
+                    speed
+                </span>
+
+                <span>
+                    Dashboard
+                </span>
+
+            </a>
+
+
+            <a
+                class="side-link"
+                href="#"
+            >
+
+                <span class="material-symbols-outlined i20">
+                    article
+                </span>
+
+                <span>
+                    Mis Publicaciones
+                </span>
+
+            </a>
+
+
+            <a
+                class="side-link active"
+                href="#"
+            >
+
+                <span class="material-symbols-outlined i20">
+                    edit_document
+                </span>
+
+                <span>
+                    Crear Publicación
+                </span>
+
+            </a>
+
+
+            <a
+                class="side-link"
+                href="#"
+            >
+
+                <span class="material-symbols-outlined i20">
+                    forum
+                </span>
+
+                <span>
+                    Comentarios
+                </span>
+
+            </a>
+
+
+            <a
+                class="side-link"
+                href="#"
+            >
+
+                <span class="material-symbols-outlined i20">
+                    category
+                </span>
+
+                <span>
+                    Categorías
+                </span>
+
+            </a>
+
+
+            <a
+                class="side-link"
+                href="#"
+            >
+
+                <span class="material-symbols-outlined i20">
+                    label
+                </span>
+
+                <span>
+                    Etiquetas
+                </span>
+
+            </a>
+
+
+            <a
+                class="side-link"
+                href="{{ url_for('perfil') }}"
+            >
+
+                <span class="material-symbols-outlined i20">
+                    badge
+                </span>
+
+                <span>
+                    Mi Perfil
+                </span>
+
+            </a>
+
+
+        </nav>
+
+
+        <div class="side-bottom">
+
+
+            <div class="cms-card">
+
+                <div class="col">
+
+                    <span class="cms-label">
+                        Sistema Editorial
+                    </span>
+
+                    <span class="cms-ver">
+                        F1 SIN FILTRO
+                    </span>
+
+                </div>
+
+
+                <span class="material-symbols-outlined i18 c-primary">
+                    settings
+                </span>
+
+            </div>
+
+
+            <a
+                class="portal-link"
+                href="{{ url_for('inicio') }}"
+            >
+
+                <span class="material-symbols-outlined i18">
+                    arrow_back
+                </span>
+
+                <span>
+                    Volver al Portal
+                </span>
+
+            </a>
+
+
+        </div>
+
+
+    </aside>
+
+
+    <!-- =========================
+         CONTENIDO
+    ========================== -->
+
+    <div class="page">
+
+
+        <!-- =========================
+             TOPBAR
+        ========================== -->
+
+        <header class="topbar">
+
+
+            <div class="topbar-left">
+
+
+                <div class="topbar-logo">
+
+                    <span class="material-symbols-outlined c-primary">
+                        sports_motorsports
+                    </span>
+
+                </div>
+
+
+                <div class="search">
+
+                    <span class="material-symbols-outlined i18">
+                        search
+                    </span>
+
+                    <input
+                        type="text"
+                        placeholder="Buscar publicaciones, comentarios, categorías..."
+                    >
+
+                </div>
+
+
+            </div>
+
+
+            <div class="topbar-right">
+
+
+                <div class="role-pill">
+
+                    <span class="dot dot-8 bg-primary pulse"></span>
+
+                    <span class="lbl up fw600 c-surface">
+                        ROL:
+                    </span>
+
+                    <span class="lbl up c-primary fw700">
+                        EDITOR
+                    </span>
+
+                </div>
+
+
+                <button
+                    class="bell"
+                    aria-label="Notificaciones"
+                    type="button"
+                >
+
+                    <span class="material-symbols-outlined i20">
+                        notifications
+                    </span>
+
+                    <span class="bell-dot"></span>
+
+                </button>
+
+
+                <div class="user">
+
+
+                    <div class="user-text">
+
+                        <span class="user-name">
+                            {{ usuario.nombre if usuario else "Editor" }}
+                        </span>
+
+                        <span class="lbl fw600 c-variant">
+                            {{ usuario.email if usuario else "editor@f1sinfiltro.com" }}
+                        </span>
+
+                    </div>
+
+
+                    {% if usuario and usuario.foto %}
+
+                        <img
+                            class="avatar avatar-img"
+                            src="{{ usuario.foto }}"
+                            alt="{{ usuario.nombre }}"
+                        >
+
+                    {% else %}
+
+                        <div class="avatar">
+
+                            <span class="material-symbols-outlined i18">
+                                person
+                            </span>
+
+                        </div>
+
+                    {% endif %}
+
+
+                </div>
+
+
+            </div>
+
+
+        </header>
+
+
+        <!-- =========================
+             MAIN
+        ========================== -->
+
+        <main class="main">
+
+
+            <div class="container">
+
+
+                <!-- AVISO -->
+
+                <div
+                    class="toast hidden"
+                    id="save-alert"
+                >
+
+                    <span class="material-symbols-outlined i20 c-primary">
+                        check_circle
+                    </span>
+
+                    <span>
+                        Borrador guardado correctamente
+                    </span>
+
+                </div>
+
+
+                <!-- =========================
+                     ACCIONES
+                ========================== -->
+
+                <header class="action-bar">
+
+
+                    <div>
+
+
+                        <div class="kicker">
+
+                            <span class="dot dot-8 bg-primary ping"></span>
+
+                            <span class="lbl up c-primary fw700">
+                                PANEL DE CONTROL // EDITOR
+                            </span>
+
+                        </div>
+
+
+                        <h1>
+
+                            CREAR NUEVA PUBLICACIÓN
+
+                            <span class="h1-sub">
+                                // CENTRO EDITORIAL
+                            </span>
+
+                        </h1>
+
+
+                    </div>
+
+
+                    <div class="action-btns">
+
+
+                        <button
+                            class="btn-draft"
+                            id="btn-draft"
+                            type="button"
+                        >
+
+                            <span class="material-symbols-outlined i18">
+                                save
+                            </span>
+
+                            <span>
+                                Guardar como borrador
+                            </span>
+
+                        </button>
+
+
+                        <button
+                            class="btn-blue"
+                            type="button"
+                        >
+
+                            <span class="material-symbols-outlined i18">
+                                add_circle
+                            </span>
+
+                            <span>
+                                PUBLICAR ARTÍCULO
+                            </span>
+
+                        </button>
+
+
+                    </div>
+
+
+                </header>
+
+
+                <!-- =========================
+                     GRID
+                ========================== -->
+
+                <div class="grid">
+
+
+                    <!-- =========================
+                         COLUMNA IZQUIERDA
+                    ========================== -->
+
+                    <div class="col-left">
+
+
+                        <!-- TÍTULO -->
+
+                        <div class="card gap8">
+
+
+                            <div class="row-between">
+
+                                <label
+                                    class="lbl up c-variant"
+                                    for="post-title"
+                                >
+
+                                    TÍTULO DE LA PUBLICACIÓN
+
+                                    <span class="c-primary">
+                                        *
+                                    </span>
+
+                                </label>
+
+
+                                <span
+                                    class="lbl fw600 c-outline"
+                                    id="title-char-count"
+                                >
+                                    0/120
+                                </span>
+
+                            </div>
+
+
+                            <input
+                                class="field field-title"
+                                id="post-title"
+                                type="text"
+                                placeholder="Ej: Ferrari prepara mejoras para la próxima carrera"
+                            >
+
+
+                        </div>
+
+
+                        <!-- RESUMEN -->
+
+                        <div class="card gap8">
+
+
+                            <label
+                                class="lbl up c-variant"
+                                for="post-excerpt"
+                            >
+                                SUBTÍTULO / RESUMEN DE PORTADA
+                            </label>
+
+
+                            <textarea
+                                class="field field-text"
+                                id="post-excerpt"
+                                rows="2"
+                                placeholder="Ingresá un resumen breve para mostrar en la portada..."
+                            ></textarea>
+
+
+                        </div>
+
+
+                        <!-- PORTADA -->
+
+                        <div class="card gap12">
+
+
+                            <div class="row-between wrap gap8">
+
+                                <span class="lbl up c-variant">
+                                    IMAGEN PRINCIPAL / PORTADA
+                                </span>
+
+                                <span class="tag-aspect">
+                                    ASPECTO 16:9
+                                </span>
+
+                            </div>
+
+
+                            <div class="dropzone">
+
+
+                                <input
+                                    class="drop-input"
+                                    id="cover-file-input"
+                                    type="file"
+                                    accept="image/png, image/jpeg, image/webp"
+                                >
+
+
+                                <div class="drop-icon">
+
+                                    <span class="material-symbols-outlined">
+                                        cloud_upload
+                                    </span>
+
+                                </div>
+
+
+                                <p class="drop-title">
+
+                                    Arrastrá tu imagen de portada aquí o
+
+                                    <span>
+                                        seleccioná un archivo
+                                    </span>
+
+                                </p>
+
+
+                                <p class="lbl fw600 c-variant">
+                                    JPG, PNG o WebP · Máximo 5MB
+                                </p>
+
+
+                                <div class="drop-info">
+
+                                    <span class="material-symbols-outlined i16">
+                                        info
+                                    </span>
+
+                                    <span>
+                                        Se recomienda una imagen de 1920x1080px.
+                                    </span>
+
+                                </div>
+
+
+                            </div>
+
+
+                        </div>
+
+
+                        <!-- =========================
+                             EDITOR
+                        ========================== -->
+
+                        <div class="editor-card">
+
+
+                            <div class="toolbar">
+
+
+                                <div class="tb-group">
+
+
+                                    <button
+                                        class="tb"
+                                        title="Negrita"
+                                        type="button"
+                                    >
+
+                                        <span class="material-symbols-outlined i18">
+                                            format_bold
+                                        </span>
+
+                                    </button>
+
+
+                                    <button
+                                        class="tb"
+                                        title="Cursiva"
+                                        type="button"
+                                    >
+
+                                        <span class="material-symbols-outlined i18">
+                                            format_italic
+                                        </span>
+
+                                    </button>
+
+
+                                    <button
+                                        class="tb"
+                                        title="Subrayado"
+                                        type="button"
+                                    >
+
+                                        <span class="material-symbols-outlined i18">
+                                            format_underlined
+                                        </span>
+
+                                    </button>
+
+
+                                </div>
+
+
+                                <div class="tb-sep"></div>
+
+
+                                <div class="tb-group">
+
+                                    <button
+                                        class="tb tb-text"
+                                        type="button"
+                                    >
+                                        H2
+                                    </button>
+
+                                    <button
+                                        class="tb tb-text"
+                                        type="button"
+                                    >
+                                        H3
+                                    </button>
+
+                                </div>
+
+
+                                <div class="tb-sep"></div>
+
+
+                                <div class="tb-group">
+
+
+                                    <button
+                                        class="tb"
+                                        type="button"
+                                    >
+
+                                        <span class="material-symbols-outlined i18">
+                                            format_quote
+                                        </span>
+
+                                    </button>
+
+
+                                    <button
+                                        class="tb"
+                                        type="button"
+                                    >
+
+                                        <span class="material-symbols-outlined i18">
+                                            format_list_bulleted
+                                        </span>
+
+                                    </button>
+
+
+                                    <button
+                                        class="tb"
+                                        type="button"
+                                    >
+
+                                        <span class="material-symbols-outlined i18">
+                                            add_photo_alternate
+                                        </span>
+
+                                    </button>
+
+
+                                    <button
+                                        class="tb"
+                                        type="button"
+                                    >
+
+                                        <span class="material-symbols-outlined i18">
+                                            link
+                                        </span>
+
+                                    </button>
+
+
+                                </div>
+
+
+                                <div class="tb-mode">
+
+                                    <span class="lbl fw600 c-variant">
+                                        MODO REDACCIÓN
+                                    </span>
+
+                                    <div class="dot dot-8 bg-primary"></div>
+
+                                </div>
+
+
+                            </div>
+
+
+                            <div class="canvas">
+
+
+                                <div
+                                    class="editor"
+                                    id="editor-workspace"
+                                    contenteditable="true"
+                                >
+
+
+                                    <h2>
+                                        Título del contenido
+                                    </h2>
+
+
+                                    <p>
+                                        Escribí acá el contenido de la publicación.
+                                        Podés desarrollar la noticia, agregar análisis,
+                                        información de carrera, pilotos, equipos o cualquier
+                                        contenido correspondiente a la publicación.
+                                    </p>
+
+
+                                    <div class="metric">
+
+
+                                        <div class="metric-left">
+
+                                            <span class="material-symbols-outlined c-primary">
+                                                analytics
+                                            </span>
+
+                                            <div>
+
+                                                <p class="metric-title">
+                                                    Información destacada
+                                                </p>
+
+                                                <p class="lbl fw600 c-variant">
+                                                    Podés utilizar este bloque para destacar datos.
+                                                </p>
+
+                                            </div>
+
+                                        </div>
+
+
+                                        <div class="metric-right">
+
+
+                                            <div class="metric-val">
+
+                                                <span class="lbl up fw600 c-outline block">
+                                                    DATO
+                                                </span>
+
+                                                <span class="metric-num">
+                                                    00.0
+                                                </span>
+
+                                            </div>
+
+
+                                            <div class="metric-val">
+
+                                                <span class="lbl up fw600 c-primary block">
+                                                    ACTUAL
+                                                </span>
+
+                                                <span class="metric-num c-primary fw700">
+                                                    00.0
+                                                </span>
+
+                                            </div>
+
+
+                                        </div>
+
+
+                                    </div>
+
+
+                                    <p>
+                                        Continuá escribiendo el contenido de la noticia acá.
+                                    </p>
+
+
+                                    <div class="quote">
+
+                                        <p>
+                                            "Podés utilizar este espacio para agregar una cita
+                                            importante relacionada con la publicación."
+                                        </p>
+
+                                        <span class="lbl up c-primary fw700 block quote-by">
+                                            — Fuente
+                                        </span>
+
+                                    </div>
+
+
+                                </div>
+
+
+                            </div>
+
+
+                            <div class="editor-foot">
+
+
+                                <div class="editor-stats">
+
+                                    <span>
+                                        PALABRAS:
+                                        <strong id="word-count">
+                                            0
+                                        </strong>
+                                    </span>
+
+                                    <span>
+                                        •
+                                    </span>
+
+                                    <span>
+                                        CARACTERES:
+                                        <strong id="char-count">
+                                            0
+                                        </strong>
+                                    </span>
+
+                                </div>
+
+
+                                <div class="editor-saved">
+
+                                    <span class="material-symbols-outlined i16 c-primary">
+                                        cloud_done
+                                    </span>
+
+                                    <span>
+                                        Guardado automático
+                                    </span>
+
+                                </div>
+
+
+                            </div>
+
+
+                        </div>
+
+
+                    </div>
+
+
+                    <!-- =========================
+                         COLUMNA DERECHA
+                    ========================== -->
+
+                    <div class="col-right">
+
+
+                        <!-- ESTADO -->
+
+                        <div class="card card-side gap16">
+
+
+                            <div class="row-between">
+
+                                <h2 class="card-h2">
+
+                                    <span class="material-symbols-outlined i20 c-primary">
+                                        tune
+                                    </span>
+
+                                    <span>
+                                        Estado de Publicación
+                                    </span>
+
+                                </h2>
+
+                                <span class="badge-grey">
+                                    CONFIG
+                                </span>
+
+                            </div>
+
+
+                            <div class="radios">
+
+
+                                <label class="radio">
+
+                                    <input
+                                        type="radio"
+                                        name="publish_status"
+                                        value="draft"
+                                        checked
+                                    >
+
+                                    <div class="col">
+
+                                        <span class="radio-title">
+                                            Borrador privado
+                                        </span>
+
+                                        <span class="lbl fw600 c-variant">
+                                            Todavía no se publica.
+                                        </span>
+
+                                    </div>
+
+                                </label>
+
+
+                                <label class="radio">
+
+                                    <input
+                                        type="radio"
+                                        name="publish_status"
+                                        value="immediate"
+                                    >
+
+                                    <div class="col">
+
+                                        <span class="radio-title">
+                                            Publicar inmediatamente
+                                        </span>
+
+                                        <span class="lbl fw600 c-variant">
+                                            La publicación queda visible al instante.
+                                        </span>
+
+                                    </div>
+
+                                </label>
+
+
+                                <label class="radio">
+
+                                    <input
+                                        type="radio"
+                                        name="publish_status"
+                                        value="schedule"
+                                    >
+
+                                    <div class="col">
+
+                                        <span class="radio-title">
+                                            Programar publicación
+                                        </span>
+
+                                        <span class="lbl fw600 c-variant">
+                                            Seleccioná una fecha y hora.
+                                        </span>
+
+                                    </div>
+
+                                </label>
+
+
+                            </div>
+
+
+                            <div
+                                class="schedule"
+                                id="schedule-box"
+                            >
+
+                                <label class="lbl up c-variant block mb4">
+                                    FECHA Y HORA
+                                </label>
+
+                                <input
+                                    class="field-sm"
+                                    type="datetime-local"
+                                >
+
+                            </div>
+
+
+                        </div>
+
+
+                        <!-- PREMIUM -->
+
+                        <div class="card card-side gap16">
+
+
+                            <div class="row-between">
+
+                                <div class="flex-c gap8">
+
+                                    <span class="material-symbols-outlined i20 c-primary">
+                                        stars
+                                    </span>
+
+                                    <h2 class="card-h2">
+                                        Nivel de Suscripción
+                                    </h2>
+
+                                </div>
+
+                                <span class="badge-paywall">
+                                    PREMIUM
+                                </span>
+
+                            </div>
+
+
+                            <div class="paywall">
+
+
+                                <div class="col pr8">
+
+                                    <span class="radio-title">
+                                        Contenido Premium
+                                    </span>
+
+                                    <span class="lbl fw600 c-variant mt4">
+                                        Solo los usuarios Premium podrán acceder al artículo completo.
+                                    </span>
+
+                                </div>
+
+
+                                <label class="switch">
+
+                                    <input
+                                        type="checkbox"
+                                        id="premium-toggle"
+                                    >
+
+                                    <div class="switch-track"></div>
+
+                                </label>
+
+
+                            </div>
+
+
+                        </div>
+
+
+                        <!-- CATEGORÍA -->
+
+                        <div class="card card-side gap12">
+
+
+                            <div class="row-between">
+
+                                <label
+                                    class="card-h2"
+                                    for="post-category"
+                                >
+
+                                    <span class="material-symbols-outlined i20 c-primary">
+                                        category
+                                    </span>
+
+                                    <span>
+                                        Categoría
+                                    </span>
+
+                                </label>
+
+
+                                <button
+                                    class="link-btn"
+                                    id="btn-new-cat"
+                                    type="button"
+                                >
+
+                                    <span class="material-symbols-outlined i16">
+                                        add
+                                    </span>
+
+                                    <span>
+                                        Nueva
+                                    </span>
+
+                                </button>
+
+
+                            </div>
+
+
+                            <p class="lbl fw600 c-variant">
+                                Seleccioná la categoría correspondiente.
+                            </p>
+
+
+                            <div class="col gap8">
+
+
+                                <select
+                                    class="select"
+                                    id="post-category"
+                                >
+
+                                    <option
+                                        value="tecnica"
+                                        selected
+                                    >
+                                        Técnica
+                                    </option>
+
+                                    <option value="equipos">
+                                        Equipos
+                                    </option>
+
+                                    <option value="pilotos">
+                                        Pilotos
+                                    </option>
+
+                                    <option value="campeonato">
+                                        Campeonato
+                                    </option>
+
+                                    <option value="previa">
+                                        Previa
+                                    </option>
+
+                                </select>
+
+
+                                <div
+                                    class="newcat hidden"
+                                    id="new-cat-box"
+                                >
+
+                                    <span class="lbl up c-primary fw600">
+                                        Crear nueva categoría
+                                    </span>
+
+
+                                    <div class="newcat-row">
+
+                                        <input
+                                            class="field-xs"
+                                            id="new-category-input"
+                                            type="text"
+                                            placeholder="Nombre de la categoría"
+                                        >
+
+                                        <button
+                                            class="btn-save"
+                                            id="btn-save-cat"
+                                            type="button"
+                                        >
+
+                                            <span class="material-symbols-outlined i14">
+                                                check
+                                            </span>
+
+                                            <span>
+                                                Guardar
+                                            </span>
+
+                                        </button>
+
+                                    </div>
+
+
+                                </div>
+
+
+                                <button
+                                    class="link-btn link-left"
+                                    id="btn-new-cat-2"
+                                    type="button"
+                                >
+
+                                    <span class="material-symbols-outlined i16">
+                                        add_circle
+                                    </span>
+
+                                    <span>
+                                        Crear nueva categoría
+                                    </span>
+
+                                </button>
+
+
+                            </div>
+
+
+                        </div>
+
+
+                        <!-- ETIQUETAS -->
+
+                        <div class="card card-side gap16">
+
+
+                            <div class="row-between">
+
+
+                                <h2 class="card-h2">
+
+                                    <span class="material-symbols-outlined i20 c-primary">
+                                        label
+                                    </span>
+
+                                    <span>
+                                        Etiquetas
+                                    </span>
+
+                                </h2>
+
+
+                                <div class="flex-c gap8">
+
+                                    <span
+                                        class="lbl fw600 c-outline"
+                                        id="tag-counter"
+                                    >
+                                        5 ACTIVAS
+                                    </span>
+
+                                </div>
+
+
+                            </div>
+
+
+                            <div class="tag-form">
+
+
+                                <div class="tag-input-wrap">
+
+                                    <span class="tag-hash">
+                                        #
+                                    </span>
+
+                                    <input
+                                        class="field-xs tag-input"
+                                        id="tag-input"
+                                        type="text"
+                                        placeholder="Añadir etiqueta..."
+                                    >
+
+                                </div>
+
+
+                                <button
+                                    class="btn-add"
+                                    id="btn-add-tag"
+                                    type="button"
+                                >
+
+                                    <span class="material-symbols-outlined i16">
+                                        add
+                                    </span>
+
+                                    <span>
+                                        Añadir
+                                    </span>
+
+                                </button>
+
+
+                            </div>
+
+
+                            <div class="col gap6">
+
+                                <span class="lbl up c-outline sug-title">
+                                    Sugerencias:
+                                </span>
+
+
+                                <div class="sugs">
+
+                                    <button
+                                        class="sug"
+                                        data-tag="Ferrari"
+                                        type="button"
+                                    >
+                                        + #Ferrari
+                                    </button>
+
+                                    <button
+                                        class="sug"
+                                        data-tag="F1"
+                                        type="button"
+                                    >
+                                        + #F1
+                                    </button>
+
+                                    <button
+                                        class="sug"
+                                        data-tag="Verstappen"
+                                        type="button"
+                                    >
+                                        + #Verstappen
+                                    </button>
+
+                                    <button
+                                        class="sug"
+                                        data-tag="Pirelli"
+                                        type="button"
+                                    >
+                                        + #Pirelli
+                                    </button>
+
+                                </div>
+
+
+                            </div>
+
+
+                            <div
+                                class="tags"
+                                id="tags-container"
+                            >
+
+
+                                <span class="tag">
+
+                                    #Ferrari
+
+                                    <button
+                                        class="tag-remove"
+                                        type="button"
+                                    >
+
+                                        <span class="material-symbols-outlined i14">
+                                            close
+                                        </span>
+
+                                    </button>
+
+                                </span>
+
+
+                                <span class="tag">
+
+                                    #F1
+
+                                    <button
+                                        class="tag-remove"
+                                        type="button"
+                                    >
+
+                                        <span class="material-symbols-outlined i14">
+                                            close
+                                        </span>
+
+                                    </button>
+
+                                </span>
+
+
+                                <span class="tag">
+
+                                    #Formula1
+
+                                    <button
+                                        class="tag-remove"
+                                        type="button"
+                                    >
+
+                                        <span class="material-symbols-outlined i14">
+                                            close
+                                        </span>
+
+                                    </button>
+
+                                </span>
+
+
+                                <span class="tag">
+
+                                    #Carrera
+
+                                    <button
+                                        class="tag-remove"
+                                        type="button"
+                                    >
+
+                                        <span class="material-symbols-outlined i14">
+                                            close
+                                        </span>
+
+                                    </button>
+
+                                </span>
+
+
+                                <span class="tag">
+
+                                    #Noticias
+
+                                    <button
+                                        class="tag-remove"
+                                        type="button"
+                                    >
+
+                                        <span class="material-symbols-outlined i14">
+                                            close
+                                        </span>
+
+                                    </button>
+
+                                </span>
+
+
+                            </div>
+
+
+                        </div>
+
+
+                        <!-- VALIDACIÓN -->
+
+                        <div class="card card-side gap16">
+
+
+                            <h2 class="card-h2">
+
+                                <span class="material-symbols-outlined i20 c-primary">
+                                    checklist
+                                </span>
+
+                                <span>
+                                    Validación
+                                </span>
+
+                            </h2>
+
+
+                            <ul class="checks">
+
+
+                                <li class="c-surface">
+
+                                    <span class="chk">
+
+                                        <span class="material-symbols-outlined i18 c-primary">
+                                            check_circle
+                                        </span>
+
+                                        Título definido
+
+                                    </span>
+
+                                    <span class="lbl c-primary fw700">
+                                        OK
+                                    </span>
+
+                                </li>
+
+
+                                <li class="c-surface">
+
+                                    <span class="chk">
+
+                                        <span class="material-symbols-outlined i18 c-primary">
+                                            check_circle
+                                        </span>
+
+                                        Categoría seleccionada
+
+                                    </span>
+
+                                    <span class="lbl c-primary fw700">
+                                        OK
+                                    </span>
+
+                                </li>
+
+
+                                <li class="c-variant">
+
+                                    <span class="chk">
+
+                                        <span class="material-symbols-outlined i18 c-outline">
+                                            radio_button_unchecked
+                                        </span>
+
+                                        Imagen de portada
+
+                                    </span>
+
+                                    <span class="lbl c-error fw600">
+                                        PENDIENTE
+                                    </span>
+
+                                </li>
+
+
+                                <li class="c-variant">
+
+                                    <span class="chk">
+
+                                        <span class="material-symbols-outlined i18 c-outline">
+                                            radio_button_unchecked
+                                        </span>
+
+                                        Contenido de la publicación
+
+                                    </span>
+
+                                    <span class="lbl c-outline">
+                                        PENDIENTE
+                                    </span>
+
+                                </li>
+
+
+                            </ul>
+
+
+                            <div class="progress">
+
+                                <div class="progress-fill"></div>
+
+                            </div>
+
+
+                        </div>
+
+
+                        <!-- BOTONES -->
+
+                        <div class="card card-side gap12">
+
+
+                            <button
+                                class="btn-big"
+                                type="button"
+                            >
+
+                                <span class="material-symbols-outlined i20">
+                                    send
+                                </span>
+
+                                <span>
+                                    Publicar Noticia
+                                </span>
+
+                            </button>
+
+
+                            <button
+                                class="btn-preview"
+                                type="button"
+                            >
+
+                                <span class="material-symbols-outlined i18">
+                                    visibility
+                                </span>
+
+                                <span>
+                                    Vista Previa
+                                </span>
+
+                            </button>
+
+
+                            <button
+                                class="btn-discard"
+                                type="button"
+                            >
+                                Descartar cambios
+                            </button>
+
+
+                        </div>
+
+
+                    </div>
+
+
+                </div>
+
+
+            </div>
+
+
+        </main>
+
+
+    </div>
+
+
+</div>
+
+
+<!-- =========================
+     FOOTER GLOBAL
+========================== -->
+
+{% include "base/footer.html" %}
+
+
+<!-- =========================
+     JAVASCRIPT
+========================== -->
+
+<script>
+
+
+    (function initPostEditor() {
+
+
+        const titleInput =
+            document.getElementById("post-title");
+
+
+        const titleCounter =
+            document.getElementById("title-char-count");
+
+
+        if (titleInput && titleCounter) {
+
+            titleInput.addEventListener(
+                "input",
+                (e) => {
+
+                    titleCounter.textContent =
+                        e.target.value.length + "/120";
+
+                }
+            );
+
+        }
+
+
+        const editor =
+            document.getElementById("editor-workspace");
+
+
+        const wordCount =
+            document.getElementById("word-count");
+
+
+        const charCount =
+            document.getElementById("char-count");
+
+
+        function updateEditorStats() {
+
+            if (
+                !editor ||
+                !wordCount ||
+                !charCount
+            ) {
+                return;
+            }
+
+
+            const text =
+                editor.innerText.trim();
+
+
+            const words =
+                text
+                    ? text.split(/\s+/).length
+                    : 0;
+
+
+            wordCount.textContent =
+                words.toLocaleString("es-ES");
+
+
+            charCount.textContent =
+                text.length.toLocaleString("es-ES");
+
+        }
+
+
+        if (editor) {
+
+            editor.addEventListener(
+                "input",
+                updateEditorStats
+            );
+
+            updateEditorStats();
+
+        }
+
+
+        const tagsContainer =
+            document.getElementById(
+                "tags-container"
+            );
+
+
+        const tagInput =
+            document.getElementById(
+                "tag-input"
+            );
+
+
+        const addTagBtn =
+            document.getElementById(
+                "btn-add-tag"
+            );
+
+
+        const tagCounter =
+            document.getElementById(
+                "tag-counter"
+            );
+
+
+        function updateTagCounter() {
+
+            if (
+                tagCounter &&
+                tagsContainer
+            ) {
+
+                tagCounter.textContent =
+                    tagsContainer.children.length +
+                    " ACTIVAS";
+
+            }
+
+        }
+
+
+        if (tagsContainer) {
+
+            tagsContainer.addEventListener(
+                "click",
+                (e) => {
+
+
+                    const removeBtn =
+                        e.target.closest(
+                            ".tag-remove"
+                        );
+
+
+                    if (removeBtn) {
+
+                        const badge =
+                            removeBtn.closest(
+                                ".tag"
+                            );
+
+
+                        if (badge) {
+                            badge.remove();
+                        }
+
+
+                        updateTagCounter();
+
+                    }
+
+
+                }
+            );
+
+        }
+
+
+        function addTag() {
+
+
+            if (
+                !tagInput ||
+                !tagsContainer
+            ) {
+                return;
+            }
+
+
+            let val =
+                tagInput.value.trim();
+
+
+            if (!val) {
+                return;
+            }
+
+
+            if (!val.startsWith("#")) {
+
+                val =
+                    "#" + val;
+
+            }
+
+
+            const span =
+                document.createElement(
+                    "span"
+                );
+
+
+            span.className =
+                "tag";
+
+
+            span.innerHTML =
+                val +
+                `
+                <button
+                    type="button"
+                    class="tag-remove"
+                >
+                    <span
+                        class="material-symbols-outlined i14"
+                    >
+                        close
+                    </span>
+                </button>
+                `;
+
+
+            tagsContainer.appendChild(
+                span
+            );
+
+
+            tagInput.value = "";
+
+
+            updateTagCounter();
+
+        }
+
+
+        if (
+            addTagBtn &&
+            tagInput
+        ) {
+
+
+            addTagBtn.addEventListener(
+                "click",
+                addTag
+            );
+
+
+            tagInput.addEventListener(
+                "keydown",
+                (e) => {
+
+
+                    if (
+                        e.key === "Enter"
+                    ) {
+
+                        e.preventDefault();
+
+                        addTag();
+
+                    }
+
+
+                }
+            );
+
+
+        }
+
+
+        document
+            .querySelectorAll(".sug")
+            .forEach(
+                (btn) => {
+
+
+                    btn.addEventListener(
+                        "click",
+                        () => {
+
+
+                            if (!tagInput) {
+                                return;
+                            }
+
+
+                            tagInput.value =
+                                btn.dataset.tag;
+
+
+                            addTag();
+
+
+                        }
+                    );
+
+
+                }
+            );
+
+
+        const newCatBox =
+            document.getElementById(
+                "new-cat-box"
+            );
+
+
+        const newCatButton =
+            document.getElementById(
+                "btn-new-cat"
+            );
+
+
+        const newCatButton2 =
+            document.getElementById(
+                "btn-new-cat-2"
+            );
+
+
+        function toggleNewCat() {
+
+            if (newCatBox) {
+
+                newCatBox.classList.toggle(
+                    "hidden"
+                );
+
+            }
+
+        }
+
+
+        if (newCatButton) {
+
+            newCatButton.addEventListener(
+                "click",
+                toggleNewCat
+            );
+
+        }
+
+
+        if (newCatButton2) {
+
+            newCatButton2.addEventListener(
+                "click",
+                toggleNewCat
+            );
+
+        }
+
+
+        const saveCategory =
+            document.getElementById(
+                "btn-save-cat"
+            );
+
+
+        if (saveCategory) {
+
+            saveCategory.addEventListener(
+                "click",
+                () => {
+
+
+                    const input =
+                        document.getElementById(
+                            "new-category-input"
+                        );
+
+
+                    const select =
+                        document.getElementById(
+                            "post-category"
+                        );
+
+
+                    if (
+                        input &&
+                        select &&
+                        input.value.trim()
+                    ) {
+
+
+                        const option =
+                            document.createElement(
+                                "option"
+                            );
+
+
+                        option.value =
+                            input.value
+                                .toLowerCase()
+                                .replace(
+                                    /\s+/g,
+                                    "-"
+                                );
+
+
+                        option.textContent =
+                            input.value.trim();
+
+
+                        option.selected =
+                            true;
+
+
+                        select.appendChild(
+                            option
+                        );
+
+
+                        input.value = "";
+
+
+                        if (newCatBox) {
+
+                            newCatBox.classList.add(
+                                "hidden"
+                            );
+
+                        }
+
+
+                    }
+
+
+                }
+            );
+
+        }
+
+
+        const draftBtn =
+            document.getElementById(
+                "btn-draft"
+            );
+
+
+        const alertToast =
+            document.getElementById(
+                "save-alert"
+            );
+
+
+        if (
+            draftBtn &&
+            alertToast
+        ) {
+
+
+            draftBtn.addEventListener(
+                "click",
+                () => {
+
+
+                    alertToast.classList.remove(
+                        "hidden"
+                    );
+
+
+                    setTimeout(
+                        () => {
+
+                            alertToast.classList.add(
+                                "hidden"
+                            );
+
+                        },
+                        3000
+                    );
+
+
+                }
+            );
+
+
+        }
+
+
+    })();
+
+
+</script>
+
+
+</body>
+
+</html>
