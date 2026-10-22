@@ -109,6 +109,13 @@ def registro():
 
     return render_template("registro.html")
 
+@app.route("/logout")
+def logout():
+
+    session.pop("usuario", None)
+
+    return redirect(url_for("inicio"))
+
 @app.route("/noticias")
 def noticias():
     return render_template("noticias.html")
