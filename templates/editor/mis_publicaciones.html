@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>F1 SIN FILTRO - Mis Publicaciones</title>
+
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+
+    <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin />
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Chivo:wght@400;600;700;900&family=Geist:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
+      rel="stylesheet"
+    />
+
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='styles/editor/mis_publicaciones.css') }}"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='styles/style.css') }}"
+    />
+    <link
+    rel="stylesheet"
+    href="{{ url_for('static', filename='styles/editor/sidebar.css') }}"
+>
+  </head>
+
+  <body>
+    <div class="editor-layout">
+      <!-- =========================
+         SIDEBAR
+    ========================== -->
+
+    {% include "editor/sidebar.html" %}
+
+      <!-- =========================
+         CONTENIDO
+    ========================== -->
+
+      <div class="page">
+        <!-- TOPBAR -->
+
+        <header class="topbar">
+          <div class="search">
+            <span class="material-symbols-outlined"> search </span>
+
+            <input
+              type="text"
+              placeholder="Buscar entre mis publicaciones..."
+            />
+          </div>
+
+          <div class="topbar-right">
+            <div class="role-badge">
+              <span class="role-dot"></span>
+
+              <span> ROL: </span>
+
+              <strong> EDITOR </strong>
+            </div>
+
+            <div class="editor-user">
+              <div class="editor-user-data">
+                <strong> {{ usuario.nombre if usuario else "Editor" }} </strong>
+
+                <span>
+                  {{ usuario.email if usuario else "editor@f1sinfiltro.com" }}
+                </span>
+              </div>
+
+              {% if usuario and usuario.foto %}
+
+              <img
+                class="editor-avatar"
+                src="{{ usuario.foto }}"
+                alt="{{ usuario.nombre }}"
+              />
+
+              {% else %}
+
+              <div class="editor-avatar">
+                <span class="material-symbols-outlined"> person </span>
+              </div>
+
+              {% endif %}
+            </div>
+          </div>
+        </header>
+
+        <!-- =========================
+             MAIN
+        ========================== -->
+
+        <main class="main">
+          <div class="container">
+            <!-- CABECERA -->
+
+            <div class="page-head">
+              <div>
+                <div class="page-path">
+                  <span> PANEL DE CONTROL </span>
+
+                  <span> / </span>
+
+                  <strong> MIS PUBLICACIONES </strong>
+                </div>
+
+                <h1>MIS <span>PUBLICACIONES</span></h1>
+
+                <p>
+                  Gestioná los artículos que creaste desde el panel de Editor.
+                </p>
+              </div>
+
+              <a
+                class="new-post-btn"
+                href="{{ url_for('editor_crear_publicacion') }}"
+              >
+                <span class="material-symbols-outlined"> add </span>
+
+                Nueva Publicación
+              </a>
+            </div>
+
+            <!-- FILTROS -->
+
+            <div class="filters">
+              <button class="filter active">Todas</button>
+
+              <button class="filter">Publicadas</button>
+
+              <button class="filter">Borradores</button>
+
+              <button class="filter">Programadas</button>
+            </div>
+
+            <!-- =========================
+                     CARDS
+                ========================== -->
+
+            <div class="publications-grid">
+              <!-- PUBLICACIÓN 1 -->
+
+              <article class="publication-card">
+                <div class="publication-image">
+                  <div class="image-placeholder">
+                    <span class="material-symbols-outlined"> image </span>
+                  </div>
+
+                  <span class="status published"> PUBLICADA </span>
+                </div>
+
+                <div class="publication-content">
+                  <div class="publication-meta">
+                    <span> Técnica </span>
+
+                    <span> 22/10/2026 </span>
+                  </div>
+
+                  <h2>
+                    Ferrari prepara nuevas mejoras para la próxima carrera
+                  </h2>
+
+                  <p>
+                    Análisis de los últimos cambios técnicos y el impacto
+                    esperado en el rendimiento del equipo.
+                  </p>
+
+                  <div class="publication-info">
+                    <span>
+                      <span class="material-symbols-outlined"> forum </span>
+
+                      12 comentarios
+                    </span>
+
+                    <span>
+                      <span class="material-symbols-outlined">
+                        visibility
+                      </span>
+
+                      1.250 vistas
+                    </span>
+                  </div>
+
+                  <div class="publication-footer">
+                    <a class="edit-btn" href="#">
+                      <span class="material-symbols-outlined"> edit </span>
+
+                      Editar
+                    </a>
+
+                    <button
+                      class="delete-btn"
+                      type="button"
+                      onclick="confirmarEliminacion()"
+                    >
+                      <span class="material-symbols-outlined"> delete </span>
+
+                      Eliminar
+                    </button>
+                  </div>
+                </div>
+              </article>
+
+              <!-- PUBLICACIÓN 2 -->
+
+              <article class="publication-card">
+                <div class="publication-image">
+                  <div class="image-placeholder">
+                    <span class="material-symbols-outlined"> image </span>
+                  </div>
+
+                  <span class="status draft"> BORRADOR </span>
+                </div>
+
+                <div class="publication-content">
+                  <div class="publication-meta">
+                    <span> Campeonato </span>
+
+                    <span> 21/10/2026 </span>
+                  </div>
+
+                  <h2>Análisis de la lucha por el campeonato</h2>
+
+                  <p>
+                    Una mirada a los puntos, las próximas carreras y las
+                    posibilidades de los principales candidatos.
+                  </p>
+
+                  <div class="publication-info">
+                    <span>
+                      <span class="material-symbols-outlined"> forum </span>
+
+                      0 comentarios
+                    </span>
+
+                    <span>
+                      <span class="material-symbols-outlined"> edit_note </span>
+
+                      Borrador
+                    </span>
+                  </div>
+
+                  <div class="publication-footer">
+                    <a class="edit-btn" href="#">
+                      <span class="material-symbols-outlined"> edit </span>
+
+                      Editar
+                    </a>
+
+                    <button
+                      class="delete-btn"
+                      type="button"
+                      onclick="confirmarEliminacion()"
+                    >
+                      <span class="material-symbols-outlined"> delete </span>
+
+                      Eliminar
+                    </button>
+                  </div>
+                </div>
+              </article>
+
+              <!-- PUBLICACIÓN 3 -->
+
+              <article class="publication-card">
+                <div class="publication-image">
+                  <div class="image-placeholder">
+                    <span class="material-symbols-outlined"> image </span>
+                  </div>
+
+                  <span class="status scheduled"> PROGRAMADA </span>
+                </div>
+
+                <div class="publication-content">
+                  <div class="publication-meta">
+                    <span> Previa </span>
+
+                    <span> 25/10/2026 </span>
+                  </div>
+
+                  <h2>
+                    Todo lo que hay que saber antes del próximo Gran Premio
+                  </h2>
+
+                  <p>
+                    Horarios, condiciones de pista y claves a tener en cuenta
+                    antes del comienzo del fin de semana.
+                  </p>
+
+                  <div class="publication-info">
+                    <span>
+                      <span class="material-symbols-outlined"> schedule </span>
+
+                      Programada
+                    </span>
+
+                    <span>
+                      <span class="material-symbols-outlined"> lock </span>
+
+                      Premium
+                    </span>
+                  </div>
+
+                  <div class="publication-footer">
+                    <a class="edit-btn" href="#">
+                      <span class="material-symbols-outlined"> edit </span>
+
+                      Editar
+                    </a>
+
+                    <button
+                      class="delete-btn"
+                      type="button"
+                      onclick="confirmarEliminacion()"
+                    >
+                      <span class="material-symbols-outlined"> delete </span>
+
+                      Eliminar
+                    </button>
+                  </div>
+                </div>
+              </article>
+            </div>
+          </div>
+        </main>
+      </div>
+    </div>
+
+    <!-- FOOTER GLOBAL -->
+
+    {% include "base/footer.html" %}
+
+    <script>
+      function confirmarEliminacion() {
+        const confirmar = confirm(
+          "¿Seguro que querés eliminar esta publicación?"
+        );
+
+        if (confirmar) {
+          alert(
+            "Por ahora la publicación no se elimina porque todavía no está conectada a la base de datos."
+          );
+        }
+      }
+    </script>
+  </body>
+</html>
