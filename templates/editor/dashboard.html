@@ -1,4 +1,4 @@
-```html
+
 <link
     href="https://fonts.googleapis.com/css2?family=Chivo:wght@400;600;700;900&family=Geist:wght@400;500;600;700&display=swap"
     rel="stylesheet"
@@ -12,6 +12,11 @@
 <link
     rel="stylesheet"
     href="{{ url_for('static', filename='styles/editor/dashboard.css') }}"
+>
+
+<link
+    rel="stylesheet"
+    href="{{ url_for('static', filename='styles/style.css') }}"
 >
 
 
@@ -1112,4 +1117,4 @@
     </div>
 
 </div>
-```
+{% include "base/footer.html" %}
