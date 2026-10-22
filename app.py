@@ -140,6 +140,14 @@ def callback_google():
 
     return redirect(url_for("perfil"))
 
+@app.route("/editor/crear-publicacion")
+def editor_crear_publicacion():
+    usuario = session.get("usuario")
+    return render_template(
+        "editor/crear_publicacion.html",
+        usuario=usuario
+    )
+
 
 if __name__ == "__main__":
     app.run(debug=True, port=5001)
