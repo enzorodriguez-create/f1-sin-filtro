@@ -1,10 +1,11 @@
 import os
 import requests
 
-from flask import Flask, render_template, redirect, url_for, session
+from flask import Flask, render_template, redirect, url_for, session, request
 from dotenv import load_dotenv
 from authlib.integrations.flask_client import OAuth
 from werkzeug.middleware.proxy_fix import ProxyFix
+from models import db, Usuario, bcrypt
 
 load_dotenv()
 
@@ -13,6 +14,11 @@ app = Flask(__name__)
 app.wsgi_app = ProxyFix(app.wsgi_app, x_proto=1, x_host=1)
 
 app.config["SECRET_KEY"] = os.environ.get("SECRET_KEY", "bd1xd")
+app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///f1_sin_filtro.db"
+app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+
+db.init_app(app)
+bcrypt.init_app(app)
 
 oauth = OAuth(app)
 
@@ -29,13 +35,78 @@ def inicio():
     return render_template("index.html")
 
 
-@app.route("/login")
+@app.route("/login", methods=["GET", "POST"])
 def login():
+
+    if request.method == "POST":
+
+        email = request.form.get("email")
+        password = request.form.get("password")
+
+        usuario = Usuario.query.filter_by(email=email).first()
+
+        if usuario and usuario.verificar_password(password):
+
+            session["usuario"] = {
+                "id": usuario.id,
+                "nombre": usuario.nombre,
+                "email": usuario.email,
+                "rol": usuario.rol,
+                "premium": usuario.premium
+            }
+
+            return redirect(url_for("inicio"))
+
+        return "Email o contraseña incorrectos."
+
     return render_template("login.html")
 
-
-@app.route("/registro")
+@app.route("/registro", methods=["GET", "POST"])
 def registro():
+
+    if request.method == "POST":
+
+        nombre = request.form.get("nombre")
+        apellido = request.form.get("apellido")
+        usuario = request.form.get("usuario")
+        email = request.form.get("email")
+        password = request.form.get("password")
+        confirm_password = request.form.get("confirm_password")
+
+        if password != confirm_password:
+            return "Las contraseñas no coinciden."
+
+        email_existente = Usuario.query.filter_by(
+            email=email
+        ).first()
+
+        if email_existente:
+            return "El email ya está registrado."
+
+        usuario_existente = Usuario.query.filter_by(
+            usuario=usuario
+        ).first()
+
+        if usuario_existente:
+            return "El nombre de usuario ya está registrado."
+
+        nuevo_usuario = Usuario(
+            nombre=nombre,
+            apellido=apellido,
+            usuario=usuario,
+            email=email,
+            rol="usuario",
+            tipo_login="normal",
+            premium=False
+        )
+
+        nuevo_usuario.guardar_password(password)
+
+        db.session.add(nuevo_usuario)
+        db.session.commit()
+
+        return redirect(url_for("login"))
+
     return render_template("registro.html")
 
 @app.route("/noticias")
@@ -171,4 +242,8 @@ def editor_publicaciones():
 
 
 if __name__ == "__main__":
+
+    with app.app_context():
+        db.create_all()
+
     app.run(debug=True, port=5001)
