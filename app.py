@@ -88,7 +88,14 @@ def premium():
 
 @app.route("/editor")
 def editor():
-    return render_template("editor/dashboard.html")
+
+    usuario = session.get("usuario")
+
+    return render_template(
+        "editor/dashboard.html",
+        usuario=usuario,
+        seccion_activa="dashboard"
+    )
 
 @app.route("/admin")
 def admin():
@@ -142,10 +149,24 @@ def callback_google():
 
 @app.route("/editor/crear-publicacion")
 def editor_crear_publicacion():
+
     usuario = session.get("usuario")
+
     return render_template(
         "editor/crear_publicacion.html",
-        usuario=usuario
+        usuario=usuario,
+        seccion_activa="crear"
+    )
+
+@app.route("/editor/publicaciones")
+def editor_publicaciones():
+
+    usuario = session.get("usuario")
+
+    return render_template(
+        "editor/mis_publicaciones.html",
+        usuario=usuario,
+        seccion_activa="publicaciones"
     )
 
 
