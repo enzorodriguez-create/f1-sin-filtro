@@ -15,6 +15,9 @@
         F1 SIN FILTRO - Crear Publicación
     </title>
 
+
+    <!-- FUENTES -->
+
     <link
         href="https://fonts.googleapis.com"
         rel="preconnect"
@@ -36,6 +39,9 @@
         rel="stylesheet"
     >
 
+
+    <!-- CSS -->
+
     <link
         rel="stylesheet"
         href="{{ url_for('static', filename='styles/editor/crear_publicacion.css') }}"
@@ -46,6 +52,10 @@
 
 <body>
 
+
+<!-- =========================
+     LAYOUT EDITOR
+========================= -->
 
 <div class="editor-layout">
 
@@ -59,6 +69,7 @@
 
         <div class="sidebar-head">
 
+
             <div class="brand-row">
 
                 <span class="material-symbols-outlined i22 c-primary">
@@ -66,10 +77,13 @@
                 </span>
 
                 <span class="brand-name">
+
                     F1
+
                     <span class="c-primary">
                         SIN FILTRO
                     </span>
+
                 </span>
 
             </div>
@@ -85,8 +99,11 @@
 
             </div>
 
+
         </div>
 
+
+        <!-- SESIÓN -->
 
         <div class="session">
 
@@ -104,6 +121,8 @@
 
         </div>
 
+
+        <!-- NAVEGACIÓN -->
 
         <nav class="side-nav">
 
@@ -142,7 +161,7 @@
 
             <a
                 class="side-link active"
-                href="#"
+                href="{{ url_for('editor_crear_publicacion') }}"
             >
 
                 <span class="material-symbols-outlined i20">
@@ -223,6 +242,8 @@
         </nav>
 
 
+        <!-- PARTE INFERIOR -->
+
         <div class="side-bottom">
 
 
@@ -271,7 +292,7 @@
 
 
     <!-- =========================
-         CONTENIDO
+         PÁGINA
     ========================== -->
 
     <div class="page">
@@ -402,7 +423,7 @@
             <div class="container">
 
 
-                <!-- AVISO -->
+                <!-- MENSAJE DE BORRADOR -->
 
                 <div
                     class="toast hidden"
@@ -414,14 +435,14 @@
                     </span>
 
                     <span>
-                        Borrador guardado correctamente
+                        Borrador guardado temporalmente
                     </span>
 
                 </div>
 
 
                 <!-- =========================
-                     ACCIONES
+                     ENCABEZADO
                 ========================== -->
 
                 <header class="action-bar">
@@ -546,6 +567,7 @@
                                 class="field field-title"
                                 id="post-title"
                                 type="text"
+                                maxlength="120"
                                 placeholder="Ej: Ferrari prepara mejoras para la próxima carrera"
                             >
 
@@ -569,7 +591,7 @@
                             <textarea
                                 class="field field-text"
                                 id="post-excerpt"
-                                rows="2"
+                                rows="3"
                                 placeholder="Ingresá un resumen breve para mostrar en la portada..."
                             ></textarea>
 
@@ -577,7 +599,9 @@
                         </div>
 
 
-                        <!-- PORTADA -->
+                        <!-- =========================
+                             IMAGEN DE PORTADA
+                        ========================== -->
 
                         <div class="card gap12">
 
@@ -651,11 +675,13 @@
 
 
                         <!-- =========================
-                             EDITOR
+                             EDITOR FUNCIONAL
                         ========================== -->
 
                         <div class="editor-card">
 
+
+                            <!-- TOOLBAR -->
 
                             <div class="toolbar">
 
@@ -665,6 +691,7 @@
 
                                     <button
                                         class="tb"
+                                        id="btn-bold"
                                         title="Negrita"
                                         type="button"
                                     >
@@ -678,6 +705,7 @@
 
                                     <button
                                         class="tb"
+                                        id="btn-italic"
                                         title="Cursiva"
                                         type="button"
                                     >
@@ -691,6 +719,7 @@
 
                                     <button
                                         class="tb"
+                                        id="btn-underline"
                                         title="Subrayado"
                                         type="button"
                                     >
@@ -710,19 +739,26 @@
 
                                 <div class="tb-group">
 
+
                                     <button
                                         class="tb tb-text"
+                                        id="btn-h2"
+                                        title="Título grande"
                                         type="button"
                                     >
                                         H2
                                     </button>
 
+
                                     <button
                                         class="tb tb-text"
+                                        id="btn-h3"
+                                        title="Subtítulo"
                                         type="button"
                                     >
                                         H3
                                     </button>
+
 
                                 </div>
 
@@ -735,6 +771,8 @@
 
                                     <button
                                         class="tb"
+                                        id="btn-quote"
+                                        title="Cita"
                                         type="button"
                                     >
 
@@ -747,6 +785,8 @@
 
                                     <button
                                         class="tb"
+                                        id="btn-list"
+                                        title="Lista"
                                         type="button"
                                     >
 
@@ -759,6 +799,8 @@
 
                                     <button
                                         class="tb"
+                                        id="btn-image"
+                                        title="Insertar imagen dentro del artículo"
                                         type="button"
                                     >
 
@@ -771,6 +813,8 @@
 
                                     <button
                                         class="tb"
+                                        id="btn-link"
+                                        title="Insertar enlace"
                                         type="button"
                                     >
 
@@ -798,6 +842,18 @@
                             </div>
 
 
+                            <!-- INPUT OCULTO PARA IMÁGENES DEL CONTENIDO -->
+
+                            <input
+                                type="file"
+                                id="editor-image-input"
+                                accept="image/png, image/jpeg, image/webp"
+                                hidden
+                            >
+
+
+                            <!-- ÁREA EDITABLE -->
+
                             <div class="canvas">
 
 
@@ -805,128 +861,48 @@
                                     class="editor"
                                     id="editor-workspace"
                                     contenteditable="true"
-                                >
-
-
-                                    <h2>
-                                        Título del contenido
-                                    </h2>
-
-
-                                    <p>
-                                        Escribí acá el contenido de la publicación.
-                                        Podés desarrollar la noticia, agregar análisis,
-                                        información de carrera, pilotos, equipos o cualquier
-                                        contenido correspondiente a la publicación.
-                                    </p>
-
-
-                                    <div class="metric">
-
-
-                                        <div class="metric-left">
-
-                                            <span class="material-symbols-outlined c-primary">
-                                                analytics
-                                            </span>
-
-                                            <div>
-
-                                                <p class="metric-title">
-                                                    Información destacada
-                                                </p>
-
-                                                <p class="lbl fw600 c-variant">
-                                                    Podés utilizar este bloque para destacar datos.
-                                                </p>
-
-                                            </div>
-
-                                        </div>
-
-
-                                        <div class="metric-right">
-
-
-                                            <div class="metric-val">
-
-                                                <span class="lbl up fw600 c-outline block">
-                                                    DATO
-                                                </span>
-
-                                                <span class="metric-num">
-                                                    00.0
-                                                </span>
-
-                                            </div>
-
-
-                                            <div class="metric-val">
-
-                                                <span class="lbl up fw600 c-primary block">
-                                                    ACTUAL
-                                                </span>
-
-                                                <span class="metric-num c-primary fw700">
-                                                    00.0
-                                                </span>
-
-                                            </div>
-
-
-                                        </div>
-
-
-                                    </div>
-
-
-                                    <p>
-                                        Continuá escribiendo el contenido de la noticia acá.
-                                    </p>
-
-
-                                    <div class="quote">
-
-                                        <p>
-                                            "Podés utilizar este espacio para agregar una cita
-                                            importante relacionada con la publicación."
-                                        </p>
-
-                                        <span class="lbl up c-primary fw700 block quote-by">
-                                            — Fuente
-                                        </span>
-
-                                    </div>
-
-
-                                </div>
+                                    spellcheck="true"
+                                    data-placeholder="Escribí acá el contenido de la publicación..."
+                                ></div>
 
 
                             </div>
 
+
+                            <!-- CONTADORES -->
 
                             <div class="editor-foot">
 
 
                                 <div class="editor-stats">
 
+
                                     <span>
+
                                         PALABRAS:
+
                                         <strong id="word-count">
                                             0
                                         </strong>
+
                                     </span>
+
 
                                     <span>
                                         •
                                     </span>
 
+
                                     <span>
+
                                         CARACTERES:
+
                                         <strong id="char-count">
                                             0
                                         </strong>
+
                                     </span>
+
 
                                 </div>
 
@@ -934,11 +910,11 @@
                                 <div class="editor-saved">
 
                                     <span class="material-symbols-outlined i16 c-primary">
-                                        cloud_done
+                                        edit
                                     </span>
 
                                     <span>
-                                        Guardado automático
+                                        Editando publicación
                                     </span>
 
                                 </div>
@@ -960,12 +936,15 @@
                     <div class="col-right">
 
 
-                        <!-- ESTADO -->
+                        <!-- =========================
+                             ESTADO PUBLICACIÓN
+                        ========================== -->
 
                         <div class="card card-side gap16">
 
 
                             <div class="row-between">
+
 
                                 <h2 class="card-h2">
 
@@ -979,9 +958,11 @@
 
                                 </h2>
 
+
                                 <span class="badge-grey">
                                     CONFIG
                                 </span>
+
 
                             </div>
 
@@ -1082,12 +1063,15 @@
                         </div>
 
 
-                        <!-- PREMIUM -->
+                        <!-- =========================
+                             PREMIUM
+                        ========================== -->
 
                         <div class="card card-side gap16">
 
 
                             <div class="row-between">
+
 
                                 <div class="flex-c gap8">
 
@@ -1101,9 +1085,11 @@
 
                                 </div>
 
+
                                 <span class="badge-paywall">
                                     PREMIUM
                                 </span>
+
 
                             </div>
 
@@ -1142,12 +1128,15 @@
                         </div>
 
 
-                        <!-- CATEGORÍA -->
+                        <!-- =========================
+                             CATEGORÍA
+                        ========================== -->
 
                         <div class="card card-side gap12">
 
 
                             <div class="row-between">
+
 
                                 <label
                                     class="card-h2"
@@ -1236,12 +1225,14 @@
 
                                     <div class="newcat-row">
 
+
                                         <input
                                             class="field-xs"
                                             id="new-category-input"
                                             type="text"
                                             placeholder="Nombre de la categoría"
                                         >
+
 
                                         <button
                                             class="btn-save"
@@ -1258,6 +1249,7 @@
                                             </span>
 
                                         </button>
+
 
                                     </div>
 
@@ -1288,7 +1280,9 @@
                         </div>
 
 
-                        <!-- ETIQUETAS -->
+                        <!-- =========================
+                             ETIQUETAS
+                        ========================== -->
 
                         <div class="card card-side gap16">
 
@@ -1309,16 +1303,12 @@
                                 </h2>
 
 
-                                <div class="flex-c gap8">
-
-                                    <span
-                                        class="lbl fw600 c-outline"
-                                        id="tag-counter"
-                                    >
-                                        5 ACTIVAS
-                                    </span>
-
-                                </div>
+                                <span
+                                    class="lbl fw600 c-outline"
+                                    id="tag-counter"
+                                >
+                                    0 ACTIVAS
+                                </span>
 
 
                             </div>
@@ -1329,9 +1319,11 @@
 
                                 <div class="tag-input-wrap">
 
+
                                     <span class="tag-hash">
                                         #
                                     </span>
+
 
                                     <input
                                         class="field-xs tag-input"
@@ -1339,6 +1331,7 @@
                                         type="text"
                                         placeholder="Añadir etiqueta..."
                                     >
+
 
                                 </div>
 
@@ -1365,12 +1358,14 @@
 
                             <div class="col gap6">
 
+
                                 <span class="lbl up c-outline sug-title">
                                     Sugerencias:
                                 </span>
 
 
                                 <div class="sugs">
+
 
                                     <button
                                         class="sug"
@@ -1380,6 +1375,7 @@
                                         + #Ferrari
                                     </button>
 
+
                                     <button
                                         class="sug"
                                         data-tag="F1"
@@ -1387,6 +1383,7 @@
                                     >
                                         + #F1
                                     </button>
+
 
                                     <button
                                         class="sug"
@@ -1396,6 +1393,7 @@
                                         + #Verstappen
                                     </button>
 
+
                                     <button
                                         class="sug"
                                         data-tag="Pirelli"
@@ -1403,6 +1401,7 @@
                                     >
                                         + #Pirelli
                                     </button>
+
 
                                 </div>
 
@@ -1413,106 +1412,15 @@
                             <div
                                 class="tags"
                                 id="tags-container"
-                            >
-
-
-                                <span class="tag">
-
-                                    #Ferrari
-
-                                    <button
-                                        class="tag-remove"
-                                        type="button"
-                                    >
-
-                                        <span class="material-symbols-outlined i14">
-                                            close
-                                        </span>
-
-                                    </button>
-
-                                </span>
-
-
-                                <span class="tag">
-
-                                    #F1
-
-                                    <button
-                                        class="tag-remove"
-                                        type="button"
-                                    >
-
-                                        <span class="material-symbols-outlined i14">
-                                            close
-                                        </span>
-
-                                    </button>
-
-                                </span>
-
-
-                                <span class="tag">
-
-                                    #Formula1
-
-                                    <button
-                                        class="tag-remove"
-                                        type="button"
-                                    >
-
-                                        <span class="material-symbols-outlined i14">
-                                            close
-                                        </span>
-
-                                    </button>
-
-                                </span>
-
-
-                                <span class="tag">
-
-                                    #Carrera
-
-                                    <button
-                                        class="tag-remove"
-                                        type="button"
-                                    >
-
-                                        <span class="material-symbols-outlined i14">
-                                            close
-                                        </span>
-
-                                    </button>
-
-                                </span>
-
-
-                                <span class="tag">
-
-                                    #Noticias
-
-                                    <button
-                                        class="tag-remove"
-                                        type="button"
-                                    >
-
-                                        <span class="material-symbols-outlined i14">
-                                            close
-                                        </span>
-
-                                    </button>
-
-                                </span>
-
-
-                            </div>
+                            ></div>
 
 
                         </div>
 
 
-                        <!-- VALIDACIÓN -->
+                        <!-- =========================
+                             VALIDACIÓN
+                        ========================== -->
 
                         <div class="card card-side gap16">
 
@@ -1533,39 +1441,31 @@
                             <ul class="checks">
 
 
-                                <li class="c-surface">
+                                <li class="c-variant">
 
                                     <span class="chk">
 
-                                        <span class="material-symbols-outlined i18 c-primary">
-                                            check_circle
+                                        <span class="material-symbols-outlined i18 c-outline">
+                                            radio_button_unchecked
                                         </span>
 
                                         Título definido
 
                                     </span>
 
-                                    <span class="lbl c-primary fw700">
-                                        OK
-                                    </span>
-
                                 </li>
 
 
-                                <li class="c-surface">
+                                <li class="c-variant">
 
                                     <span class="chk">
 
-                                        <span class="material-symbols-outlined i18 c-primary">
-                                            check_circle
+                                        <span class="material-symbols-outlined i18 c-outline">
+                                            radio_button_unchecked
                                         </span>
 
                                         Categoría seleccionada
 
-                                    </span>
-
-                                    <span class="lbl c-primary fw700">
-                                        OK
                                     </span>
 
                                 </li>
@@ -1583,10 +1483,6 @@
 
                                     </span>
 
-                                    <span class="lbl c-error fw600">
-                                        PENDIENTE
-                                    </span>
-
                                 </li>
 
 
@@ -1600,10 +1496,6 @@
 
                                         Contenido de la publicación
 
-                                    </span>
-
-                                    <span class="lbl c-outline">
-                                        PENDIENTE
                                     </span>
 
                                 </li>
@@ -1622,7 +1514,9 @@
                         </div>
 
 
-                        <!-- BOTONES -->
+                        <!-- =========================
+                             BOTONES FINALES
+                        ========================== -->
 
                         <div class="card card-side gap12">
 
@@ -1661,6 +1555,7 @@
 
                             <button
                                 class="btn-discard"
+                                id="btn-discard"
                                 type="button"
                             >
                                 Descartar cambios
@@ -1690,489 +1585,1101 @@
 
 <!-- =========================
      FOOTER GLOBAL
-========================== -->
+========================= -->
 
 {% include "base/footer.html" %}
 
 
 <!-- =========================
      JAVASCRIPT
-========================== -->
+========================= -->
 
 <script>
 
 
-    (function initPostEditor() {
+(function initPostEditor() {
 
 
-        const titleInput =
-            document.getElementById("post-title");
+    /* =========================
+       ELEMENTOS GENERALES
+    ========================= */
 
 
-        const titleCounter =
-            document.getElementById("title-char-count");
+    const editor =
+        document.getElementById(
+            "editor-workspace"
+        );
 
 
-        if (titleInput && titleCounter) {
+    const wordCount =
+        document.getElementById(
+            "word-count"
+        );
 
-            titleInput.addEventListener(
-                "input",
-                (e) => {
 
-                    titleCounter.textContent =
-                        e.target.value.length + "/120";
+    const charCount =
+        document.getElementById(
+            "char-count"
+        );
 
-                }
-            );
 
+    const titleInput =
+        document.getElementById(
+            "post-title"
+        );
+
+
+    const titleCounter =
+        document.getElementById(
+            "title-char-count"
+        );
+
+
+    /* =========================
+       CONTADOR DEL TÍTULO
+    ========================= */
+
+
+    if (
+        titleInput &&
+        titleCounter
+    ) {
+
+
+        titleInput.addEventListener(
+            "input",
+            () => {
+
+
+                titleCounter.textContent =
+                    titleInput.value.length
+                    +
+                    "/120";
+
+
+            }
+        );
+
+
+    }
+
+
+    /* =========================
+       CONTADOR DEL EDITOR
+    ========================= */
+
+
+    function updateEditorStats() {
+
+
+        if (!editor) {
+            return;
         }
 
 
-        const editor =
-            document.getElementById("editor-workspace");
+        const text =
+            editor.innerText.trim();
 
 
-        const wordCount =
-            document.getElementById("word-count");
+        const words =
+            text
+                ? text
+                    .split(/\s+/)
+                    .length
+                : 0;
 
 
-        const charCount =
-            document.getElementById("char-count");
-
-
-        function updateEditorStats() {
-
-            if (
-                !editor ||
-                !wordCount ||
-                !charCount
-            ) {
-                return;
-            }
-
-
-            const text =
-                editor.innerText.trim();
-
-
-            const words =
-                text
-                    ? text.split(/\s+/).length
-                    : 0;
-
+        if (wordCount) {
 
             wordCount.textContent =
-                words.toLocaleString("es-ES");
+                words.toLocaleString(
+                    "es-ES"
+                );
 
+        }
+
+
+        if (charCount) {
 
             charCount.textContent =
-                text.length.toLocaleString("es-ES");
+                text.length.toLocaleString(
+                    "es-ES"
+                );
 
         }
 
 
-        if (editor) {
-
-            editor.addEventListener(
-                "input",
-                updateEditorStats
-            );
-
-            updateEditorStats();
-
-        }
+    }
 
 
-        const tagsContainer =
-            document.getElementById(
-                "tags-container"
-            );
+    if (editor) {
 
 
-        const tagInput =
-            document.getElementById(
-                "tag-input"
-            );
+        editor.addEventListener(
+            "input",
+            updateEditorStats
+        );
 
 
-        const addTagBtn =
-            document.getElementById(
-                "btn-add-tag"
-            );
+        updateEditorStats();
 
 
-        const tagCounter =
-            document.getElementById(
-                "tag-counter"
-            );
+    }
 
 
-        function updateTagCounter() {
-
-            if (
-                tagCounter &&
-                tagsContainer
-            ) {
-
-                tagCounter.textContent =
-                    tagsContainer.children.length +
-                    " ACTIVAS";
-
-            }
-
-        }
+    /* =========================
+       BOTONES DEL EDITOR
+    ========================= */
 
 
-        if (tagsContainer) {
-
-            tagsContainer.addEventListener(
-                "click",
-                (e) => {
-
-
-                    const removeBtn =
-                        e.target.closest(
-                            ".tag-remove"
-                        );
+    const btnBold =
+        document.getElementById(
+            "btn-bold"
+        );
 
 
-                    if (removeBtn) {
-
-                        const badge =
-                            removeBtn.closest(
-                                ".tag"
-                            );
+    const btnItalic =
+        document.getElementById(
+            "btn-italic"
+        );
 
 
-                        if (badge) {
-                            badge.remove();
-                        }
+    const btnUnderline =
+        document.getElementById(
+            "btn-underline"
+        );
 
 
-                        updateTagCounter();
-
-                    }
-
-
-                }
-            );
-
-        }
+    const btnH2 =
+        document.getElementById(
+            "btn-h2"
+        );
 
 
-        function addTag() {
+    const btnH3 =
+        document.getElementById(
+            "btn-h3"
+        );
 
 
-            if (
-                !tagInput ||
-                !tagsContainer
-            ) {
-                return;
-            }
+    const btnQuote =
+        document.getElementById(
+            "btn-quote"
+        );
 
 
-            let val =
-                tagInput.value.trim();
+    const btnList =
+        document.getElementById(
+            "btn-list"
+        );
 
 
-            if (!val) {
-                return;
-            }
+    const btnImage =
+        document.getElementById(
+            "btn-image"
+        );
 
 
-            if (!val.startsWith("#")) {
-
-                val =
-                    "#" + val;
-
-            }
+    const btnLink =
+        document.getElementById(
+            "btn-link"
+        );
 
 
-            const span =
-                document.createElement(
-                    "span"
+    const editorImageInput =
+        document.getElementById(
+            "editor-image-input"
+        );
+
+
+    /* =========================
+       NEGRITA
+    ========================= */
+
+
+    if (btnBold) {
+
+
+        btnBold.addEventListener(
+            "click",
+            () => {
+
+
+                editor.focus();
+
+
+                document.execCommand(
+                    "bold",
+                    false,
+                    null
                 );
 
 
-            span.className =
-                "tag";
+            }
+        );
 
 
-            span.innerHTML =
-                val +
-                `
-                <button
-                    type="button"
-                    class="tag-remove"
-                >
-                    <span
-                        class="material-symbols-outlined i14"
-                    >
-                        close
-                    </span>
-                </button>
-                `;
+    }
 
 
-            tagsContainer.appendChild(
-                span
-            );
+    /* =========================
+       CURSIVA
+    ========================= */
 
 
-            tagInput.value = "";
+    if (btnItalic) {
 
 
-            updateTagCounter();
-
-        }
-
-
-        if (
-            addTagBtn &&
-            tagInput
-        ) {
+        btnItalic.addEventListener(
+            "click",
+            () => {
 
 
-            addTagBtn.addEventListener(
-                "click",
-                addTag
-            );
+                editor.focus();
 
 
-            tagInput.addEventListener(
-                "keydown",
-                (e) => {
+                document.execCommand(
+                    "italic",
+                    false,
+                    null
+                );
 
 
-                    if (
-                        e.key === "Enter"
-                    ) {
-
-                        e.preventDefault();
-
-                        addTag();
-
-                    }
+            }
+        );
 
 
-                }
-            );
+    }
 
 
-        }
+    /* =========================
+       SUBRAYADO
+    ========================= */
 
 
-        document
-            .querySelectorAll(".sug")
-            .forEach(
-                (btn) => {
+    if (btnUnderline) {
 
 
-                    btn.addEventListener(
-                        "click",
-                        () => {
+        btnUnderline.addEventListener(
+            "click",
+            () => {
 
 
-                            if (!tagInput) {
-                                return;
-                            }
+                editor.focus();
 
 
-                            tagInput.value =
-                                btn.dataset.tag;
+                document.execCommand(
+                    "underline",
+                    false,
+                    null
+                );
 
 
-                            addTag();
+            }
+        );
 
 
-                        }
+    }
+
+
+    /* =========================
+       H2
+    ========================= */
+
+
+    if (btnH2) {
+
+
+        btnH2.addEventListener(
+            "click",
+            () => {
+
+
+                editor.focus();
+
+
+                document.execCommand(
+                    "formatBlock",
+                    false,
+                    "h2"
+                );
+
+
+            }
+        );
+
+
+    }
+
+
+    /* =========================
+       H3
+    ========================= */
+
+
+    if (btnH3) {
+
+
+        btnH3.addEventListener(
+            "click",
+            () => {
+
+
+                editor.focus();
+
+
+                document.execCommand(
+                    "formatBlock",
+                    false,
+                    "h3"
+                );
+
+
+            }
+        );
+
+
+    }
+
+
+    /* =========================
+       CITA
+    ========================= */
+
+
+    if (btnQuote) {
+
+
+        btnQuote.addEventListener(
+            "click",
+            () => {
+
+
+                editor.focus();
+
+
+                document.execCommand(
+                    "formatBlock",
+                    false,
+                    "blockquote"
+                );
+
+
+            }
+        );
+
+
+    }
+
+
+    /* =========================
+       LISTA
+    ========================= */
+
+
+    if (btnList) {
+
+
+        btnList.addEventListener(
+            "click",
+            () => {
+
+
+                editor.focus();
+
+
+                document.execCommand(
+                    "insertUnorderedList",
+                    false,
+                    null
+                );
+
+
+            }
+        );
+
+
+    }
+
+
+    /* =========================
+       LINK
+    ========================= */
+
+
+    if (btnLink) {
+
+
+        btnLink.addEventListener(
+            "click",
+            () => {
+
+
+                const url =
+                    prompt(
+                        "Ingresá la dirección del enlace:"
                     );
 
 
+                if (!url) {
+                    return;
                 }
-            );
 
 
-        const newCatBox =
-            document.getElementById(
-                "new-cat-box"
-            );
+                editor.focus();
 
 
-        const newCatButton =
-            document.getElementById(
-                "btn-new-cat"
-            );
-
-
-        const newCatButton2 =
-            document.getElementById(
-                "btn-new-cat-2"
-            );
-
-
-        function toggleNewCat() {
-
-            if (newCatBox) {
-
-                newCatBox.classList.toggle(
-                    "hidden"
+                document.execCommand(
+                    "createLink",
+                    false,
+                    url
                 );
 
+
             }
-
-        }
-
-
-        if (newCatButton) {
-
-            newCatButton.addEventListener(
-                "click",
-                toggleNewCat
-            );
-
-        }
+        );
 
 
-        if (newCatButton2) {
-
-            newCatButton2.addEventListener(
-                "click",
-                toggleNewCat
-            );
-
-        }
+    }
 
 
-        const saveCategory =
-            document.getElementById(
-                "btn-save-cat"
-            );
+    /* =========================
+       INSERTAR IMAGEN
+    ========================= */
 
 
-        if (saveCategory) {
-
-            saveCategory.addEventListener(
-                "click",
-                () => {
-
-
-                    const input =
-                        document.getElementById(
-                            "new-category-input"
-                        );
+    if (
+        btnImage &&
+        editorImageInput
+    ) {
 
 
-                    const select =
-                        document.getElementById(
-                            "post-category"
-                        );
+        btnImage.addEventListener(
+            "click",
+            () => {
 
 
-                    if (
-                        input &&
-                        select &&
-                        input.value.trim()
-                    ) {
+                editorImageInput.click();
 
 
-                        const option =
-                            document.createElement(
-                                "option"
-                            );
+            }
+        );
 
 
-                        option.value =
-                            input.value
-                                .toLowerCase()
-                                .replace(
-                                    /\s+/g,
-                                    "-"
-                                );
+        editorImageInput.addEventListener(
+            "change",
+            () => {
 
 
-                        option.textContent =
-                            input.value.trim();
+                const archivo =
+                    editorImageInput.files[0];
 
 
-                        option.selected =
-                            true;
+                if (!archivo) {
+                    return;
+                }
 
 
-                        select.appendChild(
-                            option
-                        );
+                if (
+                    !archivo.type.startsWith(
+                        "image/"
+                    )
+                ) {
 
 
-                        input.value = "";
+                    alert(
+                        "Seleccioná una imagen válida."
+                    );
 
 
-                        if (newCatBox) {
-
-                            newCatBox.classList.add(
-                                "hidden"
-                            );
-
-                        }
-
-
-                    }
-
+                    return;
 
                 }
-            );
-
-        }
 
 
-        const draftBtn =
-            document.getElementById(
-                "btn-draft"
-            );
+                const lector =
+                    new FileReader();
 
 
-        const alertToast =
-            document.getElementById(
-                "save-alert"
-            );
+                lector.onload =
+                    function (evento) {
+
+
+                        editor.focus();
+
+
+                        document.execCommand(
+                            "insertImage",
+                            false,
+                            evento.target.result
+                        );
+
+
+                        updateEditorStats();
+
+
+                        editorImageInput.value =
+                            "";
+
+
+                    };
+
+
+                lector.readAsDataURL(
+                    archivo
+                );
+
+
+            }
+        );
+
+
+    }
+
+
+    /* =========================
+       ETIQUETAS
+    ========================= */
+
+
+    const tagsContainer =
+        document.getElementById(
+            "tags-container"
+        );
+
+
+    const tagInput =
+        document.getElementById(
+            "tag-input"
+        );
+
+
+    const addTagBtn =
+        document.getElementById(
+            "btn-add-tag"
+        );
+
+
+    const tagCounter =
+        document.getElementById(
+            "tag-counter"
+        );
+
+
+    function updateTagCounter() {
 
 
         if (
-            draftBtn &&
-            alertToast
+            tagsContainer &&
+            tagCounter
         ) {
 
 
-            draftBtn.addEventListener(
-                "click",
-                () => {
+            tagCounter.textContent =
+                tagsContainer.children.length
+                +
+                " ACTIVAS";
 
 
-                    alertToast.classList.remove(
+        }
+
+
+    }
+
+
+    function addTag() {
+
+
+        if (
+            !tagInput ||
+            !tagsContainer
+        ) {
+            return;
+        }
+
+
+        let value =
+            tagInput.value.trim();
+
+
+        if (!value) {
+            return;
+        }
+
+
+        value =
+            value.replace(
+                /^#/,
+                ""
+            );
+
+
+        const tag =
+            document.createElement(
+                "span"
+            );
+
+
+        tag.className =
+            "tag";
+
+
+        tag.innerHTML =
+            `
+            #${value}
+
+            <button
+                class="tag-remove"
+                type="button"
+            >
+
+                <span
+                    class="material-symbols-outlined i14"
+                >
+                    close
+                </span>
+
+            </button>
+            `;
+
+
+        tagsContainer.appendChild(
+            tag
+        );
+
+
+        tagInput.value =
+            "";
+
+
+        updateTagCounter();
+
+
+    }
+
+
+    if (addTagBtn) {
+
+
+        addTagBtn.addEventListener(
+            "click",
+            addTag
+        );
+
+
+    }
+
+
+    if (tagInput) {
+
+
+        tagInput.addEventListener(
+            "keydown",
+            (event) => {
+
+
+                if (
+                    event.key === "Enter"
+                ) {
+
+
+                    event.preventDefault();
+
+
+                    addTag();
+
+
+                }
+
+
+            }
+        );
+
+
+    }
+
+
+    if (tagsContainer) {
+
+
+        tagsContainer.addEventListener(
+            "click",
+            (event) => {
+
+
+                const removeButton =
+                    event.target.closest(
+                        ".tag-remove"
+                    );
+
+
+                if (!removeButton) {
+                    return;
+                }
+
+
+                const tag =
+                    removeButton.closest(
+                        ".tag"
+                    );
+
+
+                if (tag) {
+
+
+                    tag.remove();
+
+
+                    updateTagCounter();
+
+
+                }
+
+
+            }
+        );
+
+
+    }
+
+
+    document
+        .querySelectorAll(
+            ".sug"
+        )
+        .forEach(
+            (button) => {
+
+
+                button.addEventListener(
+                    "click",
+                    () => {
+
+
+                        if (!tagInput) {
+                            return;
+                        }
+
+
+                        tagInput.value =
+                            button.dataset.tag;
+
+
+                        addTag();
+
+
+                    }
+                );
+
+
+            }
+        );
+
+
+    updateTagCounter();
+
+
+    /* =========================
+       NUEVA CATEGORÍA
+    ========================= */
+
+
+    const newCatBox =
+        document.getElementById(
+            "new-cat-box"
+        );
+
+
+    const newCatButton =
+        document.getElementById(
+            "btn-new-cat"
+        );
+
+
+    const newCatButton2 =
+        document.getElementById(
+            "btn-new-cat-2"
+        );
+
+
+    const saveCategoryButton =
+        document.getElementById(
+            "btn-save-cat"
+        );
+
+
+    function toggleCategoryBox() {
+
+
+        if (newCatBox) {
+
+
+            newCatBox.classList.toggle(
+                "hidden"
+            );
+
+
+        }
+
+
+    }
+
+
+    if (newCatButton) {
+
+
+        newCatButton.addEventListener(
+            "click",
+            toggleCategoryBox
+        );
+
+
+    }
+
+
+    if (newCatButton2) {
+
+
+        newCatButton2.addEventListener(
+            "click",
+            toggleCategoryBox
+        );
+
+
+    }
+
+
+    if (saveCategoryButton) {
+
+
+        saveCategoryButton.addEventListener(
+            "click",
+            () => {
+
+
+                const categoryInput =
+                    document.getElementById(
+                        "new-category-input"
+                    );
+
+
+                const categorySelect =
+                    document.getElementById(
+                        "post-category"
+                    );
+
+
+                if (
+                    !categoryInput ||
+                    !categorySelect
+                ) {
+                    return;
+                }
+
+
+                const value =
+                    categoryInput.value.trim();
+
+
+                if (!value) {
+                    return;
+                }
+
+
+                const option =
+                    document.createElement(
+                        "option"
+                    );
+
+
+                option.value =
+                    value
+                        .toLowerCase()
+                        .replace(
+                            /\s+/g,
+                            "-"
+                        );
+
+
+                option.textContent =
+                    value;
+
+
+                option.selected =
+                    true;
+
+
+                categorySelect.appendChild(
+                    option
+                );
+
+
+                categoryInput.value =
+                    "";
+
+
+                if (newCatBox) {
+
+
+                    newCatBox.classList.add(
                         "hidden"
                     );
 
 
-                    setTimeout(
-                        () => {
+                }
 
-                            alertToast.classList.add(
-                                "hidden"
-                            );
 
-                        },
-                        3000
+            }
+        );
+
+
+    }
+
+
+    /* =========================
+       GUARDAR BORRADOR
+    ========================= */
+
+
+    const draftButton =
+        document.getElementById(
+            "btn-draft"
+        );
+
+
+    const saveAlert =
+        document.getElementById(
+            "save-alert"
+        );
+
+
+    if (
+        draftButton &&
+        saveAlert
+    ) {
+
+
+        draftButton.addEventListener(
+            "click",
+            () => {
+
+
+                saveAlert.classList.remove(
+                    "hidden"
+                );
+
+
+                setTimeout(
+                    () => {
+
+
+                        saveAlert.classList.add(
+                            "hidden"
+                        );
+
+
+                    },
+                    2500
+                );
+
+
+            }
+        );
+
+
+    }
+
+
+    /* =========================
+       DESCARTAR
+    ========================= */
+
+
+    const discardButton =
+        document.getElementById(
+            "btn-discard"
+        );
+
+
+    if (discardButton) {
+
+
+        discardButton.addEventListener(
+            "click",
+            () => {
+
+
+                const confirmar =
+                    confirm(
+                        "¿Querés descartar los cambios?"
                     );
 
 
+                if (!confirmar) {
+                    return;
                 }
-            );
 
 
-        }
+                if (titleInput) {
+
+                    titleInput.value =
+                        "";
+
+                }
 
 
-    })();
+                const excerpt =
+                    document.getElementById(
+                        "post-excerpt"
+                    );
+
+
+                if (excerpt) {
+
+                    excerpt.value =
+                        "";
+
+                }
+
+
+                if (editor) {
+
+                    editor.innerHTML =
+                        "";
+
+                }
+
+
+                if (tagsContainer) {
+
+                    tagsContainer.innerHTML =
+                        "";
+
+                }
+
+
+                if (titleCounter) {
+
+                    titleCounter.textContent =
+                        "0/120";
+
+                }
+
+
+                updateEditorStats();
+
+
+                updateTagCounter();
+
+
+            }
+        );
+
+
+    }
+
+
+})();
 
 
 </script>
@@ -2181,3 +2688,4 @@
 </body>
 
 </html>
+
