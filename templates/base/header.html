@@ -72,7 +72,6 @@
         </a>
 
 
-
         <!-- Botón mobile -->
         <button
             class="navbar-toggler site-toggler"
@@ -91,7 +90,6 @@
         </button>
 
 
-
         <!-- Navegación -->
         <div
             class="collapse navbar-collapse"
@@ -99,7 +97,7 @@
         >
 
 
-            <ul class="navbar-nav site-nav-links mx-lg-auto">
+            <ul class="navbar-nav site-nav-links">
 
 
                 <!-- INICIO -->
@@ -115,97 +113,43 @@
                 </li>
 
 
+                <!-- NOTICIAS -->
+                <li class="nav-item">
 
-                <!-- EXPLORAR -->
-                <li class="nav-item site-nav-dropdown">
-
-                    <button
-                        type="button"
-                        class="nav-link site-nav-dropdown-button"
+                    <a
+                        class="nav-link"
+                        href="{{ url_for('noticias') }}"
                     >
-
-                        EXPLORAR
-
-                        <span class="material-symbols-outlined">
-                            keyboard_arrow_down
-                        </span>
-
-                    </button>
-
-
-                    <div class="site-nav-dropdown-menu">
-
-
-                        <!-- Noticias -->
-                        <a href="{{ url_for('noticias') }}">
-
-                            <span class="material-symbols-outlined">
-                                article
-                            </span>
-
-                            <div>
-
-                                <span class="site-dropdown-title">
-                                    NOTICIAS
-                                </span>
-
-                                <span class="site-dropdown-description">
-                                    Todas las publicaciones
-                                </span>
-
-                            </div>
-
-                        </a>
-
-
-                        <!-- Categorías -->
-                        <a href="{{ url_for('categorias') }}">
-
-                            <span class="material-symbols-outlined">
-                                category
-                            </span>
-
-                            <div>
-
-                                <span class="site-dropdown-title">
-                                    CATEGORÍAS
-                                </span>
-
-                                <span class="site-dropdown-description">
-                                    Explorá por temática
-                                </span>
-
-                            </div>
-
-                        </a>
-
-
-                        <!-- Calendario -->
-                        <a href="{{ url_for('calendario') }}">
-
-                            <span class="material-symbols-outlined">
-                                calendar_month
-                            </span>
-
-                            <div>
-
-                                <span class="site-dropdown-title">
-                                    CALENDARIO
-                                </span>
-
-                                <span class="site-dropdown-description">
-                                    Próximas carreras
-                                </span>
-
-                            </div>
-
-                        </a>
-
-
-                    </div>
+                        NOTICIAS
+                    </a>
 
                 </li>
 
+
+                <!-- CATEGORÍAS -->
+                <li class="nav-item">
+
+                    <a
+                        class="nav-link"
+                        href="{{ url_for('categorias') }}"
+                    >
+                        CATEGORÍAS
+                    </a>
+
+                </li>
+
+
+                <!-- CALENDARIO -->
+                <li class="nav-item">
+
+                    <a
+                        class="nav-link"
+                        href="{{ url_for('calendario') }}"
+                    >
+                        CALENDARIO
+                    </a>
+
+                </li>
 
 
                 <!-- PREMIUM -->
@@ -227,7 +171,6 @@
                 </li>
 
 
-
                 <!-- PERFIL -->
                 <li class="nav-item">
 
@@ -244,44 +187,40 @@
             </ul>
 
 
-
             <!-- Parte derecha -->
             <div class="site-nav-actions">
 
 
-                <!-- Búsqueda visual -->
-                <div class="site-search">
+                {% if session.get("usuario") %}
 
-                    <input
-                        type="text"
-                        placeholder="BUSCAR..."
+                    <!-- Cerrar sesión -->
+                    <a
+                        class="site-register"
+                        href="{{ url_for('logout') }}"
                     >
+                        CERRAR SESIÓN
+                    </a>
 
-                    <span class="material-symbols-outlined">
-                        search
-                    </span>
+                {% else %}
 
-                </div>
-
-
-
-                <!-- Login -->
-                <a
-                    class="site-login"
-                    href="{{ url_for('login') }}"
-                >
-                    INICIAR SESIÓN
-                </a>
+                    <!-- Login -->
+                    <a
+                        class="site-login"
+                        href="{{ url_for('login') }}"
+                    >
+                        INICIAR SESIÓN
+                    </a>
 
 
+                    <!-- Registro -->
+                    <a
+                        class="site-register"
+                        href="{{ url_for('registro') }}"
+                    >
+                        REGISTRARSE
+                    </a>
 
-                <!-- Registro -->
-                <a
-                    class="site-register"
-                    href="{{ url_for('registro') }}"
-                >
-                    REGISTRARSE
-                </a>
+                {% endif %}
 
 
             </div>
