@@ -4692,3 +4692,108 @@ body {
 
 
 }
+
+.editor {
+    min-height: 420px;
+
+    outline: none;
+
+    color: var(--text);
+
+    font-size: 16px;
+
+    line-height: 1.625;
+
+    cursor: text;
+
+    user-select: text;
+
+    pointer-events: auto;
+}
+
+
+/* Placeholder cuando está vacío */
+
+.editor:empty::before {
+    content: attr(data-placeholder);
+
+    color: var(--outline);
+
+    pointer-events: none;
+}
+
+
+/* Imágenes dentro del contenido */
+
+.editor img {
+    display: block;
+
+    max-width: 100%;
+
+    height: auto;
+
+    margin: 20px auto;
+
+    border-radius: 6px;
+
+    border: 1px solid var(--line-mid);
+}
+
+
+/* Títulos escritos desde el editor */
+
+.editor h2 {
+    margin: 20px 0 10px;
+
+    font-family: var(--font-head);
+
+    font-size: 24px;
+
+    color: var(--primary);
+}
+
+
+.editor h3 {
+    margin: 18px 0 8px;
+
+    font-family: var(--font-head);
+
+    font-size: 20px;
+
+    color: var(--text);
+}
+
+
+/* Citas */
+
+.editor blockquote {
+    margin: 20px 0;
+
+    padding: 16px;
+
+    background: rgba(31, 31, 31, 0.82);
+
+    border-left: 3px solid var(--primary);
+
+    font-style: italic;
+}
+
+
+/* Listas */
+
+.editor ul {
+    margin: 16px 0;
+
+    padding-left: 30px;
+
+    list-style: disc;
+}
+
+
+/* Links */
+
+.editor a {
+    color: var(--primary);
+
+    text-decoration: underline;
+}
