@@ -1,0 +1,188 @@
+
+<aside class="editor-sidebar">
+
+    <div class="sidebar-head">
+
+        <div class="sidebar-brand">
+
+            <div class="brand-row">
+
+                <span class="material-symbols-outlined brand-icon">
+                    sports_motorsports
+                </span>
+
+                <span class="brand-name">
+                    F1 <strong>SIN FILTRO</strong>
+                </span>
+
+            </div>
+
+            <div class="brand-sub">
+
+                <span class="status-dot"></span>
+
+                <span>
+                    Panel de Editor
+                </span>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="session-box">
+
+        <span>
+            SESIÓN ACTIVA
+        </span>
+
+        <strong>
+            EDITOR
+        </strong>
+
+    </div>
+
+
+    <nav class="sidebar-nav">
+
+        <a
+            class="sidebar-link {% if seccion_activa == 'dashboard' %}active{% endif %}"
+            href="{{ url_for('editor') }}"
+        >
+            <span class="material-symbols-outlined">
+                speed
+            </span>
+
+            <span>
+                Dashboard
+            </span>
+        </a>
+
+
+        <a
+            class="sidebar-link {% if seccion_activa == 'publicaciones' %}active{% endif %}"
+            href="{{ url_for('editor_publicaciones') }}"
+        >
+            <span class="material-symbols-outlined">
+                article
+            </span>
+
+            <span>
+                Mis Publicaciones
+            </span>
+        </a>
+
+
+        <a
+            class="sidebar-link {% if seccion_activa == 'crear' %}active{% endif %}"
+            href="{{ url_for('editor_crear_publicacion') }}"
+        >
+            <span class="material-symbols-outlined">
+                edit_document
+            </span>
+
+            <span>
+                Crear Publicación
+            </span>
+        </a>
+
+
+        <a
+            class="sidebar-link {% if seccion_activa == 'comentarios' %}active{% endif %}"
+            href="#"
+        >
+            <span class="material-symbols-outlined">
+                forum
+            </span>
+
+            <span>
+                Comentarios
+            </span>
+        </a>
+
+
+        <a
+            class="sidebar-link {% if seccion_activa == 'categorias' %}active{% endif %}"
+            href="#"
+        >
+            <span class="material-symbols-outlined">
+                category
+            </span>
+
+            <span>
+                Categorías
+            </span>
+        </a>
+
+
+        <a
+            class="sidebar-link {% if seccion_activa == 'etiquetas' %}active{% endif %}"
+            href="#"
+        >
+            <span class="material-symbols-outlined">
+                label
+            </span>
+
+            <span>
+                Etiquetas
+            </span>
+        </a>
+
+
+        <a
+            class="sidebar-link"
+            href="{{ url_for('perfil') }}"
+        >
+            <span class="material-symbols-outlined">
+                badge
+            </span>
+
+            <span>
+                Mi Perfil
+            </span>
+        </a>
+
+    </nav>
+
+
+    <div class="sidebar-bottom">
+
+        <div class="cms-card">
+
+            <div>
+
+                <span class="cms-label">
+                    Sistema Editorial
+                </span>
+
+                <strong>
+                    F1 SIN FILTRO
+                </strong>
+
+            </div>
+
+            <span class="material-symbols-outlined">
+                settings
+            </span>
+
+        </div>
+
+
+        <a
+            class="portal-link"
+            href="{{ url_for('inicio') }}"
+        >
+            <span class="material-symbols-outlined">
+                arrow_back
+            </span>
+
+            <span>
+                Volver al Portal
+            </span>
+        </a>
+
+    </div>
+
+</aside>
