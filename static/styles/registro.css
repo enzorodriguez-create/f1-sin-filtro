@@ -428,3 +428,25 @@
     .main { padding: 2.5rem; }
     .card-title h1 { font-size: 2.25rem; }
   }
+
+  .bg-grid,
+  .glow {
+      display: none;
+  }
+  
+  body.register {
+      background:
+          linear-gradient(
+              rgba(0, 0, 0, 0.58),
+              rgba(0, 0, 0, 0.72)
+          ),
+          url("/static/styles/images/fondof1.avif");
+  
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+  } 
+
+  
+  
