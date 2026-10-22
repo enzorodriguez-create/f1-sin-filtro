@@ -1,299 +1,173 @@
 {% include 'base/header.html' %}
 
 <link
-    rel="stylesheet"
-    href="{{ url_for('static', filename='styles/calendario.css') }}"
->
+  rel="stylesheet"
+  href="{{ url_for('static', filename='styles/calendario.css') }}"
+/>
 
 <div class="calendario-page">
+  <div class="calendario-pattern"></div>
 
-    <div class="calendario-pattern"></div>
+  <div class="calendario-container">
+    <!-- ENCABEZADO -->
+    <section class="calendario-head">
+      <div>
+        <span class="calendario-label"> // TEMPORADA 2026 </span>
 
-    <div class="calendario-container">
+        <h1>Calendario F1</h1>
 
-        <!-- ENCABEZADO -->
-        <section class="calendario-head">
+        <p>Todas las fechas de la temporada 2026 de Fórmula 1.</p>
+      </div>
 
-            <div>
+      <div class="calendario-api">
+        <span class="calendario-api-dot"></span>
 
-                <span class="calendario-label">
-                    // TEMPORADA 2026
-                </span>
+        DATOS OPENF1
+      </div>
+    </section>
 
-                <h1>Calendario F1</h1>
+    <!-- INFORMACIÓN -->
+    <section class="calendario-info">
+      <div>
+        <span class="material-symbols-outlined"> calendar_month </span>
 
-                <p>
-                    Todas las fechas de la temporada 2026
-                    de Fórmula 1.
-                </p>
+        <div>
+          <span class="calendario-info-number"> {{ carreras|length }} </span>
 
-            </div>
+          <span class="calendario-info-label"> EVENTOS </span>
+        </div>
+      </div>
 
-            <div class="calendario-api">
+      <div>
+        <span class="material-symbols-outlined"> public </span>
 
-                <span class="calendario-api-dot"></span>
+        <div>
+          <span class="calendario-info-number"> 2026 </span>
 
-                DATOS OPENF1
+          <span class="calendario-info-label"> TEMPORADA </span>
+        </div>
+      </div>
 
-            </div>
+      <div>
+        <span class="material-symbols-outlined"> speed </span>
 
-        </section>
+        <div>
+          <span class="calendario-info-number"> F1 </span>
 
+          <span class="calendario-info-label"> CAMPEONATO </span>
+        </div>
+      </div>
+    </section>
 
-        <!-- INFORMACIÓN -->
-        <section class="calendario-info">
+    <!-- GRILLA -->
+    <section class="calendario-grid">
+      {% for carrera in carreras %}
 
-            <div>
+      <article class="carrera-card">
+        <!-- IMAGEN CIRCUITO -->
+        <div class="carrera-image">
+          {% if carrera.circuit_image %}
 
-                <span class="material-symbols-outlined">
-                    calendar_month
-                </span>
-
-                <div>
-
-                    <span class="calendario-info-number">
-                        {{ carreras|length }}
-                    </span>
-
-                    <span class="calendario-info-label">
-                        EVENTOS
-                    </span>
-
-                </div>
-
-            </div>
-
-
-            <div>
-
-                <span class="material-symbols-outlined">
-                    public
-                </span>
-
-                <div>
-
-                    <span class="calendario-info-number">
-                        2026
-                    </span>
-
-                    <span class="calendario-info-label">
-                        TEMPORADA
-                    </span>
-
-                </div>
-
-            </div>
-
-
-            <div>
-
-                <span class="material-symbols-outlined">
-                    speed
-                </span>
-
-                <div>
-
-                    <span class="calendario-info-number">
-                        F1
-                    </span>
-
-                    <span class="calendario-info-label">
-                        CAMPEONATO
-                    </span>
-
-                </div>
-
-            </div>
-
-        </section>
-
-
-        <!-- GRILLA -->
-        <section class="calendario-grid">
-
-            {% for carrera in carreras %}
-
-            <article class="carrera-card">
-
-
-                <!-- IMAGEN CIRCUITO -->
-                <div class="carrera-image">
-
-                    {% if carrera.circuit_image %}
-
-    <img
-        src="{{ carrera.circuit_image }}"
-        alt="{{ carrera.circuit_short_name }}"
-        onerror="
+          <img
+            src="{{ carrera.circuit_image }}"
+            alt="{{ carrera.circuit_short_name }}"
+            onerror="
             this.style.display='none';
             this.nextElementSibling.style.display='flex';
         "
-    >
+          />
 
-    <div class="carrera-image-fallback carrera-image-error">
+          <div class="carrera-image-fallback carrera-image-error">
+            <span class="material-symbols-outlined"> route </span>
 
-        <span class="material-symbols-outlined">
-            route
-        </span>
+            <span class="carrera-image-error-text"> IMAGEN NO DISPONIBLE </span>
+          </div>
 
-        <span class="carrera-image-error-text">
-            IMAGEN NO DISPONIBLE
-        </span>
+          {% else %}
 
-    </div>
+          <div class="carrera-image-fallback">
+            <span class="material-symbols-outlined"> route </span>
 
-{% else %}
+            <span class="carrera-image-error-text"> IMAGEN NO DISPONIBLE </span>
+          </div>
 
-    <div class="carrera-image-fallback">
+          {% endif %}
 
-        <span class="material-symbols-outlined">
-            route
-        </span>
+          <div class="carrera-number">{{ "%02d"|format(loop.index) }}</div>
 
-        <span class="carrera-image-error-text">
-            IMAGEN NO DISPONIBLE
-        </span>
+          {% if carrera.country_flag %}
 
-    </div>
+          <div class="carrera-flag">
+            <img
+              src="{{ carrera.country_flag }}"
+              alt="{{ carrera.country_name }}"
+            />
+          </div>
 
-{% endif %}
+          {% endif %}
+        </div>
 
+        <!-- CONTENIDO -->
+        <div class="carrera-content">
+          <div class="carrera-meta">
+            <span class="carrera-country"> {{ carrera.country_name }} </span>
 
-                    <div class="carrera-number">
-                        {{ "%02d"|format(loop.index) }}
-                    </div>
+            <span class="carrera-year"> {{ carrera.year }} </span>
+          </div>
 
+          <h2>{{ carrera.meeting_name }}</h2>
 
-                    {% if carrera.country_flag %}
+          <div class="carrera-location">
+            <span class="material-symbols-outlined"> location_on </span>
 
-                        <div class="carrera-flag">
+            <span> {{ carrera.location }} </span>
+          </div>
 
-                            <img
-                                src="{{ carrera.country_flag }}"
-                                alt="{{ carrera.country_name }}"
-                            >
+          <div class="carrera-data">
+            <div>
+              <span class="carrera-data-label"> CIRCUITO </span>
 
-                        </div>
+              <span class="carrera-data-value">
+                {{ carrera.circuit_short_name }}
+              </span>
+            </div>
 
-                    {% endif %}
+            <div>
+              <span class="carrera-data-label"> INICIO </span>
 
-                </div>
+              <span class="carrera-data-value">
+                {{ carrera.date_start[8:10] }}/{{ carrera.date_start[5:7] }}/{{
+                carrera.date_start[0:4] }}
+              </span>
+            </div>
 
+            <div>
+              <span class="carrera-data-label"> FINAL </span>
 
-                <!-- CONTENIDO -->
-                <div class="carrera-content">
+              <span class="carrera-data-value">
+                {{ carrera.date_end[8:10] }}/{{ carrera.date_end[5:7] }}/{{
+                carrera.date_end[0:4] }}
+              </span>
+            </div>
 
+            <div>
+              <span class="carrera-data-label"> TIPO </span>
 
-                    <div class="carrera-meta">
+              <span class="carrera-data-value"> {{ carrera.tipo_es }} </span>
+            </div>
+          </div>
 
-                        <span class="carrera-country">
-                            {{ carrera.country_name }}
-                        </span>
+          <div class="carrera-footer">
+            <span> EVENTO #{{ "%02d"|format(loop.index) }} </span>
 
-                        <span class="carrera-year">
-                            {{ carrera.year }}
-                        </span>
+            <span class="material-symbols-outlined"> flag </span>
+          </div>
+        </div>
+      </article>
 
-                    </div>
-
-
-                    <h2>
-                        {{ carrera.meeting_name }}
-                    </h2>
-
-
-                    <div class="carrera-location">
-
-                        <span class="material-symbols-outlined">
-                            location_on
-                        </span>
-
-                        <span>
-                            {{ carrera.location }}
-                        </span>
-
-                    </div>
-
-
-                    <div class="carrera-data">
-
-
-                        <div>
-
-                            <span class="carrera-data-label">
-                                CIRCUITO
-                            </span>
-
-                            <span class="carrera-data-value">
-                                {{ carrera.circuit_short_name }}
-                            </span>
-
-                        </div>
-
-
-                        <div>
-
-                            <span class="carrera-data-label">
-                                INICIO
-                            </span>
-
-                            <span class="carrera-data-value">
-                                {{ carrera.date_start[8:10] }}/{{ carrera.date_start[5:7] }}/{{ carrera.date_start[0:4] }}
-                            </span>
-
-                        </div>
-
-
-                        <div>
-
-                            <span class="carrera-data-label">
-                                FINAL
-                            </span>
-
-                            <span class="carrera-data-value">
-                                {{ carrera.date_end[8:10] }}/{{ carrera.date_end[5:7] }}/{{ carrera.date_end[0:4] }}
-                            </span>
-
-                        </div>
-
-
-                        <div>
-
-                            <span class="carrera-data-label">
-                                TIPO
-                            </span>
-
-                            <span class="carrera-data-value">
-                                {{ carrera.tipo_es }}
-                            </span>
-
-                        </div>
-
-                    </div>
-
-
-                    <div class="carrera-footer">
-
-                        <span>
-                            EVENTO #{{ "%02d"|format(loop.index) }}
-                        </span>
-
-                        <span class="material-symbols-outlined">
-                            flag
-                        </span>
-
-                    </div>
-
-                </div>
-
-            </article>
-
-            {% endfor %}
-
-        </section>
-
-    </div>
-
+      {% endfor %}
+    </section>
+  </div>
 </div>
 
 {% include 'base/footer.html' %}
