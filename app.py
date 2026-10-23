@@ -212,18 +212,51 @@ def login_google():
 
 @app.route("/auth/google/callback")
 def callback_google():
+
     token = google.authorize_access_token()
+
     info = token["userinfo"]
 
+    email = info.get("email")
+
+    usuario = Usuario.query.filter_by(
+        email=email
+    ).first()
+
+
+    if usuario is None:
+
+        nuevo_usuario = Usuario(
+            nombre=info.get("given_name") or info.get("name"),
+            apellido=info.get("family_name") or "",
+            usuario=email.split("@")[0],
+            email=email,
+            password=None,
+            foto=info.get("picture"),
+            rol="usuario",
+            tipo_login="google",
+            premium=False
+        )
+
+        db.session.add(nuevo_usuario)
+        db.session.commit()
+
+        usuario = nuevo_usuario
+
+
     session["usuario"] = {
-        "nombre": info.get("name"),
-        "email": info.get("email"),
-        "foto": info.get("picture"),
-        "rol": "usuario",
-        "tipo_login": "google"
+        "id": usuario.id,
+        "nombre": usuario.nombre,
+        "apellido": usuario.apellido,
+        "usuario": usuario.usuario,
+        "email": usuario.email,
+        "foto": usuario.foto,
+        "rol": usuario.rol,
+        "tipo_login": usuario.tipo_login,
+        "premium": usuario.premium
     }
 
-    return redirect(url_for("perfil"))
+    return redirect(url_for("inicio"))
 
 @app.route("/editor/crear-publicacion")
 def editor_crear_publicacion():
