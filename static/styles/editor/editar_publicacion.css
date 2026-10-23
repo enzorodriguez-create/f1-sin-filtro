@@ -1,0 +1,1113 @@
+/* =========================
+   EDITAR PUBLICACIÓN
+========================= */
+
+
+/* =========================
+   CABECERA
+========================= */
+
+.edit-head {
+    margin-bottom: 1.5rem;
+
+    padding-bottom: 1.5rem;
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 1.25rem;
+
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+
+.edit-path {
+    margin-bottom: 0.5rem;
+
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+
+    gap: 0.4rem;
+
+    color: #a3a3a3;
+
+    font-size: 0.68rem;
+    font-weight: 700;
+
+    letter-spacing: 0.05em;
+}
+
+
+.edit-path strong {
+    color: #a7c8ff;
+}
+
+
+.edit-head h1 {
+    margin: 0 0 0.5rem;
+
+    font-family: "Chivo", sans-serif;
+
+    font-size: clamp(2rem, 4vw, 2.7rem);
+
+    line-height: 1;
+
+    letter-spacing: -0.04em;
+}
+
+
+.edit-head h1 span {
+    color: #a7c8ff;
+}
+
+
+.edit-head p {
+    margin: 0;
+
+    color: #a3a3a3;
+
+    line-height: 1.5;
+}
+
+
+.edit-head-actions {
+    display: flex;
+    flex-wrap: wrap;
+
+    gap: 0.75rem;
+}
+
+
+.btn-secondary,
+.btn-primary {
+    min-height: 42px;
+
+    padding: 0.7rem 1rem;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 0.45rem;
+
+    border-radius: 0.4rem;
+
+    font-family: "Geist", sans-serif;
+
+    font-size: 0.8rem;
+    font-weight: 700;
+
+    text-decoration: none;
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s,
+        color 0.2s,
+        border-color 0.2s;
+}
+
+
+.btn-secondary {
+    background: rgba(41, 41, 41, 0.86);
+
+    color: #ffffff;
+
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+
+.btn-secondary:hover {
+    background: rgba(55, 55, 55, 0.9);
+
+    color: #ffffff;
+}
+
+
+.btn-primary {
+    background: #003366;
+
+    color: #ffffff;
+
+    border: 1px solid rgba(167, 200, 255, 0.2);
+}
+
+
+.btn-primary:hover {
+    background: #164b7f;
+}
+
+
+
+/* =========================
+   PUBLICACIÓN ACTUAL
+========================= */
+
+.edit-current-post {
+    margin-bottom: 1.5rem;
+
+    padding: 1rem;
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 1rem;
+
+    background: rgba(24, 24, 24, 0.84);
+
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 0.5rem;
+}
+
+
+.edit-current-left {
+    display: flex;
+    align-items: center;
+
+    gap: 0.75rem;
+}
+
+
+.edit-current-left > .material-symbols-outlined {
+    width: 42px;
+    height: 42px;
+
+    flex-shrink: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: rgba(0, 51, 102, 0.55);
+
+    color: #a7c8ff;
+
+    border-radius: 0.4rem;
+}
+
+
+.edit-current-left div {
+    min-width: 0;
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 0.2rem;
+}
+
+
+.edit-current-left div > span {
+    color: #a7c8ff;
+
+    font-size: 0.65rem;
+    font-weight: 800;
+
+    letter-spacing: 0.08em;
+}
+
+
+.edit-current-left strong {
+    overflow: hidden;
+
+    color: #ffffff;
+
+    text-overflow: ellipsis;
+
+    white-space: nowrap;
+}
+
+
+.edit-status {
+    width: fit-content;
+
+    padding: 0.3rem 0.55rem;
+
+    background: rgba(0, 51, 102, 0.6);
+
+    color: #a7c8ff;
+
+    border: 1px solid rgba(167, 200, 255, 0.12);
+    border-radius: 0.3rem;
+
+    font-size: 0.65rem;
+    font-weight: 800;
+
+    letter-spacing: 0.05em;
+}
+
+
+
+/* =========================
+   GRID
+========================= */
+
+.edit-grid {
+    display: grid;
+
+    grid-template-columns: 1fr;
+
+    gap: 1.5rem;
+}
+
+
+.edit-main,
+.edit-sidebar {
+    min-width: 0;
+}
+
+
+.edit-main {
+    display: flex;
+    flex-direction: column;
+
+    gap: 1rem;
+}
+
+
+.edit-sidebar {
+    display: flex;
+    flex-direction: column;
+
+    gap: 1rem;
+}
+
+
+
+/* =========================
+   CARDS
+========================= */
+
+.edit-card {
+    padding: 1.25rem;
+
+    background: rgba(24, 24, 24, 0.84);
+
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 0.5rem;
+}
+
+
+.edit-label-row {
+    margin-bottom: 0.75rem;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 1rem;
+}
+
+
+.edit-label-row label,
+.edit-label {
+    color: #a3a3a3;
+
+    font-size: 0.7rem;
+    font-weight: 700;
+
+    letter-spacing: 0.06em;
+}
+
+
+.edit-label-row > span {
+    color: #737373;
+
+    font-size: 0.7rem;
+    font-weight: 600;
+}
+
+
+.edit-help {
+    margin: 0.3rem 0 0;
+
+    color: #737373;
+
+    font-size: 0.75rem;
+
+    line-height: 1.4;
+}
+
+
+
+/* =========================
+   CAMPOS
+========================= */
+
+.edit-field,
+.edit-select {
+    width: 100%;
+
+    padding: 0.8rem;
+
+    background: rgba(14, 14, 14, 0.78);
+
+    color: #ffffff;
+
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 0.4rem;
+
+    font-family: "Geist", sans-serif;
+
+    outline: none;
+
+    transition:
+        border-color 0.2s,
+        background 0.2s;
+}
+
+
+.edit-field:focus,
+.edit-select:focus {
+    background: rgba(18, 18, 18, 0.9);
+
+    border-color: #a7c8ff;
+}
+
+
+.edit-title-field {
+    font-family: "Chivo", sans-serif;
+
+    font-size: 1.05rem;
+    font-weight: 700;
+}
+
+
+.edit-summary {
+    margin-top: 0.75rem;
+
+    min-height: 110px;
+
+    resize: vertical;
+}
+
+
+
+/* =========================
+   IMAGEN
+========================= */
+
+.edit-aspect {
+    padding: 0.22rem 0.45rem;
+
+    flex-shrink: 0;
+
+    background: rgba(0, 51, 102, 0.45);
+
+    color: #a7c8ff;
+
+    border-radius: 0.3rem;
+
+    font-size: 0.65rem;
+    font-weight: 700;
+}
+
+
+.edit-image-preview {
+    min-height: 220px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    gap: 0.5rem;
+
+    background: rgba(14, 14, 14, 0.72);
+
+    color: #737373;
+
+    border: 1px dashed rgba(255, 255, 255, 0.15);
+    border-radius: 0.45rem;
+}
+
+
+.edit-image-preview .material-symbols-outlined {
+    color: #a7c8ff;
+
+    font-size: 42px;
+}
+
+
+.edit-image-btn {
+    margin-top: 0.75rem;
+
+    width: 100%;
+
+    min-height: 42px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 0.45rem;
+
+    background: rgba(41, 41, 41, 0.86);
+
+    color: #ffffff;
+
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 0.4rem;
+
+    font-size: 0.8rem;
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition: background 0.2s;
+}
+
+
+.edit-image-btn:hover {
+    background: rgba(55, 55, 55, 0.9);
+}
+
+
+
+/* =========================
+   EDITOR DE TEXTO
+========================= */
+
+.edit-editor {
+    overflow: hidden;
+
+    background: rgba(24, 24, 24, 0.84);
+
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 0.5rem;
+}
+
+
+.edit-toolbar {
+    min-height: 54px;
+
+    padding: 0.6rem;
+
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+
+    gap: 0.5rem;
+
+    background: rgba(17, 17, 17, 0.92);
+
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+
+.edit-toolbar-group {
+    display: flex;
+    align-items: center;
+
+    gap: 0.25rem;
+}
+
+
+.edit-toolbar-separator {
+    width: 1px;
+    height: 24px;
+
+    background: rgba(255, 255, 255, 0.1);
+}
+
+
+.edit-toolbar-btn {
+    min-width: 34px;
+    height: 34px;
+
+    padding: 0.3rem;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: transparent;
+
+    color: #a3a3a3;
+
+    border: none;
+    border-radius: 0.3rem;
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s,
+        color 0.2s;
+}
+
+
+.edit-toolbar-btn:hover {
+    background: rgba(41, 41, 41, 0.9);
+
+    color: #a7c8ff;
+}
+
+
+.edit-toolbar-btn .material-symbols-outlined {
+    font-size: 20px;
+}
+
+
+.edit-toolbar-text {
+    font-weight: 800;
+}
+
+
+.edit-workspace {
+    min-height: 380px;
+
+    padding: 1.5rem;
+
+    background: rgba(14, 14, 14, 0.72);
+
+    color: #f2f2f2;
+
+    outline: none;
+
+    line-height: 1.7;
+}
+
+
+.edit-workspace h2,
+.edit-workspace h3 {
+    margin-top: 0;
+
+    font-family: "Chivo", sans-serif;
+}
+
+
+.edit-workspace p {
+    color: #d4d4d4;
+}
+
+
+.edit-editor-footer {
+    padding: 0.75rem 1rem;
+
+    display: flex;
+    flex-wrap: wrap;
+
+    gap: 1rem;
+
+    background: rgba(17, 17, 17, 0.92);
+
+    color: #737373;
+
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+
+    font-size: 0.7rem;
+}
+
+
+.edit-editor-footer strong {
+    color: #a7c8ff;
+}
+
+
+
+/* =========================
+   CARDS LATERALES
+========================= */
+
+.edit-side-card {
+    padding: 1rem;
+}
+
+
+.edit-side-title {
+    margin-bottom: 1rem;
+
+    display: flex;
+    align-items: center;
+
+    gap: 0.5rem;
+}
+
+
+.edit-side-title .material-symbols-outlined {
+    color: #a7c8ff;
+
+    font-size: 21px;
+}
+
+
+.edit-side-title h2 {
+    margin: 0;
+
+    font-family: "Chivo", sans-serif;
+
+    font-size: 1rem;
+}
+
+
+
+/* =========================
+   ESTADO
+========================= */
+
+.edit-radio {
+    padding: 0.8rem 0;
+
+    display: flex;
+    align-items: flex-start;
+
+    gap: 0.65rem;
+
+    cursor: pointer;
+}
+
+
+.edit-radio + .edit-radio {
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+
+.edit-radio input {
+    margin-top: 0.15rem;
+
+    accent-color: #a7c8ff;
+}
+
+
+.edit-radio div {
+    display: flex;
+    flex-direction: column;
+
+    gap: 0.2rem;
+}
+
+
+.edit-radio strong {
+    color: #ffffff;
+
+    font-size: 0.85rem;
+}
+
+
+.edit-radio span {
+    color: #737373;
+
+    font-size: 0.72rem;
+
+    line-height: 1.4;
+}
+
+
+
+/* =========================
+   PREMIUM
+========================= */
+
+.edit-premium {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 1rem;
+}
+
+
+.edit-premium > div {
+    display: flex;
+    flex-direction: column;
+
+    gap: 0.25rem;
+}
+
+
+.edit-premium strong {
+    color: #ffffff;
+
+    font-size: 0.85rem;
+}
+
+
+.edit-premium span {
+    color: #737373;
+
+    font-size: 0.72rem;
+
+    line-height: 1.4;
+}
+
+
+.edit-switch {
+    position: relative;
+
+    width: 42px;
+    height: 22px;
+
+    flex-shrink: 0;
+}
+
+
+.edit-switch input {
+    display: none;
+}
+
+
+.edit-switch-track {
+    position: absolute;
+
+    inset: 0;
+
+    background: #292929;
+
+    border-radius: 20px;
+
+    cursor: pointer;
+
+    transition: background 0.2s;
+}
+
+
+.edit-switch-track::before {
+    content: "";
+
+    position: absolute;
+
+    width: 16px;
+    height: 16px;
+
+    top: 3px;
+    left: 3px;
+
+    background: #ffffff;
+
+    border-radius: 50%;
+
+    transition:
+        transform 0.2s,
+        background 0.2s;
+}
+
+
+.edit-switch input:checked + .edit-switch-track {
+    background: #003366;
+}
+
+
+.edit-switch input:checked + .edit-switch-track::before {
+    transform: translateX(20px);
+
+    background: #a7c8ff;
+}
+
+
+
+/* =========================
+   SELECT
+========================= */
+
+.edit-select {
+    appearance: none;
+    -webkit-appearance: none;
+
+    cursor: pointer;
+}
+
+
+
+/* =========================
+   ETIQUETAS
+========================= */
+
+.edit-tags {
+    margin-bottom: 0.75rem;
+
+    display: flex;
+    flex-wrap: wrap;
+
+    gap: 0.4rem;
+}
+
+
+.edit-tag {
+    padding: 0.35rem 0.5rem;
+
+    display: inline-flex;
+    align-items: center;
+
+    gap: 0.35rem;
+
+    background: rgba(0, 51, 102, 0.55);
+
+    color: #a7c8ff;
+
+    border: 1px solid rgba(167, 200, 255, 0.1);
+    border-radius: 0.3rem;
+
+    font-size: 0.72rem;
+    font-weight: 700;
+}
+
+
+.edit-tag button {
+    padding: 0;
+
+    background: transparent;
+
+    color: #a7c8ff;
+
+    border: none;
+
+    font-size: 1rem;
+
+    line-height: 1;
+
+    cursor: pointer;
+}
+
+
+.edit-add-tag {
+    display: grid;
+
+    grid-template-columns: 1fr auto;
+
+    gap: 0.5rem;
+}
+
+
+.edit-add-tag button {
+    width: 42px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: #003366;
+
+    color: #ffffff;
+
+    border: none;
+    border-radius: 0.4rem;
+
+    cursor: pointer;
+
+    transition: background 0.2s;
+}
+
+
+.edit-add-tag button:hover {
+    background: #164b7f;
+}
+
+
+
+/* =========================
+   INFORMACIÓN
+========================= */
+
+.edit-info {
+    display: flex;
+    flex-direction: column;
+}
+
+
+.edit-info div {
+    padding: 0.65rem 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 1rem;
+
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+
+.edit-info div:first-child {
+    padding-top: 0;
+}
+
+
+.edit-info div:last-child {
+    padding-bottom: 0;
+
+    border-bottom: none;
+}
+
+
+.edit-info span {
+    color: #737373;
+
+    font-size: 0.78rem;
+}
+
+
+.edit-info strong {
+    color: #ffffff;
+
+    font-size: 0.78rem;
+}
+
+
+
+/* =========================
+   ACCIONES
+========================= */
+
+.edit-actions {
+    display: flex;
+    flex-direction: column;
+
+    gap: 0.6rem;
+}
+
+
+.edit-save-btn,
+.edit-cancel-btn {
+    width: 100%;
+
+    min-height: 42px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 0.45rem;
+
+    border-radius: 0.4rem;
+
+    font-size: 0.8rem;
+    font-weight: 700;
+
+    text-decoration: none;
+}
+
+
+.edit-save-btn {
+    background: #003366;
+
+    color: #ffffff;
+
+    border: none;
+
+    cursor: pointer;
+
+    transition: background 0.2s;
+}
+
+
+.edit-save-btn:hover {
+    background: #164b7f;
+}
+
+
+.edit-cancel-btn {
+    background: rgba(41, 41, 41, 0.86);
+
+    color: #a3a3a3;
+
+    border: 1px solid rgba(255, 255, 255, 0.08);
+
+    transition:
+        background 0.2s,
+        color 0.2s;
+}
+
+
+.edit-cancel-btn:hover {
+    background: rgba(55, 55, 55, 0.9);
+
+    color: #ffffff;
+}
+
+
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (min-width: 768px) {
+
+    .edit-head {
+        flex-direction: row;
+        align-items: flex-end;
+        justify-content: space-between;
+    }
+
+
+    .edit-current-post {
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+}
+
+
+@media (min-width: 1100px) {
+
+    .edit-grid {
+        grid-template-columns:
+            minmax(0, 2fr)
+            minmax(300px, 0.8fr);
+    }
+
+}
+
+
+@media (max-width: 767px) {
+
+    .edit-head-actions {
+        width: 100%;
+
+        flex-direction: column;
+    }
+
+
+    .btn-secondary,
+    .btn-primary {
+        width: 100%;
+    }
+
+
+    .edit-label-row {
+        align-items: flex-start;
+
+        flex-direction: column;
+    }
+
+
+    .edit-current-left strong {
+        white-space: normal;
+    }
+
+}
+
+
+@media (max-width: 576px) {
+
+    .edit-card {
+        padding: 1rem;
+    }
+
+
+    .edit-image-preview {
+        min-height: 170px;
+    }
+
+
+    .edit-workspace {
+        min-height: 300px;
+
+        padding: 1rem;
+    }
+
+
+    .edit-toolbar-separator {
+        display: none;
+    }
+
+}
