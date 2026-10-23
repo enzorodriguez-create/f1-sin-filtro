@@ -1,5 +1,4 @@
-
-<aside class="editor-sidebar">
+<aside class="editor-sidebar" id="editor-sidebar">
 
     <div class="sidebar-head">
 
@@ -28,6 +27,18 @@
             </div>
 
         </div>
+
+
+        <button
+            class="sidebar-close"
+            type="button"
+            id="sidebar-close"
+            aria-label="Cerrar menú"
+        >
+            <span class="material-symbols-outlined">
+                close
+            </span>
+        </button>
 
     </div>
 
@@ -186,3 +197,72 @@
     </div>
 
 </aside>
+
+
+<div
+    class="sidebar-overlay"
+    id="sidebar-overlay"
+></div>
+
+
+<script>
+
+    document.addEventListener("DOMContentLoaded", function () {
+
+        const menuBtn = document.getElementById("editor-menu-btn");
+        const sidebar = document.getElementById("editor-sidebar");
+        const overlay = document.getElementById("sidebar-overlay");
+        const closeBtn = document.getElementById("sidebar-close");
+
+
+        function abrirSidebar() {
+
+            sidebar.classList.add("open");
+            overlay.classList.add("open");
+
+        }
+
+
+        function cerrarSidebar() {
+
+            sidebar.classList.remove("open");
+            overlay.classList.remove("open");
+
+        }
+
+
+        if (menuBtn) {
+
+            menuBtn.addEventListener("click", function () {
+
+                abrirSidebar();
+
+            });
+
+        }
+
+
+        if (closeBtn) {
+
+            closeBtn.addEventListener("click", function () {
+
+                cerrarSidebar();
+
+            });
+
+        }
+
+
+        if (overlay) {
+
+            overlay.addEventListener("click", function () {
+
+                cerrarSidebar();
+
+            });
+
+        }
+
+    });
+
+</script>
