@@ -280,6 +280,18 @@ def editor_publicaciones():
         seccion_activa="publicaciones"
     )
 
+@app.route("/editor/publicaciones/<int:id_publicacion>/editar")
+def editor_editar_publicacion(id_publicacion):
+
+    usuario = session.get("usuario")
+
+    return render_template(
+        "editor/editar_publicacion.html",
+        usuario=usuario,
+        id_publicacion=id_publicacion,
+        seccion_activa="publicaciones"
+    )
+
 
 if __name__ == "__main__":
 
