@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="es">
 
@@ -44,16 +43,23 @@
 
     <link
         rel="stylesheet"
+        href="{{ url_for('static', filename='styles/style.css') }}"
+    >
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='styles/editor/sidebar.css') }}"
+    >
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='styles/editor/dashboard.css') }}"
+    >
+
+    <link
+        rel="stylesheet"
         href="{{ url_for('static', filename='styles/editor/crear_publicacion.css') }}"
     >
-    <link
-    rel="stylesheet"
-    href="{{ url_for('static', filename='styles/editor/sidebar.css') }}"
->
-<link
-      rel="stylesheet"
-      href="{{ url_for('static', filename='styles/style.css') }}"
-    />
 
 </head>
 
@@ -65,7 +71,7 @@
      LAYOUT EDITOR
 ========================= -->
 
-<div class="editor-layout">
+<div class="editor-page">
 
 
     <!-- =========================
@@ -76,44 +82,31 @@
 
 
     <!-- =========================
-         PÁGINA
+         CONTENIDO
     ========================== -->
 
-    <div class="page">
+    <div class="editor-content">
 
 
         <!-- =========================
              TOPBAR
         ========================== -->
 
-        <header class="topbar">
+        <header class="editor-topbar">
 
 
             <div class="topbar-left">
 
-
-                <div class="topbar-logo">
-
-                    <span class="material-symbols-outlined c-primary">
-                        sports_motorsports
+                <button
+                    class="menu-btn"
+                    type="button"
+                    id="editor-menu-btn"
+                    aria-label="Abrir menú"
+                >
+                    <span class="material-symbols-outlined">
+                        menu
                     </span>
-
-                </div>
-
-
-                <div class="search">
-
-                    <span class="material-symbols-outlined i18">
-                        search
-                    </span>
-
-                    <input
-                        type="text"
-                        placeholder="Buscar publicaciones, comentarios, categorías..."
-                    >
-
-                </div>
-
+                </button>
 
             </div>
 
@@ -121,46 +114,31 @@
             <div class="topbar-right">
 
 
-                <div class="role-pill">
+                <div class="role-badge">
 
-                    <span class="dot dot-8 bg-primary pulse"></span>
+                    <span class="role-dot"></span>
 
-                    <span class="lbl up fw600 c-surface">
+                    <span>
                         ROL:
                     </span>
 
-                    <span class="lbl up c-primary fw700">
+                    <strong>
                         EDITOR
-                    </span>
+                    </strong>
 
                 </div>
 
 
-                <button
-                    class="bell"
-                    aria-label="Notificaciones"
-                    type="button"
-                >
-
-                    <span class="material-symbols-outlined i20">
-                        notifications
-                    </span>
-
-                    <span class="bell-dot"></span>
-
-                </button>
+                <div class="editor-user">
 
 
-                <div class="user">
+                    <div class="editor-user-data">
 
-
-                    <div class="user-text">
-
-                        <span class="user-name">
+                        <strong>
                             {{ usuario.nombre if usuario else "Editor" }}
-                        </span>
+                        </strong>
 
-                        <span class="lbl fw600 c-variant">
+                        <span>
                             {{ usuario.email if usuario else "editor@f1sinfiltro.com" }}
                         </span>
 
@@ -169,17 +147,21 @@
 
                     {% if usuario and usuario.foto %}
 
-                        <img
-                            class="avatar avatar-img"
-                            src="{{ usuario.foto }}"
-                            alt="{{ usuario.nombre }}"
-                        >
+                        <div class="editor-avatar">
+
+                            <img
+                                class="editor-avatar-img"
+                                src="{{ usuario.foto }}"
+                                alt="{{ usuario.nombre }}"
+                            >
+
+                        </div>
 
                     {% else %}
 
-                        <div class="avatar">
+                        <div class="editor-avatar">
 
-                            <span class="material-symbols-outlined i18">
+                            <span class="material-symbols-outlined">
                                 person
                             </span>
 
@@ -201,10 +183,10 @@
              MAIN
         ========================== -->
 
-        <main class="main">
+        <main class="editor-main">
 
 
-            <div class="container">
+            <div class="editor-container">
 
 
                 <!-- MENSAJE DE BORRADOR -->
@@ -472,18 +454,15 @@
 
                                 <div class="tb-group">
 
-
                                     <button
                                         class="tb"
                                         id="btn-bold"
                                         title="Negrita"
                                         type="button"
                                     >
-
                                         <span class="material-symbols-outlined i18">
                                             format_bold
                                         </span>
-
                                     </button>
 
 
@@ -493,11 +472,9 @@
                                         title="Cursiva"
                                         type="button"
                                     >
-
                                         <span class="material-symbols-outlined i18">
                                             format_italic
                                         </span>
-
                                     </button>
 
 
@@ -507,13 +484,10 @@
                                         title="Subrayado"
                                         type="button"
                                     >
-
                                         <span class="material-symbols-outlined i18">
                                             format_underlined
                                         </span>
-
                                     </button>
-
 
                                 </div>
 
@@ -522,7 +496,6 @@
 
 
                                 <div class="tb-group">
-
 
                                     <button
                                         class="tb tb-text"
@@ -543,7 +516,6 @@
                                         H3
                                     </button>
 
-
                                 </div>
 
 
@@ -552,18 +524,15 @@
 
                                 <div class="tb-group">
 
-
                                     <button
                                         class="tb"
                                         id="btn-quote"
                                         title="Cita"
                                         type="button"
                                     >
-
                                         <span class="material-symbols-outlined i18">
                                             format_quote
                                         </span>
-
                                     </button>
 
 
@@ -573,11 +542,9 @@
                                         title="Lista"
                                         type="button"
                                     >
-
                                         <span class="material-symbols-outlined i18">
                                             format_list_bulleted
                                         </span>
-
                                     </button>
 
 
@@ -587,11 +554,9 @@
                                         title="Insertar imagen dentro del artículo"
                                         type="button"
                                     >
-
                                         <span class="material-symbols-outlined i18">
                                             add_photo_alternate
                                         </span>
-
                                     </button>
 
 
@@ -601,13 +566,10 @@
                                         title="Insertar enlace"
                                         type="button"
                                     >
-
                                         <span class="material-symbols-outlined i18">
                                             link
                                         </span>
-
                                     </button>
-
 
                                 </div>
 
@@ -640,7 +602,6 @@
 
                             <div class="canvas">
 
-
                                 <div
                                     class="editor"
                                     id="editor-workspace"
@@ -648,7 +609,6 @@
                                     spellcheck="true"
                                     data-placeholder="Escribí acá el contenido de la publicación..."
                                 ></div>
-
 
                             </div>
 
@@ -660,15 +620,12 @@
 
                                 <div class="editor-stats">
 
-
                                     <span>
-
                                         PALABRAS:
 
                                         <strong id="word-count">
                                             0
                                         </strong>
-
                                     </span>
 
 
@@ -678,15 +635,12 @@
 
 
                                     <span>
-
                                         CARACTERES:
 
                                         <strong id="char-count">
                                             0
                                         </strong>
-
                                     </span>
-
 
                                 </div>
 
@@ -1009,7 +963,6 @@
 
                                     <div class="newcat-row">
 
-
                                         <input
                                             class="field-xs"
                                             id="new-category-input"
@@ -1033,7 +986,6 @@
                                             </span>
 
                                         </button>
-
 
                                     </div>
 
@@ -1103,11 +1055,9 @@
 
                                 <div class="tag-input-wrap">
 
-
                                     <span class="tag-hash">
                                         #
                                     </span>
-
 
                                     <input
                                         class="field-xs tag-input"
@@ -1115,7 +1065,6 @@
                                         type="text"
                                         placeholder="Añadir etiqueta..."
                                     >
-
 
                                 </div>
 
@@ -1142,14 +1091,12 @@
 
                             <div class="col gap6">
 
-
                                 <span class="lbl up c-outline sug-title">
                                     Sugerencias:
                                 </span>
 
 
                                 <div class="sugs">
-
 
                                     <button
                                         class="sug"
@@ -1185,7 +1132,6 @@
                                     >
                                         + #Pirelli
                                     </button>
-
 
                                 </div>
 
