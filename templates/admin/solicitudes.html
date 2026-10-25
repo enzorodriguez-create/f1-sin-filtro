@@ -1,0 +1,1473 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <meta charset="utf-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        F1 SIN FILTRO - Solicitudes de Editor
+    </title>
+
+
+    <!-- FUENTES -->
+
+    <link
+        href="https://fonts.googleapis.com"
+        rel="preconnect"
+    >
+
+    <link
+        href="https://fonts.gstatic.com"
+        rel="preconnect"
+        crossorigin
+    >
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Anybody:wght@100..900&family=Geist:wght@100..900&display=swap"
+        rel="stylesheet"
+    >
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
+        rel="stylesheet"
+    >
+
+
+    <!-- CSS GLOBAL -->
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='styles/style.css') }}"
+    >
+
+
+    <!-- CSS ADMIN -->
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='styles/admin/base.css') }}"
+    >
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='styles/admin/sidebar.css') }}"
+    >
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='styles/admin/dashboard.css') }}"
+    >
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='styles/admin/solicitudes.css') }}"
+    >
+
+</head>
+
+
+<body>
+
+
+<div class="admin-page">
+
+
+    <!-- =========================
+         SIDEBAR
+    ========================== -->
+
+    {% include "admin/sidebar.html" %}
+
+
+
+    <!-- =========================
+         CONTENIDO
+    ========================== -->
+
+    <div class="admin-content">
+
+
+        <!-- =========================
+             TOPBAR
+        ========================== -->
+
+        <header class="admin-topbar">
+
+
+            <div class="admin-topbar-left">
+
+
+                <button
+                    class="admin-menu-btn"
+                    id="admin-menu-btn"
+                    type="button"
+                    aria-label="Abrir menú"
+                >
+
+                    <span class="material-symbols-outlined">
+                        menu
+                    </span>
+
+                </button>
+
+
+                <span class="admin-topbar-section">
+                    SOLICITUDES DE EDITOR
+                </span>
+
+
+            </div>
+
+
+            <div class="admin-topbar-right">
+
+
+                <div class="admin-role-badge">
+
+                    <span class="admin-role-dot"></span>
+
+                    <span>
+                        ROL:
+                    </span>
+
+                    <strong>
+                        ADMIN
+                    </strong>
+
+                </div>
+
+
+                <div class="admin-user">
+
+
+                    <div class="admin-user-data">
+
+                        <strong>
+                            {{ usuario.nombre if usuario else "Administrador" }}
+                        </strong>
+
+                        <span>
+                            {{ usuario.email if usuario else "admin@f1sinfiltro.com" }}
+                        </span>
+
+                    </div>
+
+
+                    {% if usuario and usuario.foto %}
+
+                        <div class="admin-avatar">
+
+                            <img
+                                src="{{ usuario.foto }}"
+                                alt="{{ usuario.nombre }}"
+                            >
+
+                        </div>
+
+                    {% else %}
+
+                        <div class="admin-avatar">
+
+                            <span class="material-symbols-outlined">
+                                person
+                            </span>
+
+                        </div>
+
+                    {% endif %}
+
+
+                </div>
+
+
+            </div>
+
+
+        </header>
+
+
+
+        <!-- =========================
+             MAIN
+        ========================== -->
+
+        <main class="admin-main">
+
+
+            <div class="admin-container">
+
+
+                <!-- =========================
+                     CABECERA
+                ========================== -->
+
+                <div class="requests-head">
+
+
+                    <div>
+
+
+                        <div class="requests-path">
+
+                            <span>
+                                ADMINISTRACIÓN
+                            </span>
+
+                            <span>
+                                /
+                            </span>
+
+                            <strong>
+                                SOLICITUDES DE EDITOR
+                            </strong>
+
+                        </div>
+
+
+                        <h1>
+                            SOLICITUDES DE <span>EDITOR</span>
+                        </h1>
+
+
+                        <p>
+                            Revisá la información de los usuarios que solicitaron
+                            convertirse en editores y decidí si aprobar o rechazar
+                            cada solicitud.
+                        </p>
+
+
+                    </div>
+
+
+                </div>
+
+
+
+                <!-- =========================
+                     ESTADÍSTICAS
+                ========================== -->
+
+                <div class="requests-stats">
+
+
+                    <div class="request-stat-card">
+
+
+                        <div class="request-stat-top">
+
+                            <span>
+                                PENDIENTES
+                            </span>
+
+                            <span class="material-symbols-outlined">
+                                pending_actions
+                            </span>
+
+                        </div>
+
+
+                        <strong id="pending-count">
+                            3
+                        </strong>
+
+
+                        <span>
+                            Solicitudes esperando revisión
+                        </span>
+
+
+                    </div>
+
+
+
+                    <div class="request-stat-card">
+
+
+                        <div class="request-stat-top">
+
+                            <span>
+                                APROBADAS
+                            </span>
+
+                            <span class="material-symbols-outlined">
+                                check_circle
+                            </span>
+
+                        </div>
+
+
+                        <strong id="approved-count">
+                            0
+                        </strong>
+
+
+                        <span>
+                            Aprobadas durante esta sesión
+                        </span>
+
+
+                    </div>
+
+
+
+                    <div class="request-stat-card request-stat-rejected">
+
+
+                        <div class="request-stat-top">
+
+                            <span>
+                                RECHAZADAS
+                            </span>
+
+                            <span class="material-symbols-outlined">
+                                cancel
+                            </span>
+
+                        </div>
+
+
+                        <strong id="rejected-count">
+                            0
+                        </strong>
+
+
+                        <span>
+                            Rechazadas durante esta sesión
+                        </span>
+
+
+                    </div>
+
+
+                </div>
+
+
+
+                <!-- =========================
+                     FILTROS
+                ========================== -->
+
+                <section class="requests-tools">
+
+
+                    <div class="request-tabs">
+
+
+                        <button
+                            class="request-tab active"
+                            type="button"
+                            data-filter="pendiente"
+                        >
+                            Pendientes
+                        </button>
+
+
+                        <button
+                            class="request-tab"
+                            type="button"
+                            data-filter="aprobada"
+                        >
+                            Aprobadas
+                        </button>
+
+
+                        <button
+                            class="request-tab"
+                            type="button"
+                            data-filter="rechazada"
+                        >
+                            Rechazadas
+                        </button>
+
+
+                        <button
+                            class="request-tab"
+                            type="button"
+                            data-filter="all"
+                        >
+                            Todas
+                        </button>
+
+
+                    </div>
+
+
+
+                    <div class="requests-search">
+
+
+                        <span class="material-symbols-outlined">
+                            search
+                        </span>
+
+
+                        <input
+                            id="request-search"
+                            type="text"
+                            placeholder="Buscar por nombre, usuario, email o empresa..."
+                        >
+
+
+                    </div>
+
+
+                </section>
+
+
+
+                <!-- =========================
+                     LISTADO DE SOLICITUDES
+                ========================== -->
+
+                <div
+                    class="requests-list"
+                    id="requests-list"
+                >
+
+
+                    <!-- =========================
+                         SOLICITUD 1
+                    ========================== -->
+
+                    <article
+                        class="request-card"
+                        data-status="pendiente"
+                        data-search="martin alonso malonso m.alonso@telemetria.com motorsport argentina redactor"
+                    >
+
+
+                        <div class="request-content">
+
+
+                            <div class="request-person">
+
+
+                                <div class="request-avatar">
+                                    MA
+                                </div>
+
+
+                                <div class="request-person-info">
+
+
+                                    <div class="request-name-row">
+
+                                        <h2>
+                                            Martín Alonso
+                                        </h2>
+
+
+                                        <span class="request-handle">
+                                            @malonso
+                                        </span>
+
+
+                                        <span class="request-state pending">
+                                            PENDIENTE
+                                        </span>
+
+                                    </div>
+
+
+                                    <div class="request-meta">
+
+
+                                        <span>
+
+                                            <span class="material-symbols-outlined">
+                                                mail
+                                            </span>
+
+                                            m.alonso@telemetria.com
+
+                                        </span>
+
+
+                                        <span>
+
+                                            <span class="material-symbols-outlined">
+                                                calendar_today
+                                            </span>
+
+                                            24/10/2026
+
+                                        </span>
+
+
+                                    </div>
+
+
+                                </div>
+
+
+                            </div>
+
+
+
+                            <!-- =========================
+                                 INFORMACIÓN LABORAL
+                            ========================== -->
+
+                            <div class="request-details">
+
+
+                                <div>
+
+                                    <span class="request-label">
+                                        MEDIO / EMPRESA
+                                    </span>
+
+                                    <strong>
+                                        Motorsport Argentina
+                                    </strong>
+
+                                </div>
+
+
+                                <div>
+
+                                    <span class="request-label">
+                                        CARGO / FUNCIÓN
+                                    </span>
+
+                                    <strong>
+                                        Redactor
+                                    </strong>
+
+                                </div>
+
+
+                                <div>
+
+                                    <span class="request-label">
+                                        EXPERIENCIA
+                                    </span>
+
+                                    <p>
+                                        Trabajo hace 3 años escribiendo noticias
+                                        y análisis relacionados con Fórmula 1.
+                                    </p>
+
+                                </div>
+
+
+                                <div>
+
+                                    <span class="request-label">
+                                        MOTIVO DE LA SOLICITUD
+                                    </span>
+
+                                    <p>
+                                        Quiero colaborar como editor publicando
+                                        noticias y contenido de Fórmula 1.
+                                    </p>
+
+                                </div>
+
+
+                            </div>
+
+
+                        </div>
+
+
+
+                        <!-- =========================
+                             ACCIONES
+                        ========================== -->
+
+                        <div class="request-actions">
+
+
+                            <button
+                                class="approve-request-btn"
+                                type="button"
+                            >
+
+                                <span class="material-symbols-outlined">
+                                    check_circle
+                                </span>
+
+                                Aprobar
+
+                            </button>
+
+
+                            <button
+                                class="reject-request-btn"
+                                type="button"
+                            >
+
+                                <span class="material-symbols-outlined">
+                                    cancel
+                                </span>
+
+                                Rechazar
+
+                            </button>
+
+
+                        </div>
+
+
+                    </article>
+
+
+
+                    <!-- =========================
+                         SOLICITUD 2
+                    ========================== -->
+
+                    <article
+                        class="request-card"
+                        data-status="pendiente"
+                        data-search="sofia barrientos sofi pitlane s.barrientos@gmail.com paddock live colaboradora"
+                    >
+
+
+                        <div class="request-content">
+
+
+                            <div class="request-person">
+
+
+                                <div class="request-avatar">
+                                    SB
+                                </div>
+
+
+                                <div class="request-person-info">
+
+
+                                    <div class="request-name-row">
+
+                                        <h2>
+                                            Sofía Barrientos
+                                        </h2>
+
+
+                                        <span class="request-handle">
+                                            @sofi_pitlane
+                                        </span>
+
+
+                                        <span class="request-state pending">
+                                            PENDIENTE
+                                        </span>
+
+                                    </div>
+
+
+                                    <div class="request-meta">
+
+
+                                        <span>
+
+                                            <span class="material-symbols-outlined">
+                                                mail
+                                            </span>
+
+                                            s.barrientos@gmail.com
+
+                                        </span>
+
+
+                                        <span>
+
+                                            <span class="material-symbols-outlined">
+                                                calendar_today
+                                            </span>
+
+                                            24/10/2026
+
+                                        </span>
+
+
+                                    </div>
+
+
+                                </div>
+
+
+                            </div>
+
+
+
+                            <div class="request-details">
+
+
+                                <div>
+
+                                    <span class="request-label">
+                                        MEDIO / EMPRESA
+                                    </span>
+
+                                    <strong>
+                                        Paddock Live
+                                    </strong>
+
+                                </div>
+
+
+                                <div>
+
+                                    <span class="request-label">
+                                        CARGO / FUNCIÓN
+                                    </span>
+
+                                    <strong>
+                                        Colaboradora
+                                    </strong>
+
+                                </div>
+
+
+                                <div>
+
+                                    <span class="request-label">
+                                        EXPERIENCIA
+                                    </span>
+
+                                    <p>
+                                        Colaboro en contenido relacionado con
+                                        estrategias, neumáticos y carreras de Fórmula 1.
+                                    </p>
+
+                                </div>
+
+
+                                <div>
+
+                                    <span class="request-label">
+                                        MOTIVO DE LA SOLICITUD
+                                    </span>
+
+                                    <p>
+                                        Me gustaría publicar noticias y análisis
+                                        estratégicos dentro de F1 SIN FILTRO.
+                                    </p>
+
+                                </div>
+
+
+                            </div>
+
+
+                        </div>
+
+
+
+                        <div class="request-actions">
+
+
+                            <button
+                                class="approve-request-btn"
+                                type="button"
+                            >
+
+                                <span class="material-symbols-outlined">
+                                    check_circle
+                                </span>
+
+                                Aprobar
+
+                            </button>
+
+
+                            <button
+                                class="reject-request-btn"
+                                type="button"
+                            >
+
+                                <span class="material-symbols-outlined">
+                                    cancel
+                                </span>
+
+                                Rechazar
+
+                            </button>
+
+
+                        </div>
+
+
+                    </article>
+
+
+
+                    <!-- =========================
+                         SOLICITUD 3
+                    ========================== -->
+
+                    <article
+                        class="request-card"
+                        data-status="pendiente"
+                        data-search="esteban gomez gomez motorsport egomez@gmail.com motor racing news columnista"
+                    >
+
+
+                        <div class="request-content">
+
+
+                            <div class="request-person">
+
+
+                                <div class="request-avatar">
+                                    EG
+                                </div>
+
+
+                                <div class="request-person-info">
+
+
+                                    <div class="request-name-row">
+
+                                        <h2>
+                                            Esteban Gómez
+                                        </h2>
+
+
+                                        <span class="request-handle">
+                                            @gomez_motorsport
+                                        </span>
+
+
+                                        <span class="request-state pending">
+                                            PENDIENTE
+                                        </span>
+
+                                    </div>
+
+
+                                    <div class="request-meta">
+
+
+                                        <span>
+
+                                            <span class="material-symbols-outlined">
+                                                mail
+                                            </span>
+
+                                            egomez@gmail.com
+
+                                        </span>
+
+
+                                        <span>
+
+                                            <span class="material-symbols-outlined">
+                                                calendar_today
+                                            </span>
+
+                                            23/10/2026
+
+                                        </span>
+
+
+                                    </div>
+
+
+                                </div>
+
+
+                            </div>
+
+
+
+                            <div class="request-details">
+
+
+                                <div>
+
+                                    <span class="request-label">
+                                        MEDIO / EMPRESA
+                                    </span>
+
+                                    <strong>
+                                        Motor Racing News
+                                    </strong>
+
+                                </div>
+
+
+                                <div>
+
+                                    <span class="request-label">
+                                        CARGO / FUNCIÓN
+                                    </span>
+
+                                    <strong>
+                                        Columnista
+                                    </strong>
+
+                                </div>
+
+
+                                <div>
+
+                                    <span class="request-label">
+                                        EXPERIENCIA
+                                    </span>
+
+                                    <p>
+                                        Escribo contenido sobre motores,
+                                        reglamento técnico y tecnología de Fórmula 1.
+                                    </p>
+
+                                </div>
+
+
+                                <div>
+
+                                    <span class="request-label">
+                                        MOTIVO DE LA SOLICITUD
+                                    </span>
+
+                                    <p>
+                                        Quiero participar como editor aportando
+                                        contenido técnico para los lectores del sitio.
+                                    </p>
+
+                                </div>
+
+
+                            </div>
+
+
+                        </div>
+
+
+
+                        <div class="request-actions">
+
+
+                            <button
+                                class="approve-request-btn"
+                                type="button"
+                            >
+
+                                <span class="material-symbols-outlined">
+                                    check_circle
+                                </span>
+
+                                Aprobar
+
+                            </button>
+
+
+                            <button
+                                class="reject-request-btn"
+                                type="button"
+                            >
+
+                                <span class="material-symbols-outlined">
+                                    cancel
+                                </span>
+
+                                Rechazar
+
+                            </button>
+
+
+                        </div>
+
+
+                    </article>
+
+
+                </div>
+
+
+
+                <!-- =========================
+                     SIN RESULTADOS
+                ========================== -->
+
+                <div
+                    class="requests-empty"
+                    id="requests-empty"
+                >
+
+                    <span class="material-symbols-outlined">
+                        assignment_ind
+                    </span>
+
+                    <strong>
+                        No hay solicitudes para mostrar
+                    </strong>
+
+                    <span>
+                        Probá cambiando el filtro o la búsqueda.
+                    </span>
+
+                </div>
+
+
+            </div>
+
+
+        </main>
+
+
+    </div>
+
+
+</div>
+
+
+
+<!-- =========================
+     FOOTER GLOBAL
+========================= -->
+
+{% include "base/footer.html" %}
+
+
+
+<!-- =========================
+     JAVASCRIPT
+========================= -->
+
+<script>
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function () {
+
+
+        const searchInput =
+            document.getElementById(
+                "request-search"
+            );
+
+
+        const tabs =
+            document.querySelectorAll(
+                ".request-tab"
+            );
+
+
+        const emptyState =
+            document.getElementById(
+                "requests-empty"
+            );
+
+
+        const pendingCount =
+            document.getElementById(
+                "pending-count"
+            );
+
+
+        const approvedCount =
+            document.getElementById(
+                "approved-count"
+            );
+
+
+        const rejectedCount =
+            document.getElementById(
+                "rejected-count"
+            );
+
+
+        let currentFilter =
+            "pendiente";
+
+
+
+        function getCards() {
+
+            return document.querySelectorAll(
+                ".request-card"
+            );
+
+        }
+
+
+
+        function filtrarSolicitudes() {
+
+
+            const text =
+                searchInput.value
+                    .toLowerCase()
+                    .trim();
+
+
+            let visible =
+                0;
+
+
+            getCards().forEach(
+                function (card) {
+
+
+                    const matchesText =
+                        card.dataset.search
+                            .toLowerCase()
+                            .includes(text);
+
+
+                    const matchesStatus =
+                        currentFilter === "all"
+                        ||
+                        card.dataset.status === currentFilter;
+
+
+                    if (
+                        matchesText &&
+                        matchesStatus
+                    ) {
+
+                        card.style.display =
+                            "";
+
+                        visible++;
+
+                    } else {
+
+                        card.style.display =
+                            "none";
+
+                    }
+
+
+                }
+            );
+
+
+            if (visible === 0) {
+
+                emptyState.classList.add(
+                    "show"
+                );
+
+            } else {
+
+                emptyState.classList.remove(
+                    "show"
+                );
+
+            }
+
+
+        }
+
+
+
+        function actualizarContadores() {
+
+
+            let pending =
+                0;
+
+            let approved =
+                0;
+
+            let rejected =
+                0;
+
+
+            getCards().forEach(
+                function (card) {
+
+
+                    if (
+                        card.dataset.status ===
+                        "pendiente"
+                    ) {
+
+                        pending++;
+
+                    }
+
+
+                    if (
+                        card.dataset.status ===
+                        "aprobada"
+                    ) {
+
+                        approved++;
+
+                    }
+
+
+                    if (
+                        card.dataset.status ===
+                        "rechazada"
+                    ) {
+
+                        rejected++;
+
+                    }
+
+
+                }
+            );
+
+
+            pendingCount.textContent =
+                pending;
+
+
+            approvedCount.textContent =
+                approved;
+
+
+            rejectedCount.textContent =
+                rejected;
+
+
+        }
+
+
+
+        searchInput.addEventListener(
+            "input",
+            filtrarSolicitudes
+        );
+
+
+
+        tabs.forEach(
+            function (tab) {
+
+
+                tab.addEventListener(
+                    "click",
+                    function () {
+
+
+                        tabs.forEach(
+                            function (item) {
+
+                                item.classList.remove(
+                                    "active"
+                                );
+
+                            }
+                        );
+
+
+                        tab.classList.add(
+                            "active"
+                        );
+
+
+                        currentFilter =
+                            tab.dataset.filter;
+
+
+                        filtrarSolicitudes();
+
+
+                    }
+                );
+
+
+            }
+        );
+
+
+
+        document.addEventListener(
+            "click",
+            function (event) {
+
+
+                const approveButton =
+                    event.target.closest(
+                        ".approve-request-btn"
+                    );
+
+
+                const rejectButton =
+                    event.target.closest(
+                        ".reject-request-btn"
+                    );
+
+
+
+                if (approveButton) {
+
+
+                    const card =
+                        approveButton.closest(
+                            ".request-card"
+                        );
+
+
+                    const name =
+                        card.querySelector(
+                            "h2"
+                        ).textContent.trim();
+
+
+                    const confirmApprove =
+                        confirm(
+                            "¿Aprobar a " +
+                            name +
+                            " como editor?"
+                        );
+
+
+                    if (!confirmApprove) {
+
+                        return;
+
+                    }
+
+
+                    card.dataset.status =
+                        "aprobada";
+
+
+                    const state =
+                        card.querySelector(
+                            ".request-state"
+                        );
+
+
+                    state.className =
+                        "request-state approved";
+
+
+                    state.textContent =
+                        "APROBADA";
+
+
+                    card.querySelector(
+                        ".request-actions"
+                    ).innerHTML =
+                        `
+                            <span class="request-resolved approved">
+
+                                <span class="material-symbols-outlined">
+                                    check_circle
+                                </span>
+
+                                Solicitud aprobada
+
+                            </span>
+                        `;
+
+
+                    actualizarContadores();
+
+                    filtrarSolicitudes();
+
+
+                    alert(
+                        "Por ahora la aprobación se actualiza solamente de forma visual."
+                    );
+
+
+                    return;
+
+
+                }
+
+
+
+                if (rejectButton) {
+
+
+                    const card =
+                        rejectButton.closest(
+                            ".request-card"
+                        );
+
+
+                    const name =
+                        card.querySelector(
+                            "h2"
+                        ).textContent.trim();
+
+
+                    const confirmReject =
+                        confirm(
+                            "¿Rechazar la solicitud de " +
+                            name +
+                            "?"
+                        );
+
+
+                    if (!confirmReject) {
+
+                        return;
+
+                    }
+
+
+                    card.dataset.status =
+                        "rechazada";
+
+
+                    const state =
+                        card.querySelector(
+                            ".request-state"
+                        );
+
+
+                    state.className =
+                        "request-state rejected";
+
+
+                    state.textContent =
+                        "RECHAZADA";
+
+
+                    card.querySelector(
+                        ".request-actions"
+                    ).innerHTML =
+                        `
+                            <span class="request-resolved rejected">
+
+                                <span class="material-symbols-outlined">
+                                    cancel
+                                </span>
+
+                                Solicitud rechazada
+
+                            </span>
+                        `;
+
+
+                    actualizarContadores();
+
+                    filtrarSolicitudes();
+
+
+                    alert(
+                        "Por ahora el rechazo se actualiza solamente de forma visual."
+                    );
+
+
+                }
+
+
+            }
+        );
+
+
+        actualizarContadores();
+
+        filtrarSolicitudes();
+
+
+    }
+);
+
+</script>
+
+
+</body>
+
+</html>
