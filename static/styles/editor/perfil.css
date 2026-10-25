@@ -1,0 +1,807 @@
+/* =========================
+   PERFIL EDITOR
+========================= */
+
+
+/* =========================
+   CABECERA
+========================= */
+
+.profile-head {
+    margin-bottom: 1.5rem;
+
+    padding-bottom: 1.5rem;
+
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+
+.profile-path {
+    margin-bottom: 0.5rem;
+
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+
+    gap: 0.4rem;
+
+    color: #a3a3a3;
+
+    font-size: 0.68rem;
+    font-weight: 700;
+
+    letter-spacing: 0.06em;
+}
+
+
+.profile-path strong {
+    color: #a7c8ff;
+}
+
+
+.profile-head h1 {
+    margin: 0 0 0.5rem;
+
+    font-family: "Chivo", sans-serif;
+
+    font-size: clamp(2rem, 4vw, 2.7rem);
+
+    line-height: 1;
+
+    letter-spacing: -0.04em;
+}
+
+
+.profile-head h1 span {
+    color: #a7c8ff;
+}
+
+
+.profile-head p {
+    margin: 0;
+
+    color: #a3a3a3;
+
+    line-height: 1.5;
+}
+
+
+
+/* =========================
+   HERO
+========================= */
+
+.profile-hero {
+    margin-bottom: 1.5rem;
+
+    padding: 1.25rem;
+
+    display: flex;
+    align-items: center;
+
+    gap: 1rem;
+
+    background: rgba(24, 24, 24, 0.84);
+
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 0.5rem;
+}
+
+
+.profile-avatar-large {
+    width: 76px;
+    height: 76px;
+
+    flex-shrink: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    overflow: hidden;
+
+    background: rgba(0, 51, 102, 0.6);
+
+    color: #a7c8ff;
+
+    border: 2px solid rgba(167, 200, 255, 0.2);
+    border-radius: 50%;
+}
+
+
+.profile-avatar-large img {
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+}
+
+
+.profile-avatar-large .material-symbols-outlined {
+    font-size: 38px;
+}
+
+
+.profile-hero-info {
+    min-width: 0;
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 0.2rem;
+}
+
+
+.profile-role {
+    width: fit-content;
+
+    padding: 0.2rem 0.45rem;
+
+    background: rgba(0, 51, 102, 0.55);
+
+    color: #a7c8ff;
+
+    border-radius: 0.25rem;
+
+    font-size: 0.62rem;
+    font-weight: 800;
+
+    letter-spacing: 0.08em;
+}
+
+
+.profile-hero-info h2 {
+    margin: 0.2rem 0 0;
+
+    font-family: "Chivo", sans-serif;
+
+    font-size: 1.4rem;
+}
+
+
+.profile-hero-info > span:last-child {
+    color: #737373;
+
+    font-size: 0.8rem;
+}
+
+
+
+/* =========================
+   GRID
+========================= */
+
+.profile-grid {
+    display: grid;
+
+    grid-template-columns: 1fr;
+
+    gap: 1.5rem;
+}
+
+
+.profile-main-column,
+.profile-side-column {
+    min-width: 0;
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 1rem;
+}
+
+
+
+/* =========================
+   CARD
+========================= */
+
+.profile-card {
+    padding: 1.25rem;
+
+    background: rgba(24, 24, 24, 0.84);
+
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 0.5rem;
+}
+
+
+.profile-card-head {
+    margin-bottom: 1.25rem;
+
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+
+    gap: 1rem;
+}
+
+
+.profile-kicker {
+    color: #a7c8ff;
+
+    font-size: 0.62rem;
+    font-weight: 800;
+
+    letter-spacing: 0.08em;
+}
+
+
+.profile-card-head h2 {
+    margin: 0.2rem 0 0;
+
+    font-family: "Chivo", sans-serif;
+
+    font-size: 1.15rem;
+}
+
+
+
+/* =========================
+   EDITAR PERFIL
+========================= */
+
+.edit-profile-btn {
+    min-height: 38px;
+
+    padding: 0.55rem 0.75rem;
+
+    flex-shrink: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 0.35rem;
+
+    background: rgba(0, 51, 102, 0.5);
+
+    color: #a7c8ff;
+
+    border: 1px solid rgba(167, 200, 255, 0.12);
+    border-radius: 0.35rem;
+
+    font-family: "Geist", sans-serif;
+
+    font-size: 0.75rem;
+    font-weight: 700;
+
+    cursor: pointer;
+}
+
+
+.edit-profile-btn:hover {
+    background: rgba(0, 51, 102, 0.75);
+}
+
+
+.edit-profile-btn .material-symbols-outlined {
+    font-size: 17px;
+}
+
+
+
+/* =========================
+   CAMPOS
+========================= */
+
+.profile-fields {
+    display: grid;
+
+    grid-template-columns: 1fr;
+
+    gap: 1rem;
+}
+
+
+.profile-field {
+    display: flex;
+    flex-direction: column;
+
+    gap: 0.45rem;
+}
+
+
+.profile-field label {
+    color: #737373;
+
+    font-size: 0.65rem;
+    font-weight: 700;
+
+    letter-spacing: 0.06em;
+}
+
+
+.profile-field input {
+    width: 100%;
+
+    padding: 0.75rem;
+
+    background: rgba(14, 14, 14, 0.78);
+
+    color: #ffffff;
+
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 0.4rem;
+
+    font-family: "Geist", sans-serif;
+
+    outline: none;
+}
+
+
+.profile-field input:focus {
+    border-color: #a7c8ff;
+}
+
+
+.profile-field input:disabled {
+    background: rgba(17, 17, 17, 0.55);
+
+    color: #a3a3a3;
+
+    cursor: default;
+}
+
+
+.username-field {
+    display: flex;
+    align-items: center;
+
+    overflow: hidden;
+
+    background: rgba(14, 14, 14, 0.78);
+
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 0.4rem;
+}
+
+
+.username-field > span {
+    padding-left: 0.75rem;
+
+    color: #a7c8ff;
+
+    font-weight: 700;
+}
+
+
+.username-field input {
+    border: none;
+}
+
+
+.profile-field-full {
+    grid-column: 1 / -1;
+}
+
+
+
+/* =========================
+   ROL
+========================= */
+
+.role-field {
+    min-height: 48px;
+
+    padding: 0.75rem;
+
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+
+    gap: 0.5rem;
+
+    background: rgba(14, 14, 14, 0.55);
+
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 0.4rem;
+}
+
+
+.role-field .material-symbols-outlined {
+    color: #a7c8ff;
+}
+
+
+.role-field strong {
+    color: #a7c8ff;
+
+    font-size: 0.8rem;
+}
+
+
+.role-field > span:last-child {
+    color: #737373;
+
+    font-size: 0.72rem;
+}
+
+
+
+/* =========================
+   BOTONES EDITAR
+========================= */
+
+.profile-edit-actions {
+    margin-top: 1.25rem;
+
+    display: flex;
+    justify-content: flex-end;
+
+    gap: 0.6rem;
+}
+
+
+.profile-edit-actions.hidden,
+.password-form.hidden,
+.edit-profile-btn.hidden,
+.change-password-btn.hidden {
+    display: none;
+}
+
+
+.profile-cancel-btn,
+.profile-save-btn {
+    min-height: 40px;
+
+    padding: 0.6rem 0.9rem;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 0.35rem;
+
+    border-radius: 0.35rem;
+
+    font-family: "Geist", sans-serif;
+
+    font-weight: 700;
+
+    cursor: pointer;
+}
+
+
+.profile-cancel-btn {
+    background: rgba(41, 41, 41, 0.85);
+
+    color: #a3a3a3;
+
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+
+.profile-save-btn {
+    background: #003366;
+
+    color: #ffffff;
+
+    border: none;
+}
+
+
+
+/* =========================
+   SEGURIDAD
+========================= */
+
+.security-row {
+    display: flex;
+    align-items: center;
+
+    gap: 0.75rem;
+}
+
+
+.security-icon {
+    width: 42px;
+    height: 42px;
+
+    flex-shrink: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: rgba(0, 51, 102, 0.5);
+
+    color: #a7c8ff;
+
+    border-radius: 0.4rem;
+}
+
+
+.security-info {
+    min-width: 0;
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 0.15rem;
+}
+
+
+.security-info strong {
+    color: #ffffff;
+}
+
+
+.security-info span {
+    color: #737373;
+
+    font-size: 0.75rem;
+}
+
+
+.change-password-btn {
+    margin-left: auto;
+
+    padding: 0.55rem 0.75rem;
+
+    flex-shrink: 0;
+
+    background: rgba(41, 41, 41, 0.85);
+
+    color: #ffffff;
+
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 0.35rem;
+
+    font-family: "Geist", sans-serif;
+
+    font-size: 0.72rem;
+    font-weight: 700;
+
+    cursor: pointer;
+}
+
+
+.password-form {
+    margin-top: 1.25rem;
+
+    padding-top: 1.25rem;
+
+    display: grid;
+
+    grid-template-columns: 1fr;
+
+    gap: 1rem;
+
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+
+.password-actions {
+    display: flex;
+    justify-content: flex-end;
+
+    gap: 0.6rem;
+}
+
+
+
+/* =========================
+   ACTIVIDAD
+========================= */
+
+.activity-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, 1fr);
+
+    gap: 0.75rem;
+}
+
+
+.activity-item {
+    min-height: 120px;
+
+    padding: 1rem;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    gap: 0.25rem;
+
+    background: rgba(14, 14, 14, 0.58);
+
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    border-radius: 0.4rem;
+
+    text-align: center;
+}
+
+
+.activity-item .material-symbols-outlined {
+    margin-bottom: 0.25rem;
+
+    color: #a7c8ff;
+
+    font-size: 24px;
+}
+
+
+.activity-item strong {
+    color: #ffffff;
+
+    font-family: "Chivo", sans-serif;
+
+    font-size: 1.3rem;
+}
+
+
+.activity-item > span:last-child {
+    color: #737373;
+
+    font-size: 0.68rem;
+}
+
+
+
+/* =========================
+   ACCIONES RÁPIDAS
+========================= */
+
+.quick-actions {
+    display: flex;
+    flex-direction: column;
+
+    gap: 0.5rem;
+}
+
+
+.quick-action {
+    padding: 0.75rem;
+
+    display: flex;
+    align-items: center;
+
+    gap: 0.7rem;
+
+    background: rgba(14, 14, 14, 0.58);
+
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    border-radius: 0.4rem;
+
+    text-decoration: none;
+
+    transition:
+        background 0.2s,
+        border-color 0.2s;
+}
+
+
+.quick-action:hover {
+    background: rgba(0, 51, 102, 0.22);
+
+    border-color: rgba(167, 200, 255, 0.15);
+}
+
+
+.quick-action > .material-symbols-outlined:first-child {
+    color: #a7c8ff;
+}
+
+
+.quick-action > .material-symbols-outlined:last-child {
+    margin-left: auto;
+
+    color: #737373;
+}
+
+
+.quick-action div {
+    display: flex;
+    flex-direction: column;
+
+    gap: 0.1rem;
+}
+
+
+.quick-action strong {
+    color: #ffffff;
+
+    font-size: 0.8rem;
+}
+
+
+.quick-action div span {
+    color: #737373;
+
+    font-size: 0.68rem;
+}
+
+
+
+/* =========================
+   TABLET
+========================= */
+
+@media (min-width: 640px) {
+
+    .profile-fields {
+        grid-template-columns:
+            repeat(2, 1fr);
+    }
+
+}
+
+
+
+/* =========================
+   DESKTOP
+========================= */
+
+@media (min-width: 1050px) {
+
+    .profile-grid {
+        grid-template-columns:
+            minmax(0, 1.65fr)
+            minmax(300px, 0.85fr);
+    }
+
+}
+
+
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 640px) {
+
+    .profile-hero {
+        align-items: flex-start;
+    }
+
+
+    .profile-avatar-large {
+        width: 60px;
+        height: 60px;
+    }
+
+
+    .profile-card-head {
+        flex-direction: column;
+    }
+
+
+    .edit-profile-btn {
+        width: 100%;
+    }
+
+
+    .profile-edit-actions,
+    .password-actions {
+        flex-direction: column;
+    }
+
+
+    .profile-cancel-btn,
+    .profile-save-btn {
+        width: 100%;
+    }
+
+
+    .security-row {
+        flex-wrap: wrap;
+    }
+
+
+    .change-password-btn {
+        width: 100%;
+
+        margin-left: 0;
+    }
+
+}
