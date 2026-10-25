@@ -100,7 +100,7 @@
 
             <a
                 class="admin-sidebar-link {% if seccion_activa == 'usuarios' %}active{% endif %}"
-                href="#"
+                href="{{ url_for('admin_usuarios') }}"
             >
 
                 <span class="material-symbols-outlined">
@@ -118,7 +118,7 @@
 
             <a
                 class="admin-sidebar-link admin-sidebar-between {% if seccion_activa == 'solicitudes' %}active{% endif %}"
-                href="#"
+                href="{{ url_for('admin_solicitudes') }}"
             >
 
                 <div>
@@ -133,10 +133,6 @@
 
                 </div>
 
-
-                <span class="admin-pending-badge">
-                    3
-                </span>
 
             </a>
 
