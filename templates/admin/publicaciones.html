@@ -1,0 +1,2128 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <meta charset="utf-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        F1 SIN FILTRO - Gestión de Publicaciones
+    </title>
+
+
+    <!-- FUENTES -->
+
+    <link
+        href="https://fonts.googleapis.com"
+        rel="preconnect"
+    >
+
+    <link
+        href="https://fonts.gstatic.com"
+        rel="preconnect"
+        crossorigin
+    >
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Anybody:wght@100..900&family=Geist:wght@100..900&display=swap"
+        rel="stylesheet"
+    >
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
+        rel="stylesheet"
+    >
+
+
+    <!-- CSS GLOBAL -->
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='styles/style.css') }}"
+    >
+
+
+    <!-- CSS ADMIN -->
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='styles/admin/base.css') }}"
+    >
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='styles/admin/sidebar.css') }}"
+    >
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='styles/admin/dashboard.css') }}"
+    >
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='styles/admin/publicaciones.css') }}"
+    >
+
+</head>
+
+
+<body>
+
+
+<div class="admin-page">
+
+
+    <!-- =========================
+         SIDEBAR
+    ========================== -->
+
+    {% include "admin/sidebar.html" %}
+
+
+
+    <!-- =========================
+         CONTENIDO
+    ========================== -->
+
+    <div class="admin-content">
+
+
+        <!-- =========================
+             TOPBAR
+        ========================== -->
+
+        <header class="admin-topbar">
+
+
+            <div class="admin-topbar-left">
+
+
+                <button
+                    class="admin-menu-btn"
+                    id="admin-menu-btn"
+                    type="button"
+                    aria-label="Abrir menú"
+                >
+
+                    <span class="material-symbols-outlined">
+                        menu
+                    </span>
+
+                </button>
+
+
+                <span class="admin-topbar-section">
+                    GESTIÓN DE PUBLICACIONES
+                </span>
+
+
+            </div>
+
+
+            <div class="admin-topbar-right">
+
+
+                <div class="admin-role-badge">
+
+                    <span class="admin-role-dot"></span>
+
+                    <span>
+                        ROL:
+                    </span>
+
+                    <strong>
+                        ADMIN
+                    </strong>
+
+                </div>
+
+
+                <div class="admin-user">
+
+
+                    <div class="admin-user-data">
+
+                        <strong>
+                            {{ usuario.nombre if usuario else "Administrador" }}
+                        </strong>
+
+                        <span>
+                            {{ usuario.email if usuario else "admin@f1sinfiltro.com" }}
+                        </span>
+
+                    </div>
+
+
+                    {% if usuario and usuario.foto %}
+
+                        <div class="admin-avatar">
+
+                            <img
+                                src="{{ usuario.foto }}"
+                                alt="{{ usuario.nombre }}"
+                            >
+
+                        </div>
+
+                    {% else %}
+
+                        <div class="admin-avatar">
+
+                            <span class="material-symbols-outlined">
+                                person
+                            </span>
+
+                        </div>
+
+                    {% endif %}
+
+
+                </div>
+
+
+            </div>
+
+
+        </header>
+
+
+
+        <!-- =========================
+             MAIN
+        ========================== -->
+
+        <main class="admin-main">
+
+
+            <div class="admin-container">
+
+
+                <!-- =========================
+                     CABECERA
+                ========================== -->
+
+                <div class="publications-head">
+
+
+                    <div class="publications-path">
+
+                        <span>
+                            ADMINISTRACIÓN
+                        </span>
+
+                        <span>
+                            /
+                        </span>
+
+                        <strong>
+                            PUBLICACIONES
+                        </strong>
+
+                    </div>
+
+
+                    <h1>
+                        GESTIÓN DE <span>PUBLICACIONES</span>
+                    </h1>
+
+
+                    <p>
+                        Revisá y administrá todas las publicaciones creadas
+                        por los editores del portal.
+                    </p>
+
+
+                </div>
+
+
+
+                <!-- =========================
+                     ESTADÍSTICAS
+                ========================== -->
+
+                <div class="publications-stats">
+
+
+                    <!-- TOTAL -->
+
+                    <div class="publication-stat-card">
+
+                        <div class="publication-stat-top">
+
+                            <span>
+                                TOTAL
+                            </span>
+
+                            <span class="material-symbols-outlined">
+                                article
+                            </span>
+
+                        </div>
+
+                        <strong id="stat-total">
+                            5
+                        </strong>
+
+                        <span>
+                            Publicaciones registradas
+                        </span>
+
+                    </div>
+
+
+                    <!-- PUBLICADAS -->
+
+                    <div class="publication-stat-card">
+
+                        <div class="publication-stat-top">
+
+                            <span>
+                                PUBLICADAS
+                            </span>
+
+                            <span class="material-symbols-outlined">
+                                check_circle
+                            </span>
+
+                        </div>
+
+                        <strong id="stat-published">
+                            3
+                        </strong>
+
+                        <span>
+                            Visibles en el portal
+                        </span>
+
+                    </div>
+
+
+                    <!-- BORRADORES -->
+
+                    <div class="publication-stat-card">
+
+                        <div class="publication-stat-top">
+
+                            <span>
+                                BORRADORES
+                            </span>
+
+                            <span class="material-symbols-outlined">
+                                draft
+                            </span>
+
+                        </div>
+
+                        <strong id="stat-draft">
+                            1
+                        </strong>
+
+                        <span>
+                            Todavía sin publicar
+                        </span>
+
+                    </div>
+
+
+                    <!-- PROGRAMADAS -->
+
+                    <div class="publication-stat-card">
+
+                        <div class="publication-stat-top">
+
+                            <span>
+                                PROGRAMADAS
+                            </span>
+
+                            <span class="material-symbols-outlined">
+                                schedule
+                            </span>
+
+                        </div>
+
+                        <strong id="stat-scheduled">
+                            1
+                        </strong>
+
+                        <span>
+                            Con publicación futura
+                        </span>
+
+                    </div>
+
+
+                    <!-- PREMIUM -->
+
+                    <div class="publication-stat-card premium">
+
+                        <div class="publication-stat-top">
+
+                            <span>
+                                PREMIUM
+                            </span>
+
+                            <span class="material-symbols-outlined">
+                                workspace_premium
+                            </span>
+
+                        </div>
+
+                        <strong id="stat-premium">
+                            2
+                        </strong>
+
+                        <span>
+                            Contenido exclusivo
+                        </span>
+
+                    </div>
+
+
+                </div>
+
+
+
+                <!-- =========================
+                     FILTROS
+                ========================== -->
+
+                <section class="publications-filters">
+
+
+                    <div class="publications-search">
+
+
+                        <span class="material-symbols-outlined">
+                            search
+                        </span>
+
+
+                        <input
+                            id="publication-search"
+                            type="text"
+                            placeholder="Buscar por título o autor..."
+                        >
+
+
+                        <button
+                            id="clear-publication-search"
+                            type="button"
+                            aria-label="Limpiar búsqueda"
+                        >
+
+                            <span class="material-symbols-outlined">
+                                close
+                            </span>
+
+                        </button>
+
+
+                    </div>
+
+
+
+                    <div class="publication-selects">
+
+
+                        <!-- AUTOR -->
+
+                        <div class="publication-select">
+
+                            <select id="author-filter">
+
+                                <option value="all">
+                                    Todos los autores
+                                </option>
+
+                                <option value="carlos">
+                                    Carlos Sainz
+                                </option>
+
+                                <option value="lucia">
+                                    Lucía Martínez
+                                </option>
+
+                                <option value="laura">
+                                    Laura Méndez
+                                </option>
+
+                            </select>
+
+                            <span class="material-symbols-outlined">
+                                expand_more
+                            </span>
+
+                        </div>
+
+
+                        <!-- CATEGORÍA -->
+
+                        <div class="publication-select">
+
+                            <select id="category-filter">
+
+                                <option value="all">
+                                    Todas las categorías
+                                </option>
+
+                                <option value="tecnica">
+                                    Técnica
+                                </option>
+
+                                <option value="equipos">
+                                    Equipos
+                                </option>
+
+                                <option value="campeonato">
+                                    Campeonato
+                                </option>
+
+                                <option value="previa">
+                                    Previa
+                                </option>
+
+                            </select>
+
+                            <span class="material-symbols-outlined">
+                                expand_more
+                            </span>
+
+                        </div>
+
+
+                        <!-- ESTADO -->
+
+                        <div class="publication-select">
+
+                            <select id="status-filter">
+
+                                <option value="all">
+                                    Todos los estados
+                                </option>
+
+                                <option value="publicado">
+                                    Publicado
+                                </option>
+
+                                <option value="borrador">
+                                    Borrador
+                                </option>
+
+                                <option value="programado">
+                                    Programado
+                                </option>
+
+                            </select>
+
+                            <span class="material-symbols-outlined">
+                                expand_more
+                            </span>
+
+                        </div>
+
+
+                        <!-- PREMIUM -->
+
+                        <div class="publication-select">
+
+                            <select id="premium-filter">
+
+                                <option value="all">
+                                    Premium: Todos
+                                </option>
+
+                                <option value="si">
+                                    Premium
+                                </option>
+
+                                <option value="no">
+                                    No Premium
+                                </option>
+
+                            </select>
+
+                            <span class="material-symbols-outlined">
+                                expand_more
+                            </span>
+
+                        </div>
+
+
+                    </div>
+
+
+
+                    <div class="publications-filter-bottom">
+
+
+                        <span id="publication-result-count">
+                            Mostrando 5 publicaciones
+                        </span>
+
+
+                        <button
+                            class="publications-reset"
+                            id="reset-publication-filters"
+                            type="button"
+                        >
+
+                            <span class="material-symbols-outlined">
+                                refresh
+                            </span>
+
+                            Restablecer filtros
+
+                        </button>
+
+
+                    </div>
+
+
+                </section>
+
+
+
+                <!-- =========================
+                     TABLA
+                ========================== -->
+
+                <section class="publications-table-card">
+
+
+                    <div class="publications-table-wrapper">
+
+
+                        <table class="publications-table">
+
+
+                            <thead>
+
+                                <tr>
+
+                                    <th>
+                                        Publicación
+                                    </th>
+
+                                    <th>
+                                        Autor
+                                    </th>
+
+                                    <th>
+                                        Categoría
+                                    </th>
+
+                                    <th>
+                                        Estado
+                                    </th>
+
+                                    <th>
+                                        Premium
+                                    </th>
+
+                                    <th>
+                                        Fecha
+                                    </th>
+
+                                    <th class="publication-actions-title">
+                                        Acciones
+                                    </th>
+
+                                </tr>
+
+                            </thead>
+
+
+                            <tbody id="publications-table-body">
+
+
+                                <!-- =========================
+                                     PUBLICACIÓN 1
+                                ========================== -->
+
+                                <tr
+                                    class="publication-row"
+                                    data-title="Ferrari prepara nuevas mejoras para el próximo Gran Premio"
+                                    data-author="carlos"
+                                    data-category="tecnica"
+                                    data-status="publicado"
+                                    data-premium="no"
+                                >
+
+
+                                    <td>
+
+                                        <div class="publication-info">
+
+                                            <div class="publication-cover">
+
+                                                <span class="material-symbols-outlined">
+                                                    article
+                                                </span>
+
+                                            </div>
+
+
+                                            <div>
+
+                                                <strong>
+                                                    Ferrari prepara nuevas mejoras para el próximo Gran Premio
+                                                </strong>
+
+                                                <span>
+                                                    ID #PUB-001
+                                                </span>
+
+                                            </div>
+
+                                        </div>
+
+                                    </td>
+
+
+                                    <td>
+
+                                        <div class="publication-author">
+
+                                            <div class="publication-author-avatar">
+                                                CS
+                                            </div>
+
+                                            <div>
+
+                                                <strong>
+                                                    Carlos Sainz
+                                                </strong>
+
+                                                <span>
+                                                    Editor
+                                                </span>
+
+                                            </div>
+
+                                        </div>
+
+                                    </td>
+
+
+                                    <td>
+
+                                        <span class="publication-category">
+                                            Técnica
+                                        </span>
+
+                                    </td>
+
+
+                                    <td>
+
+                                        <span class="publication-state published">
+
+                                            <span></span>
+
+                                            Publicado
+
+                                        </span>
+
+                                    </td>
+
+
+                                    <td>
+
+                                        <span class="publication-premium no">
+                                            NO
+                                        </span>
+
+                                    </td>
+
+
+                                    <td class="publication-date">
+                                        22/10/2026
+                                    </td>
+
+
+                                    <td>
+
+                                        <div class="publication-actions">
+
+
+                                            <button
+                                                class="publication-edit-btn"
+                                                type="button"
+                                                title="Editar publicación"
+                                            >
+
+                                                <span class="material-symbols-outlined">
+                                                    edit
+                                                </span>
+
+                                                Editar
+
+                                            </button>
+
+
+                                            <button
+                                                class="publication-delete-btn"
+                                                type="button"
+                                                title="Eliminar publicación"
+                                            >
+
+                                                <span class="material-symbols-outlined">
+                                                    delete
+                                                </span>
+
+                                            </button>
+
+
+                                        </div>
+
+                                    </td>
+
+
+                                </tr>
+
+
+
+                                <!-- =========================
+                                     PUBLICACIÓN 2
+                                ========================== -->
+
+                                <tr
+                                    class="publication-row"
+                                    data-title="Análisis de la lucha por el campeonato"
+                                    data-author="lucia"
+                                    data-category="campeonato"
+                                    data-status="borrador"
+                                    data-premium="no"
+                                >
+
+
+                                    <td>
+
+                                        <div class="publication-info">
+
+                                            <div class="publication-cover draft">
+
+                                                <span class="material-symbols-outlined">
+                                                    draft
+                                                </span>
+
+                                            </div>
+
+
+                                            <div>
+
+                                                <strong>
+                                                    Análisis de la lucha por el campeonato
+                                                </strong>
+
+                                                <span>
+                                                    ID #PUB-002
+                                                </span>
+
+                                            </div>
+
+                                        </div>
+
+                                    </td>
+
+
+                                    <td>
+
+                                        <div class="publication-author">
+
+                                            <div class="publication-author-avatar">
+                                                LM
+                                            </div>
+
+                                            <div>
+
+                                                <strong>
+                                                    Lucía Martínez
+                                                </strong>
+
+                                                <span>
+                                                    Editor
+                                                </span>
+
+                                            </div>
+
+                                        </div>
+
+                                    </td>
+
+
+                                    <td>
+
+                                        <span class="publication-category">
+                                            Campeonato
+                                        </span>
+
+                                    </td>
+
+
+                                    <td>
+
+                                        <span class="publication-state draft">
+
+                                            <span></span>
+
+                                            Borrador
+
+                                        </span>
+
+                                    </td>
+
+
+                                    <td>
+
+                                        <span class="publication-premium no">
+                                            NO
+                                        </span>
+
+                                    </td>
+
+
+                                    <td class="publication-date">
+                                        21/10/2026
+                                    </td>
+
+
+                                    <td>
+
+                                        <div class="publication-actions">
+
+
+                                            <button
+                                                class="publication-edit-btn"
+                                                type="button"
+                                                title="Editar publicación"
+                                            >
+
+                                                <span class="material-symbols-outlined">
+                                                    edit
+                                                </span>
+
+                                                Editar
+
+                                            </button>
+
+
+                                            <button
+                                                class="publication-delete-btn"
+                                                type="button"
+                                                title="Eliminar publicación"
+                                            >
+
+                                                <span class="material-symbols-outlined">
+                                                    delete
+                                                </span>
+
+                                            </button>
+
+
+                                        </div>
+
+                                    </td>
+
+
+                                </tr>
+
+
+
+                                <!-- =========================
+                                     PUBLICACIÓN 3
+                                ========================== -->
+
+                                <tr
+                                    class="publication-row"
+                                    data-title="Todo lo que hay que saber antes del próximo GP"
+                                    data-author="carlos"
+                                    data-category="previa"
+                                    data-status="programado"
+                                    data-premium="si"
+                                >
+
+
+                                    <td>
+
+                                        <div class="publication-info">
+
+                                            <div class="publication-cover premium">
+
+                                                <span class="material-symbols-outlined">
+                                                    workspace_premium
+                                                </span>
+
+                                            </div>
+
+
+                                            <div>
+
+                                                <strong>
+                                                    Todo lo que hay que saber antes del próximo GP
+                                                </strong>
+
+                                                <span>
+                                                    ID #PUB-003
+                                                </span>
+
+                                            </div>
+
+                                        </div>
+
+                                    </td>
+
+
+                                    <td>
+
+                                        <div class="publication-author">
+
+                                            <div class="publication-author-avatar">
+                                                CS
+                                            </div>
+
+                                            <div>
+
+                                                <strong>
+                                                    Carlos Sainz
+                                                </strong>
+
+                                                <span>
+                                                    Editor
+                                                </span>
+
+                                            </div>
+
+                                        </div>
+
+                                    </td>
+
+
+                                    <td>
+
+                                        <span class="publication-category">
+                                            Previa
+                                        </span>
+
+                                    </td>
+
+
+                                    <td>
+
+                                        <span class="publication-state scheduled">
+
+                                            <span></span>
+
+                                            Programado
+
+                                        </span>
+
+                                    </td>
+
+
+                                    <td>
+
+                                        <span class="publication-premium yes">
+                                            PREMIUM
+                                        </span>
+
+                                    </td>
+
+
+                                    <td class="publication-date">
+                                        25/10/2026
+                                    </td>
+
+
+                                    <td>
+
+                                        <div class="publication-actions">
+
+
+                                            <button
+                                                class="publication-edit-btn"
+                                                type="button"
+                                                title="Editar publicación"
+                                            >
+
+                                                <span class="material-symbols-outlined">
+                                                    edit
+                                                </span>
+
+                                                Editar
+
+                                            </button>
+
+
+                                            <button
+                                                class="publication-delete-btn"
+                                                type="button"
+                                                title="Eliminar publicación"
+                                            >
+
+                                                <span class="material-symbols-outlined">
+                                                    delete
+                                                </span>
+
+                                            </button>
+
+
+                                        </div>
+
+                                    </td>
+
+
+                                </tr>
+
+
+
+                                <!-- =========================
+                                     PUBLICACIÓN 4
+                                ========================== -->
+
+                                <tr
+                                    class="publication-row"
+                                    data-title="Mercedes analiza cambios importantes para 2027"
+                                    data-author="laura"
+                                    data-category="equipos"
+                                    data-status="publicado"
+                                    data-premium="si"
+                                >
+
+
+                                    <td>
+
+                                        <div class="publication-info">
+
+                                            <div class="publication-cover">
+
+                                                <span class="material-symbols-outlined">
+                                                    article
+                                                </span>
+
+                                            </div>
+
+
+                                            <div>
+
+                                                <strong>
+                                                    Mercedes analiza cambios importantes para 2027
+                                                </strong>
+
+                                                <span>
+                                                    ID #PUB-004
+                                                </span>
+
+                                            </div>
+
+                                        </div>
+
+                                    </td>
+
+
+                                    <td>
+
+                                        <div class="publication-author">
+
+                                            <div class="publication-author-avatar">
+                                                LM
+                                            </div>
+
+                                            <div>
+
+                                                <strong>
+                                                    Laura Méndez
+                                                </strong>
+
+                                                <span>
+                                                    Editor
+                                                </span>
+
+                                            </div>
+
+                                        </div>
+
+                                    </td>
+
+
+                                    <td>
+
+                                        <span class="publication-category">
+                                            Equipos
+                                        </span>
+
+                                    </td>
+
+
+                                    <td>
+
+                                        <span class="publication-state published">
+
+                                            <span></span>
+
+                                            Publicado
+
+                                        </span>
+
+                                    </td>
+
+
+                                    <td>
+
+                                        <span class="publication-premium yes">
+                                            PREMIUM
+                                        </span>
+
+                                    </td>
+
+
+                                    <td class="publication-date">
+                                        20/10/2026
+                                    </td>
+
+
+                                    <td>
+
+                                        <div class="publication-actions">
+
+
+                                            <button
+                                                class="publication-edit-btn"
+                                                type="button"
+                                                title="Editar publicación"
+                                            >
+
+                                                <span class="material-symbols-outlined">
+                                                    edit
+                                                </span>
+
+                                                Editar
+
+                                            </button>
+
+
+                                            <button
+                                                class="publication-delete-btn"
+                                                type="button"
+                                                title="Eliminar publicación"
+                                            >
+
+                                                <span class="material-symbols-outlined">
+                                                    delete
+                                                </span>
+
+                                            </button>
+
+
+                                        </div>
+
+                                    </td>
+
+
+                                </tr>
+
+
+
+                                <!-- =========================
+                                     PUBLICACIÓN 5
+                                ========================== -->
+
+                                <tr
+                                    class="publication-row"
+                                    data-title="Ferrari y su evolución durante la temporada"
+                                    data-author="lucia"
+                                    data-category="equipos"
+                                    data-status="publicado"
+                                    data-premium="no"
+                                >
+
+
+                                    <td>
+
+                                        <div class="publication-info">
+
+                                            <div class="publication-cover">
+
+                                                <span class="material-symbols-outlined">
+                                                    article
+                                                </span>
+
+                                            </div>
+
+
+                                            <div>
+
+                                                <strong>
+                                                    Ferrari y su evolución durante la temporada
+                                                </strong>
+
+                                                <span>
+                                                    ID #PUB-005
+                                                </span>
+
+                                            </div>
+
+                                        </div>
+
+                                    </td>
+
+
+                                    <td>
+
+                                        <div class="publication-author">
+
+                                            <div class="publication-author-avatar">
+                                                LM
+                                            </div>
+
+                                            <div>
+
+                                                <strong>
+                                                    Lucía Martínez
+                                                </strong>
+
+                                                <span>
+                                                    Editor
+                                                </span>
+
+                                            </div>
+
+                                        </div>
+
+                                    </td>
+
+
+                                    <td>
+
+                                        <span class="publication-category">
+                                            Equipos
+                                        </span>
+
+                                    </td>
+
+
+                                    <td>
+
+                                        <span class="publication-state published">
+
+                                            <span></span>
+
+                                            Publicado
+
+                                        </span>
+
+                                    </td>
+
+
+                                    <td>
+
+                                        <span class="publication-premium no">
+                                            NO
+                                        </span>
+
+                                    </td>
+
+
+                                    <td class="publication-date">
+                                        18/10/2026
+                                    </td>
+
+
+                                    <td>
+
+                                        <div class="publication-actions">
+
+
+                                            <button
+                                                class="publication-edit-btn"
+                                                type="button"
+                                                title="Editar publicación"
+                                            >
+
+                                                <span class="material-symbols-outlined">
+                                                    edit
+                                                </span>
+
+                                                Editar
+
+                                            </button>
+
+
+                                            <button
+                                                class="publication-delete-btn"
+                                                type="button"
+                                                title="Eliminar publicación"
+                                            >
+
+                                                <span class="material-symbols-outlined">
+                                                    delete
+                                                </span>
+
+                                            </button>
+
+
+                                        </div>
+
+                                    </td>
+
+
+                                </tr>
+
+
+                            </tbody>
+
+
+                        </table>
+
+
+                    </div>
+
+
+
+                    <!-- =========================
+                         SIN RESULTADOS
+                    ========================== -->
+
+                    <div
+                        class="publications-empty"
+                        id="publications-empty"
+                    >
+
+                        <span class="material-symbols-outlined">
+                            article
+                        </span>
+
+                        <strong>
+                            No se encontraron publicaciones
+                        </strong>
+
+                        <span>
+                            Probá modificando los filtros.
+                        </span>
+
+                    </div>
+
+
+                </section>
+
+
+            </div>
+
+
+        </main>
+
+
+    </div>
+
+
+</div>
+
+
+
+<!-- =========================
+     MODAL ELIMINAR
+========================= -->
+
+<div
+    class="publication-modal-overlay"
+    id="delete-publication-modal"
+>
+
+
+    <div class="publication-modal">
+
+
+        <div class="publication-modal-icon">
+
+            <span class="material-symbols-outlined">
+                warning
+            </span>
+
+        </div>
+
+
+        <div class="publication-modal-content">
+
+
+            <span class="publication-modal-label">
+                ELIMINAR PUBLICACIÓN
+            </span>
+
+
+            <h2>
+                ¿Eliminar esta publicación?
+            </h2>
+
+
+            <p>
+                Esta acción eliminará la publicación seleccionada.
+            </p>
+
+
+            <div class="publication-modal-info">
+
+                <span>
+                    PUBLICACIÓN
+                </span>
+
+                <strong id="delete-publication-title">
+                    -
+                </strong>
+
+            </div>
+
+
+            <div class="publication-modal-actions">
+
+
+                <button
+                    class="publication-modal-cancel"
+                    id="cancel-delete-publication"
+                    type="button"
+                >
+                    Cancelar
+                </button>
+
+
+                <button
+                    class="publication-modal-confirm"
+                    id="confirm-delete-publication"
+                    type="button"
+                >
+                    Eliminar
+                </button>
+
+
+            </div>
+
+
+        </div>
+
+
+    </div>
+
+
+</div>
+
+
+
+<!-- =========================
+     FOOTER GLOBAL
+========================= -->
+
+{% include "base/footer.html" %}
+
+
+
+<!-- =========================
+     JAVASCRIPT
+========================= -->
+
+<script>
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function () {
+
+
+        /* =========================
+           ELEMENTOS
+        ========================= */
+
+
+        const searchInput =
+            document.getElementById(
+                "publication-search"
+            );
+
+
+        const authorFilter =
+            document.getElementById(
+                "author-filter"
+            );
+
+
+        const categoryFilter =
+            document.getElementById(
+                "category-filter"
+            );
+
+
+        const statusFilter =
+            document.getElementById(
+                "status-filter"
+            );
+
+
+        const premiumFilter =
+            document.getElementById(
+                "premium-filter"
+            );
+
+
+        const resultCount =
+            document.getElementById(
+                "publication-result-count"
+            );
+
+
+        const emptyState =
+            document.getElementById(
+                "publications-empty"
+            );
+
+
+        const resetButton =
+            document.getElementById(
+                "reset-publication-filters"
+            );
+
+
+        const clearSearch =
+            document.getElementById(
+                "clear-publication-search"
+            );
+
+
+
+        function getRows() {
+
+            return document.querySelectorAll(
+                ".publication-row"
+            );
+
+        }
+
+
+
+        /* =========================
+           FILTROS
+        ========================= */
+
+
+        function filtrarPublicaciones() {
+
+
+            const search =
+                searchInput.value
+                    .toLowerCase()
+                    .trim();
+
+
+            const author =
+                authorFilter.value;
+
+
+            const category =
+                categoryFilter.value;
+
+
+            const status =
+                statusFilter.value;
+
+
+            const premium =
+                premiumFilter.value;
+
+
+            let visible =
+                0;
+
+
+            getRows().forEach(
+                function (row) {
+
+
+                    const text =
+                        (
+                            row.dataset.title +
+                            " " +
+                            row.querySelector(
+                                ".publication-author strong"
+                            ).textContent
+                        ).toLowerCase();
+
+
+                    const matchesSearch =
+                        text.includes(
+                            search
+                        );
+
+
+                    const matchesAuthor =
+                        author === "all"
+                        ||
+                        row.dataset.author === author;
+
+
+                    const matchesCategory =
+                        category === "all"
+                        ||
+                        row.dataset.category === category;
+
+
+                    const matchesStatus =
+                        status === "all"
+                        ||
+                        row.dataset.status === status;
+
+
+                    const matchesPremium =
+                        premium === "all"
+                        ||
+                        row.dataset.premium === premium;
+
+
+                    const show =
+                        matchesSearch
+                        &&
+                        matchesAuthor
+                        &&
+                        matchesCategory
+                        &&
+                        matchesStatus
+                        &&
+                        matchesPremium;
+
+
+                    row.style.display =
+                        show
+                        ? ""
+                        : "none";
+
+
+                    if (show) {
+
+                        visible++;
+
+                    }
+
+
+                }
+            );
+
+
+            resultCount.textContent =
+                "Mostrando " +
+                visible +
+                " publicación" +
+                (
+                    visible === 1
+                    ? ""
+                    : "es"
+                );
+
+
+            if (visible === 0) {
+
+                emptyState.classList.add(
+                    "show"
+                );
+
+            } else {
+
+                emptyState.classList.remove(
+                    "show"
+                );
+
+            }
+
+
+        }
+
+
+
+        searchInput.addEventListener(
+            "input",
+            filtrarPublicaciones
+        );
+
+
+        authorFilter.addEventListener(
+            "change",
+            filtrarPublicaciones
+        );
+
+
+        categoryFilter.addEventListener(
+            "change",
+            filtrarPublicaciones
+        );
+
+
+        statusFilter.addEventListener(
+            "change",
+            filtrarPublicaciones
+        );
+
+
+        premiumFilter.addEventListener(
+            "change",
+            filtrarPublicaciones
+        );
+
+
+
+        clearSearch.addEventListener(
+            "click",
+            function () {
+
+
+                searchInput.value =
+                    "";
+
+
+                filtrarPublicaciones();
+
+
+                searchInput.focus();
+
+
+            }
+        );
+
+
+
+        resetButton.addEventListener(
+            "click",
+            function () {
+
+
+                searchInput.value =
+                    "";
+
+
+                authorFilter.value =
+                    "all";
+
+
+                categoryFilter.value =
+                    "all";
+
+
+                statusFilter.value =
+                    "all";
+
+
+                premiumFilter.value =
+                    "all";
+
+
+                filtrarPublicaciones();
+
+
+            }
+        );
+
+
+
+        /* =========================
+           EDITAR
+        ========================= */
+
+
+        document.addEventListener(
+            "click",
+            function (event) {
+
+
+                const editButton =
+                    event.target.closest(
+                        ".publication-edit-btn"
+                    );
+
+
+                if (!editButton) {
+
+                    return;
+
+                }
+
+
+                alert(
+                    "Más adelante este botón abrirá la edición real de la publicación."
+                );
+
+
+            }
+        );
+
+
+
+        /* =========================
+           ELIMINAR
+        ========================= */
+
+
+        const deleteModal =
+            document.getElementById(
+                "delete-publication-modal"
+            );
+
+
+        const deleteTitle =
+            document.getElementById(
+                "delete-publication-title"
+            );
+
+
+        const cancelDelete =
+            document.getElementById(
+                "cancel-delete-publication"
+            );
+
+
+        const confirmDelete =
+            document.getElementById(
+                "confirm-delete-publication"
+            );
+
+
+        let selectedRow =
+            null;
+
+
+
+        document.addEventListener(
+            "click",
+            function (event) {
+
+
+                const deleteButton =
+                    event.target.closest(
+                        ".publication-delete-btn"
+                    );
+
+
+                if (!deleteButton) {
+
+                    return;
+
+                }
+
+
+                selectedRow =
+                    deleteButton.closest(
+                        ".publication-row"
+                    );
+
+
+                deleteTitle.textContent =
+                    selectedRow.dataset.title;
+
+
+                deleteModal.classList.add(
+                    "open"
+                );
+
+
+            }
+        );
+
+
+
+        function cerrarModalEliminar() {
+
+
+            deleteModal.classList.remove(
+                "open"
+            );
+
+
+            selectedRow =
+                null;
+
+
+        }
+
+
+
+        cancelDelete.addEventListener(
+            "click",
+            cerrarModalEliminar
+        );
+
+
+
+        deleteModal.addEventListener(
+            "click",
+            function (event) {
+
+
+                if (
+                    event.target ===
+                    deleteModal
+                ) {
+
+                    cerrarModalEliminar();
+
+                }
+
+
+            }
+        );
+
+
+
+        confirmDelete.addEventListener(
+            "click",
+            function () {
+
+
+                if (!selectedRow) {
+
+                    return;
+
+                }
+
+
+                selectedRow.remove();
+
+
+                cerrarModalEliminar();
+
+
+                actualizarEstadisticas();
+
+                filtrarPublicaciones();
+
+
+                alert(
+                    "Por ahora la publicación se elimina solamente de forma visual."
+                );
+
+
+            }
+        );
+
+
+
+        /* =========================
+           ESTADÍSTICAS
+        ========================= */
+
+
+        function actualizarEstadisticas() {
+
+
+            const rows =
+                getRows();
+
+
+            let published =
+                0;
+
+
+            let draft =
+                0;
+
+
+            let scheduled =
+                0;
+
+
+            let premium =
+                0;
+
+
+            rows.forEach(
+                function (row) {
+
+
+                    if (
+                        row.dataset.status ===
+                        "publicado"
+                    ) {
+
+                        published++;
+
+                    }
+
+
+                    if (
+                        row.dataset.status ===
+                        "borrador"
+                    ) {
+
+                        draft++;
+
+                    }
+
+
+                    if (
+                        row.dataset.status ===
+                        "programado"
+                    ) {
+
+                        scheduled++;
+
+                    }
+
+
+                    if (
+                        row.dataset.premium ===
+                        "si"
+                    ) {
+
+                        premium++;
+
+                    }
+
+
+                }
+            );
+
+
+            document.getElementById(
+                "stat-total"
+            ).textContent =
+                rows.length;
+
+
+            document.getElementById(
+                "stat-published"
+            ).textContent =
+                published;
+
+
+            document.getElementById(
+                "stat-draft"
+            ).textContent =
+                draft;
+
+
+            document.getElementById(
+                "stat-scheduled"
+            ).textContent =
+                scheduled;
+
+
+            document.getElementById(
+                "stat-premium"
+            ).textContent =
+                premium;
+
+
+        }
+
+
+        actualizarEstadisticas();
+
+        filtrarPublicaciones();
+
+
+    }
+);
+
+</script>
+
+
+</body>
+
+</html>å
