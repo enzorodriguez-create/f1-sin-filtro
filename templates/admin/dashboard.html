@@ -1,0 +1,1211 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <meta charset="utf-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        F1 SIN FILTRO - Panel de Administración
+    </title>
+
+
+    <!-- FUENTES -->
+
+    <link
+        href="https://fonts.googleapis.com"
+        rel="preconnect"
+    >
+
+    <link
+        href="https://fonts.gstatic.com"
+        rel="preconnect"
+        crossorigin
+    >
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Anybody:wght@100..900&family=Geist:wght@100..900&display=swap"
+        rel="stylesheet"
+    >
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
+        rel="stylesheet"
+    >
+
+
+    <!-- CSS GLOBAL -->
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='styles/style.css') }}"
+    >
+
+
+    <!-- CSS ADMIN -->
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='styles/admin/sidebar.css') }}"
+    >
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='styles/admin/dashboard.css') }}"
+    >
+
+</head>
+
+
+<body>
+
+
+<!-- =========================
+     LAYOUT ADMIN
+========================= -->
+
+<div class="admin-page">
+
+
+    <!-- =========================
+         SIDEBAR
+    ========================== -->
+
+    {% include "admin/sidebar.html" %}
+
+
+
+    <!-- =========================
+         CONTENIDO
+    ========================== -->
+
+    <div class="admin-content">
+
+
+        <!-- =========================
+             TOPBAR
+        ========================== -->
+
+        <header class="admin-topbar">
+
+
+            <div class="admin-topbar-left">
+
+
+                <button
+                    class="admin-menu-btn"
+                    id="admin-menu-btn"
+                    type="button"
+                    aria-label="Abrir menú"
+                >
+
+                    <span class="material-symbols-outlined">
+                        menu
+                    </span>
+
+                </button>
+
+
+                <span class="admin-topbar-section">
+                    PANEL DE ADMINISTRACIÓN
+                </span>
+
+
+            </div>
+
+
+            <div class="admin-topbar-right">
+
+
+                <div class="admin-role-badge">
+
+                    <span class="admin-role-dot"></span>
+
+                    <span>
+                        ROL:
+                    </span>
+
+                    <strong>
+                        ADMIN
+                    </strong>
+
+                </div>
+
+
+                <div class="admin-user">
+
+
+                    <div class="admin-user-data">
+
+                        <strong>
+                            {{ usuario.nombre if usuario else "Administrador" }}
+                        </strong>
+
+                        <span>
+                            {{ usuario.email if usuario else "admin@f1sinfiltro.com" }}
+                        </span>
+
+                    </div>
+
+
+                    {% if usuario and usuario.foto %}
+
+                        <div class="admin-avatar">
+
+                            <img
+                                src="{{ usuario.foto }}"
+                                alt="{{ usuario.nombre }}"
+                            >
+
+                        </div>
+
+                    {% else %}
+
+                        <div class="admin-avatar">
+
+                            <span class="material-symbols-outlined">
+                                person
+                            </span>
+
+                        </div>
+
+                    {% endif %}
+
+
+                </div>
+
+
+            </div>
+
+
+        </header>
+
+
+
+        <!-- =========================
+             MAIN
+        ========================== -->
+
+        <main class="admin-main">
+
+
+            <div class="admin-container">
+
+
+                <!-- =========================
+                     CABECERA
+                ========================== -->
+
+                <div class="admin-head">
+
+
+                    <div>
+
+
+                        <div class="admin-path">
+
+                            <span>
+                                ADMINISTRACIÓN
+                            </span>
+
+                            <span>
+                                /
+                            </span>
+
+                            <strong>
+                                DASHBOARD
+                            </strong>
+
+                        </div>
+
+
+                        <h1>
+                            DASHBOARD <span>GENERAL</span>
+                        </h1>
+
+
+                        <p>
+                            Supervisá usuarios, editores, publicaciones y
+                            la actividad general de F1 SIN FILTRO.
+                        </p>
+
+
+                    </div>
+
+
+                </div>
+
+
+
+                <!-- =========================
+                     ESTADÍSTICAS
+                ========================== -->
+
+                <div class="admin-stats">
+
+
+                    <!-- USUARIOS -->
+
+                    <div class="admin-stat-card">
+
+
+                        <div class="admin-stat-top">
+
+                            <span>
+                                USUARIOS
+                            </span>
+
+                            <div class="admin-stat-icon">
+
+                                <span class="material-symbols-outlined">
+                                    group
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+                        <strong>
+                            1.248
+                        </strong>
+
+
+                        <span class="admin-stat-description">
+                            Usuarios registrados
+                        </span>
+
+
+                    </div>
+
+
+                    <!-- EDITORES -->
+
+                    <div class="admin-stat-card">
+
+
+                        <div class="admin-stat-top">
+
+                            <span>
+                                EDITORES
+                            </span>
+
+                            <div class="admin-stat-icon">
+
+                                <span class="material-symbols-outlined">
+                                    edit_note
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+                        <strong>
+                            12
+                        </strong>
+
+
+                        <span class="admin-stat-description">
+                            Editores activos
+                        </span>
+
+
+                    </div>
+
+
+                    <!-- PUBLICACIONES -->
+
+                    <div class="admin-stat-card">
+
+
+                        <div class="admin-stat-top">
+
+                            <span>
+                                PUBLICACIONES
+                            </span>
+
+                            <div class="admin-stat-icon">
+
+                                <span class="material-symbols-outlined">
+                                    article
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+                        <strong>
+                            186
+                        </strong>
+
+
+                        <span class="admin-stat-description">
+                            Artículos registrados
+                        </span>
+
+
+                    </div>
+
+
+                    <!-- COMENTARIOS -->
+
+                    <div class="admin-stat-card">
+
+
+                        <div class="admin-stat-top">
+
+                            <span>
+                                COMENTARIOS
+                            </span>
+
+                            <div class="admin-stat-icon">
+
+                                <span class="material-symbols-outlined">
+                                    forum
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+                        <strong>
+                            842
+                        </strong>
+
+
+                        <span class="admin-stat-description">
+                            Comentarios publicados
+                        </span>
+
+
+                    </div>
+
+
+                    <!-- SOLICITUDES -->
+
+                    <div class="admin-stat-card admin-stat-alert">
+
+
+                        <div class="admin-stat-top">
+
+                            <span>
+                                SOLICITUDES
+                            </span>
+
+                            <div class="admin-stat-icon">
+
+                                <span class="material-symbols-outlined">
+                                    assignment_ind
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+                        <strong>
+                            3
+                        </strong>
+
+
+                        <span class="admin-stat-description">
+                            Solicitudes de editor pendientes
+                        </span>
+
+
+                    </div>
+
+
+                </div>
+
+
+
+                <!-- =========================
+                     GRID PRINCIPAL
+                ========================== -->
+
+                <div class="admin-dashboard-grid">
+
+
+                    <!-- =========================
+                         ACTIVIDAD
+                    ========================== -->
+
+                    <section class="admin-panel admin-activity-panel">
+
+
+                        <div class="admin-panel-head">
+
+
+                            <div>
+
+                                <span class="admin-panel-kicker">
+                                    ACTIVIDAD
+                                </span>
+
+                                <h2>
+                                    Actividad Reciente
+                                </h2>
+
+                            </div>
+
+
+                        </div>
+
+
+
+                        <div class="admin-table-wrapper">
+
+
+                            <table class="admin-table">
+
+
+                                <thead>
+
+                                    <tr>
+
+                                        <th>
+                                            Acción
+                                        </th>
+
+                                        <th>
+                                            Usuario
+                                        </th>
+
+                                        <th>
+                                            Rol
+                                        </th>
+
+                                        <th>
+                                            Fecha
+                                        </th>
+
+                                        <th>
+                                            Estado
+                                        </th>
+
+                                    </tr>
+
+                                </thead>
+
+
+                                <tbody>
+
+
+                                    <tr>
+
+                                        <td>
+
+                                            <div class="admin-action-name">
+
+                                                <span class="material-symbols-outlined">
+                                                    how_to_reg
+                                                </span>
+
+                                                Solicitud de editor aprobada
+
+                                            </div>
+
+                                        </td>
+
+
+                                        <td>
+                                            Martín Alonso
+                                        </td>
+
+
+                                        <td>
+
+                                            <span class="admin-table-role editor">
+                                                Editor
+                                            </span>
+
+                                        </td>
+
+
+                                        <td>
+                                            Hoy, 15:30
+                                        </td>
+
+
+                                        <td>
+
+                                            <span class="admin-state active">
+                                                Completado
+                                            </span>
+
+                                        </td>
+
+                                    </tr>
+
+
+
+                                    <tr>
+
+                                        <td>
+
+                                            <div class="admin-action-name">
+
+                                                <span class="material-symbols-outlined">
+                                                    article
+                                                </span>
+
+                                                Nueva publicación
+
+                                            </div>
+
+                                        </td>
+
+
+                                        <td>
+                                            Carlos Sainz
+                                        </td>
+
+
+                                        <td>
+
+                                            <span class="admin-table-role editor">
+                                                Editor
+                                            </span>
+
+                                        </td>
+
+
+                                        <td>
+                                            Hoy, 14:45
+                                        </td>
+
+
+                                        <td>
+
+                                            <span class="admin-state active">
+                                                Publicada
+                                            </span>
+
+                                        </td>
+
+                                    </tr>
+
+
+
+                                    <tr>
+
+                                        <td>
+
+                                            <div class="admin-action-name">
+
+                                                <span class="material-symbols-outlined">
+                                                    delete
+                                                </span>
+
+                                                Comentario eliminado
+
+                                            </div>
+
+                                        </td>
+
+
+                                        <td>
+                                            Administrador
+                                        </td>
+
+
+                                        <td>
+
+                                            <span class="admin-table-role admin">
+                                                Admin
+                                            </span>
+
+                                        </td>
+
+
+                                        <td>
+                                            Hoy, 12:18
+                                        </td>
+
+
+                                        <td>
+
+                                            <span class="admin-state removed">
+                                                Eliminado
+                                            </span>
+
+                                        </td>
+
+                                    </tr>
+
+
+
+                                    <tr>
+
+                                        <td>
+
+                                            <div class="admin-action-name">
+
+                                                <span class="material-symbols-outlined">
+                                                    category
+                                                </span>
+
+                                                Categoría actualizada
+
+                                            </div>
+
+                                        </td>
+
+
+                                        <td>
+                                            Administrador
+                                        </td>
+
+
+                                        <td>
+
+                                            <span class="admin-table-role admin">
+                                                Admin
+                                            </span>
+
+                                        </td>
+
+
+                                        <td>
+                                            Ayer, 18:25
+                                        </td>
+
+
+                                        <td>
+
+                                            <span class="admin-state active">
+                                                Actualizada
+                                            </span>
+
+                                        </td>
+
+                                    </tr>
+
+
+                                </tbody>
+
+
+                            </table>
+
+
+                        </div>
+
+
+                    </section>
+
+
+
+                    <!-- =========================
+                         SOLICITUDES EDITORES
+                    ========================== -->
+
+                    <section class="admin-panel">
+
+
+                        <div class="admin-panel-head">
+
+
+                            <div>
+
+                                <span class="admin-panel-kicker">
+                                    PENDIENTES
+                                </span>
+
+                                <h2>
+                                    Solicitudes de Editor
+                                </h2>
+
+                            </div>
+
+
+                            <span class="admin-count-badge">
+                                3
+                            </span>
+
+
+                        </div>
+
+
+
+                        <div class="admin-requests">
+
+
+                            <!-- SOLICITUD 1 -->
+
+                            <article class="admin-request">
+
+
+                                <div class="admin-request-head">
+
+
+                                    <div>
+
+                                        <strong>
+                                            Martín Alonso
+                                        </strong>
+
+                                        <span>
+                                            @malonso_telemetria
+                                        </span>
+
+                                    </div>
+
+
+                                    <span class="admin-request-date">
+                                        Hoy
+                                    </span>
+
+
+                                </div>
+
+
+                                <p>
+                                    Solicitud pendiente para convertirse
+                                    en editor de F1 SIN FILTRO.
+                                </p>
+
+
+                                <div class="admin-request-actions">
+
+
+                                    <button
+                                        class="admin-approve-btn"
+                                        type="button"
+                                    >
+                                        Aprobar
+                                    </button>
+
+
+                                    <button
+                                        class="admin-review-btn"
+                                        type="button"
+                                    >
+                                        Revisar
+                                    </button>
+
+
+                                </div>
+
+
+                            </article>
+
+
+
+                            <!-- SOLICITUD 2 -->
+
+                            <article class="admin-request">
+
+
+                                <div class="admin-request-head">
+
+
+                                    <div>
+
+                                        <strong>
+                                            Sofía Barrientos
+                                        </strong>
+
+                                        <span>
+                                            @sofi_pitlane
+                                        </span>
+
+                                    </div>
+
+
+                                    <span class="admin-request-date">
+                                        Ayer
+                                    </span>
+
+
+                                </div>
+
+
+                                <p>
+                                    Solicitud pendiente para convertirse
+                                    en editor de F1 SIN FILTRO.
+                                </p>
+
+
+                                <div class="admin-request-actions">
+
+
+                                    <button
+                                        class="admin-approve-btn"
+                                        type="button"
+                                    >
+                                        Aprobar
+                                    </button>
+
+
+                                    <button
+                                        class="admin-review-btn"
+                                        type="button"
+                                    >
+                                        Revisar
+                                    </button>
+
+
+                                </div>
+
+
+                            </article>
+
+
+
+                            <!-- SOLICITUD 3 -->
+
+                            <article class="admin-request">
+
+
+                                <div class="admin-request-head">
+
+
+                                    <div>
+
+                                        <strong>
+                                            Esteban Gómez
+                                        </strong>
+
+                                        <span>
+                                            @gomez_motorsport
+                                        </span>
+
+                                    </div>
+
+
+                                    <span class="admin-request-date">
+                                        23/10/2026
+                                    </span>
+
+
+                                </div>
+
+
+                                <p>
+                                    Solicitud pendiente para convertirse
+                                    en editor de F1 SIN FILTRO.
+                                </p>
+
+
+                                <div class="admin-request-actions">
+
+
+                                    <button
+                                        class="admin-approve-btn"
+                                        type="button"
+                                    >
+                                        Aprobar
+                                    </button>
+
+
+                                    <button
+                                        class="admin-review-btn"
+                                        type="button"
+                                    >
+                                        Revisar
+                                    </button>
+
+
+                                </div>
+
+
+                            </article>
+
+
+                        </div>
+
+
+                    </section>
+
+
+                </div>
+
+
+
+                <!-- =========================
+                     SEGUNDA FILA
+                ========================== -->
+
+                <div class="admin-secondary-grid">
+
+
+                    <!-- USUARIOS RECIENTES -->
+
+                    <section class="admin-panel">
+
+
+                        <div class="admin-panel-head">
+
+
+                            <div>
+
+                                <span class="admin-panel-kicker">
+                                    USUARIOS
+                                </span>
+
+                                <h2>
+                                    Registros Recientes
+                                </h2>
+
+                            </div>
+
+
+                        </div>
+
+
+
+                        <div class="admin-recent-users">
+
+
+                            <div class="admin-recent-user">
+
+
+                                <div class="admin-user-avatar">
+                                    LR
+                                </div>
+
+
+                                <div>
+
+                                    <strong>
+                                        Lucas Ramírez
+                                    </strong>
+
+                                    <span>
+                                        @lucasramirez
+                                    </span>
+
+                                </div>
+
+
+                                <span class="admin-user-type">
+                                    USUARIO
+                                </span>
+
+
+                            </div>
+
+
+
+                            <div class="admin-recent-user">
+
+
+                                <div class="admin-user-avatar">
+                                    MS
+                                </div>
+
+
+                                <div>
+
+                                    <strong>
+                                        Martina Suárez
+                                    </strong>
+
+                                    <span>
+                                        @martinas
+                                    </span>
+
+                                </div>
+
+
+                                <span class="admin-user-type">
+                                    USUARIO
+                                </span>
+
+
+                            </div>
+
+
+
+                            <div class="admin-recent-user">
+
+
+                                <div class="admin-user-avatar">
+                                    JP
+                                </div>
+
+
+                                <div>
+
+                                    <strong>
+                                        Juan Pérez
+                                    </strong>
+
+                                    <span>
+                                        @juanperez
+                                    </span>
+
+                                </div>
+
+
+                                <span class="admin-user-type">
+                                    USUARIO
+                                </span>
+
+
+                            </div>
+
+
+                        </div>
+
+
+                    </section>
+
+
+
+                    <!-- RESUMEN CONTENIDO -->
+
+                    <section class="admin-panel">
+
+
+                        <div class="admin-panel-head">
+
+
+                            <div>
+
+                                <span class="admin-panel-kicker">
+                                    CONTENIDO
+                                </span>
+
+                                <h2>
+                                    Resumen del Portal
+                                </h2>
+
+                            </div>
+
+
+                        </div>
+
+
+
+                        <div class="admin-content-summary">
+
+
+                            <div>
+
+                                <span class="material-symbols-outlined">
+                                    category
+                                </span>
+
+                                <div>
+
+                                    <strong>
+                                        8
+                                    </strong>
+
+                                    <span>
+                                        Categorías
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+
+
+                            <div>
+
+                                <span class="material-symbols-outlined">
+                                    label
+                                </span>
+
+                                <div>
+
+                                    <strong>
+                                        24
+                                    </strong>
+
+                                    <span>
+                                        Etiquetas
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+
+
+                            <div>
+
+                                <span class="material-symbols-outlined">
+                                    workspace_premium
+                                </span>
+
+                                <div>
+
+                                    <strong>
+                                        32
+                                    </strong>
+
+                                    <span>
+                                        Publicaciones Premium
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+
+
+                            <div>
+
+                                <span class="material-symbols-outlined">
+                                    draft
+                                </span>
+
+                                <div>
+
+                                    <strong>
+                                        9
+                                    </strong>
+
+                                    <span>
+                                        Borradores
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+
+                        </div>
+
+
+                    </section>
+
+
+                </div>
+
+
+            </div>
+
+
+        </main>
+
+
+    </div>
+
+
+</div>
+
+
+
+<!-- =========================
+     FOOTER GLOBAL
+========================= -->
+
+{% include "base/footer.html" %}
+
+
+</body>
+
+</html>
