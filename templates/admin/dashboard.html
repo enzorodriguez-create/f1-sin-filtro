@@ -18,46 +18,29 @@
     <!-- FUENTES -->
 
     <link
-        href="https://fonts.googleapis.com"
-        rel="preconnect"
-    >
+    rel="stylesheet"
+    href="{{ url_for('static', filename='styles/style.css') }}"
+>
 
-    <link
-        href="https://fonts.gstatic.com"
-        rel="preconnect"
-        crossorigin
-    >
+<link
+    rel="stylesheet"
+    href="{{ url_for('static', filename='styles/admin/base.css') }}"
+>
 
-    <link
-        href="https://fonts.googleapis.com/css2?family=Anybody:wght@100..900&family=Geist:wght@100..900&display=swap"
-        rel="stylesheet"
-    >
+<link
+    rel="stylesheet"
+    href="{{ url_for('static', filename='styles/admin/sidebar.css') }}"
+>
 
-    <link
-        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
-        rel="stylesheet"
-    >
+<link
+    rel="stylesheet"
+    href="{{ url_for('static', filename='styles/admin/dashboard.css') }}"
+>
 
-
-    <!-- CSS GLOBAL -->
-
-    <link
-        rel="stylesheet"
-        href="{{ url_for('static', filename='styles/style.css') }}"
-    >
-
-
-    <!-- CSS ADMIN -->
-
-    <link
-        rel="stylesheet"
-        href="{{ url_for('static', filename='styles/admin/sidebar.css') }}"
-    >
-
-    <link
-        rel="stylesheet"
-        href="{{ url_for('static', filename='styles/admin/dashboard.css') }}"
-    >
+<link
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
+    rel="stylesheet"
+>
 
 </head>
 
