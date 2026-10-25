@@ -175,10 +175,6 @@ def editor():
         seccion_activa="dashboard"
     )
 
-@app.route("/admin")
-def admin():
-    return render_template("admin.html")
-
 @app.route("/perfil/editar")
 def editar_perfil():
     return render_template("perfil/editar.html")
@@ -325,6 +321,27 @@ def editor_etiquetas():
         seccion_activa="etiquetas"
     )
 
+@app.route("/editor/perfil")
+def editor_perfil():
+
+    usuario = session.get("usuario")
+
+    return render_template(
+        "editor/perfil.html",
+        usuario=usuario,
+        seccion_activa="perfil_editor"
+    )
+
+@app.route("/admin")
+def admin():
+
+    usuario = session.get("usuario")
+
+    return render_template(
+        "admin/dashboard.html",
+        usuario=usuario,
+        seccion_activa="dashboard"
+    )
 
 if __name__ == "__main__":
 
