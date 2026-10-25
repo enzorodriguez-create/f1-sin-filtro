@@ -1,0 +1,1059 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <meta charset="utf-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        F1 SIN FILTRO - Comentarios
+    </title>
+
+
+    <!-- =========================
+         FUENTES
+    ========================== -->
+
+    <link
+        href="https://fonts.googleapis.com"
+        rel="preconnect"
+    >
+
+    <link
+        href="https://fonts.gstatic.com"
+        rel="preconnect"
+        crossorigin
+    >
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Chivo:wght@400;600;700;900&family=Geist:wght@400;500;600;700&display=swap"
+        rel="stylesheet"
+    >
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
+        rel="stylesheet"
+    >
+
+
+    <!-- =========================
+         CSS
+    ========================== -->
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='styles/style.css') }}"
+    >
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='styles/editor/sidebar.css') }}"
+    >
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='styles/editor/dashboard.css') }}"
+    >
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='styles/editor/comentarios.css') }}"
+    >
+
+</head>
+
+
+<body>
+
+
+<!-- =========================
+     LAYOUT EDITOR
+========================= -->
+
+<div class="editor-page">
+
+
+    <!-- =========================
+         SIDEBAR
+    ========================== -->
+
+    {% include "editor/sidebar.html" %}
+
+
+
+    <!-- =========================
+         CONTENIDO
+    ========================== -->
+
+    <div class="editor-content">
+
+
+        <!-- =========================
+             TOPBAR
+        ========================== -->
+
+        <header class="editor-topbar">
+
+
+            <div class="topbar-left">
+
+                <button
+                    class="menu-btn"
+                    type="button"
+                    id="editor-menu-btn"
+                    aria-label="Abrir menú"
+                >
+
+                    <span class="material-symbols-outlined">
+                        menu
+                    </span>
+
+                </button>
+
+            </div>
+
+
+            <div class="topbar-right">
+
+
+                <div class="role-badge">
+
+                    <span class="role-dot"></span>
+
+                    <span>
+                        ROL:
+                    </span>
+
+                    <strong>
+                        EDITOR
+                    </strong>
+
+                </div>
+
+
+                <div class="editor-user">
+
+
+                    <div class="editor-user-data">
+
+                        <strong>
+                            {{ usuario.nombre if usuario else "Editor" }}
+                        </strong>
+
+                        <span>
+                            {{ usuario.email if usuario else "editor@f1sinfiltro.com" }}
+                        </span>
+
+                    </div>
+
+
+                    {% if usuario and usuario.foto %}
+
+                        <div class="editor-avatar">
+
+                            <img
+                                class="editor-avatar-img"
+                                src="{{ usuario.foto }}"
+                                alt="{{ usuario.nombre }}"
+                            >
+
+                        </div>
+
+                    {% else %}
+
+                        <div class="editor-avatar">
+
+                            <span class="material-symbols-outlined">
+                                person
+                            </span>
+
+                        </div>
+
+                    {% endif %}
+
+
+                </div>
+
+
+            </div>
+
+
+        </header>
+
+
+
+        <!-- =========================
+             MAIN
+        ========================== -->
+
+        <main class="editor-main">
+
+
+            <div class="editor-container">
+
+
+                <!-- =========================
+                     CABECERA
+                ========================== -->
+
+                <div class="comments-head">
+
+
+                    <div>
+
+
+                        <div class="comments-path">
+
+                            <span>
+                                PANEL DE CONTROL
+                            </span>
+
+                            <span>
+                                /
+                            </span>
+
+                            <strong>
+                                COMENTARIOS
+                            </strong>
+
+                        </div>
+
+
+                        <h1>
+                            GESTIÓN DE <span>COMENTARIOS</span>
+                        </h1>
+
+
+                        <p>
+                            Revisá y administrá los comentarios realizados en tus publicaciones.
+                        </p>
+
+
+                    </div>
+
+
+                </div>
+
+
+
+                <!-- =========================
+                     RESUMEN
+                ========================== -->
+
+                <div class="comments-stats">
+
+
+                    <div class="comment-stat-card">
+
+
+                        <div class="stat-icon">
+
+                            <span class="material-symbols-outlined">
+                                forum
+                            </span>
+
+                        </div>
+
+
+                        <div>
+
+                            <span>
+                                COMENTARIOS
+                            </span>
+
+                            <strong id="total-comments">
+                                4
+                            </strong>
+
+                        </div>
+
+
+                    </div>
+
+
+                    <div class="comment-stat-card">
+
+
+                        <div class="stat-icon">
+
+                            <span class="material-symbols-outlined">
+                                article
+                            </span>
+
+                        </div>
+
+
+                        <div>
+
+                            <span>
+                                PUBLICACIONES
+                            </span>
+
+                            <strong>
+                                3
+                            </strong>
+
+                        </div>
+
+
+                    </div>
+
+
+                    <div class="comment-stat-card">
+
+
+                        <div class="stat-icon">
+
+                            <span class="material-symbols-outlined">
+                                schedule
+                            </span>
+
+                        </div>
+
+
+                        <div>
+
+                            <span>
+                                MÁS RECIENTE
+                            </span>
+
+                            <strong class="stat-date">
+                                25/10/2026
+                            </strong>
+
+                        </div>
+
+
+                    </div>
+
+
+                </div>
+
+
+
+                <!-- =========================
+                     FILTROS
+                ========================== -->
+
+                <div class="comments-tools">
+
+
+                    <div class="comments-search">
+
+                        <span class="material-symbols-outlined">
+                            search
+                        </span>
+
+                        <input
+                            type="text"
+                            id="comment-search"
+                            placeholder="Buscar comentarios..."
+                        >
+
+                    </div>
+
+
+                    <div class="comments-filter">
+
+                        <span class="material-symbols-outlined">
+                            filter_list
+                        </span>
+
+                        <select id="publication-filter">
+
+                            <option value="all">
+                                Todas las publicaciones
+                            </option>
+
+                            <option value="ferrari">
+                                Ferrari prepara nuevas mejoras
+                            </option>
+
+                            <option value="campeonato">
+                                Análisis de la lucha por el campeonato
+                            </option>
+
+                            <option value="previa">
+                                Previa del próximo Gran Premio
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                </div>
+
+
+
+                <!-- =========================
+                     LISTADO DE COMENTARIOS
+                ========================== -->
+
+                <div
+                    class="comments-list"
+                    id="comments-list"
+                >
+
+
+                    <!-- =========================
+                         COMENTARIO 1
+                    ========================== -->
+
+                    <article
+                        class="comment-card"
+                        data-publication="ferrari"
+                    >
+
+
+                        <div class="comment-user">
+
+
+                            <div class="comment-avatar">
+                                LR
+                            </div>
+
+
+                            <div class="comment-user-info">
+
+                                <strong>
+                                    Lucas Ramírez
+                                </strong>
+
+                                <span>
+                                    @lucasramirez
+                                </span>
+
+                            </div>
+
+
+                            <span class="comment-date">
+                                25/10/2026 · 14:32
+                            </span>
+
+
+                        </div>
+
+
+                        <div class="comment-body">
+
+
+                            <div class="comment-publication">
+
+                                <span class="material-symbols-outlined">
+                                    article
+                                </span>
+
+                                <span>
+                                    Comentó en:
+                                </span>
+
+                                <strong>
+                                    Ferrari prepara nuevas mejoras para la próxima carrera
+                                </strong>
+
+                            </div>
+
+
+                            <p class="comment-text">
+                                Me parece interesante la actualización. Habrá que ver
+                                cuánto mejora realmente el rendimiento en carrera.
+                            </p>
+
+
+                        </div>
+
+
+                        <div class="comment-actions">
+
+
+                            <span class="comment-status">
+                                PUBLICADO
+                            </span>
+
+
+                            <button
+                                class="delete-comment-btn"
+                                type="button"
+                            >
+
+                                <span class="material-symbols-outlined">
+                                    delete
+                                </span>
+
+                                Eliminar
+
+                            </button>
+
+
+                        </div>
+
+
+                    </article>
+
+
+
+                    <!-- =========================
+                         COMENTARIO 2
+                    ========================== -->
+
+                    <article
+                        class="comment-card"
+                        data-publication="ferrari"
+                    >
+
+
+                        <div class="comment-user">
+
+
+                            <div class="comment-avatar">
+                                MS
+                            </div>
+
+
+                            <div class="comment-user-info">
+
+                                <strong>
+                                    Martina Suárez
+                                </strong>
+
+                                <span>
+                                    @martinas
+                                </span>
+
+                            </div>
+
+
+                            <span class="comment-date">
+                                25/10/2026 · 12:18
+                            </span>
+
+
+                        </div>
+
+
+                        <div class="comment-body">
+
+
+                            <div class="comment-publication">
+
+                                <span class="material-symbols-outlined">
+                                    article
+                                </span>
+
+                                <span>
+                                    Comentó en:
+                                </span>
+
+                                <strong>
+                                    Ferrari prepara nuevas mejoras para la próxima carrera
+                                </strong>
+
+                            </div>
+
+
+                            <p class="comment-text">
+                                Ojalá estas mejoras funcionen porque en las últimas
+                                carreras les costó bastante mantener el ritmo.
+                            </p>
+
+
+                        </div>
+
+
+                        <div class="comment-actions">
+
+
+                            <span class="comment-status">
+                                PUBLICADO
+                            </span>
+
+
+                            <button
+                                class="delete-comment-btn"
+                                type="button"
+                            >
+
+                                <span class="material-symbols-outlined">
+                                    delete
+                                </span>
+
+                                Eliminar
+
+                            </button>
+
+
+                        </div>
+
+
+                    </article>
+
+
+
+                    <!-- =========================
+                         COMENTARIO 3
+                    ========================== -->
+
+                    <article
+                        class="comment-card"
+                        data-publication="campeonato"
+                    >
+
+
+                        <div class="comment-user">
+
+
+                            <div class="comment-avatar">
+                                JP
+                            </div>
+
+
+                            <div class="comment-user-info">
+
+                                <strong>
+                                    Juan Pérez
+                                </strong>
+
+                                <span>
+                                    @juanperez
+                                </span>
+
+                            </div>
+
+
+                            <span class="comment-date">
+                                24/10/2026 · 20:05
+                            </span>
+
+
+                        </div>
+
+
+                        <div class="comment-body">
+
+
+                            <div class="comment-publication">
+
+                                <span class="material-symbols-outlined">
+                                    article
+                                </span>
+
+                                <span>
+                                    Comentó en:
+                                </span>
+
+                                <strong>
+                                    Análisis de la lucha por el campeonato
+                                </strong>
+
+                            </div>
+
+
+                            <p class="comment-text">
+                                Todavía quedan suficientes puntos como para que el
+                                campeonato cambie bastante de acá al final.
+                            </p>
+
+
+                        </div>
+
+
+                        <div class="comment-actions">
+
+
+                            <span class="comment-status">
+                                PUBLICADO
+                            </span>
+
+
+                            <button
+                                class="delete-comment-btn"
+                                type="button"
+                            >
+
+                                <span class="material-symbols-outlined">
+                                    delete
+                                </span>
+
+                                Eliminar
+
+                            </button>
+
+
+                        </div>
+
+
+                    </article>
+
+
+
+                    <!-- =========================
+                         COMENTARIO 4
+                    ========================== -->
+
+                    <article
+                        class="comment-card"
+                        data-publication="previa"
+                    >
+
+
+                        <div class="comment-user">
+
+
+                            <div class="comment-avatar">
+                                SF
+                            </div>
+
+
+                            <div class="comment-user-info">
+
+                                <strong>
+                                    Sofía Fernández
+                                </strong>
+
+                                <span>
+                                    @sofiaf1
+                                </span>
+
+                            </div>
+
+
+                            <span class="comment-date">
+                                24/10/2026 · 18:41
+                            </span>
+
+
+                        </div>
+
+
+                        <div class="comment-body">
+
+
+                            <div class="comment-publication">
+
+                                <span class="material-symbols-outlined">
+                                    article
+                                </span>
+
+                                <span>
+                                    Comentó en:
+                                </span>
+
+                                <strong>
+                                    Todo lo que hay que saber antes del próximo Gran Premio
+                                </strong>
+
+                            </div>
+
+
+                            <p class="comment-text">
+                                Muy buena previa. Estaría bueno agregar también una
+                                comparación con los resultados del año pasado.
+                            </p>
+
+
+                        </div>
+
+
+                        <div class="comment-actions">
+
+
+                            <span class="comment-status">
+                                PUBLICADO
+                            </span>
+
+
+                            <button
+                                class="delete-comment-btn"
+                                type="button"
+                            >
+
+                                <span class="material-symbols-outlined">
+                                    delete
+                                </span>
+
+                                Eliminar
+
+                            </button>
+
+
+                        </div>
+
+
+                    </article>
+
+
+                </div>
+
+
+
+                <!-- =========================
+                     SIN RESULTADOS
+                ========================== -->
+
+                <div
+                    class="no-comments"
+                    id="no-comments"
+                >
+
+                    <span class="material-symbols-outlined">
+                        forum
+                    </span>
+
+                    <strong>
+                        No se encontraron comentarios
+                    </strong>
+
+                    <span>
+                        Probá cambiando la búsqueda o el filtro.
+                    </span>
+
+                </div>
+
+
+            </div>
+
+
+        </main>
+
+
+    </div>
+
+
+</div>
+
+
+
+<!-- =========================
+     FOOTER GLOBAL
+========================= -->
+
+{% include "base/footer.html" %}
+
+
+
+<!-- =========================
+     JAVASCRIPT
+========================= -->
+
+<script>
+
+    const searchInput =
+        document.getElementById(
+            "comment-search"
+        );
+
+
+    const publicationFilter =
+        document.getElementById(
+            "publication-filter"
+        );
+
+
+    const commentsList =
+        document.getElementById(
+            "comments-list"
+        );
+
+
+    const noComments =
+        document.getElementById(
+            "no-comments"
+        );
+
+
+    const totalComments =
+        document.getElementById(
+            "total-comments"
+        );
+
+
+
+    /* =========================
+       ELIMINAR COMENTARIO
+    ========================= */
+
+    commentsList.addEventListener(
+        "click",
+        function (event) {
+
+
+            const deleteButton =
+                event.target.closest(
+                    ".delete-comment-btn"
+                );
+
+
+            if (!deleteButton) {
+                return;
+            }
+
+
+            const comment =
+                deleteButton.closest(
+                    ".comment-card"
+                );
+
+
+            const confirmar =
+                confirm(
+                    "¿Seguro que querés eliminar este comentario?"
+                );
+
+
+            if (!confirmar) {
+                return;
+            }
+
+
+            comment.remove();
+
+
+            actualizarTotal();
+
+
+            filtrarComentarios();
+
+
+        }
+    );
+
+
+
+    /* =========================
+       ACTUALIZAR TOTAL
+    ========================= */
+
+    function actualizarTotal() {
+
+
+        const comentarios =
+            document.querySelectorAll(
+                ".comment-card"
+            );
+
+
+        totalComments.textContent =
+            comentarios.length;
+
+
+    }
+
+
+
+    /* =========================
+       BUSCAR Y FILTRAR
+    ========================= */
+
+    function filtrarComentarios() {
+
+
+        const texto =
+            searchInput.value
+                .toLowerCase()
+                .trim();
+
+
+        const publicacion =
+            publicationFilter.value;
+
+
+        const comentarios =
+            document.querySelectorAll(
+                ".comment-card"
+            );
+
+
+        let visibles = 0;
+
+
+        comentarios.forEach(
+            function (comentario) {
+
+
+                const contenido =
+                    comentario.innerText
+                        .toLowerCase();
+
+
+                const publicacionComentario =
+                    comentario.dataset.publication;
+
+
+                const coincideTexto =
+                    contenido.includes(
+                        texto
+                    );
+
+
+                const coincidePublicacion =
+                    publicacion === "all"
+                    ||
+                    publicacionComentario === publicacion;
+
+
+                if (
+                    coincideTexto
+                    &&
+                    coincidePublicacion
+                ) {
+
+                    comentario.style.display =
+                        "";
+
+                    visibles++;
+
+                } else {
+
+                    comentario.style.display =
+                        "none";
+
+                }
+
+
+            }
+        );
+
+
+        if (visibles === 0) {
+
+            noComments.classList.add(
+                "show"
+            );
+
+        } else {
+
+            noComments.classList.remove(
+                "show"
+            );
+
+        }
+
+
+    }
+
+
+
+    searchInput.addEventListener(
+        "input",
+        filtrarComentarios
+    );
+
+
+    publicationFilter.addEventListener(
+        "change",
+        filtrarComentarios
+    );
+
+
+</script>
+
+
+</body>
+
+</html>
