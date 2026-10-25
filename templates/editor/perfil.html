@@ -1,0 +1,1295 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <meta charset="utf-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        F1 SIN FILTRO - Perfil del Editor
+    </title>
+
+
+    <!-- FUENTES -->
+
+    <link
+        href="https://fonts.googleapis.com"
+        rel="preconnect"
+    >
+
+    <link
+        href="https://fonts.gstatic.com"
+        rel="preconnect"
+        crossorigin
+    >
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Chivo:wght@400;600;700;900&family=Geist:wght@400;500;600;700&display=swap"
+        rel="stylesheet"
+    >
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
+        rel="stylesheet"
+    >
+
+
+    <!-- CSS -->
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='styles/style.css') }}"
+    >
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='styles/editor/sidebar.css') }}"
+    >
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='styles/editor/dashboard.css') }}"
+    >
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='styles/editor/perfil.css') }}"
+    >
+
+</head>
+
+
+<body>
+
+
+<div class="editor-page">
+
+
+    <!-- =========================
+         SIDEBAR
+    ========================== -->
+
+    {% include "editor/sidebar.html" %}
+
+
+    <!-- =========================
+         CONTENIDO
+    ========================== -->
+
+    <div class="editor-content">
+
+
+        <!-- =========================
+             TOPBAR
+        ========================== -->
+
+        <header class="editor-topbar">
+
+
+            <div class="topbar-left">
+
+                <button
+                    class="menu-btn"
+                    type="button"
+                    id="editor-menu-btn"
+                    aria-label="Abrir menú"
+                >
+
+                    <span class="material-symbols-outlined">
+                        menu
+                    </span>
+
+                </button>
+
+            </div>
+
+
+            <div class="topbar-right">
+
+
+                <div class="role-badge">
+
+                    <span class="role-dot"></span>
+
+                    <span>
+                        ROL:
+                    </span>
+
+                    <strong>
+                        EDITOR
+                    </strong>
+
+                </div>
+
+
+                <div class="editor-user">
+
+
+                    <div class="editor-user-data">
+
+                        <strong>
+                            {{ usuario.nombre if usuario else "Editor" }}
+                        </strong>
+
+                        <span>
+                            {{ usuario.email if usuario else "editor@f1sinfiltro.com" }}
+                        </span>
+
+                    </div>
+
+
+                    {% if usuario and usuario.foto %}
+
+                        <div class="editor-avatar">
+
+                            <img
+                                class="editor-avatar-img"
+                                src="{{ usuario.foto }}"
+                                alt="{{ usuario.nombre }}"
+                            >
+
+                        </div>
+
+                    {% else %}
+
+                        <div class="editor-avatar">
+
+                            <span class="material-symbols-outlined">
+                                person
+                            </span>
+
+                        </div>
+
+                    {% endif %}
+
+
+                </div>
+
+
+            </div>
+
+
+        </header>
+
+
+        <!-- =========================
+             MAIN
+        ========================== -->
+
+        <main class="editor-main">
+
+
+            <div class="editor-container">
+
+
+                <!-- =========================
+                     CABECERA
+                ========================== -->
+
+                <div class="profile-head">
+
+
+                    <div>
+
+                        <div class="profile-path">
+
+                            <span>
+                                PANEL DE CONTROL
+                            </span>
+
+                            <span>
+                                /
+                            </span>
+
+                            <strong>
+                                MI PERFIL
+                            </strong>
+
+                        </div>
+
+
+                        <h1>
+                            MI PERFIL DE <span>EDITOR</span>
+                        </h1>
+
+
+                        <p>
+                            Administrá tu información personal y revisá tu actividad editorial.
+                        </p>
+
+                    </div>
+
+
+                </div>
+
+
+                <!-- =========================
+                     PERFIL PRINCIPAL
+                ========================== -->
+
+                <div class="profile-hero">
+
+
+                    <div class="profile-avatar-large">
+
+
+                        {% if usuario and usuario.foto %}
+
+                            <img
+                                src="{{ usuario.foto }}"
+                                alt="{{ usuario.nombre }}"
+                            >
+
+                        {% else %}
+
+                            <span class="material-symbols-outlined">
+                                person
+                            </span>
+
+                        {% endif %}
+
+
+                    </div>
+
+
+                    <div class="profile-hero-info">
+
+
+                        <span class="profile-role">
+                            EDITOR
+                        </span>
+
+
+                        <h2>
+                            {{ usuario.nombre if usuario else "Enzo" }}
+                            {{ usuario.apellido if usuario and usuario.apellido else "Rodriguez" }}
+                        </h2>
+
+
+                        <span>
+                            @{{ usuario.usuario if usuario and usuario.usuario else "enzorodriguez" }}
+                        </span>
+
+
+                    </div>
+
+
+                </div>
+
+
+                <!-- =========================
+                     GRID
+                ========================== -->
+
+                <div class="profile-grid">
+
+
+                    <!-- =========================
+                         COLUMNA IZQUIERDA
+                    ========================== -->
+
+                    <div class="profile-main-column">
+
+
+                        <!-- =========================
+                             INFORMACIÓN PERSONAL
+                        ========================== -->
+
+                        <section class="profile-card">
+
+
+                            <div class="profile-card-head">
+
+
+                                <div>
+
+                                    <span class="profile-kicker">
+                                        DATOS DEL EDITOR
+                                    </span>
+
+                                    <h2>
+                                        Información Personal
+                                    </h2>
+
+                                </div>
+
+
+                                <button
+                                    class="edit-profile-btn"
+                                    id="btn-edit-profile"
+                                    type="button"
+                                >
+
+                                    <span class="material-symbols-outlined">
+                                        edit
+                                    </span>
+
+                                    Editar perfil
+
+                                </button>
+
+
+                            </div>
+
+
+                            <div class="profile-fields">
+
+
+                                <!-- NOMBRE -->
+
+                                <div class="profile-field">
+
+                                    <label for="profile-name">
+                                        NOMBRE
+                                    </label>
+
+
+                                    <input
+                                        id="profile-name"
+                                        type="text"
+                                        value="{{ usuario.nombre if usuario else 'Enzo' }}"
+                                        disabled
+                                    >
+
+                                </div>
+
+
+                                <!-- APELLIDO -->
+
+                                <div class="profile-field">
+
+                                    <label for="profile-lastname">
+                                        APELLIDO
+                                    </label>
+
+
+                                    <input
+                                        id="profile-lastname"
+                                        type="text"
+                                        value="{{ usuario.apellido if usuario and usuario.apellido else 'Rodriguez' }}"
+                                        disabled
+                                    >
+
+                                </div>
+
+
+                                <!-- USUARIO -->
+
+                                <div class="profile-field">
+
+                                    <label for="profile-username">
+                                        NOMBRE DE USUARIO
+                                    </label>
+
+
+                                    <div class="username-field">
+
+                                        <span>
+                                            @
+                                        </span>
+
+                                        <input
+                                            id="profile-username"
+                                            type="text"
+                                            value="{{ usuario.usuario if usuario and usuario.usuario else 'enzorodriguez' }}"
+                                            disabled
+                                        >
+
+                                    </div>
+
+                                </div>
+
+
+                                <!-- EMAIL -->
+
+                                <div class="profile-field">
+
+                                    <label for="profile-email">
+                                        EMAIL
+                                    </label>
+
+
+                                    <input
+                                        id="profile-email"
+                                        type="email"
+                                        value="{{ usuario.email if usuario else 'editor@f1sinfiltro.com' }}"
+                                        disabled
+                                    >
+
+                                </div>
+
+
+                                <!-- ROL -->
+
+                                <div class="profile-field profile-field-full">
+
+                                    <label>
+                                        ROL
+                                    </label>
+
+
+                                    <div class="role-field">
+
+                                        <span class="material-symbols-outlined">
+                                            verified_user
+                                        </span>
+
+                                        <strong>
+                                            EDITOR
+                                        </strong>
+
+                                        <span>
+                                            Este dato no puede ser modificado.
+                                        </span>
+
+                                    </div>
+
+                                </div>
+
+
+                            </div>
+
+
+                            <!-- BOTONES EDICIÓN -->
+
+                            <div
+                                class="profile-edit-actions hidden"
+                                id="profile-edit-actions"
+                            >
+
+                                <button
+                                    class="profile-cancel-btn"
+                                    id="btn-cancel-edit"
+                                    type="button"
+                                >
+                                    Cancelar
+                                </button>
+
+
+                                <button
+                                    class="profile-save-btn"
+                                    id="btn-save-profile"
+                                    type="button"
+                                >
+
+                                    <span class="material-symbols-outlined">
+                                        save
+                                    </span>
+
+                                    Guardar cambios
+
+                                </button>
+
+
+                            </div>
+
+
+                        </section>
+
+
+                        <!-- =========================
+                             SEGURIDAD
+                        ========================== -->
+
+                        <section class="profile-card">
+
+
+                            <div class="profile-card-head">
+
+
+                                <div>
+
+                                    <span class="profile-kicker">
+                                        CUENTA
+                                    </span>
+
+                                    <h2>
+                                        Seguridad
+                                    </h2>
+
+                                </div>
+
+
+                            </div>
+
+
+                            <div class="security-row">
+
+
+                                <div class="security-icon">
+
+                                    <span class="material-symbols-outlined">
+                                        lock
+                                    </span>
+
+                                </div>
+
+
+                                <div class="security-info">
+
+                                    <strong>
+                                        Contraseña
+                                    </strong>
+
+                                    <span>
+                                        ••••••••••••
+                                    </span>
+
+                                </div>
+
+
+                                <button
+                                    class="change-password-btn"
+                                    id="btn-change-password"
+                                    type="button"
+                                >
+
+                                    Cambiar contraseña
+
+                                </button>
+
+
+                            </div>
+
+
+                            <!-- FORM CAMBIAR CONTRASEÑA -->
+
+                            <div
+                                class="password-form hidden"
+                                id="password-form"
+                            >
+
+
+                                <div class="profile-field">
+
+                                    <label for="current-password">
+                                        CONTRASEÑA ACTUAL
+                                    </label>
+
+                                    <input
+                                        id="current-password"
+                                        type="password"
+                                        placeholder="Ingresá tu contraseña actual"
+                                    >
+
+                                </div>
+
+
+                                <div class="profile-field">
+
+                                    <label for="new-password">
+                                        NUEVA CONTRASEÑA
+                                    </label>
+
+                                    <input
+                                        id="new-password"
+                                        type="password"
+                                        placeholder="Ingresá una nueva contraseña"
+                                    >
+
+                                </div>
+
+
+                                <div class="profile-field">
+
+                                    <label for="confirm-new-password">
+                                        CONFIRMAR CONTRASEÑA
+                                    </label>
+
+                                    <input
+                                        id="confirm-new-password"
+                                        type="password"
+                                        placeholder="Repetí la nueva contraseña"
+                                    >
+
+                                </div>
+
+
+                                <div class="password-actions">
+
+                                    <button
+                                        class="profile-cancel-btn"
+                                        id="btn-cancel-password"
+                                        type="button"
+                                    >
+                                        Cancelar
+                                    </button>
+
+
+                                    <button
+                                        class="profile-save-btn"
+                                        id="btn-save-password"
+                                        type="button"
+                                    >
+                                        Cambiar contraseña
+                                    </button>
+
+                                </div>
+
+
+                            </div>
+
+
+                        </section>
+
+
+                    </div>
+
+
+                    <!-- =========================
+                         COLUMNA DERECHA
+                    ========================== -->
+
+                    <div class="profile-side-column">
+
+
+                        <!-- =========================
+                             ACTIVIDAD
+                        ========================== -->
+
+                        <section class="profile-card">
+
+
+                            <div class="profile-card-head">
+
+
+                                <div>
+
+                                    <span class="profile-kicker">
+                                        ACTIVIDAD
+                                    </span>
+
+                                    <h2>
+                                        Actividad Editorial
+                                    </h2>
+
+                                </div>
+
+
+                            </div>
+
+
+                            <div class="activity-grid">
+
+
+                                <div class="activity-item">
+
+                                    <span class="material-symbols-outlined">
+                                        article
+                                    </span>
+
+                                    <strong>
+                                        12
+                                    </strong>
+
+                                    <span>
+                                        Publicaciones
+                                    </span>
+
+                                </div>
+
+
+                                <div class="activity-item">
+
+                                    <span class="material-symbols-outlined">
+                                        public
+                                    </span>
+
+                                    <strong>
+                                        8
+                                    </strong>
+
+                                    <span>
+                                        Publicadas
+                                    </span>
+
+                                </div>
+
+
+                                <div class="activity-item">
+
+                                    <span class="material-symbols-outlined">
+                                        edit_note
+                                    </span>
+
+                                    <strong>
+                                        3
+                                    </strong>
+
+                                    <span>
+                                        Borradores
+                                    </span>
+
+                                </div>
+
+
+                                <div class="activity-item">
+
+                                    <span class="material-symbols-outlined">
+                                        forum
+                                    </span>
+
+                                    <strong>
+                                        42
+                                    </strong>
+
+                                    <span>
+                                        Comentarios
+                                    </span>
+
+                                </div>
+
+
+                            </div>
+
+
+                        </section>
+
+
+                        <!-- =========================
+                             ACCESOS RÁPIDOS
+                        ========================== -->
+
+                        <section class="profile-card">
+
+
+                            <div class="profile-card-head">
+
+
+                                <div>
+
+                                    <span class="profile-kicker">
+                                        ACCESOS
+                                    </span>
+
+                                    <h2>
+                                        Acciones Rápidas
+                                    </h2>
+
+                                </div>
+
+
+                            </div>
+
+
+                            <div class="quick-actions">
+
+
+                                <a
+                                    href="{{ url_for('editor_publicaciones') }}"
+                                    class="quick-action"
+                                >
+
+                                    <span class="material-symbols-outlined">
+                                        article
+                                    </span>
+
+
+                                    <div>
+
+                                        <strong>
+                                            Mis Publicaciones
+                                        </strong>
+
+                                        <span>
+                                            Gestionar mis artículos
+                                        </span>
+
+                                    </div>
+
+
+                                    <span class="material-symbols-outlined">
+                                        chevron_right
+                                    </span>
+
+                                </a>
+
+
+                                <a
+                                    href="{{ url_for('editor_crear_publicacion') }}"
+                                    class="quick-action"
+                                >
+
+                                    <span class="material-symbols-outlined">
+                                        edit_document
+                                    </span>
+
+
+                                    <div>
+
+                                        <strong>
+                                            Crear Publicación
+                                        </strong>
+
+                                        <span>
+                                            Escribir un nuevo artículo
+                                        </span>
+
+                                    </div>
+
+
+                                    <span class="material-symbols-outlined">
+                                        chevron_right
+                                    </span>
+
+                                </a>
+
+
+                                <a
+                                    href="{{ url_for('editor_comentarios') }}"
+                                    class="quick-action"
+                                >
+
+                                    <span class="material-symbols-outlined">
+                                        forum
+                                    </span>
+
+
+                                    <div>
+
+                                        <strong>
+                                            Comentarios
+                                        </strong>
+
+                                        <span>
+                                            Administrar comentarios
+                                        </span>
+
+                                    </div>
+
+
+                                    <span class="material-symbols-outlined">
+                                        chevron_right
+                                    </span>
+
+                                </a>
+
+
+                            </div>
+
+
+                        </section>
+
+
+                    </div>
+
+
+                </div>
+
+
+            </div>
+
+
+        </main>
+
+
+    </div>
+
+
+</div>
+
+
+<!-- =========================
+     FOOTER GLOBAL
+========================= -->
+
+{% include "base/footer.html" %}
+
+
+<!-- =========================
+     JAVASCRIPT
+========================= -->
+
+<script>
+
+    const editButton =
+        document.getElementById(
+            "btn-edit-profile"
+        );
+
+
+    const saveButton =
+        document.getElementById(
+            "btn-save-profile"
+        );
+
+
+    const cancelButton =
+        document.getElementById(
+            "btn-cancel-edit"
+        );
+
+
+    const editActions =
+        document.getElementById(
+            "profile-edit-actions"
+        );
+
+
+    const nameInput =
+        document.getElementById(
+            "profile-name"
+        );
+
+
+    const lastnameInput =
+        document.getElementById(
+            "profile-lastname"
+        );
+
+
+    const usernameInput =
+        document.getElementById(
+            "profile-username"
+        );
+
+
+    const emailInput =
+        document.getElementById(
+            "profile-email"
+        );
+
+
+    const editableInputs = [
+        nameInput,
+        lastnameInput,
+        usernameInput,
+        emailInput
+    ];
+
+
+    let originalValues = {};
+
+
+
+    /* =========================
+       EDITAR PERFIL
+    ========================= */
+
+    editButton.addEventListener(
+        "click",
+        function () {
+
+
+            originalValues = {
+                nombre: nameInput.value,
+                apellido: lastnameInput.value,
+                usuario: usernameInput.value,
+                email: emailInput.value
+            };
+
+
+            editableInputs.forEach(
+                function (input) {
+
+                    input.disabled =
+                        false;
+
+                }
+            );
+
+
+            editActions.classList.remove(
+                "hidden"
+            );
+
+
+            editButton.classList.add(
+                "hidden"
+            );
+
+
+            nameInput.focus();
+
+
+        }
+    );
+
+
+
+    /* =========================
+       CANCELAR EDICIÓN
+    ========================= */
+
+    cancelButton.addEventListener(
+        "click",
+        function () {
+
+
+            nameInput.value =
+                originalValues.nombre;
+
+
+            lastnameInput.value =
+                originalValues.apellido;
+
+
+            usernameInput.value =
+                originalValues.usuario;
+
+
+            emailInput.value =
+                originalValues.email;
+
+
+            cerrarEdicion();
+
+
+        }
+    );
+
+
+
+    /* =========================
+       GUARDAR PERFIL
+    ========================= */
+
+    saveButton.addEventListener(
+        "click",
+        function () {
+
+
+            const nombre =
+                nameInput.value.trim();
+
+
+            const apellido =
+                lastnameInput.value.trim();
+
+
+            const usuario =
+                usernameInput.value.trim();
+
+
+            const email =
+                emailInput.value.trim();
+
+
+            if (
+                !nombre ||
+                !apellido ||
+                !usuario ||
+                !email
+            ) {
+
+
+                alert(
+                    "Completá todos los campos."
+                );
+
+
+                return;
+
+
+            }
+
+
+            alert(
+                "Por ahora los cambios se actualizaron solamente de forma visual."
+            );
+
+
+            cerrarEdicion();
+
+
+        }
+    );
+
+
+
+    function cerrarEdicion() {
+
+
+        editableInputs.forEach(
+            function (input) {
+
+                input.disabled =
+                    true;
+
+            }
+        );
+
+
+        editActions.classList.add(
+            "hidden"
+        );
+
+
+        editButton.classList.remove(
+            "hidden"
+        );
+
+
+    }
+
+
+
+    /* =========================
+       CAMBIAR CONTRASEÑA
+    ========================= */
+
+    const passwordButton =
+        document.getElementById(
+            "btn-change-password"
+        );
+
+
+    const passwordForm =
+        document.getElementById(
+            "password-form"
+        );
+
+
+    const cancelPasswordButton =
+        document.getElementById(
+            "btn-cancel-password"
+        );
+
+
+    const savePasswordButton =
+        document.getElementById(
+            "btn-save-password"
+        );
+
+
+    const currentPassword =
+        document.getElementById(
+            "current-password"
+        );
+
+
+    const newPassword =
+        document.getElementById(
+            "new-password"
+        );
+
+
+    const confirmPassword =
+        document.getElementById(
+            "confirm-new-password"
+        );
+
+
+
+    passwordButton.addEventListener(
+        "click",
+        function () {
+
+
+            passwordForm.classList.remove(
+                "hidden"
+            );
+
+
+            passwordButton.classList.add(
+                "hidden"
+            );
+
+
+            currentPassword.focus();
+
+
+        }
+    );
+
+
+
+    cancelPasswordButton.addEventListener(
+        "click",
+        cerrarPassword
+    );
+
+
+
+    savePasswordButton.addEventListener(
+        "click",
+        function () {
+
+
+            if (
+                !currentPassword.value ||
+                !newPassword.value ||
+                !confirmPassword.value
+            ) {
+
+
+                alert(
+                    "Completá todos los campos."
+                );
+
+
+                return;
+
+
+            }
+
+
+            if (
+                newPassword.value !==
+                confirmPassword.value
+            ) {
+
+
+                alert(
+                    "Las nuevas contraseñas no coinciden."
+                );
+
+
+                return;
+
+
+            }
+
+
+            alert(
+                "Por ahora la contraseña no se modifica en la base de datos."
+            );
+
+
+            cerrarPassword();
+
+
+        }
+    );
+
+
+
+    function cerrarPassword() {
+
+
+        currentPassword.value =
+            "";
+
+
+        newPassword.value =
+            "";
+
+
+        confirmPassword.value =
+            "";
+
+
+        passwordForm.classList.add(
+            "hidden"
+        );
+
+
+        passwordButton.classList.remove(
+            "hidden"
+        );
+
+
+    }
+
+
+</script>
+
+
+</body>
+
+</html>
