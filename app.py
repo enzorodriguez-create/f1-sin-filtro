@@ -365,6 +365,17 @@ def admin_solicitudes():
         seccion_activa="solicitudes"
     )
 
+@app.route("/admin/publicaciones")
+def admin_publicaciones():
+
+    usuario = session.get("usuario")
+
+    return render_template(
+        "admin/publicaciones.html",
+        usuario=usuario,
+        seccion_activa="publicaciones"
+    )
+
 if __name__ == "__main__":
 
     with app.app_context():
