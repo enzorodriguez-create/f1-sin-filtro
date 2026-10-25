@@ -314,6 +314,17 @@ def editor_categorias():
         seccion_activa="categorias"
     )
 
+@app.route("/editor/etiquetas")
+def editor_etiquetas():
+
+    usuario = session.get("usuario")
+
+    return render_template(
+        "editor/etiquetas.html",
+        usuario=usuario,
+        seccion_activa="etiquetas"
+    )
+
 
 if __name__ == "__main__":
 
