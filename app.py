@@ -303,6 +303,17 @@ def editor_comentarios():
         seccion_activa="comentarios"
     )
 
+@app.route("/editor/categorias")
+def editor_categorias():
+
+    usuario = session.get("usuario")
+
+    return render_template(
+        "editor/categorias.html",
+        usuario=usuario,
+        seccion_activa="categorias"
+    )
+
 
 if __name__ == "__main__":
 
