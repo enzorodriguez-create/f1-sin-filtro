@@ -292,6 +292,17 @@ def editor_editar_publicacion(id_publicacion):
         seccion_activa="publicaciones"
     )
 
+@app.route("/editor/comentarios")
+def editor_comentarios():
+
+    usuario = session.get("usuario")
+
+    return render_template(
+        "editor/comentarios.html",
+        usuario=usuario,
+        seccion_activa="comentarios"
+    )
+
 
 if __name__ == "__main__":
 
