@@ -1,0 +1,628 @@
+/* =========================
+   ETIQUETAS
+========================= */
+
+
+/* =========================
+   CABECERA
+========================= */
+
+.tags-head {
+    margin-bottom: 1.5rem;
+
+    padding-bottom: 1.5rem;
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 1.25rem;
+
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+
+.tags-path {
+    margin-bottom: 0.5rem;
+
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+
+    gap: 0.4rem;
+
+    color: #a3a3a3;
+
+    font-size: 0.68rem;
+    font-weight: 700;
+
+    letter-spacing: 0.06em;
+}
+
+
+.tags-path strong {
+    color: #a7c8ff;
+}
+
+
+.tags-head h1 {
+    margin: 0 0 0.5rem;
+
+    font-family: "Chivo", sans-serif;
+
+    font-size: clamp(2rem, 4vw, 2.7rem);
+
+    line-height: 1;
+
+    letter-spacing: -0.04em;
+}
+
+
+.tags-head h1 span {
+    color: #a7c8ff;
+}
+
+
+.tags-head p {
+    margin: 0;
+
+    color: #a3a3a3;
+
+    line-height: 1.5;
+}
+
+
+.new-tag-btn {
+    min-height: 42px;
+
+    padding: 0.7rem 1rem;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 0.45rem;
+
+    background: #003366;
+
+    color: #ffffff;
+
+    border: 1px solid rgba(167, 200, 255, 0.15);
+    border-radius: 0.4rem;
+
+    font-family: "Geist", sans-serif;
+
+    font-size: 0.8rem;
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition: background 0.2s;
+}
+
+
+.new-tag-btn:hover {
+    background: #164b7f;
+}
+
+
+
+/* =========================
+   FORMULARIO
+========================= */
+
+.tag-form-card {
+    margin-bottom: 1.5rem;
+
+    padding: 1.25rem;
+
+    background: rgba(24, 24, 24, 0.88);
+
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+
+    border: 1px solid rgba(167, 200, 255, 0.15);
+    border-radius: 0.5rem;
+}
+
+
+.tag-form-card.hidden {
+    display: none;
+}
+
+
+.tag-form-head {
+    margin-bottom: 1.25rem;
+
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+
+    gap: 1rem;
+}
+
+
+.form-kicker {
+    color: #a7c8ff;
+
+    font-size: 0.65rem;
+    font-weight: 800;
+
+    letter-spacing: 0.08em;
+}
+
+
+.tag-form-head h2 {
+    margin: 0.2rem 0 0;
+
+    font-family: "Chivo", sans-serif;
+
+    font-size: 1.3rem;
+}
+
+
+.close-tag-form {
+    width: 34px;
+    height: 34px;
+
+    flex-shrink: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: transparent;
+
+    color: #a3a3a3;
+
+    border: none;
+    border-radius: 0.35rem;
+
+    cursor: pointer;
+}
+
+
+.close-tag-form:hover {
+    background: rgba(255, 255, 255, 0.06);
+
+    color: #ffffff;
+}
+
+
+.tag-form {
+    display: grid;
+
+    grid-template-columns: 1fr;
+
+    gap: 1rem;
+}
+
+
+.tag-field {
+    display: flex;
+    flex-direction: column;
+
+    gap: 0.5rem;
+}
+
+
+.tag-field label {
+    color: #a3a3a3;
+
+    font-size: 0.68rem;
+    font-weight: 700;
+
+    letter-spacing: 0.06em;
+}
+
+
+.tag-field input,
+.tag-field textarea {
+    width: 100%;
+
+    padding: 0.8rem;
+
+    background: rgba(14, 14, 14, 0.78);
+
+    color: #ffffff;
+
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 0.4rem;
+
+    font-family: "Geist", sans-serif;
+
+    outline: none;
+}
+
+
+.tag-field input:focus,
+.tag-field textarea:focus {
+    border-color: #a7c8ff;
+}
+
+
+.tag-field textarea {
+    resize: vertical;
+}
+
+
+.tag-form-actions {
+    margin-top: 1rem;
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 0.6rem;
+}
+
+
+.cancel-tag-btn,
+.save-tag-btn {
+    min-height: 42px;
+
+    padding: 0.65rem 1rem;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 0.4rem;
+
+    border-radius: 0.4rem;
+
+    font-family: "Geist", sans-serif;
+
+    font-weight: 700;
+
+    cursor: pointer;
+}
+
+
+.cancel-tag-btn {
+    background: rgba(41, 41, 41, 0.86);
+
+    color: #a3a3a3;
+
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+
+.save-tag-btn {
+    background: #003366;
+
+    color: #ffffff;
+
+    border: none;
+}
+
+
+
+/* =========================
+   RESUMEN
+========================= */
+
+.tag-summary {
+    margin-bottom: 1.5rem;
+
+    display: grid;
+
+    grid-template-columns: 1fr;
+
+    gap: 0.75rem;
+}
+
+
+.summary-card {
+    padding: 1rem;
+
+    display: flex;
+    align-items: center;
+
+    gap: 0.8rem;
+
+    background: rgba(24, 24, 24, 0.84);
+
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 0.5rem;
+}
+
+
+.summary-card > .material-symbols-outlined {
+    width: 42px;
+    height: 42px;
+
+    flex-shrink: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: rgba(0, 51, 102, 0.5);
+
+    color: #a7c8ff;
+
+    border-radius: 0.4rem;
+}
+
+
+.summary-card div {
+    display: flex;
+    flex-direction: column;
+
+    gap: 0.15rem;
+}
+
+
+.summary-card div span {
+    color: #737373;
+
+    font-size: 0.65rem;
+    font-weight: 700;
+
+    letter-spacing: 0.06em;
+}
+
+
+.summary-card strong {
+    color: #ffffff;
+
+    font-family: "Chivo", sans-serif;
+
+    font-size: 1.15rem;
+}
+
+
+
+/* =========================
+   GRID
+========================= */
+
+.tags-grid {
+    display: grid;
+
+    grid-template-columns: 1fr;
+
+    gap: 1rem;
+}
+
+
+.tag-card {
+    padding: 1.2rem;
+
+    display: flex;
+    flex-direction: column;
+
+    background: rgba(24, 24, 24, 0.84);
+
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 0.5rem;
+
+    transition:
+        transform 0.2s,
+        border-color 0.2s;
+}
+
+
+.tag-card:hover {
+    transform: translateY(-2px);
+
+    border-color: rgba(167, 200, 255, 0.18);
+}
+
+
+.tag-card-top {
+    margin-bottom: 1rem;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 1rem;
+}
+
+
+.tag-icon {
+    width: 42px;
+    height: 42px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: rgba(0, 51, 102, 0.5);
+
+    color: #a7c8ff;
+
+    border-radius: 0.4rem;
+}
+
+
+.tag-actions {
+    display: flex;
+
+    gap: 0.35rem;
+}
+
+
+.edit-tag-btn,
+.delete-tag-btn {
+    width: 34px;
+    height: 34px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: rgba(41, 41, 41, 0.72);
+
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    border-radius: 0.35rem;
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s,
+        color 0.2s;
+}
+
+
+.edit-tag-btn {
+    color: #a7c8ff;
+}
+
+
+.delete-tag-btn {
+    color: #ff7070;
+}
+
+
+.edit-tag-btn:hover {
+    background: rgba(0, 51, 102, 0.6);
+}
+
+
+.delete-tag-btn:hover {
+    background: rgba(180, 30, 30, 0.2);
+}
+
+
+.tag-actions .material-symbols-outlined {
+    font-size: 18px;
+}
+
+
+.tag-card h2 {
+    margin: 0 0 0.5rem;
+
+    color: #a7c8ff;
+
+    font-family: "Chivo", sans-serif;
+
+    font-size: 1.1rem;
+}
+
+
+.tag-card p {
+    margin: 0 0 1.25rem;
+
+    flex: 1;
+
+    color: #a3a3a3;
+
+    font-size: 0.8rem;
+
+    line-height: 1.55;
+}
+
+
+.tag-card-footer {
+    padding-top: 0.75rem;
+
+    border-top: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+
+.tag-card-footer span {
+    display: flex;
+    align-items: center;
+
+    gap: 0.35rem;
+
+    color: #737373;
+
+    font-size: 0.7rem;
+}
+
+
+.tag-card-footer .material-symbols-outlined {
+    color: #a7c8ff;
+
+    font-size: 17px;
+}
+
+
+
+/* =========================
+   TABLET
+========================= */
+
+@media (min-width: 640px) {
+
+    .tag-summary {
+        grid-template-columns:
+            repeat(2, 1fr);
+    }
+
+
+    .tags-grid {
+        grid-template-columns:
+            repeat(2, 1fr);
+    }
+
+
+    .tag-form-actions {
+        flex-direction: row;
+        justify-content: flex-end;
+    }
+
+
+    .cancel-tag-btn,
+    .save-tag-btn {
+        width: auto;
+    }
+
+}
+
+
+
+/* =========================
+   DESKTOP
+========================= */
+
+@media (min-width: 768px) {
+
+    .tags-head {
+        flex-direction: row;
+        align-items: flex-end;
+        justify-content: space-between;
+    }
+
+
+    .tag-form {
+        grid-template-columns:
+            minmax(0, 0.8fr)
+            minmax(0, 1.2fr);
+    }
+
+}
+
+
+@media (min-width: 1200px) {
+
+    .tags-grid {
+        grid-template-columns:
+            repeat(3, 1fr);
+    }
+
+}
+
+
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 639px) {
+
+    .new-tag-btn {
+        width: 100%;
+    }
+
+
+    .tags-head h1 {
+        font-size: 1.8rem;
+    }
+
+}
