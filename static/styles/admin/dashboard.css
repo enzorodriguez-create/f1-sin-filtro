@@ -42,23 +42,6 @@
 
 }
 
-
-body {
-
-    margin: 0;
-
-    background:
-        var(--admin-bg);
-
-    color:
-        var(--admin-text);
-
-    font-family:
-        var(--admin-body-font);
-
-}
-
-
 button,
 input,
 select,
@@ -79,20 +62,6 @@ textarea {
     width: 100%;
 
     min-height: 100vh;
-
-}
-
-
-.admin-content {
-
-    width: 100%;
-
-    min-width: 0;
-
-    min-height: 100vh;
-
-    background:
-        var(--admin-bg);
 
 }
 
