@@ -1,0 +1,2419 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <meta charset="utf-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        F1 SIN FILTRO - Gestión de Usuarios
+    </title>
+
+
+    <!-- FUENTES -->
+
+    <link
+        href="https://fonts.googleapis.com"
+        rel="preconnect"
+    >
+
+    <link
+        href="https://fonts.gstatic.com"
+        rel="preconnect"
+        crossorigin
+    >
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Anybody:wght@100..900&family=Geist:wght@100..900&display=swap"
+        rel="stylesheet"
+    >
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
+        rel="stylesheet"
+    >
+
+
+    <!-- CSS GLOBAL -->
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='styles/style.css') }}"
+    >
+
+
+    <!-- CSS ADMIN -->
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='styles/admin/base.css') }}"
+    >
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='styles/admin/sidebar.css') }}"
+    >
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='styles/admin/dashboard.css') }}"
+    >
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='styles/admin/usuarios.css') }}"
+    >
+
+</head>
+
+
+<body>
+
+
+<div class="admin-page">
+
+
+    <!-- =========================
+         SIDEBAR
+    ========================== -->
+
+    {% include "admin/sidebar.html" %}
+
+
+
+    <!-- =========================
+         CONTENIDO
+    ========================== -->
+
+    <div class="admin-content">
+
+
+        <!-- =========================
+             TOPBAR
+        ========================== -->
+
+        <header class="admin-topbar">
+
+
+            <div class="admin-topbar-left">
+
+
+                <button
+                    class="admin-menu-btn"
+                    id="admin-menu-btn"
+                    type="button"
+                    aria-label="Abrir menú"
+                >
+
+                    <span class="material-symbols-outlined">
+                        menu
+                    </span>
+
+                </button>
+
+
+                <span class="admin-topbar-section">
+                    GESTIÓN DE USUARIOS
+                </span>
+
+
+            </div>
+
+
+            <div class="admin-topbar-right">
+
+
+                <div class="admin-role-badge">
+
+                    <span class="admin-role-dot"></span>
+
+                    <span>
+                        ROL:
+                    </span>
+
+                    <strong>
+                        ADMIN
+                    </strong>
+
+                </div>
+
+
+                <div class="admin-user">
+
+
+                    <div class="admin-user-data">
+
+                        <strong>
+                            {{ usuario.nombre if usuario else "Administrador" }}
+                        </strong>
+
+                        <span>
+                            {{ usuario.email if usuario else "admin@f1sinfiltro.com" }}
+                        </span>
+
+                    </div>
+
+
+                    {% if usuario and usuario.foto %}
+
+                        <div class="admin-avatar">
+
+                            <img
+                                src="{{ usuario.foto }}"
+                                alt="{{ usuario.nombre }}"
+                            >
+
+                        </div>
+
+                    {% else %}
+
+                        <div class="admin-avatar">
+
+                            <span class="material-symbols-outlined">
+                                person
+                            </span>
+
+                        </div>
+
+                    {% endif %}
+
+
+                </div>
+
+
+            </div>
+
+
+        </header>
+
+
+
+        <!-- =========================
+             MAIN
+        ========================== -->
+
+        <main class="admin-main">
+
+
+            <div class="admin-container">
+
+
+                <!-- =========================
+                     CABECERA
+                ========================== -->
+
+                <div class="users-head">
+
+
+                    <div>
+
+
+                        <div class="users-path">
+
+                            <span>
+                                ADMINISTRACIÓN
+                            </span>
+
+                            <span>
+                                /
+                            </span>
+
+                            <strong>
+                                USUARIOS
+                            </strong>
+
+                        </div>
+
+
+                        <h1>
+                            GESTIÓN DE <span>USUARIOS</span>
+                        </h1>
+
+
+                        <p>
+                            Administrá las cuentas registradas, sus roles,
+                            suscripciones Premium y estados de acceso.
+                        </p>
+
+
+                    </div>
+
+
+                </div>
+
+
+
+                <!-- =========================
+                     ESTADÍSTICAS
+                ========================== -->
+
+                <div class="users-stats">
+
+
+                    <!-- TOTAL -->
+
+                    <div class="users-stat-card">
+
+
+                        <div class="users-stat-top">
+
+                            <span>
+                                TOTAL USUARIOS
+                            </span>
+
+                            <span class="material-symbols-outlined">
+                                groups
+                            </span>
+
+                        </div>
+
+
+                        <strong id="stat-total">
+                            6
+                        </strong>
+
+
+                        <span>
+                            Cuentas registradas
+                        </span>
+
+
+                    </div>
+
+
+                    <!-- EDITORES -->
+
+                    <div class="users-stat-card">
+
+
+                        <div class="users-stat-top">
+
+                            <span>
+                                EDITORES
+                            </span>
+
+                            <span class="material-symbols-outlined">
+                                edit_note
+                            </span>
+
+                        </div>
+
+
+                        <strong id="stat-editors">
+                            2
+                        </strong>
+
+
+                        <span>
+                            Usuarios con rol editor
+                        </span>
+
+
+                    </div>
+
+
+                    <!-- PREMIUM -->
+
+                    <div class="users-stat-card">
+
+
+                        <div class="users-stat-top">
+
+                            <span>
+                                PREMIUM
+                            </span>
+
+                            <span class="material-symbols-outlined">
+                                workspace_premium
+                            </span>
+
+                        </div>
+
+
+                        <strong id="stat-premium">
+                            2
+                        </strong>
+
+
+                        <span>
+                            Suscripciones activas
+                        </span>
+
+
+                    </div>
+
+
+                    <!-- BLOQUEADOS -->
+
+                    <div class="users-stat-card users-stat-danger">
+
+
+                        <div class="users-stat-top">
+
+                            <span>
+                                BLOQUEADOS
+                            </span>
+
+                            <span class="material-symbols-outlined">
+                                block
+                            </span>
+
+                        </div>
+
+
+                        <strong id="stat-blocked">
+                            1
+                        </strong>
+
+
+                        <span>
+                            Cuentas sin acceso
+                        </span>
+
+
+                    </div>
+
+
+                </div>
+
+
+
+                <!-- =========================
+                     FILTROS
+                ========================== -->
+
+                <section class="users-filters">
+
+
+                    <div class="users-search">
+
+
+                        <span class="material-symbols-outlined">
+                            search
+                        </span>
+
+
+                        <input
+                            type="text"
+                            id="user-search"
+                            placeholder="Buscar por nombre, usuario o email..."
+                        >
+
+
+                        <button
+                            type="button"
+                            id="clear-search"
+                            aria-label="Limpiar búsqueda"
+                        >
+
+                            <span class="material-symbols-outlined">
+                                close
+                            </span>
+
+                        </button>
+
+
+                    </div>
+
+
+
+                    <div class="users-filter-selects">
+
+
+                        <!-- ROL -->
+
+                        <div class="users-select">
+
+                            <select id="role-filter">
+
+                                <option value="all">
+                                    Todos los roles
+                                </option>
+
+                                <option value="usuario">
+                                    Usuario
+                                </option>
+
+                                <option value="editor">
+                                    Editor
+                                </option>
+
+                                <option value="admin">
+                                    Admin
+                                </option>
+
+                            </select>
+
+
+                            <span class="material-symbols-outlined">
+                                expand_more
+                            </span>
+
+                        </div>
+
+
+                        <!-- ESTADO -->
+
+                        <div class="users-select">
+
+                            <select id="status-filter">
+
+                                <option value="all">
+                                    Todos los estados
+                                </option>
+
+                                <option value="activo">
+                                    Activo
+                                </option>
+
+                                <option value="bloqueado">
+                                    Bloqueado
+                                </option>
+
+                            </select>
+
+
+                            <span class="material-symbols-outlined">
+                                expand_more
+                            </span>
+
+                        </div>
+
+
+                        <!-- PREMIUM -->
+
+                        <div class="users-select">
+
+                            <select id="premium-filter">
+
+                                <option value="all">
+                                    Premium: Todos
+                                </option>
+
+                                <option value="si">
+                                    Premium
+                                </option>
+
+                                <option value="no">
+                                    Sin Premium
+                                </option>
+
+                            </select>
+
+
+                            <span class="material-symbols-outlined">
+                                expand_more
+                            </span>
+
+                        </div>
+
+
+                    </div>
+
+
+                    <div class="users-filter-bottom">
+
+
+                        <span id="users-result-count">
+                            Mostrando 6 usuarios
+                        </span>
+
+
+                        <button
+                            class="reset-filters-btn"
+                            id="reset-filters"
+                            type="button"
+                        >
+
+                            <span class="material-symbols-outlined">
+                                refresh
+                            </span>
+
+                            Restablecer filtros
+
+                        </button>
+
+
+                    </div>
+
+
+                </section>
+
+
+
+                <!-- =========================
+                     TABLA
+                ========================== -->
+
+                <section class="users-table-card">
+
+
+                    <div class="users-table-wrapper">
+
+
+                        <table class="users-table">
+
+
+                            <thead>
+
+                                <tr>
+
+                                    <th>
+                                        Usuario
+                                    </th>
+
+                                    <th>
+                                        Email
+                                    </th>
+
+                                    <th>
+                                        Rol
+                                    </th>
+
+                                    <th>
+                                        Premium
+                                    </th>
+
+                                    <th>
+                                        Estado
+                                    </th>
+
+                                    <th>
+                                        Registro
+                                    </th>
+
+                                    <th class="users-actions-head">
+                                        Acciones
+                                    </th>
+
+                                </tr>
+
+                            </thead>
+
+
+                            <tbody id="users-table-body">
+
+
+                                <!-- =========================
+                                     ADMIN
+                                ========================== -->
+
+                                <tr
+                                    class="user-row"
+                                    data-name="Administrador"
+                                    data-username="admin"
+                                    data-email="admin@f1sinfiltro.com"
+                                    data-role="admin"
+                                    data-premium="no"
+                                    data-status="activo"
+                                >
+
+
+                                    <td>
+
+                                        <div class="user-identity">
+
+                                            <div class="user-list-avatar admin">
+                                                A
+                                            </div>
+
+
+                                            <div>
+
+                                                <strong>
+                                                    Administrador
+                                                </strong>
+
+                                                <span>
+                                                    @admin
+                                                </span>
+
+                                            </div>
+
+                                        </div>
+
+                                    </td>
+
+
+                                    <td>
+                                        admin@f1sinfiltro.com
+                                    </td>
+
+
+                                    <td>
+
+                                        <span class="user-role admin">
+                                            ADMIN
+                                        </span>
+
+                                    </td>
+
+
+                                    <td>
+
+                                        <span class="premium-status no">
+                                            NO
+                                        </span>
+
+                                    </td>
+
+
+                                    <td>
+
+                                        <span class="account-status active">
+
+                                            <span></span>
+
+                                            Activo
+
+                                        </span>
+
+                                    </td>
+
+
+                                    <td>
+                                        01/01/2026
+                                    </td>
+
+
+                                    <td>
+
+                                        <div class="user-actions">
+
+                                            <span class="protected-account">
+
+                                                <span class="material-symbols-outlined">
+                                                    lock
+                                                </span>
+
+                                                Cuenta protegida
+
+                                            </span>
+
+                                        </div>
+
+                                    </td>
+
+
+                                </tr>
+
+
+
+                                <!-- =========================
+                                     EDITOR 1
+                                ========================== -->
+
+                                <tr
+                                    class="user-row"
+                                    data-name="Carlos Sainz"
+                                    data-username="csainz55"
+                                    data-email="carlos@f1sinfiltro.com"
+                                    data-role="editor"
+                                    data-premium="no"
+                                    data-status="activo"
+                                >
+
+
+                                    <td>
+
+                                        <div class="user-identity">
+
+                                            <div class="user-list-avatar">
+                                                CS
+                                            </div>
+
+
+                                            <div>
+
+                                                <strong>
+                                                    Carlos Sainz
+                                                </strong>
+
+                                                <span>
+                                                    @csainz55
+                                                </span>
+
+                                            </div>
+
+                                        </div>
+
+                                    </td>
+
+
+                                    <td>
+                                        carlos@f1sinfiltro.com
+                                    </td>
+
+
+                                    <td>
+
+                                        <span class="user-role editor">
+                                            EDITOR
+                                        </span>
+
+                                    </td>
+
+
+                                    <td>
+
+                                        <span class="premium-status no">
+                                            NO
+                                        </span>
+
+                                    </td>
+
+
+                                    <td>
+
+                                        <span class="account-status active">
+
+                                            <span></span>
+
+                                            Activo
+
+                                        </span>
+
+                                    </td>
+
+
+                                    <td>
+                                        12/01/2026
+                                    </td>
+
+
+                                    <td>
+
+                                        <div class="user-actions">
+
+
+                                            <button
+                                                class="change-role-btn"
+                                                type="button"
+                                            >
+
+                                                <span class="material-symbols-outlined">
+                                                    badge
+                                                </span>
+
+                                                Rol
+
+                                            </button>
+
+
+                                            <button
+                                                class="block-user-btn"
+                                                type="button"
+                                                title="Bloquear usuario"
+                                            >
+
+                                                <span class="material-symbols-outlined">
+                                                    lock
+                                                </span>
+
+                                            </button>
+
+
+                                            <button
+                                                class="delete-user-btn"
+                                                type="button"
+                                                title="Eliminar usuario"
+                                            >
+
+                                                <span class="material-symbols-outlined">
+                                                    delete
+                                                </span>
+
+                                            </button>
+
+
+                                        </div>
+
+                                    </td>
+
+
+                                </tr>
+
+
+
+                                <!-- =========================
+                                     EDITOR 2
+                                ========================== -->
+
+                                <tr
+                                    class="user-row"
+                                    data-name="Lucía Martínez"
+                                    data-username="lucia_aero"
+                                    data-email="lucia@gmail.com"
+                                    data-role="editor"
+                                    data-premium="si"
+                                    data-status="activo"
+                                >
+
+
+                                    <td>
+
+                                        <div class="user-identity">
+
+                                            <div class="user-list-avatar">
+                                                LM
+                                            </div>
+
+
+                                            <div>
+
+                                                <strong>
+                                                    Lucía Martínez
+                                                </strong>
+
+                                                <span>
+                                                    @lucia_aero
+                                                </span>
+
+                                            </div>
+
+                                        </div>
+
+                                    </td>
+
+
+                                    <td>
+                                        lucia@gmail.com
+                                    </td>
+
+
+                                    <td>
+
+                                        <span class="user-role editor">
+                                            EDITOR
+                                        </span>
+
+                                    </td>
+
+
+                                    <td>
+
+                                        <span class="premium-status yes">
+                                            PREMIUM
+                                        </span>
+
+                                    </td>
+
+
+                                    <td>
+
+                                        <span class="account-status active">
+
+                                            <span></span>
+
+                                            Activo
+
+                                        </span>
+
+                                    </td>
+
+
+                                    <td>
+                                        04/03/2026
+                                    </td>
+
+
+                                    <td>
+
+                                        <div class="user-actions">
+
+
+                                            <button
+                                                class="change-role-btn"
+                                                type="button"
+                                            >
+
+                                                <span class="material-symbols-outlined">
+                                                    badge
+                                                </span>
+
+                                                Rol
+
+                                            </button>
+
+
+                                            <button
+                                                class="block-user-btn"
+                                                type="button"
+                                                title="Bloquear usuario"
+                                            >
+
+                                                <span class="material-symbols-outlined">
+                                                    lock
+                                                </span>
+
+                                            </button>
+
+
+                                            <button
+                                                class="delete-user-btn"
+                                                type="button"
+                                                title="Eliminar usuario"
+                                            >
+
+                                                <span class="material-symbols-outlined">
+                                                    delete
+                                                </span>
+
+                                            </button>
+
+
+                                        </div>
+
+                                    </td>
+
+
+                                </tr>
+
+
+
+                                <!-- =========================
+                                     USUARIO 1
+                                ========================== -->
+
+                                <tr
+                                    class="user-row"
+                                    data-name="Fernando Gómez"
+                                    data-username="NanoTelemetry"
+                                    data-email="fgomez@gmail.com"
+                                    data-role="usuario"
+                                    data-premium="si"
+                                    data-status="activo"
+                                >
+
+
+                                    <td>
+
+                                        <div class="user-identity">
+
+                                            <div class="user-list-avatar">
+                                                FG
+                                            </div>
+
+
+                                            <div>
+
+                                                <strong>
+                                                    Fernando Gómez
+                                                </strong>
+
+                                                <span>
+                                                    @NanoTelemetry
+                                                </span>
+
+                                            </div>
+
+                                        </div>
+
+                                    </td>
+
+
+                                    <td>
+                                        fgomez@gmail.com
+                                    </td>
+
+
+                                    <td>
+
+                                        <span class="user-role usuario">
+                                            USUARIO
+                                        </span>
+
+                                    </td>
+
+
+                                    <td>
+
+                                        <span class="premium-status yes">
+                                            PREMIUM
+                                        </span>
+
+                                    </td>
+
+
+                                    <td>
+
+                                        <span class="account-status active">
+
+                                            <span></span>
+
+                                            Activo
+
+                                        </span>
+
+                                    </td>
+
+
+                                    <td>
+                                        22/02/2026
+                                    </td>
+
+
+                                    <td>
+
+                                        <div class="user-actions">
+
+
+                                            <button
+                                                class="change-role-btn"
+                                                type="button"
+                                            >
+
+                                                <span class="material-symbols-outlined">
+                                                    badge
+                                                </span>
+
+                                                Rol
+
+                                            </button>
+
+
+                                            <button
+                                                class="block-user-btn"
+                                                type="button"
+                                                title="Bloquear usuario"
+                                            >
+
+                                                <span class="material-symbols-outlined">
+                                                    lock
+                                                </span>
+
+                                            </button>
+
+
+                                            <button
+                                                class="delete-user-btn"
+                                                type="button"
+                                                title="Eliminar usuario"
+                                            >
+
+                                                <span class="material-symbols-outlined">
+                                                    delete
+                                                </span>
+
+                                            </button>
+
+
+                                        </div>
+
+                                    </td>
+
+
+                                </tr>
+
+
+
+                                <!-- =========================
+                                     USUARIO 2
+                                ========================== -->
+
+                                <tr
+                                    class="user-row"
+                                    data-name="Martín Benítez"
+                                    data-username="MBenitez"
+                                    data-email="m.benitez@gmail.com"
+                                    data-role="usuario"
+                                    data-premium="no"
+                                    data-status="activo"
+                                >
+
+
+                                    <td>
+
+                                        <div class="user-identity">
+
+                                            <div class="user-list-avatar">
+                                                MB
+                                            </div>
+
+
+                                            <div>
+
+                                                <strong>
+                                                    Martín Benítez
+                                                </strong>
+
+                                                <span>
+                                                    @MBenitez
+                                                </span>
+
+                                            </div>
+
+                                        </div>
+
+                                    </td>
+
+
+                                    <td>
+                                        m.benitez@gmail.com
+                                    </td>
+
+
+                                    <td>
+
+                                        <span class="user-role usuario">
+                                            USUARIO
+                                        </span>
+
+                                    </td>
+
+
+                                    <td>
+
+                                        <span class="premium-status no">
+                                            NO
+                                        </span>
+
+                                    </td>
+
+
+                                    <td>
+
+                                        <span class="account-status active">
+
+                                            <span></span>
+
+                                            Activo
+
+                                        </span>
+
+                                    </td>
+
+
+                                    <td>
+                                        09/05/2026
+                                    </td>
+
+
+                                    <td>
+
+                                        <div class="user-actions">
+
+
+                                            <button
+                                                class="change-role-btn"
+                                                type="button"
+                                            >
+
+                                                <span class="material-symbols-outlined">
+                                                    badge
+                                                </span>
+
+                                                Rol
+
+                                            </button>
+
+
+                                            <button
+                                                class="block-user-btn"
+                                                type="button"
+                                                title="Bloquear usuario"
+                                            >
+
+                                                <span class="material-symbols-outlined">
+                                                    lock
+                                                </span>
+
+                                            </button>
+
+
+                                            <button
+                                                class="delete-user-btn"
+                                                type="button"
+                                                title="Eliminar usuario"
+                                            >
+
+                                                <span class="material-symbols-outlined">
+                                                    delete
+                                                </span>
+
+                                            </button>
+
+
+                                        </div>
+
+                                    </td>
+
+
+                                </tr>
+
+
+
+                                <!-- =========================
+                                     BLOQUEADO
+                                ========================== -->
+
+                                <tr
+                                    class="user-row blocked-row"
+                                    data-name="Troll88"
+                                    data-username="Troll88"
+                                    data-email="spammer@gmail.com"
+                                    data-role="usuario"
+                                    data-premium="no"
+                                    data-status="bloqueado"
+                                >
+
+
+                                    <td>
+
+                                        <div class="user-identity">
+
+                                            <div class="user-list-avatar blocked">
+                                                T
+                                            </div>
+
+
+                                            <div>
+
+                                                <strong>
+                                                    Troll88
+                                                </strong>
+
+                                                <span>
+                                                    @Troll88
+                                                </span>
+
+                                            </div>
+
+                                        </div>
+
+                                    </td>
+
+
+                                    <td>
+                                        spammer@gmail.com
+                                    </td>
+
+
+                                    <td>
+
+                                        <span class="user-role usuario">
+                                            USUARIO
+                                        </span>
+
+                                    </td>
+
+
+                                    <td>
+
+                                        <span class="premium-status no">
+                                            NO
+                                        </span>
+
+                                    </td>
+
+
+                                    <td>
+
+                                        <span class="account-status blocked">
+
+                                            <span></span>
+
+                                            Bloqueado
+
+                                        </span>
+
+                                    </td>
+
+
+                                    <td>
+                                        18/10/2026
+                                    </td>
+
+
+                                    <td>
+
+                                        <div class="user-actions">
+
+
+                                            <button
+                                                class="change-role-btn"
+                                                type="button"
+                                            >
+
+                                                <span class="material-symbols-outlined">
+                                                    badge
+                                                </span>
+
+                                                Rol
+
+                                            </button>
+
+
+                                            <button
+                                                class="unblock-user-btn"
+                                                type="button"
+                                                title="Desbloquear usuario"
+                                            >
+
+                                                <span class="material-symbols-outlined">
+                                                    lock_open
+                                                </span>
+
+                                            </button>
+
+
+                                            <button
+                                                class="delete-user-btn"
+                                                type="button"
+                                                title="Eliminar usuario"
+                                            >
+
+                                                <span class="material-symbols-outlined">
+                                                    delete
+                                                </span>
+
+                                            </button>
+
+
+                                        </div>
+
+                                    </td>
+
+
+                                </tr>
+
+
+                            </tbody>
+
+
+                        </table>
+
+
+                    </div>
+
+
+                    <!-- =========================
+                         SIN RESULTADOS
+                    ========================== -->
+
+                    <div
+                        class="users-empty"
+                        id="users-empty"
+                    >
+
+                        <span class="material-symbols-outlined">
+                            person_search
+                        </span>
+
+                        <strong>
+                            No se encontraron usuarios
+                        </strong>
+
+                        <span>
+                            Probá modificando los filtros.
+                        </span>
+
+                    </div>
+
+
+                </section>
+
+
+            </div>
+
+
+        </main>
+
+
+    </div>
+
+
+</div>
+
+
+
+<!-- =========================
+     MODAL CAMBIAR ROL
+========================= -->
+
+<div
+    class="user-modal-overlay"
+    id="role-modal"
+>
+
+
+    <div class="user-modal">
+
+
+        <div class="user-modal-head">
+
+
+            <div>
+
+                <span>
+                    USUARIO
+                </span>
+
+                <h2>
+                    Cambiar Rol
+                </h2>
+
+            </div>
+
+
+            <button
+                id="close-role-modal"
+                type="button"
+            >
+
+                <span class="material-symbols-outlined">
+                    close
+                </span>
+
+            </button>
+
+
+        </div>
+
+
+        <div class="selected-user-box">
+
+            <div>
+
+                <span>
+                    USUARIO SELECCIONADO
+                </span>
+
+                <strong id="selected-user-name">
+                    Usuario
+                </strong>
+
+                <small id="selected-user-handle">
+                    @usuario
+                </small>
+
+            </div>
+
+
+            <div>
+
+                <span>
+                    ROL ACTUAL
+                </span>
+
+                <strong id="selected-user-role">
+                    USUARIO
+                </strong>
+
+            </div>
+
+        </div>
+
+
+        <div class="role-options">
+
+
+            <label class="role-option">
+
+                <input
+                    type="radio"
+                    name="new-role"
+                    value="usuario"
+                >
+
+                <div>
+
+                    <strong>
+                        Usuario
+                    </strong>
+
+                    <span>
+                        Puede acceder al contenido público,
+                        comentar y utilizar las funciones de usuario.
+                    </span>
+
+                </div>
+
+            </label>
+
+
+            <label class="role-option">
+
+                <input
+                    type="radio"
+                    name="new-role"
+                    value="editor"
+                >
+
+                <div>
+
+                    <strong>
+                        Editor
+                    </strong>
+
+                    <span>
+                        Puede crear y administrar sus publicaciones,
+                        categorías, etiquetas y comentarios propios.
+                    </span>
+
+                </div>
+
+            </label>
+
+
+            <label class="role-option">
+
+                <input
+                    type="radio"
+                    name="new-role"
+                    value="admin"
+                >
+
+                <div>
+
+                    <strong>
+                        Admin
+                    </strong>
+
+                    <span>
+                        Puede administrar usuarios y todo el contenido
+                        general del sistema.
+                    </span>
+
+                </div>
+
+            </label>
+
+
+        </div>
+
+
+        <div class="user-modal-actions">
+
+
+            <button
+                class="modal-cancel-btn"
+                id="cancel-role-change"
+                type="button"
+            >
+                Cancelar
+            </button>
+
+
+            <button
+                class="modal-save-btn"
+                id="save-role-change"
+                type="button"
+            >
+                Guardar cambio
+            </button>
+
+
+        </div>
+
+
+    </div>
+
+
+</div>
+
+
+
+<!-- =========================
+     FOOTER GLOBAL
+========================= -->
+
+{% include "base/footer.html" %}
+
+
+
+<!-- =========================
+     JAVASCRIPT
+========================= -->
+
+<script>
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function () {
+
+
+        /* =========================
+           FILTROS
+        ========================= */
+
+
+        const searchInput =
+            document.getElementById(
+                "user-search"
+            );
+
+
+        const roleFilter =
+            document.getElementById(
+                "role-filter"
+            );
+
+
+        const statusFilter =
+            document.getElementById(
+                "status-filter"
+            );
+
+
+        const premiumFilter =
+            document.getElementById(
+                "premium-filter"
+            );
+
+
+        const resetButton =
+            document.getElementById(
+                "reset-filters"
+            );
+
+
+        const clearSearchButton =
+            document.getElementById(
+                "clear-search"
+            );
+
+
+        const resultCount =
+            document.getElementById(
+                "users-result-count"
+            );
+
+
+        const emptyState =
+            document.getElementById(
+                "users-empty"
+            );
+
+
+
+        function getRows() {
+
+            return document.querySelectorAll(
+                ".user-row"
+            );
+
+        }
+
+
+
+        function filtrarUsuarios() {
+
+
+            const texto =
+                searchInput.value
+                    .toLowerCase()
+                    .trim();
+
+
+            const rol =
+                roleFilter.value;
+
+
+            const estado =
+                statusFilter.value;
+
+
+            const premium =
+                premiumFilter.value;
+
+
+            let visibles = 0;
+
+
+            getRows().forEach(
+                function (row) {
+
+
+                    const contenido =
+                        (
+                            row.dataset.name +
+                            " " +
+                            row.dataset.username +
+                            " " +
+                            row.dataset.email
+                        ).toLowerCase();
+
+
+                    const coincideTexto =
+                        contenido.includes(
+                            texto
+                        );
+
+
+                    const coincideRol =
+                        rol === "all"
+                        ||
+                        row.dataset.role === rol;
+
+
+                    const coincideEstado =
+                        estado === "all"
+                        ||
+                        row.dataset.status === estado;
+
+
+                    const coincidePremium =
+                        premium === "all"
+                        ||
+                        row.dataset.premium === premium;
+
+
+                    const mostrar =
+                        coincideTexto
+                        &&
+                        coincideRol
+                        &&
+                        coincideEstado
+                        &&
+                        coincidePremium;
+
+
+                    row.style.display =
+                        mostrar
+                        ? ""
+                        : "none";
+
+
+                    if (mostrar) {
+
+                        visibles++;
+
+                    }
+
+
+                }
+            );
+
+
+            resultCount.textContent =
+                "Mostrando " +
+                visibles +
+                " usuario" +
+                (
+                    visibles === 1
+                    ? ""
+                    : "s"
+                );
+
+
+            if (visibles === 0) {
+
+                emptyState.classList.add(
+                    "show"
+                );
+
+            } else {
+
+                emptyState.classList.remove(
+                    "show"
+                );
+
+            }
+
+
+        }
+
+
+
+        searchInput.addEventListener(
+            "input",
+            filtrarUsuarios
+        );
+
+
+        roleFilter.addEventListener(
+            "change",
+            filtrarUsuarios
+        );
+
+
+        statusFilter.addEventListener(
+            "change",
+            filtrarUsuarios
+        );
+
+
+        premiumFilter.addEventListener(
+            "change",
+            filtrarUsuarios
+        );
+
+
+        clearSearchButton.addEventListener(
+            "click",
+            function () {
+
+                searchInput.value = "";
+
+                filtrarUsuarios();
+
+                searchInput.focus();
+
+            }
+        );
+
+
+        resetButton.addEventListener(
+            "click",
+            function () {
+
+                searchInput.value = "";
+
+                roleFilter.value = "all";
+
+                statusFilter.value = "all";
+
+                premiumFilter.value = "all";
+
+                filtrarUsuarios();
+
+            }
+        );
+
+
+
+        /* =========================
+           MODAL CAMBIAR ROL
+        ========================= */
+
+
+        const roleModal =
+            document.getElementById(
+                "role-modal"
+            );
+
+
+        const selectedName =
+            document.getElementById(
+                "selected-user-name"
+            );
+
+
+        const selectedHandle =
+            document.getElementById(
+                "selected-user-handle"
+            );
+
+
+        const selectedRole =
+            document.getElementById(
+                "selected-user-role"
+            );
+
+
+        const closeRoleModal =
+            document.getElementById(
+                "close-role-modal"
+            );
+
+
+        const cancelRoleChange =
+            document.getElementById(
+                "cancel-role-change"
+            );
+
+
+        const saveRoleChange =
+            document.getElementById(
+                "save-role-change"
+            );
+
+
+        let selectedRow = null;
+
+
+
+        function abrirModalRol(row) {
+
+
+            selectedRow = row;
+
+
+            selectedName.textContent =
+                row.dataset.name;
+
+
+            selectedHandle.textContent =
+                "@" + row.dataset.username;
+
+
+            selectedRole.textContent =
+                row.dataset.role.toUpperCase();
+
+
+            const radio =
+                document.querySelector(
+                    'input[name="new-role"][value="' +
+                    row.dataset.role +
+                    '"]'
+                );
+
+
+            if (radio) {
+
+                radio.checked = true;
+
+            }
+
+
+            roleModal.classList.add(
+                "open"
+            );
+
+
+        }
+
+
+
+        function cerrarModalRol() {
+
+            roleModal.classList.remove(
+                "open"
+            );
+
+            selectedRow = null;
+
+        }
+
+
+
+        document.addEventListener(
+            "click",
+            function (event) {
+
+
+                const roleButton =
+                    event.target.closest(
+                        ".change-role-btn"
+                    );
+
+
+                if (roleButton) {
+
+                    const row =
+                        roleButton.closest(
+                            ".user-row"
+                        );
+
+                    abrirModalRol(
+                        row
+                    );
+
+                }
+
+
+            }
+        );
+
+
+
+        closeRoleModal.addEventListener(
+            "click",
+            cerrarModalRol
+        );
+
+
+        cancelRoleChange.addEventListener(
+            "click",
+            cerrarModalRol
+        );
+
+
+        roleModal.addEventListener(
+            "click",
+            function (event) {
+
+                if (
+                    event.target ===
+                    roleModal
+                ) {
+
+                    cerrarModalRol();
+
+                }
+
+            }
+        );
+
+
+
+        saveRoleChange.addEventListener(
+            "click",
+            function () {
+
+
+                if (!selectedRow) {
+
+                    return;
+
+                }
+
+
+                const selectedRadio =
+                    document.querySelector(
+                        'input[name="new-role"]:checked'
+                    );
+
+
+                if (!selectedRadio) {
+
+                    return;
+
+                }
+
+
+                const nuevoRol =
+                    selectedRadio.value;
+
+
+                selectedRow.dataset.role =
+                    nuevoRol;
+
+
+                const badge =
+                    selectedRow.querySelector(
+                        ".user-role"
+                    );
+
+
+                badge.className =
+                    "user-role " +
+                    nuevoRol;
+
+
+                badge.textContent =
+                    nuevoRol.toUpperCase();
+
+
+                alert(
+                    "Por ahora el cambio de rol se actualiza solamente de forma visual."
+                );
+
+
+                cerrarModalRol();
+
+                filtrarUsuarios();
+
+
+            }
+        );
+
+
+
+        /* =========================
+           BLOQUEAR / DESBLOQUEAR
+        ========================= */
+
+
+        document.addEventListener(
+            "click",
+            function (event) {
+
+
+                const blockButton =
+                    event.target.closest(
+                        ".block-user-btn"
+                    );
+
+
+                if (blockButton) {
+
+
+                    const row =
+                        blockButton.closest(
+                            ".user-row"
+                        );
+
+
+                    const confirmar =
+                        confirm(
+                            "¿Seguro que querés bloquear este usuario?"
+                        );
+
+
+                    if (!confirmar) {
+
+                        return;
+
+                    }
+
+
+                    row.dataset.status =
+                        "bloqueado";
+
+
+                    row.classList.add(
+                        "blocked-row"
+                    );
+
+
+                    const state =
+                        row.querySelector(
+                            ".account-status"
+                        );
+
+
+                    state.className =
+                        "account-status blocked";
+
+
+                    state.innerHTML =
+                        `
+                            <span></span>
+                            Bloqueado
+                        `;
+
+
+                    blockButton.className =
+                        "unblock-user-btn";
+
+
+                    blockButton.title =
+                        "Desbloquear usuario";
+
+
+                    blockButton.innerHTML =
+                        `
+                            <span class="material-symbols-outlined">
+                                lock_open
+                            </span>
+                        `;
+
+
+                    filtrarUsuarios();
+
+
+                    return;
+
+                }
+
+
+
+                const unblockButton =
+                    event.target.closest(
+                        ".unblock-user-btn"
+                    );
+
+
+                if (unblockButton) {
+
+
+                    const row =
+                        unblockButton.closest(
+                            ".user-row"
+                        );
+
+
+                    row.dataset.status =
+                        "activo";
+
+
+                    row.classList.remove(
+                        "blocked-row"
+                    );
+
+
+                    const state =
+                        row.querySelector(
+                            ".account-status"
+                        );
+
+
+                    state.className =
+                        "account-status active";
+
+
+                    state.innerHTML =
+                        `
+                            <span></span>
+                            Activo
+                        `;
+
+
+                    unblockButton.className =
+                        "block-user-btn";
+
+
+                    unblockButton.title =
+                        "Bloquear usuario";
+
+
+                    unblockButton.innerHTML =
+                        `
+                            <span class="material-symbols-outlined">
+                                lock
+                            </span>
+                        `;
+
+
+                    filtrarUsuarios();
+
+
+                }
+
+
+            }
+        );
+
+
+
+        /* =========================
+           ELIMINAR
+        ========================= */
+
+
+        document.addEventListener(
+            "click",
+            function (event) {
+
+
+                const deleteButton =
+                    event.target.closest(
+                        ".delete-user-btn"
+                    );
+
+
+                if (!deleteButton) {
+
+                    return;
+
+                }
+
+
+                const row =
+                    deleteButton.closest(
+                        ".user-row"
+                    );
+
+
+                const nombre =
+                    row.dataset.name;
+
+
+                const confirmar =
+                    confirm(
+                        "¿Seguro que querés eliminar a " +
+                        nombre +
+                        "?"
+                    );
+
+
+                if (!confirmar) {
+
+                    return;
+
+                }
+
+
+                row.remove();
+
+
+                actualizarEstadisticas();
+
+                filtrarUsuarios();
+
+
+            }
+        );
+
+
+
+        /* =========================
+           ESTADÍSTICAS
+        ========================= */
+
+
+        function actualizarEstadisticas() {
+
+
+            const rows =
+                getRows();
+
+
+            let editores = 0;
+
+            let premium = 0;
+
+            let bloqueados = 0;
+
+
+            rows.forEach(
+                function (row) {
+
+
+                    if (
+                        row.dataset.role ===
+                        "editor"
+                    ) {
+
+                        editores++;
+
+                    }
+
+
+                    if (
+                        row.dataset.premium ===
+                        "si"
+                    ) {
+
+                        premium++;
+
+                    }
+
+
+                    if (
+                        row.dataset.status ===
+                        "bloqueado"
+                    ) {
+
+                        bloqueados++;
+
+                    }
+
+
+                }
+            );
+
+
+            document.getElementById(
+                "stat-total"
+            ).textContent =
+                rows.length;
+
+
+            document.getElementById(
+                "stat-editors"
+            ).textContent =
+                editores;
+
+
+            document.getElementById(
+                "stat-premium"
+            ).textContent =
+                premium;
+
+
+            document.getElementById(
+                "stat-blocked"
+            ).textContent =
+                bloqueados;
+
+
+        }
+
+
+    }
+);
+
+</script>
+
+
+</body>
+
+</html>
