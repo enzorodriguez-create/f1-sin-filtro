@@ -1,0 +1,1075 @@
+/* =========================
+   SOLICITUDES DE EDITOR
+========================= */
+
+
+/* =========================
+   CABECERA
+========================= */
+
+.requests-head {
+
+    margin-bottom: 1.5rem;
+
+    padding-bottom: 1.5rem;
+
+    border-bottom:
+        1px solid
+        rgba(
+            255,
+            255,
+            255,
+            0.08
+        );
+
+}
+
+
+.requests-path {
+
+    margin-bottom: 0.5rem;
+
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+
+    gap: 0.4rem;
+
+    color:
+        var(--admin-muted);
+
+    font-size: 0.66rem;
+    font-weight: 700;
+
+    letter-spacing: 0.07em;
+
+}
+
+
+.requests-path strong {
+
+    color:
+        var(--admin-yellow);
+
+}
+
+
+.requests-head h1 {
+
+    margin:
+        0
+        0
+        0.5rem;
+
+    color: #ffffff;
+
+    font-family:
+        var(--admin-head-font);
+
+    font-size:
+        clamp(
+            2rem,
+            4vw,
+            2.8rem
+        );
+
+    line-height: 1;
+
+    letter-spacing:
+        -0.04em;
+
+}
+
+
+.requests-head h1 span {
+
+    color:
+        var(--admin-yellow);
+
+}
+
+
+.requests-head p {
+
+    max-width: 760px;
+
+    margin: 0;
+
+    color:
+        var(--admin-secondary);
+
+    font-size: 0.88rem;
+
+    line-height: 1.55;
+
+}
+
+
+
+/* =========================
+   ESTADÍSTICAS
+========================= */
+
+.requests-stats {
+
+    margin-bottom: 1rem;
+
+    display: grid;
+
+    grid-template-columns: 1fr;
+
+    gap: 0.75rem;
+
+}
+
+
+.request-stat-card {
+
+    position: relative;
+
+    overflow: hidden;
+
+    padding: 1rem;
+
+    background:
+        rgba(
+            27,
+            27,
+            27,
+            0.9
+        );
+
+    border:
+        1px solid
+        rgba(
+            255,
+            255,
+            255,
+            0.06
+        );
+
+    border-radius: 0.4rem;
+
+}
+
+
+.request-stat-card::after {
+
+    content: "";
+
+    position: absolute;
+
+    right: 0;
+    bottom: 0;
+    left: 0;
+
+    height: 2px;
+
+    background:
+        var(--admin-yellow);
+
+}
+
+
+.request-stat-rejected::after {
+
+    background:
+        #ff7676;
+
+}
+
+
+.request-stat-top {
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 1rem;
+
+}
+
+
+.request-stat-top > span:first-child {
+
+    color:
+        var(--admin-muted);
+
+    font-size: 0.62rem;
+    font-weight: 800;
+
+    letter-spacing: 0.07em;
+
+}
+
+
+.request-stat-top
+.material-symbols-outlined {
+
+    color:
+        var(--admin-yellow);
+
+    font-size: 20px;
+
+}
+
+
+.request-stat-rejected
+.request-stat-top
+.material-symbols-outlined {
+
+    color:
+        #ff7676;
+
+}
+
+
+.request-stat-card > strong {
+
+    margin:
+        0.65rem
+        0
+        0.15rem;
+
+    display: block;
+
+    color: #ffffff;
+
+    font-family:
+        var(--admin-head-font);
+
+    font-size: 1.8rem;
+
+}
+
+
+.request-stat-card > span:last-child {
+
+    color:
+        var(--admin-muted);
+
+    font-size: 0.67rem;
+
+}
+
+
+
+/* =========================
+   HERRAMIENTAS
+========================= */
+
+.requests-tools {
+
+    margin-bottom: 1rem;
+
+    padding: 1rem;
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 0.8rem;
+
+    background:
+        rgba(
+            27,
+            27,
+            27,
+            0.9
+        );
+
+    border:
+        1px solid
+        rgba(
+            255,
+            255,
+            255,
+            0.06
+        );
+
+    border-radius: 0.4rem;
+
+}
+
+
+.request-tabs {
+
+    display: flex;
+
+    gap: 0.4rem;
+
+    overflow-x: auto;
+
+}
+
+
+.request-tab {
+
+    min-height: 36px;
+
+    padding:
+        0.5rem
+        0.75rem;
+
+    flex-shrink: 0;
+
+    background:
+        var(--admin-container);
+
+    color:
+        var(--admin-muted);
+
+    border:
+        1px solid
+        rgba(
+            255,
+            255,
+            255,
+            0.05
+        );
+
+    border-radius: 0.3rem;
+
+    font-size: 0.65rem;
+    font-weight: 700;
+
+    cursor: pointer;
+
+}
+
+
+.request-tab:hover {
+
+    color: #ffffff;
+
+}
+
+
+.request-tab.active {
+
+    background:
+        var(--admin-yellow);
+
+    color: #363100;
+
+    border-color:
+        var(--admin-yellow);
+
+}
+
+
+.requests-search {
+
+    position: relative;
+
+    display: flex;
+    align-items: center;
+
+}
+
+
+.requests-search
+.material-symbols-outlined {
+
+    position: absolute;
+
+    left: 0.75rem;
+
+    color:
+        var(--admin-muted);
+
+    font-size: 19px;
+
+}
+
+
+.requests-search input {
+
+    width: 100%;
+    height: 40px;
+
+    padding:
+        0
+        0.8rem
+        0
+        2.4rem;
+
+    background:
+        var(--admin-container);
+
+    color: #ffffff;
+
+    border:
+        1px solid
+        rgba(
+            255,
+            255,
+            255,
+            0.06
+        );
+
+    border-radius: 0.35rem;
+
+    outline: none;
+
+}
+
+
+.requests-search input:focus {
+
+    border-color:
+        rgba(
+            249,
+            229,
+            0,
+            0.35
+        );
+
+}
+
+
+.requests-search input::placeholder {
+
+    color:
+        #777568;
+
+}
+
+
+
+/* =========================
+   LISTADO
+========================= */
+
+.requests-list {
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 1rem;
+
+}
+
+
+.request-card {
+
+    overflow: hidden;
+
+    background:
+        rgba(
+            27,
+            27,
+            27,
+            0.92
+        );
+
+    border:
+        1px solid
+        rgba(
+            255,
+            255,
+            255,
+            0.06
+        );
+
+    border-radius: 0.4rem;
+
+    transition:
+        border-color 0.15s,
+        background 0.15s;
+
+}
+
+
+.request-card:hover {
+
+    border-color:
+        rgba(
+            249,
+            229,
+            0,
+            0.12
+        );
+
+}
+
+
+.request-content {
+
+    padding: 1.1rem;
+
+}
+
+
+
+/* =========================
+   PERSONA
+========================= */
+
+.request-person {
+
+    display: flex;
+    align-items: flex-start;
+
+    gap: 0.8rem;
+
+}
+
+
+.request-avatar {
+
+    width: 48px;
+    height: 48px;
+
+    flex-shrink: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background:
+        rgba(
+            249,
+            229,
+            0,
+            0.1
+        );
+
+    color:
+        var(--admin-yellow);
+
+    border-radius: 50%;
+
+    font-size: 0.75rem;
+    font-weight: 800;
+
+}
+
+
+.request-person-info {
+
+    min-width: 0;
+
+    flex: 1;
+
+}
+
+
+.request-name-row {
+
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+
+    gap: 0.45rem;
+
+}
+
+
+.request-name-row h2 {
+
+    margin: 0;
+
+    color: #ffffff;
+
+    font-family:
+        var(--admin-head-font);
+
+    font-size: 1.1rem;
+
+}
+
+
+.request-handle {
+
+    color:
+        var(--admin-yellow);
+
+    font-size: 0.68rem;
+
+}
+
+
+.request-state {
+
+    padding:
+        0.2rem
+        0.4rem;
+
+    border-radius: 0.25rem;
+
+    font-size: 0.55rem;
+    font-weight: 800;
+
+}
+
+
+.request-state.pending {
+
+    background:
+        var(--admin-container);
+
+    color:
+        var(--admin-secondary);
+
+}
+
+
+.request-state.approved {
+
+    background:
+        rgba(
+            89,
+            217,
+            142,
+            0.1
+        );
+
+    color:
+        #59d98e;
+
+}
+
+
+.request-state.rejected {
+
+    background:
+        rgba(
+            255,
+            118,
+            118,
+            0.1
+        );
+
+    color:
+        #ff7676;
+
+}
+
+
+.request-meta {
+
+    margin-top: 0.4rem;
+
+    display: flex;
+    flex-wrap: wrap;
+
+    gap:
+        0.35rem
+        1rem;
+
+    color:
+        var(--admin-muted);
+
+    font-size: 0.65rem;
+
+}
+
+
+.request-meta > span {
+
+    display: inline-flex;
+    align-items: center;
+
+    gap: 0.3rem;
+
+}
+
+
+.request-meta
+.material-symbols-outlined {
+
+    font-size: 15px;
+
+}
+
+
+
+/* =========================
+   INFORMACIÓN LABORAL
+========================= */
+
+.request-details {
+
+    margin-top: 1rem;
+
+    display: grid;
+
+    grid-template-columns: 1fr;
+
+    gap: 0.75rem;
+
+}
+
+
+.request-details > div {
+
+    min-height: 82px;
+
+    padding: 0.8rem;
+
+    background:
+        var(--admin-container);
+
+    border:
+        1px solid
+        rgba(
+            255,
+            255,
+            255,
+            0.045
+        );
+
+    border-radius: 0.35rem;
+
+}
+
+
+.request-label {
+
+    margin-bottom: 0.3rem;
+
+    display: block;
+
+    color:
+        var(--admin-muted);
+
+    font-size: 0.56rem;
+    font-weight: 800;
+
+    letter-spacing: 0.07em;
+
+}
+
+
+.request-details strong {
+
+    color:
+        var(--admin-yellow);
+
+    font-size: 0.74rem;
+
+}
+
+
+.request-details p {
+
+    margin: 0;
+
+    color:
+        var(--admin-secondary);
+
+    font-size: 0.7rem;
+
+    line-height: 1.5;
+
+}
+
+
+
+/* =========================
+   ACCIONES
+========================= */
+
+.request-actions {
+
+    padding:
+        0.85rem
+        1.1rem;
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 0.5rem;
+
+    background:
+        rgba(
+            14,
+            14,
+            14,
+            0.55
+        );
+
+    border-top:
+        1px solid
+        rgba(
+            255,
+            255,
+            255,
+            0.06
+        );
+
+}
+
+
+.approve-request-btn,
+.reject-request-btn {
+
+    min-height: 38px;
+
+    padding:
+        0.5rem
+        0.8rem;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 0.35rem;
+
+    border-radius: 0.3rem;
+
+    font-size: 0.67rem;
+    font-weight: 800;
+
+    cursor: pointer;
+
+}
+
+
+.approve-request-btn {
+
+    background:
+        var(--admin-yellow);
+
+    color: #363100;
+
+    border: none;
+
+}
+
+
+.approve-request-btn:hover {
+
+    background:
+        var(--admin-yellow-hover);
+
+}
+
+
+.reject-request-btn {
+
+    background:
+        var(--admin-container);
+
+    color:
+        #ff7676;
+
+    border:
+        1px solid
+        rgba(
+            255,
+            118,
+            118,
+            0.15
+        );
+
+}
+
+
+.reject-request-btn:hover {
+
+    background:
+        rgba(
+            255,
+            118,
+            118,
+            0.08
+        );
+
+}
+
+
+.approve-request-btn
+.material-symbols-outlined,
+.reject-request-btn
+.material-symbols-outlined {
+
+    font-size: 17px;
+
+}
+
+
+.request-resolved {
+
+    min-height: 38px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 0.35rem;
+
+    font-size: 0.68rem;
+    font-weight: 700;
+
+}
+
+
+.request-resolved.approved {
+
+    color:
+        #59d98e;
+
+}
+
+
+.request-resolved.rejected {
+
+    color:
+        #ff7676;
+
+}
+
+
+
+/* =========================
+   SIN RESULTADOS
+========================= */
+
+.requests-empty {
+
+    min-height: 220px;
+
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    gap: 0.4rem;
+
+    color:
+        var(--admin-muted);
+
+    text-align: center;
+
+}
+
+
+.requests-empty.show {
+
+    display: flex;
+
+}
+
+
+.requests-empty
+.material-symbols-outlined {
+
+    color:
+        var(--admin-yellow);
+
+    font-size: 42px;
+
+}
+
+
+.requests-empty strong {
+
+    color: #ffffff;
+
+}
+
+
+
+/* =========================
+   TABLET
+========================= */
+
+@media (min-width: 640px) {
+
+    .requests-stats {
+
+        grid-template-columns:
+            repeat(3, 1fr);
+
+    }
+
+
+    .request-details {
+
+        grid-template-columns:
+            repeat(2, 1fr);
+
+    }
+
+
+    .request-actions {
+
+        flex-direction: row;
+
+        justify-content: flex-end;
+
+    }
+
+
+    .approve-request-btn,
+    .reject-request-btn {
+
+        min-width: 130px;
+
+    }
+
+}
+
+
+
+/* =========================
+   DESKTOP
+========================= */
+
+@media (min-width: 800px) {
+
+    .requests-tools {
+
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+
+    }
+
+
+    .requests-search {
+
+        width: 340px;
+
+    }
+
+}
+
+
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 600px) {
+
+    .requests-head h1 {
+
+        font-size: 1.9rem;
+
+    }
+
+
+    .request-person {
+
+        flex-direction: column;
+
+    }
+
+
+    .request-avatar {
+
+        width: 44px;
+        height: 44px;
+
+    }
+
+
+    .request-details {
+
+        grid-template-columns: 1fr;
+
+    }
+
+}
