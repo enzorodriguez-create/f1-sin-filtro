@@ -343,6 +343,28 @@ def admin():
         seccion_activa="dashboard"
     )
 
+@app.route("/admin/usuarios")
+def admin_usuarios():
+
+    usuario = session.get("usuario")
+
+    return render_template(
+        "admin/usuarios.html",
+        usuario=usuario,
+        seccion_activa="usuarios"
+    )
+
+@app.route("/admin/solicitudes")
+def admin_solicitudes():
+
+    usuario = session.get("usuario")
+
+    return render_template(
+        "admin/solicitudes.html",
+        usuario=usuario,
+        seccion_activa="solicitudes"
+    )
+
 if __name__ == "__main__":
 
     with app.app_context():
