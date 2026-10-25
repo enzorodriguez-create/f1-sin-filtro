@@ -1,0 +1,1333 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <meta charset="utf-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        F1 SIN FILTRO - Etiquetas
+    </title>
+
+
+    <!-- FUENTES -->
+
+    <link
+        href="https://fonts.googleapis.com"
+        rel="preconnect"
+    >
+
+    <link
+        href="https://fonts.gstatic.com"
+        rel="preconnect"
+        crossorigin
+    >
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Chivo:wght@400;600;700;900&family=Geist:wght@400;500;600;700&display=swap"
+        rel="stylesheet"
+    >
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
+        rel="stylesheet"
+    >
+
+
+    <!-- CSS -->
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='styles/style.css') }}"
+    >
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='styles/editor/sidebar.css') }}"
+    >
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='styles/editor/dashboard.css') }}"
+    >
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='styles/editor/etiquetas.css') }}"
+    >
+
+</head>
+
+
+<body>
+
+
+<div class="editor-page">
+
+
+    <!-- =========================
+         SIDEBAR
+    ========================== -->
+
+    {% include "editor/sidebar.html" %}
+
+
+    <!-- =========================
+         CONTENIDO
+    ========================== -->
+
+    <div class="editor-content">
+
+
+        <!-- =========================
+             TOPBAR
+        ========================== -->
+
+        <header class="editor-topbar">
+
+
+            <div class="topbar-left">
+
+                <button
+                    class="menu-btn"
+                    type="button"
+                    id="editor-menu-btn"
+                    aria-label="Abrir menú"
+                >
+
+                    <span class="material-symbols-outlined">
+                        menu
+                    </span>
+
+                </button>
+
+            </div>
+
+
+            <div class="topbar-right">
+
+
+                <div class="role-badge">
+
+                    <span class="role-dot"></span>
+
+                    <span>
+                        ROL:
+                    </span>
+
+                    <strong>
+                        EDITOR
+                    </strong>
+
+                </div>
+
+
+                <div class="editor-user">
+
+
+                    <div class="editor-user-data">
+
+                        <strong>
+                            {{ usuario.nombre if usuario else "Editor" }}
+                        </strong>
+
+                        <span>
+                            {{ usuario.email if usuario else "editor@f1sinfiltro.com" }}
+                        </span>
+
+                    </div>
+
+
+                    {% if usuario and usuario.foto %}
+
+                        <div class="editor-avatar">
+
+                            <img
+                                class="editor-avatar-img"
+                                src="{{ usuario.foto }}"
+                                alt="{{ usuario.nombre }}"
+                            >
+
+                        </div>
+
+                    {% else %}
+
+                        <div class="editor-avatar">
+
+                            <span class="material-symbols-outlined">
+                                person
+                            </span>
+
+                        </div>
+
+                    {% endif %}
+
+
+                </div>
+
+
+            </div>
+
+
+        </header>
+
+
+        <!-- =========================
+             MAIN
+        ========================== -->
+
+        <main class="editor-main">
+
+
+            <div class="editor-container">
+
+
+                <!-- =========================
+                     CABECERA
+                ========================== -->
+
+                <div class="tags-head">
+
+
+                    <div>
+
+                        <div class="tags-path">
+
+                            <span>
+                                PANEL DE CONTROL
+                            </span>
+
+                            <span>
+                                /
+                            </span>
+
+                            <strong>
+                                ETIQUETAS
+                            </strong>
+
+                        </div>
+
+
+                        <h1>
+                            GESTIÓN DE <span>ETIQUETAS</span>
+                        </h1>
+
+
+                        <p>
+                            Creá y administrá las etiquetas utilizadas en tus publicaciones.
+                        </p>
+
+                    </div>
+
+
+                    <button
+                        class="new-tag-btn"
+                        type="button"
+                        id="btn-open-tag"
+                    >
+
+                        <span class="material-symbols-outlined">
+                            add
+                        </span>
+
+                        Nueva Etiqueta
+
+                    </button>
+
+
+                </div>
+
+
+                <!-- =========================
+                     FORMULARIO
+                ========================== -->
+
+                <div
+                    class="tag-form-card hidden"
+                    id="tag-form-card"
+                >
+
+
+                    <div class="tag-form-head">
+
+                        <div>
+
+                            <span class="form-kicker">
+                                ETIQUETA
+                            </span>
+
+                            <h2 id="tag-form-title">
+                                Crear Nueva Etiqueta
+                            </h2>
+
+                        </div>
+
+
+                        <button
+                            class="close-tag-form"
+                            type="button"
+                            id="btn-close-tag"
+                        >
+
+                            <span class="material-symbols-outlined">
+                                close
+                            </span>
+
+                        </button>
+
+                    </div>
+
+
+                    <div class="tag-form">
+
+
+                        <div class="tag-field">
+
+                            <label for="tag-name">
+                                NOMBRE
+                            </label>
+
+                            <input
+                                type="text"
+                                id="tag-name"
+                                placeholder="Ej: Ferrari"
+                            >
+
+                        </div>
+
+
+                        <div class="tag-field">
+
+                            <label for="tag-description">
+                                DESCRIPCIÓN
+                            </label>
+
+                            <textarea
+                                id="tag-description"
+                                rows="3"
+                                placeholder="Descripción breve de la etiqueta..."
+                            ></textarea>
+
+                        </div>
+
+
+                    </div>
+
+
+                    <div class="tag-form-actions">
+
+                        <button
+                            class="cancel-tag-btn"
+                            type="button"
+                            id="btn-cancel-tag"
+                        >
+                            Cancelar
+                        </button>
+
+
+                        <button
+                            class="save-tag-btn"
+                            type="button"
+                            id="btn-save-tag"
+                        >
+
+                            <span class="material-symbols-outlined">
+                                save
+                            </span>
+
+                            Guardar Etiqueta
+
+                        </button>
+
+                    </div>
+
+
+                </div>
+
+
+                <!-- =========================
+                     RESUMEN
+                ========================== -->
+
+                <div class="tag-summary">
+
+                    <div class="summary-card">
+
+                        <span class="material-symbols-outlined">
+                            label
+                        </span>
+
+                        <div>
+
+                            <span>
+                                TOTAL ETIQUETAS
+                            </span>
+
+                            <strong id="tag-count">
+                                6
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="summary-card">
+
+                        <span class="material-symbols-outlined">
+                            trending_up
+                        </span>
+
+                        <div>
+
+                            <span>
+                                MÁS UTILIZADA
+                            </span>
+
+                            <strong>
+                                F1
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- =========================
+                     LISTADO
+                ========================== -->
+
+                <div
+                    class="tags-grid"
+                    id="tags-grid"
+                >
+
+
+                    <!-- ETIQUETA 1 -->
+
+                    <article
+                        class="tag-card"
+                        data-name="Ferrari"
+                        data-description="Contenido relacionado con la Scuderia Ferrari."
+                    >
+
+
+                        <div class="tag-card-top">
+
+                            <div class="tag-icon">
+
+                                <span class="material-symbols-outlined">
+                                    label
+                                </span>
+
+                            </div>
+
+
+                            <div class="tag-actions">
+
+                                <button
+                                    class="edit-tag-btn"
+                                    type="button"
+                                    title="Editar etiqueta"
+                                >
+
+                                    <span class="material-symbols-outlined">
+                                        edit
+                                    </span>
+
+                                </button>
+
+
+                                <button
+                                    class="delete-tag-btn"
+                                    type="button"
+                                    title="Eliminar etiqueta"
+                                >
+
+                                    <span class="material-symbols-outlined">
+                                        delete
+                                    </span>
+
+                                </button>
+
+                            </div>
+
+                        </div>
+
+
+                        <h2>
+                            #Ferrari
+                        </h2>
+
+
+                        <p>
+                            Contenido relacionado con la Scuderia Ferrari.
+                        </p>
+
+
+                        <div class="tag-card-footer">
+
+                            <span>
+
+                                <span class="material-symbols-outlined">
+                                    article
+                                </span>
+
+                                8 publicaciones
+
+                            </span>
+
+                        </div>
+
+
+                    </article>
+
+
+                    <!-- ETIQUETA 2 -->
+
+                    <article
+                        class="tag-card"
+                        data-name="F1"
+                        data-description="Etiqueta general para contenido de Fórmula 1."
+                    >
+
+
+                        <div class="tag-card-top">
+
+                            <div class="tag-icon">
+
+                                <span class="material-symbols-outlined">
+                                    label
+                                </span>
+
+                            </div>
+
+
+                            <div class="tag-actions">
+
+                                <button
+                                    class="edit-tag-btn"
+                                    type="button"
+                                    title="Editar etiqueta"
+                                >
+
+                                    <span class="material-symbols-outlined">
+                                        edit
+                                    </span>
+
+                                </button>
+
+
+                                <button
+                                    class="delete-tag-btn"
+                                    type="button"
+                                    title="Eliminar etiqueta"
+                                >
+
+                                    <span class="material-symbols-outlined">
+                                        delete
+                                    </span>
+
+                                </button>
+
+                            </div>
+
+                        </div>
+
+
+                        <h2>
+                            #F1
+                        </h2>
+
+
+                        <p>
+                            Etiqueta general para contenido de Fórmula 1.
+                        </p>
+
+
+                        <div class="tag-card-footer">
+
+                            <span>
+
+                                <span class="material-symbols-outlined">
+                                    article
+                                </span>
+
+                                14 publicaciones
+
+                            </span>
+
+                        </div>
+
+
+                    </article>
+
+
+                    <!-- ETIQUETA 3 -->
+
+                    <article
+                        class="tag-card"
+                        data-name="Verstappen"
+                        data-description="Noticias y análisis relacionados con Max Verstappen."
+                    >
+
+
+                        <div class="tag-card-top">
+
+                            <div class="tag-icon">
+
+                                <span class="material-symbols-outlined">
+                                    label
+                                </span>
+
+                            </div>
+
+
+                            <div class="tag-actions">
+
+                                <button
+                                    class="edit-tag-btn"
+                                    type="button"
+                                    title="Editar etiqueta"
+                                >
+
+                                    <span class="material-symbols-outlined">
+                                        edit
+                                    </span>
+
+                                </button>
+
+
+                                <button
+                                    class="delete-tag-btn"
+                                    type="button"
+                                    title="Eliminar etiqueta"
+                                >
+
+                                    <span class="material-symbols-outlined">
+                                        delete
+                                    </span>
+
+                                </button>
+
+                            </div>
+
+                        </div>
+
+
+                        <h2>
+                            #Verstappen
+                        </h2>
+
+
+                        <p>
+                            Noticias y análisis relacionados con Max Verstappen.
+                        </p>
+
+
+                        <div class="tag-card-footer">
+
+                            <span>
+
+                                <span class="material-symbols-outlined">
+                                    article
+                                </span>
+
+                                7 publicaciones
+
+                            </span>
+
+                        </div>
+
+
+                    </article>
+
+
+                    <!-- ETIQUETA 4 -->
+
+                    <article
+                        class="tag-card"
+                        data-name="Pirelli"
+                        data-description="Contenido sobre neumáticos, estrategias y compuestos."
+                    >
+
+
+                        <div class="tag-card-top">
+
+                            <div class="tag-icon">
+
+                                <span class="material-symbols-outlined">
+                                    label
+                                </span>
+
+                            </div>
+
+
+                            <div class="tag-actions">
+
+                                <button
+                                    class="edit-tag-btn"
+                                    type="button"
+                                    title="Editar etiqueta"
+                                >
+
+                                    <span class="material-symbols-outlined">
+                                        edit
+                                    </span>
+
+                                </button>
+
+
+                                <button
+                                    class="delete-tag-btn"
+                                    type="button"
+                                    title="Eliminar etiqueta"
+                                >
+
+                                    <span class="material-symbols-outlined">
+                                        delete
+                                    </span>
+
+                                </button>
+
+                            </div>
+
+                        </div>
+
+
+                        <h2>
+                            #Pirelli
+                        </h2>
+
+
+                        <p>
+                            Contenido sobre neumáticos, estrategias y compuestos.
+                        </p>
+
+
+                        <div class="tag-card-footer">
+
+                            <span>
+
+                                <span class="material-symbols-outlined">
+                                    article
+                                </span>
+
+                                4 publicaciones
+
+                            </span>
+
+                        </div>
+
+
+                    </article>
+
+
+                    <!-- ETIQUETA 5 -->
+
+                    <article
+                        class="tag-card"
+                        data-name="Mercedes"
+                        data-description="Noticias y contenido relacionado con Mercedes."
+                    >
+
+
+                        <div class="tag-card-top">
+
+                            <div class="tag-icon">
+
+                                <span class="material-symbols-outlined">
+                                    label
+                                </span>
+
+                            </div>
+
+
+                            <div class="tag-actions">
+
+                                <button
+                                    class="edit-tag-btn"
+                                    type="button"
+                                    title="Editar etiqueta"
+                                >
+
+                                    <span class="material-symbols-outlined">
+                                        edit
+                                    </span>
+
+                                </button>
+
+
+                                <button
+                                    class="delete-tag-btn"
+                                    type="button"
+                                    title="Eliminar etiqueta"
+                                >
+
+                                    <span class="material-symbols-outlined">
+                                        delete
+                                    </span>
+
+                                </button>
+
+                            </div>
+
+                        </div>
+
+
+                        <h2>
+                            #Mercedes
+                        </h2>
+
+
+                        <p>
+                            Noticias y contenido relacionado con Mercedes.
+                        </p>
+
+
+                        <div class="tag-card-footer">
+
+                            <span>
+
+                                <span class="material-symbols-outlined">
+                                    article
+                                </span>
+
+                                5 publicaciones
+
+                            </span>
+
+                        </div>
+
+
+                    </article>
+
+
+                    <!-- ETIQUETA 6 -->
+
+                    <article
+                        class="tag-card"
+                        data-name="RedBull"
+                        data-description="Contenido relacionado con Red Bull Racing."
+                    >
+
+
+                        <div class="tag-card-top">
+
+                            <div class="tag-icon">
+
+                                <span class="material-symbols-outlined">
+                                    label
+                                </span>
+
+                            </div>
+
+
+                            <div class="tag-actions">
+
+                                <button
+                                    class="edit-tag-btn"
+                                    type="button"
+                                    title="Editar etiqueta"
+                                >
+
+                                    <span class="material-symbols-outlined">
+                                        edit
+                                    </span>
+
+                                </button>
+
+
+                                <button
+                                    class="delete-tag-btn"
+                                    type="button"
+                                    title="Eliminar etiqueta"
+                                >
+
+                                    <span class="material-symbols-outlined">
+                                        delete
+                                    </span>
+
+                                </button>
+
+                            </div>
+
+                        </div>
+
+
+                        <h2>
+                            #RedBull
+                        </h2>
+
+
+                        <p>
+                            Contenido relacionado con Red Bull Racing.
+                        </p>
+
+
+                        <div class="tag-card-footer">
+
+                            <span>
+
+                                <span class="material-symbols-outlined">
+                                    article
+                                </span>
+
+                                6 publicaciones
+
+                            </span>
+
+                        </div>
+
+
+                    </article>
+
+
+                </div>
+
+
+            </div>
+
+
+        </main>
+
+
+    </div>
+
+
+</div>
+
+
+<!-- =========================
+     FOOTER GLOBAL
+========================= -->
+
+{% include "base/footer.html" %}
+
+
+<!-- =========================
+     JAVASCRIPT
+========================= -->
+
+<script>
+
+    const formCard =
+        document.getElementById(
+            "tag-form-card"
+        );
+
+
+    const openButton =
+        document.getElementById(
+            "btn-open-tag"
+        );
+
+
+    const closeButton =
+        document.getElementById(
+            "btn-close-tag"
+        );
+
+
+    const cancelButton =
+        document.getElementById(
+            "btn-cancel-tag"
+        );
+
+
+    const saveButton =
+        document.getElementById(
+            "btn-save-tag"
+        );
+
+
+    const nameInput =
+        document.getElementById(
+            "tag-name"
+        );
+
+
+    const descriptionInput =
+        document.getElementById(
+            "tag-description"
+        );
+
+
+    const formTitle =
+        document.getElementById(
+            "tag-form-title"
+        );
+
+
+    const tagsGrid =
+        document.getElementById(
+            "tags-grid"
+        );
+
+
+    const tagCount =
+        document.getElementById(
+            "tag-count"
+        );
+
+
+    let tagEditing = null;
+
+
+
+    function abrirFormularioNuevo() {
+
+
+        tagEditing = null;
+
+
+        formTitle.textContent =
+            "Crear Nueva Etiqueta";
+
+
+        nameInput.value =
+            "";
+
+
+        descriptionInput.value =
+            "";
+
+
+        formCard.classList.remove(
+            "hidden"
+        );
+
+
+        nameInput.focus();
+
+
+    }
+
+
+
+    function cerrarFormulario() {
+
+
+        formCard.classList.add(
+            "hidden"
+        );
+
+
+        tagEditing = null;
+
+
+        nameInput.value =
+            "";
+
+
+        descriptionInput.value =
+            "";
+
+
+    }
+
+
+
+    function actualizarCantidad() {
+
+
+        const tags =
+            document.querySelectorAll(
+                ".tag-card"
+            );
+
+
+        tagCount.textContent =
+            tags.length;
+
+
+    }
+
+
+
+    openButton.addEventListener(
+        "click",
+        abrirFormularioNuevo
+    );
+
+
+    closeButton.addEventListener(
+        "click",
+        cerrarFormulario
+    );
+
+
+    cancelButton.addEventListener(
+        "click",
+        cerrarFormulario
+    );
+
+
+
+    tagsGrid.addEventListener(
+        "click",
+        function (event) {
+
+
+            const editButton =
+                event.target.closest(
+                    ".edit-tag-btn"
+                );
+
+
+            const deleteButton =
+                event.target.closest(
+                    ".delete-tag-btn"
+                );
+
+
+            if (editButton) {
+
+
+                const tag =
+                    editButton.closest(
+                        ".tag-card"
+                    );
+
+
+                tagEditing =
+                    tag;
+
+
+                formTitle.textContent =
+                    "Editar Etiqueta";
+
+
+                nameInput.value =
+                    tag.dataset.name;
+
+
+                descriptionInput.value =
+                    tag.dataset.description;
+
+
+                formCard.classList.remove(
+                    "hidden"
+                );
+
+
+                nameInput.focus();
+
+
+                return;
+
+
+            }
+
+
+            if (deleteButton) {
+
+
+                const tag =
+                    deleteButton.closest(
+                        ".tag-card"
+                    );
+
+
+                const name =
+                    tag.dataset.name;
+
+
+                const confirmar =
+                    confirm(
+                        "¿Seguro que querés eliminar la etiqueta #" +
+                        name +
+                        "?"
+                    );
+
+
+                if (!confirmar) {
+                    return;
+                }
+
+
+                tag.remove();
+
+
+                actualizarCantidad();
+
+
+            }
+
+
+        }
+    );
+
+
+
+    saveButton.addEventListener(
+        "click",
+        function () {
+
+
+            let name =
+                nameInput.value.trim();
+
+
+            const description =
+                descriptionInput.value.trim();
+
+
+            if (!name) {
+
+
+                alert(
+                    "Ingresá un nombre para la etiqueta."
+                );
+
+
+                return;
+
+
+            }
+
+
+            name =
+                name.replace(
+                    /^#/,
+                    ""
+                );
+
+
+            if (tagEditing) {
+
+
+                tagEditing.dataset.name =
+                    name;
+
+
+                tagEditing.dataset.description =
+                    description;
+
+
+                tagEditing
+                    .querySelector("h2")
+                    .textContent =
+                    "#" + name;
+
+
+                tagEditing
+                    .querySelector("p")
+                    .textContent =
+                    description;
+
+
+            } else {
+
+
+                const article =
+                    document.createElement(
+                        "article"
+                    );
+
+
+                article.className =
+                    "tag-card";
+
+
+                article.dataset.name =
+                    name;
+
+
+                article.dataset.description =
+                    description;
+
+
+                article.innerHTML =
+                    `
+                        <div class="tag-card-top">
+
+                            <div class="tag-icon">
+
+                                <span class="material-symbols-outlined">
+                                    label
+                                </span>
+
+                            </div>
+
+                            <div class="tag-actions">
+
+                                <button
+                                    class="edit-tag-btn"
+                                    type="button"
+                                    title="Editar etiqueta"
+                                >
+                                    <span class="material-symbols-outlined">
+                                        edit
+                                    </span>
+                                </button>
+
+                                <button
+                                    class="delete-tag-btn"
+                                    type="button"
+                                    title="Eliminar etiqueta"
+                                >
+                                    <span class="material-symbols-outlined">
+                                        delete
+                                    </span>
+                                </button>
+
+                            </div>
+
+                        </div>
+
+                        <h2>
+                            #${name}
+                        </h2>
+
+                        <p>
+                            ${description}
+                        </p>
+
+                        <div class="tag-card-footer">
+
+                            <span>
+
+                                <span class="material-symbols-outlined">
+                                    article
+                                </span>
+
+                                0 publicaciones
+
+                            </span>
+
+                        </div>
+                    `;
+
+
+                tagsGrid.appendChild(
+                    article
+                );
+
+
+                actualizarCantidad();
+
+
+            }
+
+
+            cerrarFormulario();
+
+
+        }
+    );
+
+
+</script>
+
+
+</body>
+
+</html>
