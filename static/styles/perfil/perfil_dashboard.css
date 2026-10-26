@@ -954,3 +954,51 @@
     }
 
 }
+
+.perfil-action {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+}
+
+
+.perfil-btn-editor {
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 0.5rem;
+
+    padding: 0.8rem 1.2rem;
+
+    border: 1px solid var(--perfil-red);
+
+    background: var(--perfil-red);
+
+    color: #fff;
+
+    font-family: "JetBrains Mono", monospace;
+
+    font-size: 11px;
+
+    font-weight: 700;
+
+    letter-spacing: 0.08em;
+
+    text-decoration: none;
+
+    transition:
+        background 0.2s,
+        color 0.2s;
+}
+
+
+.perfil-btn-editor:hover {
+    background: #fff;
+    color: #000;
+}
+
+
+.perfil-btn-editor .material-symbols-outlined {
+    font-size: 18px;
+}
