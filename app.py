@@ -148,6 +148,81 @@ def actualizar_perfil_usuario(usuario):
         "Perfil actualizado correctamente."
     )
 
+@app.before_request
+def proteger_rutas_por_rol():
+
+    usuario = obtener_usuario_actual()
+
+    ruta = request.path
+
+
+    # Protejo todas las rutas de administrador
+    if ruta.startswith("/admin"):
+
+        if not usuario:
+
+            return redirect(
+                url_for("login")
+            )
+
+        if usuario.rol != "admin":
+
+            return redirigir_segun_rol(
+                usuario
+            )
+
+
+    # Protejo todas las rutas de editor
+    if ruta.startswith("/editor"):
+
+        if not usuario:
+
+            return redirect(
+                url_for("login")
+            )
+
+        if usuario.rol != "editor":
+
+            return redirigir_segun_rol(
+                usuario
+            )
+
+
+    # Protejo todas las rutas privadas del usuario
+    if ruta.startswith("/perfil"):
+
+        if not usuario:
+
+            return redirect(
+                url_for("login")
+            )
+
+        if usuario.rol != "usuario":
+
+            return redirigir_segun_rol(
+                usuario
+            )
+        
+def redirigir_segun_rol(usuario):
+
+    if usuario.rol == "admin":
+
+        return redirect(
+            url_for("admin")
+        )
+
+    if usuario.rol == "editor":
+
+        return redirect(
+            url_for("editor")
+        )
+
+    return redirect(
+        url_for("perfil")
+    )
+
+
+
 @app.route("/")
 def inicio():
     return render_template("index.html")
