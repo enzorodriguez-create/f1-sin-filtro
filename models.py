@@ -74,3 +74,28 @@ class Usuario(db.Model):
             self.password,
             password
         )
+class SolicitudEditor(db.Model):
+
+    __tablename__ = "solicitudes_editor"
+
+    id = db.Column(
+        db.Integer,
+        primary_key=True
+    )
+
+    usuario_id = db.Column(
+        db.Integer,
+        db.ForeignKey("usuarios.id"),
+        nullable=False
+    )
+
+    motivo = db.Column(
+        db.String(500),
+        nullable=False
+    )
+
+    estado = db.Column(
+        db.String(20),
+        nullable=False,
+        default="pendiente"
+    )
