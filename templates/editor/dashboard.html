@@ -90,42 +90,41 @@
 
                 </button>
 
-
                 <div class="editor-user">
 
                     <div class="editor-user-data">
-
+                
                         <strong>
                             {{ usuario.nombre if usuario else "Editor" }}
                         </strong>
-
+                
                         <span>
                             {{ usuario.email if usuario else "editor@f1sinfiltro.com" }}
                         </span>
-
+                
                     </div>
-
-
+                
+                
                     {% if usuario and usuario.foto %}
-
+                
                         <img
                             class="editor-avatar editor-avatar-img"
-                            src="{{ usuario.foto }}"
+                            src="{{ url_imagen(usuario.foto) }}"
                             alt="{{ usuario.nombre }}"
                         >
-
+                
                     {% else %}
-
+                
                         <div class="editor-avatar">
-
+                
                             <span class="material-symbols-outlined">
                                 person
                             </span>
-
+                
                         </div>
-
+                
                     {% endif %}
-
+                
                 </div>
 
             </div>
