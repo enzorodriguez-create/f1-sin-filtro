@@ -5,7 +5,7 @@ from flask import Flask, render_template, redirect, url_for, session, request, f
 from dotenv import load_dotenv
 from authlib.integrations.flask_client import OAuth
 from werkzeug.middleware.proxy_fix import ProxyFix
-from models import db, Usuario, bcrypt
+from models import db, Usuario,  SolicitudEditor, bcrypt
 from almacenamiento import (
     extension_valida,
     subir_imagen,
@@ -171,9 +171,23 @@ def login():
                 usuario
             )
 
-            return redirect(
-                url_for("inicio")
-            )
+            if usuario.rol == "admin":
+
+                return redirect(
+                    url_for("admin")
+                )
+
+            elif usuario.rol == "editor":
+
+                return redirect(
+                    url_for("editor")
+                )
+
+            else:
+
+                return redirect(
+                    url_for("inicio")
+                )
 
         return "Email o contraseña incorrectos."
 
@@ -540,12 +554,138 @@ def admin_usuarios():
 @app.route("/admin/solicitudes")
 def admin_solicitudes():
 
-    usuario = session.get("usuario")
+    admin = obtener_usuario_actual()
+
+
+    if not admin:
+
+        return redirect(
+            url_for("login")
+        )
+
+
+    if admin.rol != "admin":
+
+        return redirect(
+            url_for("inicio")
+        )
+
+
+    solicitudes = (
+        db.session.query(
+            SolicitudEditor,
+            Usuario
+        )
+        .join(
+            Usuario,
+            SolicitudEditor.usuario_id
+            ==
+            Usuario.id
+        )
+        .all()
+    )
+
 
     return render_template(
         "admin/solicitudes.html",
-        usuario=usuario,
+        usuario=admin,
+        solicitudes=solicitudes,
         seccion_activa="solicitudes"
+    )
+
+@app.route(
+    "/admin/solicitudes/<int:id_solicitud>/aprobar",
+    methods=["POST"]
+)
+def aprobar_solicitud_editor(
+    id_solicitud
+):
+
+    admin = obtener_usuario_actual()
+
+
+    if not admin or admin.rol != "admin":
+
+        return redirect(
+            url_for("inicio")
+        )
+
+
+    solicitud = db.session.get(
+        SolicitudEditor,
+        id_solicitud
+    )
+
+
+    if not solicitud:
+
+        return redirect(
+            url_for(
+                "admin_solicitudes"
+            )
+        )
+
+
+    usuario = db.session.get(
+        Usuario,
+        solicitud.usuario_id
+    )
+
+
+    if usuario:
+
+        # Cambio el rol del usuario a editor
+        usuario.rol = "editor"
+
+
+        # Marco la solicitud como aprobada
+        solicitud.estado = "aprobada"
+
+
+        db.session.commit()
+
+
+    return redirect(
+        url_for(
+            "admin_solicitudes"
+        )
+    )
+
+@app.route(
+    "/admin/solicitudes/<int:id_solicitud>/rechazar",
+    methods=["POST"]
+)
+def rechazar_solicitud_editor(
+    id_solicitud
+):
+
+    admin = obtener_usuario_actual()
+
+
+    if not admin or admin.rol != "admin":
+
+        return redirect(
+            url_for("inicio")
+        )
+
+
+    solicitud = db.session.get(
+        SolicitudEditor,
+        id_solicitud
+    )
+
+
+    if solicitud:
+
+        solicitud.estado = "rechazada"
+
+        db.session.commit()
+
+
+    return redirect(
+        url_for(
+            "admin_solicitudes"
+        )
     )
 
 @app.route("/admin/publicaciones")
@@ -652,9 +792,134 @@ def funciones_para_plantillas():
             usa_s3()
     }
 
+@app.route(
+    "/perfil/solicitar-editor",
+    methods=["GET", "POST"]
+)
+def solicitar_editor():
+
+    # Obtengo al usuario que inició sesión
+    usuario = obtener_usuario_actual()
+
+
+    if not usuario:
+
+        return redirect(
+            url_for("login")
+        )
+
+
+    # Solo un usuario normal puede solicitar ser editor
+    if usuario.rol != "usuario":
+
+        return redirect(
+            url_for("perfil")
+        )
+
+
+    # Compruebo si ya tiene una solicitud pendiente
+    solicitud_pendiente = SolicitudEditor.query.filter_by(
+        usuario_id=usuario.id,
+        estado="pendiente"
+    ).first()
+
+
+    if request.method == "POST":
+
+        # Evito que mande varias solicitudes pendientes
+        if solicitud_pendiente:
+
+            return redirect(
+                url_for("solicitar_editor")
+            )
+
+
+        motivo = request.form.get(
+            "motivo",
+            ""
+        ).strip()
+
+
+        if not motivo:
+
+            return render_template(
+                "perfil/solicitar_editor.html",
+                usuario=usuario,
+                solicitud_pendiente=solicitud_pendiente,
+                error="Tenés que indicar por qué querés ser editor."
+            )
+
+
+        nueva_solicitud = SolicitudEditor(
+            usuario_id=usuario.id,
+            motivo=motivo,
+            estado="pendiente"
+        )
+
+
+        db.session.add(
+            nueva_solicitud
+        )
+
+        db.session.commit()
+
+
+        return redirect(
+            url_for("solicitar_editor")
+        )
+
+
+    return render_template(
+        "perfil/solicitar_editor.html",
+        usuario=usuario,
+        solicitud_pendiente=solicitud_pendiente
+    )
+
 if __name__ == "__main__":
 
     with app.app_context():
+
         db.create_all()
 
-    app.run(debug=True, port=5001)
+
+        # Compruebo si ya existe una cuenta de administrador
+        admin_existente = Usuario.query.filter_by(
+            rol="admin"
+        ).first()
+
+
+        # Si no existe, creo una cuenta de administrador
+        if not admin_existente:
+
+            admin = Usuario(
+                nombre="Administrador",
+                apellido="F1 Sin Filtro",
+                usuario="admin",
+                email="admin@f1sinfiltro.com",
+                rol="admin",
+                tipo_login="normal",
+                premium=False
+            )
+
+
+            admin.guardar_password(
+                "Admin123"
+            )
+
+
+            db.session.add(
+                admin
+            )
+
+            db.session.commit()
+
+
+            print(
+                "Cuenta de administrador creada."
+            )
+
+
+    app.run(
+        debug=True,
+        port=5001
+    )
