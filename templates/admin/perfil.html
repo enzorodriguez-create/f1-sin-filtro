@@ -125,6 +125,7 @@
             </div>
 
 
+
             <div class="admin-topbar-right">
 
 
@@ -143,6 +144,7 @@
                 </div>
 
 
+
                 <div class="admin-user">
 
 
@@ -159,12 +161,13 @@
                     </div>
 
 
+
                     {% if usuario and usuario.foto %}
 
                         <div class="admin-avatar">
 
                             <img
-                                src="{{ usuario.foto }}"
+                                src="{{ url_imagen(usuario.foto) }}"
                                 alt="{{ usuario.nombre }}"
                             >
 
@@ -264,7 +267,7 @@
                                 <div class="profile-avatar">
 
                                     <img
-                                        src="{{ usuario.foto }}"
+                                        src="{{ url_imagen(usuario.foto) }}"
                                         alt="{{ usuario.nombre }}"
                                         id="profile-image"
                                     >
@@ -295,13 +298,18 @@
 
 
                             <h2>
+
                                 {{ usuario.nombre if usuario else "Administrador" }}
-                                {{ usuario.apellido if usuario and usuario.apellido else "" }}
+
+                                {% if usuario and usuario.apellido %}
+                                    {{ usuario.apellido }}
+                                {% endif %}
+
                             </h2>
 
 
                             <span class="profile-username">
-                                @{{ usuario.usuario if usuario and usuario.usuario else "admin" }}
+                                @{{ usuario.usuario if usuario else "admin" }}
                             </span>
 
 
@@ -404,8 +412,12 @@
                         <form
                             class="profile-form"
                             id="profile-form"
+                            method="POST"
+                            enctype="multipart/form-data"
                         >
 
+
+                            <!-- NOMBRE Y APELLIDO -->
 
                             <div class="profile-form-row">
 
@@ -418,12 +430,14 @@
 
                                     <input
                                         id="profile-name"
+                                        name="nombre"
                                         type="text"
-                                        value="{{ usuario.nombre if usuario else 'Administrador' }}"
+                                        value="{{ usuario.nombre if usuario else '' }}"
                                         required
                                     >
 
                                 </div>
+
 
 
                                 <div class="profile-field">
@@ -434,6 +448,7 @@
 
                                     <input
                                         id="profile-lastname"
+                                        name="apellido"
                                         type="text"
                                         value="{{ usuario.apellido if usuario and usuario.apellido else '' }}"
                                         placeholder="Apellido"
@@ -446,6 +461,8 @@
 
 
 
+                            <!-- USUARIO Y EMAIL -->
+
                             <div class="profile-form-row">
 
 
@@ -457,12 +474,14 @@
 
                                     <input
                                         id="profile-user"
+                                        name="usuario"
                                         type="text"
-                                        value="{{ usuario.usuario if usuario and usuario.usuario else 'admin' }}"
+                                        value="{{ usuario.usuario if usuario else '' }}"
                                         required
                                     >
 
                                 </div>
+
 
 
                                 <div class="profile-field">
@@ -473,8 +492,9 @@
 
                                     <input
                                         id="profile-email"
+                                        name="email"
                                         type="email"
-                                        value="{{ usuario.email if usuario else 'admin@f1sinfiltro.com' }}"
+                                        value="{{ usuario.email if usuario else '' }}"
                                         required
                                     >
 
@@ -485,22 +505,37 @@
 
 
 
+                            <!-- FOTO -->
+
                             <div class="profile-field">
 
                                 <label for="profile-photo">
                                     Foto de perfil
                                 </label>
 
+
                                 <input
                                     id="profile-photo"
-                                    type="text"
-                                    value="{{ usuario.foto if usuario and usuario.foto else '' }}"
-                                    placeholder="URL de la imagen"
+                                    name="foto"
+                                    type="file"
+                                    accept=".jpg,.jpeg,.png,.webp,.gif"
                                 >
+
+
+                                <span class="profile-field-help">
+
+                                    Formatos permitidos:
+                                    JPG, JPEG, PNG, WEBP o GIF.
+                                    Máximo 5 MB.
+
+                                </span>
+
 
                             </div>
 
 
+
+                            <!-- ROL -->
 
                             <div class="profile-field">
 
@@ -522,6 +557,8 @@
                             </div>
 
 
+
+                            <!-- GUARDAR -->
 
                             <div class="profile-form-actions">
 
@@ -698,6 +735,7 @@
                     </div>
 
 
+
                     <a
                         class="profile-logout-btn"
                         href="{{ url_for('logout') }}"
@@ -742,15 +780,19 @@
 
 <script>
 
+
 document.addEventListener(
     "DOMContentLoaded",
     function () {
 
 
-        const profileForm =
-            document.getElementById(
-                "profile-form"
-            );
+        /*
+            El formulario de datos personales
+            ya no necesita JavaScript para guardar.
+
+            Ahora se envía directamente a Flask
+            mediante POST.
+        */
 
 
         const passwordForm =
@@ -761,30 +803,11 @@ document.addEventListener(
 
 
         /* =========================
-           EDITAR PERFIL
-        ========================= */
-
-        profileForm.addEventListener(
-            "submit",
-            function (event) {
-
-
-                event.preventDefault();
-
-
-                alert(
-                    "Por ahora los datos del perfil se actualizan solamente de forma visual."
-                );
-
-
-            }
-        );
-
-
-
-        /* =========================
            CAMBIAR CONTRASEÑA
-        ========================= */
+
+           POR AHORA SIGUE SIENDO
+           SOLAMENTE VISUAL
+        ========================== */
 
         passwordForm.addEventListener(
             "submit",
@@ -806,6 +829,7 @@ document.addEventListener(
                     ).value;
 
 
+
                 if (
                     newPassword !==
                     confirmPassword
@@ -818,6 +842,7 @@ document.addEventListener(
 
 
                     return;
+
 
                 }
 
@@ -836,6 +861,7 @@ document.addEventListener(
 
     }
 );
+
 
 </script>
 
