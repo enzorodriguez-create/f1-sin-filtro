@@ -179,6 +179,24 @@
 }
 
 
+.publication-stat-blocked::after {
+
+    background:
+        #ff7676;
+
+}
+
+
+.publication-stat-blocked
+.publication-stat-top
+.material-symbols-outlined {
+
+    color:
+        #ff7676;
+
+}
+
+
 .publication-stat-top {
 
     display: flex;
@@ -724,6 +742,22 @@
 }
 
 
+.publication-cover.blocked {
+
+    background:
+        rgba(
+            255,
+            118,
+            118,
+            0.08
+        );
+
+    color:
+        #ff7676;
+
+}
+
+
 .publication-cover
 .material-symbols-outlined {
 
@@ -940,6 +974,35 @@ div:last-child span {
 }
 
 
+.publication-state.blocked {
+
+    color:
+        #ff7676;
+
+}
+
+
+.publication-state.blocked > span {
+
+    background:
+        #ff7676;
+
+}
+
+
+.blocked-publication-row {
+
+    background:
+        rgba(
+            255,
+            118,
+            118,
+            0.035
+        );
+
+}
+
+
 
 /* =========================
    PREMIUM
@@ -1016,7 +1079,8 @@ div:last-child span {
 }
 
 
-.publication-edit-btn {
+.publication-block-btn,
+.publication-unblock-btn {
 
     min-height: 32px;
 
@@ -1031,9 +1095,6 @@ div:last-child span {
 
     background:
         var(--admin-container);
-
-    color:
-        var(--admin-text);
 
     border:
         1px solid
@@ -1054,18 +1115,44 @@ div:last-child span {
 }
 
 
-.publication-edit-btn:hover {
+.publication-block-btn {
+
+    color:
+        #e8c56b;
+
+}
+
+
+.publication-block-btn:hover {
 
     background:
         rgba(
-            249,
-            229,
-            0,
+            232,
+            197,
+            107,
             0.1
         );
 
+}
+
+
+.publication-unblock-btn {
+
     color:
-        var(--admin-yellow);
+        #59d98e;
+
+}
+
+
+.publication-unblock-btn:hover {
+
+    background:
+        rgba(
+            89,
+            217,
+            142,
+            0.1
+        );
 
 }
 
@@ -1114,7 +1201,9 @@ div:last-child span {
 }
 
 
-.publication-edit-btn
+.publication-block-btn
+.material-symbols-outlined,
+.publication-unblock-btn
 .material-symbols-outlined,
 .publication-delete-btn
 .material-symbols-outlined {
