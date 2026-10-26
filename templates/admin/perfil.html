@@ -1,0 +1,845 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <meta charset="utf-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        F1 SIN FILTRO - Mi Perfil
+    </title>
+
+
+    <!-- FUENTES -->
+
+    <link
+        href="https://fonts.googleapis.com"
+        rel="preconnect"
+    >
+
+    <link
+        href="https://fonts.gstatic.com"
+        rel="preconnect"
+        crossorigin
+    >
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Anybody:wght@100..900&family=Geist:wght@100..900&display=swap"
+        rel="stylesheet"
+    >
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
+        rel="stylesheet"
+    >
+
+
+    <!-- CSS GLOBAL -->
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='styles/style.css') }}"
+    >
+
+
+    <!-- CSS ADMIN -->
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='styles/admin/base.css') }}"
+    >
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='styles/admin/sidebar.css') }}"
+    >
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='styles/admin/dashboard.css') }}"
+    >
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='styles/admin/perfil.css') }}"
+    >
+
+</head>
+
+
+<body>
+
+
+<div class="admin-page">
+
+
+    <!-- =========================
+         SIDEBAR
+    ========================== -->
+
+    {% include "admin/sidebar.html" %}
+
+
+
+    <!-- =========================
+         CONTENIDO
+    ========================== -->
+
+    <div class="admin-content">
+
+
+        <!-- =========================
+             TOPBAR
+        ========================== -->
+
+        <header class="admin-topbar">
+
+
+            <div class="admin-topbar-left">
+
+
+                <button
+                    class="admin-menu-btn"
+                    id="admin-menu-btn"
+                    type="button"
+                    aria-label="Abrir menú"
+                >
+
+                    <span class="material-symbols-outlined">
+                        menu
+                    </span>
+
+                </button>
+
+
+                <span class="admin-topbar-section">
+                    MI PERFIL
+                </span>
+
+
+            </div>
+
+
+            <div class="admin-topbar-right">
+
+
+                <div class="admin-role-badge">
+
+                    <span class="admin-role-dot"></span>
+
+                    <span>
+                        ROL:
+                    </span>
+
+                    <strong>
+                        ADMIN
+                    </strong>
+
+                </div>
+
+
+                <div class="admin-user">
+
+
+                    <div class="admin-user-data">
+
+                        <strong>
+                            {{ usuario.nombre if usuario else "Administrador" }}
+                        </strong>
+
+                        <span>
+                            {{ usuario.email if usuario else "admin@f1sinfiltro.com" }}
+                        </span>
+
+                    </div>
+
+
+                    {% if usuario and usuario.foto %}
+
+                        <div class="admin-avatar">
+
+                            <img
+                                src="{{ usuario.foto }}"
+                                alt="{{ usuario.nombre }}"
+                            >
+
+                        </div>
+
+                    {% else %}
+
+                        <div class="admin-avatar">
+
+                            <span class="material-symbols-outlined">
+                                person
+                            </span>
+
+                        </div>
+
+                    {% endif %}
+
+
+                </div>
+
+
+            </div>
+
+
+        </header>
+
+
+
+        <!-- =========================
+             MAIN
+        ========================== -->
+
+        <main class="admin-main">
+
+
+            <div class="admin-container">
+
+
+                <!-- =========================
+                     CABECERA
+                ========================== -->
+
+                <div class="profile-head">
+
+
+                    <div class="profile-path">
+
+                        <span>
+                            ADMINISTRACIÓN
+                        </span>
+
+                        <span>
+                            /
+                        </span>
+
+                        <strong>
+                            MI PERFIL
+                        </strong>
+
+                    </div>
+
+
+                    <h1>
+                        MI <span>PERFIL</span>
+                    </h1>
+
+
+                    <p>
+                        Consultá y actualizá los datos de tu cuenta
+                        de administrador.
+                    </p>
+
+
+                </div>
+
+
+
+                <!-- =========================
+                     PERFIL
+                ========================== -->
+
+                <div class="profile-grid">
+
+
+                    <!-- =========================
+                         TARJETA PERFIL
+                    ========================== -->
+
+                    <section class="profile-card">
+
+
+                        <div class="profile-avatar-wrapper">
+
+
+                            {% if usuario and usuario.foto %}
+
+                                <div class="profile-avatar">
+
+                                    <img
+                                        src="{{ usuario.foto }}"
+                                        alt="{{ usuario.nombre }}"
+                                        id="profile-image"
+                                    >
+
+                                </div>
+
+                            {% else %}
+
+                                <div class="profile-avatar">
+
+                                    <span
+                                        class="material-symbols-outlined"
+                                        id="profile-placeholder"
+                                    >
+                                        person
+                                    </span>
+
+                                </div>
+
+                            {% endif %}
+
+
+                        </div>
+
+
+
+                        <div class="profile-main-data">
+
+
+                            <h2>
+                                {{ usuario.nombre if usuario else "Administrador" }}
+                                {{ usuario.apellido if usuario and usuario.apellido else "" }}
+                            </h2>
+
+
+                            <span class="profile-username">
+                                @{{ usuario.usuario if usuario and usuario.usuario else "admin" }}
+                            </span>
+
+
+                            <div class="profile-role">
+
+                                <span class="material-symbols-outlined">
+                                    admin_panel_settings
+                                </span>
+
+                                Administrador
+
+                            </div>
+
+
+                        </div>
+
+
+
+                        <div class="profile-summary">
+
+
+                            <div class="profile-summary-item">
+
+                                <span>
+                                    EMAIL
+                                </span>
+
+                                <strong>
+                                    {{ usuario.email if usuario else "admin@f1sinfiltro.com" }}
+                                </strong>
+
+                            </div>
+
+
+                            <div class="profile-summary-item">
+
+                                <span>
+                                    ROL
+                                </span>
+
+                                <strong>
+                                    Administrador
+                                </strong>
+
+                            </div>
+
+
+                            <div class="profile-summary-item">
+
+                                <span>
+                                    ACCESO
+                                </span>
+
+                                <strong>
+                                    Panel de administración
+                                </strong>
+
+                            </div>
+
+
+                        </div>
+
+
+                    </section>
+
+
+
+                    <!-- =========================
+                         DATOS PERSONALES
+                    ========================== -->
+
+                    <section class="profile-panel">
+
+
+                        <div class="profile-panel-head">
+
+
+                            <div>
+
+                                <span>
+                                    CUENTA
+                                </span>
+
+                                <h2>
+                                    Datos personales
+                                </h2>
+
+                            </div>
+
+
+                            <span class="material-symbols-outlined">
+                                manage_accounts
+                            </span>
+
+
+                        </div>
+
+
+
+                        <form
+                            class="profile-form"
+                            id="profile-form"
+                        >
+
+
+                            <div class="profile-form-row">
+
+
+                                <div class="profile-field">
+
+                                    <label for="profile-name">
+                                        Nombre
+                                    </label>
+
+                                    <input
+                                        id="profile-name"
+                                        type="text"
+                                        value="{{ usuario.nombre if usuario else 'Administrador' }}"
+                                        required
+                                    >
+
+                                </div>
+
+
+                                <div class="profile-field">
+
+                                    <label for="profile-lastname">
+                                        Apellido
+                                    </label>
+
+                                    <input
+                                        id="profile-lastname"
+                                        type="text"
+                                        value="{{ usuario.apellido if usuario and usuario.apellido else '' }}"
+                                        placeholder="Apellido"
+                                    >
+
+                                </div>
+
+
+                            </div>
+
+
+
+                            <div class="profile-form-row">
+
+
+                                <div class="profile-field">
+
+                                    <label for="profile-user">
+                                        Usuario
+                                    </label>
+
+                                    <input
+                                        id="profile-user"
+                                        type="text"
+                                        value="{{ usuario.usuario if usuario and usuario.usuario else 'admin' }}"
+                                        required
+                                    >
+
+                                </div>
+
+
+                                <div class="profile-field">
+
+                                    <label for="profile-email">
+                                        Email
+                                    </label>
+
+                                    <input
+                                        id="profile-email"
+                                        type="email"
+                                        value="{{ usuario.email if usuario else 'admin@f1sinfiltro.com' }}"
+                                        required
+                                    >
+
+                                </div>
+
+
+                            </div>
+
+
+
+                            <div class="profile-field">
+
+                                <label for="profile-photo">
+                                    Foto de perfil
+                                </label>
+
+                                <input
+                                    id="profile-photo"
+                                    type="text"
+                                    value="{{ usuario.foto if usuario and usuario.foto else '' }}"
+                                    placeholder="URL de la imagen"
+                                >
+
+                            </div>
+
+
+
+                            <div class="profile-field">
+
+                                <label for="profile-role">
+                                    Rol
+                                </label>
+
+                                <input
+                                    id="profile-role"
+                                    type="text"
+                                    value="Administrador"
+                                    disabled
+                                >
+
+                                <span class="profile-field-help">
+                                    El rol no puede modificarse desde Mi Perfil.
+                                </span>
+
+                            </div>
+
+
+
+                            <div class="profile-form-actions">
+
+
+                                <button
+                                    class="profile-save-btn"
+                                    type="submit"
+                                >
+
+                                    <span class="material-symbols-outlined">
+                                        save
+                                    </span>
+
+                                    Guardar cambios
+
+                                </button>
+
+
+                            </div>
+
+
+                        </form>
+
+
+                    </section>
+
+
+
+                    <!-- =========================
+                         CONTRASEÑA
+                    ========================== -->
+
+                    <section class="profile-panel">
+
+
+                        <div class="profile-panel-head">
+
+
+                            <div>
+
+                                <span>
+                                    SEGURIDAD
+                                </span>
+
+                                <h2>
+                                    Cambiar contraseña
+                                </h2>
+
+                            </div>
+
+
+                            <span class="material-symbols-outlined">
+                                lock
+                            </span>
+
+
+                        </div>
+
+
+
+                        <form
+                            class="profile-form"
+                            id="password-form"
+                        >
+
+
+                            <div class="profile-field">
+
+                                <label for="current-password">
+                                    Contraseña actual
+                                </label>
+
+                                <input
+                                    id="current-password"
+                                    type="password"
+                                    placeholder="Ingresá tu contraseña actual"
+                                    required
+                                >
+
+                            </div>
+
+
+
+                            <div class="profile-field">
+
+                                <label for="new-password">
+                                    Nueva contraseña
+                                </label>
+
+                                <input
+                                    id="new-password"
+                                    type="password"
+                                    placeholder="Ingresá la nueva contraseña"
+                                    required
+                                >
+
+                            </div>
+
+
+
+                            <div class="profile-field">
+
+                                <label for="confirm-password">
+                                    Confirmar nueva contraseña
+                                </label>
+
+                                <input
+                                    id="confirm-password"
+                                    type="password"
+                                    placeholder="Repetí la nueva contraseña"
+                                    required
+                                >
+
+                            </div>
+
+
+
+                            <div class="profile-form-actions">
+
+
+                                <button
+                                    class="profile-password-btn"
+                                    type="submit"
+                                >
+
+                                    <span class="material-symbols-outlined">
+                                        key
+                                    </span>
+
+                                    Cambiar contraseña
+
+                                </button>
+
+
+                            </div>
+
+
+                        </form>
+
+
+                    </section>
+
+
+                </div>
+
+
+
+                <!-- =========================
+                     CERRAR SESIÓN
+                ========================== -->
+
+                <section class="profile-logout-card">
+
+
+                    <div>
+
+
+                        <span class="profile-logout-label">
+                            SESIÓN
+                        </span>
+
+
+                        <h2>
+                            Cerrar sesión
+                        </h2>
+
+
+                        <p>
+                            Salí de tu cuenta de administrador
+                            y volvé al portal.
+                        </p>
+
+
+                    </div>
+
+
+                    <a
+                        class="profile-logout-btn"
+                        href="{{ url_for('logout') }}"
+                    >
+
+                        <span class="material-symbols-outlined">
+                            logout
+                        </span>
+
+                        Cerrar sesión
+
+                    </a>
+
+
+                </section>
+
+
+            </div>
+
+
+        </main>
+
+
+    </div>
+
+
+</div>
+
+
+
+<!-- =========================
+     FOOTER GLOBAL
+========================= -->
+
+{% include "base/footer.html" %}
+
+
+
+<!-- =========================
+     JAVASCRIPT
+========================= -->
+
+<script>
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function () {
+
+
+        const profileForm =
+            document.getElementById(
+                "profile-form"
+            );
+
+
+        const passwordForm =
+            document.getElementById(
+                "password-form"
+            );
+
+
+
+        /* =========================
+           EDITAR PERFIL
+        ========================= */
+
+        profileForm.addEventListener(
+            "submit",
+            function (event) {
+
+
+                event.preventDefault();
+
+
+                alert(
+                    "Por ahora los datos del perfil se actualizan solamente de forma visual."
+                );
+
+
+            }
+        );
+
+
+
+        /* =========================
+           CAMBIAR CONTRASEÑA
+        ========================= */
+
+        passwordForm.addEventListener(
+            "submit",
+            function (event) {
+
+
+                event.preventDefault();
+
+
+                const newPassword =
+                    document.getElementById(
+                        "new-password"
+                    ).value;
+
+
+                const confirmPassword =
+                    document.getElementById(
+                        "confirm-password"
+                    ).value;
+
+
+                if (
+                    newPassword !==
+                    confirmPassword
+                ) {
+
+
+                    alert(
+                        "Las contraseñas nuevas no coinciden."
+                    );
+
+
+                    return;
+
+                }
+
+
+                alert(
+                    "Por ahora el cambio de contraseña funciona solamente de forma visual."
+                );
+
+
+                passwordForm.reset();
+
+
+            }
+        );
+
+
+    }
+);
+
+</script>
+
+
+</body>
+
+</html>
