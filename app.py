@@ -409,6 +409,28 @@ def admin_comentarios():
         seccion_activa="comentarios"
     )
 
+@app.route("/admin/analiticas")
+def admin_analiticas():
+
+    usuario = session.get("usuario")
+
+    return render_template(
+        "admin/analiticas.html",
+        usuario=usuario,
+        seccion_activa="analiticas"
+    )
+
+@app.route("/admin/perfil")
+def admin_perfil():
+
+    usuario = session.get("usuario")
+
+    return render_template(
+        "admin/perfil.html",
+        usuario=usuario,
+        seccion_activa="perfil"
+    )
+
 if __name__ == "__main__":
 
     with app.app_context():
