@@ -376,6 +376,39 @@ def admin_publicaciones():
         seccion_activa="publicaciones"
     )
 
+@app.route("/admin/categorias")
+def admin_categorias():
+
+    usuario = session.get("usuario")
+
+    return render_template(
+        "admin/categorias.html",
+        usuario=usuario,
+        seccion_activa="categorias"
+    )
+
+@app.route("/admin/etiquetas")
+def admin_etiquetas():
+
+    usuario = session.get("usuario")
+
+    return render_template(
+        "admin/etiquetas.html",
+        usuario=usuario,
+        seccion_activa="etiquetas"
+    )
+
+@app.route("/admin/comentarios")
+def admin_comentarios():
+
+    usuario = session.get("usuario")
+
+    return render_template(
+        "admin/comentarios.html",
+        usuario=usuario,
+        seccion_activa="comentarios"
+    )
+
 if __name__ == "__main__":
 
     with app.app_context():
