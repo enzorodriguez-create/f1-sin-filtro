@@ -1,0 +1,1009 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <meta charset="utf-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        F1 SIN FILTRO - Analíticas
+    </title>
+
+
+    <!-- FUENTES -->
+
+    <link
+        href="https://fonts.googleapis.com"
+        rel="preconnect"
+    >
+
+    <link
+        href="https://fonts.gstatic.com"
+        rel="preconnect"
+        crossorigin
+    >
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Anybody:wght@100..900&family=Geist:wght@100..900&display=swap"
+        rel="stylesheet"
+    >
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
+        rel="stylesheet"
+    >
+
+
+    <!-- CSS GLOBAL -->
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='styles/style.css') }}"
+    >
+
+
+    <!-- CSS ADMIN -->
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='styles/admin/base.css') }}"
+    >
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='styles/admin/sidebar.css') }}"
+    >
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='styles/admin/dashboard.css') }}"
+    >
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='styles/admin/analiticas.css') }}"
+    >
+
+</head>
+
+
+<body>
+
+
+<div class="admin-page">
+
+
+    <!-- =========================
+         SIDEBAR
+    ========================== -->
+
+    {% include "admin/sidebar.html" %}
+
+
+
+    <!-- =========================
+         CONTENIDO
+    ========================== -->
+
+    <div class="admin-content">
+
+
+        <!-- =========================
+             TOPBAR
+        ========================== -->
+
+        <header class="admin-topbar">
+
+
+            <div class="admin-topbar-left">
+
+
+                <button
+                    class="admin-menu-btn"
+                    id="admin-menu-btn"
+                    type="button"
+                    aria-label="Abrir menú"
+                >
+
+                    <span class="material-symbols-outlined">
+                        menu
+                    </span>
+
+                </button>
+
+
+                <span class="admin-topbar-section">
+                    ANALÍTICAS
+                </span>
+
+
+            </div>
+
+
+            <div class="admin-topbar-right">
+
+
+                <div class="admin-role-badge">
+
+                    <span class="admin-role-dot"></span>
+
+                    <span>
+                        ROL:
+                    </span>
+
+                    <strong>
+                        ADMIN
+                    </strong>
+
+                </div>
+
+
+                <div class="admin-user">
+
+
+                    <div class="admin-user-data">
+
+                        <strong>
+                            {{ usuario.nombre if usuario else "Administrador" }}
+                        </strong>
+
+                        <span>
+                            {{ usuario.email if usuario else "admin@f1sinfiltro.com" }}
+                        </span>
+
+                    </div>
+
+
+                    {% if usuario and usuario.foto %}
+
+                        <div class="admin-avatar">
+
+                            <img
+                                src="{{ usuario.foto }}"
+                                alt="{{ usuario.nombre }}"
+                            >
+
+                        </div>
+
+                    {% else %}
+
+                        <div class="admin-avatar">
+
+                            <span class="material-symbols-outlined">
+                                person
+                            </span>
+
+                        </div>
+
+                    {% endif %}
+
+
+                </div>
+
+
+            </div>
+
+
+        </header>
+
+
+
+        <!-- =========================
+             MAIN
+        ========================== -->
+
+        <main class="admin-main">
+
+
+            <div class="admin-container">
+
+
+                <!-- =========================
+                     CABECERA
+                ========================== -->
+
+                <div class="analytics-head">
+
+
+                    <div class="analytics-path">
+
+                        <span>
+                            ADMINISTRACIÓN
+                        </span>
+
+                        <span>
+                            /
+                        </span>
+
+                        <strong>
+                            ANALÍTICAS
+                        </strong>
+
+                    </div>
+
+
+                    <h1>
+                        ANALÍTICAS DEL <span>PORTAL</span>
+                    </h1>
+
+
+                    <p>
+                        Consultá las principales estadísticas de usuarios,
+                        publicaciones, comentarios y contenido del portal.
+                    </p>
+
+
+                </div>
+
+
+
+                <!-- =========================
+                     ESTADÍSTICAS PRINCIPALES
+                ========================== -->
+
+                <div class="analytics-stats">
+
+
+                    <!-- USUARIOS -->
+
+                    <div class="analytics-stat-card">
+
+
+                        <div class="analytics-stat-top">
+
+                            <span>
+                                USUARIOS
+                            </span>
+
+                            <span class="material-symbols-outlined">
+                                group
+                            </span>
+
+                        </div>
+
+
+                        <strong>
+                            128
+                        </strong>
+
+
+                        <span>
+                            Usuarios registrados
+                        </span>
+
+
+                    </div>
+
+
+
+                    <!-- PREMIUM -->
+
+                    <div class="analytics-stat-card premium">
+
+
+                        <div class="analytics-stat-top">
+
+                            <span>
+                                PREMIUM
+                            </span>
+
+                            <span class="material-symbols-outlined">
+                                workspace_premium
+                            </span>
+
+                        </div>
+
+
+                        <strong>
+                            24
+                        </strong>
+
+
+                        <span>
+                            Usuarios con suscripción activa
+                        </span>
+
+
+                    </div>
+
+
+
+                    <!-- PUBLICACIONES -->
+
+                    <div class="analytics-stat-card">
+
+
+                        <div class="analytics-stat-top">
+
+                            <span>
+                                PUBLICACIONES
+                            </span>
+
+                            <span class="material-symbols-outlined">
+                                article
+                            </span>
+
+                        </div>
+
+
+                        <strong>
+                            54
+                        </strong>
+
+
+                        <span>
+                            Publicaciones registradas
+                        </span>
+
+
+                    </div>
+
+
+
+                    <!-- COMENTARIOS -->
+
+                    <div class="analytics-stat-card">
+
+
+                        <div class="analytics-stat-top">
+
+                            <span>
+                                COMENTARIOS
+                            </span>
+
+                            <span class="material-symbols-outlined">
+                                forum
+                            </span>
+
+                        </div>
+
+
+                        <strong>
+                            312
+                        </strong>
+
+
+                        <span>
+                            Comentarios realizados
+                        </span>
+
+
+                    </div>
+
+
+                </div>
+
+
+
+                <!-- =========================
+                     CONTENIDO PRINCIPAL
+                ========================== -->
+
+                <div class="analytics-grid">
+
+
+                    <!-- =========================
+                         PUBLICACIONES MÁS VISTAS
+                    ========================== -->
+
+                    <section class="analytics-panel">
+
+
+                        <div class="analytics-panel-head">
+
+
+                            <div>
+
+                                <span class="analytics-panel-label">
+                                    CONTENIDO
+                                </span>
+
+                                <h2>
+                                    Publicaciones más vistas
+                                </h2>
+
+                            </div>
+
+
+                            <span class="material-symbols-outlined">
+                                visibility
+                            </span>
+
+
+                        </div>
+
+
+
+                        <div class="analytics-ranking">
+
+
+                            <!-- 1 -->
+
+                            <div class="analytics-ranking-item">
+
+
+                                <span class="analytics-position">
+                                    01
+                                </span>
+
+
+                                <div class="analytics-ranking-info">
+
+                                    <strong>
+                                        Ferrari prepara nuevas mejoras para el próximo Gran Premio
+                                    </strong>
+
+                                    <span>
+                                        Carlos Sainz
+                                    </span>
+
+                                </div>
+
+
+                                <div class="analytics-value">
+
+                                    <strong>
+                                        34.200
+                                    </strong>
+
+                                    <span>
+                                        vistas
+                                    </span>
+
+                                </div>
+
+
+                            </div>
+
+
+
+                            <!-- 2 -->
+
+                            <div class="analytics-ranking-item">
+
+
+                                <span class="analytics-position">
+                                    02
+                                </span>
+
+
+                                <div class="analytics-ranking-info">
+
+                                    <strong>
+                                        Todo lo que hay que saber antes del próximo GP
+                                    </strong>
+
+                                    <span>
+                                        Laura Méndez
+                                    </span>
+
+                                </div>
+
+
+                                <div class="analytics-value">
+
+                                    <strong>
+                                        28.640
+                                    </strong>
+
+                                    <span>
+                                        vistas
+                                    </span>
+
+                                </div>
+
+
+                            </div>
+
+
+
+                            <!-- 3 -->
+
+                            <div class="analytics-ranking-item">
+
+
+                                <span class="analytics-position">
+                                    03
+                                </span>
+
+
+                                <div class="analytics-ranking-info">
+
+                                    <strong>
+                                        Mercedes analiza cambios importantes para 2027
+                                    </strong>
+
+                                    <span>
+                                        Lucía Martínez
+                                    </span>
+
+                                </div>
+
+
+                                <div class="analytics-value">
+
+                                    <strong>
+                                        26.110
+                                    </strong>
+
+                                    <span>
+                                        vistas
+                                    </span>
+
+                                </div>
+
+
+                            </div>
+
+
+
+                            <!-- 4 -->
+
+                            <div class="analytics-ranking-item">
+
+
+                                <span class="analytics-position">
+                                    04
+                                </span>
+
+
+                                <div class="analytics-ranking-info">
+
+                                    <strong>
+                                        Ferrari y su evolución durante la temporada
+                                    </strong>
+
+                                    <span>
+                                        Carlos Sainz
+                                    </span>
+
+                                </div>
+
+
+                                <div class="analytics-value">
+
+                                    <strong>
+                                        19.820
+                                    </strong>
+
+                                    <span>
+                                        vistas
+                                    </span>
+
+                                </div>
+
+
+                            </div>
+
+
+                        </div>
+
+
+                    </section>
+
+
+
+                    <!-- =========================
+                         CATEGORÍAS MÁS USADAS
+                    ========================== -->
+
+                    <section class="analytics-panel">
+
+
+                        <div class="analytics-panel-head">
+
+
+                            <div>
+
+                                <span class="analytics-panel-label">
+                                    ORGANIZACIÓN
+                                </span>
+
+                                <h2>
+                                    Categorías más utilizadas
+                                </h2>
+
+                            </div>
+
+
+                            <span class="material-symbols-outlined">
+                                category
+                            </span>
+
+
+                        </div>
+
+
+
+                        <div class="analytics-categories">
+
+
+                            <!-- EQUIPOS -->
+
+                            <div class="analytics-category">
+
+
+                                <div class="analytics-category-top">
+
+                                    <strong>
+                                        Equipos
+                                    </strong>
+
+                                    <span>
+                                        420 publicaciones
+                                    </span>
+
+                                </div>
+
+
+                                <div class="analytics-progress">
+
+                                    <div
+                                        class="analytics-progress-fill"
+                                        style="width: 100%;"
+                                    ></div>
+
+                                </div>
+
+
+                            </div>
+
+
+
+                            <!-- PILOTOS -->
+
+                            <div class="analytics-category">
+
+
+                                <div class="analytics-category-top">
+
+                                    <strong>
+                                        Pilotos
+                                    </strong>
+
+                                    <span>
+                                        360 publicaciones
+                                    </span>
+
+                                </div>
+
+
+                                <div class="analytics-progress">
+
+                                    <div
+                                        class="analytics-progress-fill"
+                                        style="width: 86%;"
+                                    ></div>
+
+                                </div>
+
+
+                            </div>
+
+
+
+                            <!-- CARRERAS -->
+
+                            <div class="analytics-category">
+
+
+                                <div class="analytics-category-top">
+
+                                    <strong>
+                                        Carreras
+                                    </strong>
+
+                                    <span>
+                                        312 publicaciones
+                                    </span>
+
+                                </div>
+
+
+                                <div class="analytics-progress">
+
+                                    <div
+                                        class="analytics-progress-fill"
+                                        style="width: 74%;"
+                                    ></div>
+
+                                </div>
+
+
+                            </div>
+
+
+
+                            <!-- TÉCNICA -->
+
+                            <div class="analytics-category">
+
+
+                                <div class="analytics-category-top">
+
+                                    <strong>
+                                        Técnica
+                                    </strong>
+
+                                    <span>
+                                        275 publicaciones
+                                    </span>
+
+                                </div>
+
+
+                                <div class="analytics-progress">
+
+                                    <div
+                                        class="analytics-progress-fill"
+                                        style="width: 65%;"
+                                    ></div>
+
+                                </div>
+
+
+                            </div>
+
+
+                        </div>
+
+
+                    </section>
+
+
+                </div>
+
+
+
+                <!-- =========================
+                     RENDIMIENTO EDITORES
+                ========================== -->
+
+                <section class="analytics-panel analytics-editors-panel">
+
+
+                    <div class="analytics-panel-head">
+
+
+                        <div>
+
+                            <span class="analytics-panel-label">
+                                EDITORES
+                            </span>
+
+                            <h2>
+                                Rendimiento de editores
+                            </h2>
+
+                        </div>
+
+
+                        <span class="material-symbols-outlined">
+                            monitoring
+                        </span>
+
+
+                    </div>
+
+
+
+                    <div class="analytics-table-wrapper">
+
+
+                        <table class="analytics-table">
+
+
+                            <thead>
+
+                                <tr>
+
+                                    <th>
+                                        Editor
+                                    </th>
+
+                                    <th>
+                                        Publicaciones
+                                    </th>
+
+                                    <th>
+                                        Lecturas
+                                    </th>
+
+                                    <th>
+                                        Promedio por publicación
+                                    </th>
+
+                                </tr>
+
+                            </thead>
+
+
+                            <tbody>
+
+
+                                <!-- EDITOR 1 -->
+
+                                <tr>
+
+
+                                    <td>
+
+                                        <div class="analytics-editor">
+
+                                            <div class="analytics-editor-avatar">
+                                                CS
+                                            </div>
+
+                                            <div>
+
+                                                <strong>
+                                                    Carlos Sainz
+                                                </strong>
+
+                                                <span>
+                                                    Editor
+                                                </span>
+
+                                            </div>
+
+                                        </div>
+
+                                    </td>
+
+
+                                    <td>
+                                        48
+                                    </td>
+
+
+                                    <td class="analytics-highlight">
+                                        342.800
+                                    </td>
+
+
+                                    <td>
+                                        7.142
+                                    </td>
+
+
+                                </tr>
+
+
+
+                                <!-- EDITOR 2 -->
+
+                                <tr>
+
+
+                                    <td>
+
+                                        <div class="analytics-editor">
+
+                                            <div class="analytics-editor-avatar">
+                                                LM
+                                            </div>
+
+                                            <div>
+
+                                                <strong>
+                                                    Lucía Martínez
+                                                </strong>
+
+                                                <span>
+                                                    Editor
+                                                </span>
+
+                                            </div>
+
+                                        </div>
+
+                                    </td>
+
+
+                                    <td>
+                                        42
+                                    </td>
+
+
+                                    <td class="analytics-highlight">
+                                        310.500
+                                    </td>
+
+
+                                    <td>
+                                        7.393
+                                    </td>
+
+
+                                </tr>
+
+
+
+                                <!-- EDITOR 3 -->
+
+                                <tr>
+
+
+                                    <td>
+
+                                        <div class="analytics-editor">
+
+                                            <div class="analytics-editor-avatar">
+                                                LM
+                                            </div>
+
+                                            <div>
+
+                                                <strong>
+                                                    Laura Méndez
+                                                </strong>
+
+                                                <span>
+                                                    Editor
+                                                </span>
+
+                                            </div>
+
+                                        </div>
+
+                                    </td>
+
+
+                                    <td>
+                                        36
+                                    </td>
+
+
+                                    <td class="analytics-highlight">
+                                        289.100
+                                    </td>
+
+
+                                    <td>
+                                        8.030
+                                    </td>
+
+
+                                </tr>
+
+
+                            </tbody>
+
+
+                        </table>
+
+
+                    </div>
+
+
+                </section>
+
+
+            </div>
+
+
+        </main>
+
+
+    </div>
+
+
+</div>
+
+
+
+<!-- =========================
+     FOOTER GLOBAL
+========================= -->
+
+{% include "base/footer.html" %}
+
+
+</body>
+
+</html>
