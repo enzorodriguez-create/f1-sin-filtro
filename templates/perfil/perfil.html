@@ -137,15 +137,29 @@
           class="perfil-btn-edit"
           href="{{ url_for('editar_perfil') }}"
         >
-
           <span class="material-symbols-outlined">
             edit
           </span>
-
+      
           EDITAR PERFIL
-
         </a>
-
+      
+      
+        {% if usuario and usuario.rol == "usuario" %}
+      
+        <a
+          class="perfil-btn-editor"
+          href="{{ url_for('solicitar_editor') }}"
+        >
+          <span class="material-symbols-outlined">
+            workspace_premium
+          </span>
+      
+          SOLICITAR SER EDITOR
+        </a>
+      
+        {% endif %}
+      
       </div>
 
 
