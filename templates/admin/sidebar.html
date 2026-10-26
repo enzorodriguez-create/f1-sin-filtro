@@ -170,7 +170,7 @@
 
             <a
                 class="admin-sidebar-link {% if seccion_activa == 'categorias' %}active{% endif %}"
-                href="#"
+                href="{{ url_for('admin_categorias') }}"
             >
 
                 <span class="material-symbols-outlined">
@@ -188,7 +188,7 @@
 
             <a
                 class="admin-sidebar-link {% if seccion_activa == 'etiquetas' %}active{% endif %}"
-                href="#"
+                href="{{ url_for('admin_etiquetas') }}"
             >
 
                 <span class="material-symbols-outlined">
@@ -206,7 +206,7 @@
 
             <a
                 class="admin-sidebar-link {% if seccion_activa == 'comentarios' %}active{% endif %}"
-                href="#"
+                href="{{ url_for('admin_comentarios') }}"
             >
 
                 <span class="material-symbols-outlined">
