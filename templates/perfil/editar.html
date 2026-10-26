@@ -40,8 +40,8 @@
 
     <form
       class="editar-form"
-      action="#"
       method="POST"
+      enctype="multipart/form-data"
     >
 
       <!-- FOTO -->
@@ -49,19 +49,37 @@
 
         <div class="editar-avatar-wrap">
 
+          {% if usuario and usuario.foto %}
+
           <img
             class="editar-avatar"
-            src="https://lh3.googleusercontent.com/aida-public/AB6AXuD91V7PE9so08ncdq2i94Gy613yj4KyC8Yqg1_FZyMq8k8rJvwtNOusuijNXGxa_obpHeAkiY12i3b53h5fWK9_4_vt_M2sqNk1uN9SdcSR21iwUfuUnsUkiy5aKZ4nOTar_RQ0nu2zQCUfJPRd0Qn3ghwIJCPGH1zzzJhzcCs4pmUJ8lPqOVQvDMZz9ZWVM7wDo_SBtPHsYEpUi2OJBX6ZLFgQFwKGcpBcp4mjAeCou_CtYdC7e5yE"
-            alt="Foto de perfil"
+            src="{{ url_imagen(usuario.foto) }}"
+            alt="{{ usuario.nombre }}"
+            id="preview-foto"
           >
 
+          {% else %}
+
+          <img
+            class="editar-avatar"
+            src="{{ url_for('static', filename='images/avatar-default.png') }}"
+            alt="Foto de perfil"
+            id="preview-foto"
+          >
+
+          {% endif %}
+
+
           <div class="editar-avatar-overlay">
+
             <span class="material-symbols-outlined">
               photo_camera
             </span>
+
           </div>
 
         </div>
+
 
         <div class="editar-foto-info">
 
@@ -69,15 +87,34 @@
             IDENTIFICACIÓN VISUAL
           </span>
 
-          <h2>Foto de Perfil</h2>
+          <h2>
+            Foto de Perfil
+          </h2>
 
           <p>
-            Formatos soportados: JPG y PNG. Tamaño máximo: 5 MB.
+            Formatos soportados:
+            JPG, JPEG, PNG, WEBP y GIF.
+            Tamaño máximo: 5 MB.
           </p>
+
+
+          <!-- INPUT REAL DE ARCHIVO -->
+
+          <input
+            id="foto"
+            name="foto"
+            type="file"
+            accept=".jpg,.jpeg,.png,.webp,.gif"
+            hidden
+          >
+
+
+          <!-- BOTÓN VISUAL -->
 
           <button
             type="button"
             class="editar-btn-outline"
+            id="btn-cambiar-imagen"
           >
             CAMBIAR IMAGEN
           </button>
@@ -97,17 +134,24 @@
           </span>
 
           <div>
+
             <span class="editar-card-label">
               INFORMACIÓN PERSONAL
             </span>
 
-            <h2>Datos Personales</h2>
+            <h2>
+              Datos Personales
+            </h2>
+
           </div>
 
         </div>
 
 
         <div class="editar-grid">
+
+
+          <!-- NOMBRE -->
 
           <div class="editar-field">
 
@@ -119,11 +163,14 @@
               id="nombre"
               name="nombre"
               type="text"
-              value="Juan"
+              value="{{ usuario.nombre if usuario else '' }}"
+              required
             >
 
           </div>
 
+
+          <!-- APELLIDO -->
 
           <div class="editar-field">
 
@@ -135,11 +182,14 @@
               id="apellido"
               name="apellido"
               type="text"
-              value="Pérez"
+              value="{{ usuario.apellido if usuario and usuario.apellido else '' }}"
+              required
             >
 
           </div>
 
+
+          <!-- USUARIO -->
 
           <div class="editar-field">
 
@@ -157,13 +207,16 @@
                 id="usuario"
                 name="usuario"
                 type="text"
-                value="juan_f1"
+                value="{{ usuario.usuario if usuario else '' }}"
+                required
               >
 
             </div>
 
           </div>
 
+
+          <!-- EMAIL -->
 
           <div class="editar-field">
 
@@ -181,12 +234,14 @@
                 id="email"
                 name="email"
                 type="email"
-                value="juan.perez@f1sinfiltro.com"
+                value="{{ usuario.email if usuario else '' }}"
+                required
               >
 
             </div>
 
           </div>
+
 
         </div>
 
@@ -203,17 +258,22 @@
           </span>
 
           <div>
+
             <span class="editar-card-label">
               SEGURIDAD
             </span>
 
-            <h2>Cambiar Contraseña</h2>
+            <h2>
+              Cambiar Contraseña
+            </h2>
+
           </div>
 
         </div>
 
 
         <div class="editar-security">
+
 
           <div class="editar-field">
 
@@ -240,6 +300,7 @@
 
 
           <div class="editar-grid">
+
 
             <div class="editar-field">
 
@@ -288,6 +349,7 @@
 
             </div>
 
+
           </div>
 
         </div>
@@ -304,6 +366,7 @@
         >
           CANCELAR
         </a>
+
 
         <button
           type="submit"
@@ -326,4 +389,78 @@
 
 </div>
 
+
 {% include 'base/footer.html' %}
+
+
+
+<!-- =========================
+     JAVASCRIPT FOTO
+========================= -->
+
+<script>
+
+  const botonCambiarImagen =
+    document.getElementById(
+      "btn-cambiar-imagen"
+    );
+
+
+  const inputFoto =
+    document.getElementById(
+      "foto"
+    );
+
+
+  const previewFoto =
+    document.getElementById(
+      "preview-foto"
+    );
+
+
+  /*
+      Cuando toco CAMBIAR IMAGEN,
+      abro el selector de archivos.
+  */
+
+  botonCambiarImagen.addEventListener(
+    "click",
+    function () {
+
+      inputFoto.click();
+
+    }
+  );
+
+
+  /*
+      Muestro una vista previa
+      de la imagen seleccionada.
+  */
+
+  inputFoto.addEventListener(
+    "change",
+    function () {
+
+      const archivo =
+        inputFoto.files[0];
+
+
+      if (!archivo) {
+        return;
+      }
+
+
+      const urlTemporal =
+        URL.createObjectURL(
+          archivo
+        );
+
+
+      previewFoto.src =
+        urlTemporal;
+
+    }
+  );
+
+</script>
