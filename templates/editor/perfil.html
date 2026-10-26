@@ -77,6 +77,7 @@
     {% include "editor/sidebar.html" %}
 
 
+
     <!-- =========================
          CONTENIDO
     ========================== -->
@@ -109,6 +110,7 @@
             </div>
 
 
+
             <div class="topbar-right">
 
 
@@ -127,6 +129,7 @@
                 </div>
 
 
+
                 <div class="editor-user">
 
 
@@ -143,13 +146,14 @@
                     </div>
 
 
+
                     {% if usuario and usuario.foto %}
 
                         <div class="editor-avatar">
 
                             <img
                                 class="editor-avatar-img"
-                                src="{{ usuario.foto }}"
+                                src="{{ url_imagen(usuario.foto) }}"
                                 alt="{{ usuario.nombre }}"
                             >
 
@@ -177,6 +181,7 @@
         </header>
 
 
+
         <!-- =========================
              MAIN
         ========================== -->
@@ -195,6 +200,7 @@
 
 
                     <div>
+
 
                         <div class="profile-path">
 
@@ -222,10 +228,12 @@
                             Administrá tu información personal y revisá tu actividad editorial.
                         </p>
 
+
                     </div>
 
 
                 </div>
+
 
 
                 <!-- =========================
@@ -241,7 +249,7 @@
                         {% if usuario and usuario.foto %}
 
                             <img
-                                src="{{ usuario.foto }}"
+                                src="{{ url_imagen(usuario.foto) }}"
                                 alt="{{ usuario.nombre }}"
                             >
 
@@ -257,6 +265,7 @@
                     </div>
 
 
+
                     <div class="profile-hero-info">
 
 
@@ -266,13 +275,18 @@
 
 
                         <h2>
-                            {{ usuario.nombre if usuario else "Enzo" }}
-                            {{ usuario.apellido if usuario and usuario.apellido else "Rodriguez" }}
+
+                            {{ usuario.nombre if usuario else "Editor" }}
+
+                            {% if usuario and usuario.apellido %}
+                                {{ usuario.apellido }}
+                            {% endif %}
+
                         </h2>
 
 
                         <span>
-                            @{{ usuario.usuario if usuario and usuario.usuario else "enzorodriguez" }}
+                            @{{ usuario.usuario if usuario else "editor" }}
                         </span>
 
 
@@ -280,6 +294,7 @@
 
 
                 </div>
+
 
 
                 <!-- =========================
@@ -303,193 +318,261 @@
                         <section class="profile-card">
 
 
-                            <div class="profile-card-head">
+                            <!--
+                                El formulario envía los datos
+                                directamente a /editor/perfil.
+                                multipart/form-data permite mandar
+                                también la foto.
+                            -->
+
+                            <form
+                                method="POST"
+                                enctype="multipart/form-data"
+                                id="profile-form"
+                            >
 
 
-                                <div>
-
-                                    <span class="profile-kicker">
-                                        DATOS DEL EDITOR
-                                    </span>
-
-                                    <h2>
-                                        Información Personal
-                                    </h2>
-
-                                </div>
+                                <div class="profile-card-head">
 
 
-                                <button
-                                    class="edit-profile-btn"
-                                    id="btn-edit-profile"
-                                    type="button"
-                                >
+                                    <div>
 
-                                    <span class="material-symbols-outlined">
-                                        edit
-                                    </span>
-
-                                    Editar perfil
-
-                                </button>
-
-
-                            </div>
-
-
-                            <div class="profile-fields">
-
-
-                                <!-- NOMBRE -->
-
-                                <div class="profile-field">
-
-                                    <label for="profile-name">
-                                        NOMBRE
-                                    </label>
-
-
-                                    <input
-                                        id="profile-name"
-                                        type="text"
-                                        value="{{ usuario.nombre if usuario else 'Enzo' }}"
-                                        disabled
-                                    >
-
-                                </div>
-
-
-                                <!-- APELLIDO -->
-
-                                <div class="profile-field">
-
-                                    <label for="profile-lastname">
-                                        APELLIDO
-                                    </label>
-
-
-                                    <input
-                                        id="profile-lastname"
-                                        type="text"
-                                        value="{{ usuario.apellido if usuario and usuario.apellido else 'Rodriguez' }}"
-                                        disabled
-                                    >
-
-                                </div>
-
-
-                                <!-- USUARIO -->
-
-                                <div class="profile-field">
-
-                                    <label for="profile-username">
-                                        NOMBRE DE USUARIO
-                                    </label>
-
-
-                                    <div class="username-field">
-
-                                        <span>
-                                            @
+                                        <span class="profile-kicker">
+                                            DATOS DEL EDITOR
                                         </span>
 
+                                        <h2>
+                                            Información Personal
+                                        </h2>
+
+                                    </div>
+
+
+
+                                    <button
+                                        class="edit-profile-btn"
+                                        id="btn-edit-profile"
+                                        type="button"
+                                    >
+
+                                        <span class="material-symbols-outlined">
+                                            edit
+                                        </span>
+
+                                        Editar perfil
+
+                                    </button>
+
+
+                                </div>
+
+
+
+                                <div class="profile-fields">
+
+
+                                    <!-- NOMBRE -->
+
+                                    <div class="profile-field">
+
+                                        <label for="profile-name">
+                                            NOMBRE
+                                        </label>
+
+
                                         <input
-                                            id="profile-username"
+                                            id="profile-name"
+                                            name="nombre"
                                             type="text"
-                                            value="{{ usuario.usuario if usuario and usuario.usuario else 'enzorodriguez' }}"
+                                            value="{{ usuario.nombre if usuario else '' }}"
                                             disabled
+                                            required
                                         >
 
                                     </div>
 
-                                </div>
 
 
-                                <!-- EMAIL -->
+                                    <!-- APELLIDO -->
 
-                                <div class="profile-field">
+                                    <div class="profile-field">
 
-                                    <label for="profile-email">
-                                        EMAIL
-                                    </label>
+                                        <label for="profile-lastname">
+                                            APELLIDO
+                                        </label>
 
 
-                                    <input
-                                        id="profile-email"
-                                        type="email"
-                                        value="{{ usuario.email if usuario else 'editor@f1sinfiltro.com' }}"
-                                        disabled
+                                        <input
+                                            id="profile-lastname"
+                                            name="apellido"
+                                            type="text"
+                                            value="{{ usuario.apellido if usuario and usuario.apellido else '' }}"
+                                            disabled
+                                            required
+                                        >
+
+                                    </div>
+
+
+
+                                    <!-- USUARIO -->
+
+                                    <div class="profile-field">
+
+                                        <label for="profile-username">
+                                            NOMBRE DE USUARIO
+                                        </label>
+
+
+                                        <div class="username-field">
+
+                                            <span>
+                                                @
+                                            </span>
+
+
+                                            <input
+                                                id="profile-username"
+                                                name="usuario"
+                                                type="text"
+                                                value="{{ usuario.usuario if usuario else '' }}"
+                                                disabled
+                                                required
+                                            >
+
+                                        </div>
+
+                                    </div>
+
+
+
+                                    <!-- EMAIL -->
+
+                                    <div class="profile-field">
+
+                                        <label for="profile-email">
+                                            EMAIL
+                                        </label>
+
+
+                                        <input
+                                            id="profile-email"
+                                            name="email"
+                                            type="email"
+                                            value="{{ usuario.email if usuario else '' }}"
+                                            disabled
+                                            required
+                                        >
+
+                                    </div>
+
+
+
+                                    <!-- FOTO DE PERFIL -->
+
+                                    <div
+                                        class="profile-field profile-field-full profile-photo-field hidden"
+                                        id="profile-photo-field"
                                     >
 
-                                </div>
+                                        <label for="profile-photo">
+                                            FOTO DE PERFIL
+                                        </label>
 
 
-                                <!-- ROL -->
+                                        <input
+                                            id="profile-photo"
+                                            name="foto"
+                                            type="file"
+                                            accept=".jpg,.jpeg,.png,.webp,.gif"
+                                            disabled
+                                        >
 
-                                <div class="profile-field profile-field-full">
 
-                                    <label>
-                                        ROL
-                                    </label>
-
-
-                                    <div class="role-field">
-
-                                        <span class="material-symbols-outlined">
-                                            verified_user
-                                        </span>
-
-                                        <strong>
-                                            EDITOR
-                                        </strong>
-
-                                        <span>
-                                            Este dato no puede ser modificado.
+                                        <span class="profile-photo-help">
+                                            Formatos permitidos:
+                                            JPG, JPEG, PNG, WEBP o GIF.
+                                            Máximo 5 MB.
                                         </span>
 
                                     </div>
 
+
+
+                                    <!-- ROL -->
+
+                                    <div class="profile-field profile-field-full">
+
+                                        <label>
+                                            ROL
+                                        </label>
+
+
+                                        <div class="role-field">
+
+                                            <span class="material-symbols-outlined">
+                                                verified_user
+                                            </span>
+
+                                            <strong>
+                                                EDITOR
+                                            </strong>
+
+                                            <span>
+                                                Este dato no puede ser modificado.
+                                            </span>
+
+                                        </div>
+
+                                    </div>
+
+
                                 </div>
 
 
-                            </div>
 
+                                <!-- =========================
+                                     BOTONES EDICIÓN
+                                ========================== -->
 
-                            <!-- BOTONES EDICIÓN -->
-
-                            <div
-                                class="profile-edit-actions hidden"
-                                id="profile-edit-actions"
-                            >
-
-                                <button
-                                    class="profile-cancel-btn"
-                                    id="btn-cancel-edit"
-                                    type="button"
-                                >
-                                    Cancelar
-                                </button>
-
-
-                                <button
-                                    class="profile-save-btn"
-                                    id="btn-save-profile"
-                                    type="button"
+                                <div
+                                    class="profile-edit-actions hidden"
+                                    id="profile-edit-actions"
                                 >
 
-                                    <span class="material-symbols-outlined">
-                                        save
-                                    </span>
 
-                                    Guardar cambios
+                                    <button
+                                        class="profile-cancel-btn"
+                                        id="btn-cancel-edit"
+                                        type="button"
+                                    >
+                                        Cancelar
+                                    </button>
 
-                                </button>
+
+                                    <button
+                                        class="profile-save-btn"
+                                        id="btn-save-profile"
+                                        type="submit"
+                                    >
+
+                                        <span class="material-symbols-outlined">
+                                            save
+                                        </span>
+
+                                        Guardar cambios
+
+                                    </button>
 
 
-                            </div>
+                                </div>
+
+
+                            </form>
 
 
                         </section>
+
 
 
                         <!-- =========================
@@ -518,6 +601,7 @@
                             </div>
 
 
+
                             <div class="security-row">
 
 
@@ -528,6 +612,7 @@
                                     </span>
 
                                 </div>
+
 
 
                                 <div class="security-info">
@@ -543,21 +628,23 @@
                                 </div>
 
 
+
                                 <button
                                     class="change-password-btn"
                                     id="btn-change-password"
                                     type="button"
                                 >
-
                                     Cambiar contraseña
-
                                 </button>
 
 
                             </div>
 
 
-                            <!-- FORM CAMBIAR CONTRASEÑA -->
+
+                            <!-- =========================
+                                 FORM CAMBIAR CONTRASEÑA
+                            ========================== -->
 
                             <div
                                 class="password-form hidden"
@@ -580,6 +667,7 @@
                                 </div>
 
 
+
                                 <div class="profile-field">
 
                                     <label for="new-password">
@@ -593,6 +681,7 @@
                                     >
 
                                 </div>
+
 
 
                                 <div class="profile-field">
@@ -610,7 +699,9 @@
                                 </div>
 
 
+
                                 <div class="password-actions">
+
 
                                     <button
                                         class="profile-cancel-btn"
@@ -629,6 +720,7 @@
                                         Cambiar contraseña
                                     </button>
 
+
                                 </div>
 
 
@@ -639,6 +731,7 @@
 
 
                     </div>
+
 
 
                     <!-- =========================
@@ -674,6 +767,7 @@
                             </div>
 
 
+
                             <div class="activity-grid">
 
 
@@ -694,6 +788,7 @@
                                 </div>
 
 
+
                                 <div class="activity-item">
 
                                     <span class="material-symbols-outlined">
@@ -711,6 +806,7 @@
                                 </div>
 
 
+
                                 <div class="activity-item">
 
                                     <span class="material-symbols-outlined">
@@ -726,6 +822,7 @@
                                     </span>
 
                                 </div>
+
 
 
                                 <div class="activity-item">
@@ -749,6 +846,7 @@
 
 
                         </section>
+
 
 
                         <!-- =========================
@@ -777,8 +875,11 @@
                             </div>
 
 
+
                             <div class="quick-actions">
 
+
+                                <!-- MIS PUBLICACIONES -->
 
                                 <a
                                     href="{{ url_for('editor_publicaciones') }}"
@@ -810,6 +911,9 @@
                                 </a>
 
 
+
+                                <!-- CREAR PUBLICACIÓN -->
+
                                 <a
                                     href="{{ url_for('editor_crear_publicacion') }}"
                                     class="quick-action"
@@ -839,6 +943,9 @@
 
                                 </a>
 
+
+
+                                <!-- COMENTARIOS -->
 
                                 <a
                                     href="{{ url_for('editor_comentarios') }}"
@@ -894,11 +1001,13 @@
 </div>
 
 
+
 <!-- =========================
      FOOTER GLOBAL
 ========================= -->
 
 {% include "base/footer.html" %}
+
 
 
 <!-- =========================
@@ -907,15 +1016,10 @@
 
 <script>
 
+
     const editButton =
         document.getElementById(
             "btn-edit-profile"
-        );
-
-
-    const saveButton =
-        document.getElementById(
-            "btn-save-profile"
         );
 
 
@@ -955,11 +1059,24 @@
         );
 
 
+    const photoInput =
+        document.getElementById(
+            "profile-photo"
+        );
+
+
+    const photoField =
+        document.getElementById(
+            "profile-photo-field"
+        );
+
+
     const editableInputs = [
         nameInput,
         lastnameInput,
         usernameInput,
-        emailInput
+        emailInput,
+        photoInput
     ];
 
 
@@ -969,7 +1086,7 @@
 
     /* =========================
        EDITAR PERFIL
-    ========================= */
+    ========================== */
 
     editButton.addEventListener(
         "click",
@@ -977,10 +1094,17 @@
 
 
             originalValues = {
-                nombre: nameInput.value,
-                apellido: lastnameInput.value,
-                usuario: usernameInput.value,
-                email: emailInput.value
+                nombre:
+                    nameInput.value,
+
+                apellido:
+                    lastnameInput.value,
+
+                usuario:
+                    usernameInput.value,
+
+                email:
+                    emailInput.value
             };
 
 
@@ -991,6 +1115,11 @@
                         false;
 
                 }
+            );
+
+
+            photoField.classList.remove(
+                "hidden"
             );
 
 
@@ -1014,7 +1143,7 @@
 
     /* =========================
        CANCELAR EDICIÓN
-    ========================= */
+    ========================== */
 
     cancelButton.addEventListener(
         "click",
@@ -1037,61 +1166,8 @@
                 originalValues.email;
 
 
-            cerrarEdicion();
-
-
-        }
-    );
-
-
-
-    /* =========================
-       GUARDAR PERFIL
-    ========================= */
-
-    saveButton.addEventListener(
-        "click",
-        function () {
-
-
-            const nombre =
-                nameInput.value.trim();
-
-
-            const apellido =
-                lastnameInput.value.trim();
-
-
-            const usuario =
-                usernameInput.value.trim();
-
-
-            const email =
-                emailInput.value.trim();
-
-
-            if (
-                !nombre ||
-                !apellido ||
-                !usuario ||
-                !email
-            ) {
-
-
-                alert(
-                    "Completá todos los campos."
-                );
-
-
-                return;
-
-
-            }
-
-
-            alert(
-                "Por ahora los cambios se actualizaron solamente de forma visual."
-            );
+            photoInput.value =
+                "";
 
 
             cerrarEdicion();
@@ -1115,6 +1191,11 @@
         );
 
 
+        photoField.classList.add(
+            "hidden"
+        );
+
+
         editActions.classList.add(
             "hidden"
         );
@@ -1131,7 +1212,8 @@
 
     /* =========================
        CAMBIAR CONTRASEÑA
-    ========================= */
+       POR AHORA SOLO VISUAL
+    ========================== */
 
     const passwordButton =
         document.getElementById(
