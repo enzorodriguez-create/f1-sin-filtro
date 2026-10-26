@@ -2,422 +2,228 @@
      OVERLAY MOBILE
 ========================= -->
 
-<div
-    class="admin-sidebar-overlay"
-    id="admin-sidebar-overlay"
-></div>
-
+<div class="admin-sidebar-overlay" id="admin-sidebar-overlay"></div>
 
 <!-- =========================
      SIDEBAR ADMIN
 ========================= -->
 
-<aside
-    class="admin-sidebar"
-    id="admin-sidebar"
->
-
-
-    <!-- =========================
+<aside class="admin-sidebar" id="admin-sidebar">
+  <!-- =========================
          PARTE SUPERIOR
     ========================== -->
 
-    <div class="admin-sidebar-main">
+  <div class="admin-sidebar-main">
+    <!-- LOGO -->
 
+    <div class="admin-sidebar-header">
+      <div class="admin-brand">
+        <span class="admin-brand-mark"></span>
 
-        <!-- LOGO -->
+        <span class="admin-brand-name"> F1 SIN FILTRO </span>
 
-        <div class="admin-sidebar-header">
+        <button
+          class="admin-sidebar-close"
+          id="admin-sidebar-close"
+          type="button"
+          aria-label="Cerrar menú"
+        >
+          <span class="material-symbols-outlined"> close </span>
+        </button>
+      </div>
 
+      <div class="admin-panel-label">
+        <span class="material-symbols-outlined"> admin_panel_settings </span>
 
-            <div class="admin-brand">
+        <span> PANEL DE ADMINISTRACIÓN </span>
+      </div>
+    </div>
 
-                <span class="admin-brand-mark"></span>
-
-                <span class="admin-brand-name">
-                    F1 SIN FILTRO
-                </span>
-
-
-                <button
-                    class="admin-sidebar-close"
-                    id="admin-sidebar-close"
-                    type="button"
-                    aria-label="Cerrar menú"
-                >
-
-                    <span class="material-symbols-outlined">
-                        close
-                    </span>
-
-                </button>
-
-            </div>
-
-
-            <div class="admin-panel-label">
-
-                <span class="material-symbols-outlined">
-                    admin_panel_settings
-                </span>
-
-                <span>
-                    PANEL DE ADMINISTRACIÓN
-                </span>
-
-            </div>
-
-
-        </div>
-
-
-        <!-- =========================
+    <!-- =========================
              NAVEGACIÓN
         ========================== -->
 
-        <nav class="admin-sidebar-nav">
+    <nav class="admin-sidebar-nav">
+      <!-- DASHBOARD -->
 
+      <a
+        class="admin-sidebar-link {% if seccion_activa == 'dashboard' %}active{% endif %}"
+        href="{{ url_for('admin') }}"
+      >
+        <span class="material-symbols-outlined"> dashboard </span>
 
-            <!-- DASHBOARD -->
+        <span> Dashboard </span>
+      </a>
 
-            <a
-                class="admin-sidebar-link {% if seccion_activa == 'dashboard' %}active{% endif %}"
-                href="{{ url_for('admin') }}"
-            >
+      <!-- USUARIOS -->
 
-                <span class="material-symbols-outlined">
-                    dashboard
-                </span>
+      <a
+        class="admin-sidebar-link {% if seccion_activa == 'usuarios' %}active{% endif %}"
+        href="{{ url_for('admin_usuarios') }}"
+      >
+        <span class="material-symbols-outlined"> group </span>
 
-                <span>
-                    Dashboard
-                </span>
+        <span> Gestión de Usuarios </span>
+      </a>
 
-            </a>
+      <!-- SOLICITUDES EDITOR -->
 
+      <a
+        class="admin-sidebar-link admin-sidebar-between {% if seccion_activa == 'solicitudes' %}active{% endif %}"
+        href="{{ url_for('admin_solicitudes') }}"
+      >
+        <div>
+          <span class="material-symbols-outlined"> assignment_ind </span>
 
-            <!-- USUARIOS -->
+          <span> Solicitudes de Editor </span>
+        </div>
+      </a>
 
-            <a
-                class="admin-sidebar-link {% if seccion_activa == 'usuarios' %}active{% endif %}"
-                href="{{ url_for('admin_usuarios') }}"
-            >
+      <!-- SEPARADOR -->
 
-                <span class="material-symbols-outlined">
-                    group
-                </span>
+      <div class="admin-sidebar-separator">
+        <span> CONTENIDO </span>
+      </div>
 
-                <span>
-                    Gestión de Usuarios
-                </span>
+      <!-- PUBLICACIONES -->
 
-            </a>
+      <a
+        class="admin-sidebar-link {% if seccion_activa == 'publicaciones' %}active{% endif %}"
+        href="{{ url_for('admin_publicaciones') }}"
+      >
+        <span class="material-symbols-outlined"> article </span>
 
+        <span> Publicaciones </span>
+      </a>
 
-            <!-- SOLICITUDES EDITOR -->
+      <!-- CATEGORÍAS -->
 
-            <a
-                class="admin-sidebar-link admin-sidebar-between {% if seccion_activa == 'solicitudes' %}active{% endif %}"
-                href="{{ url_for('admin_solicitudes') }}"
-            >
+      <a
+        class="admin-sidebar-link {% if seccion_activa == 'categorias' %}active{% endif %}"
+        href="{{ url_for('admin_categorias') }}"
+      >
+        <span class="material-symbols-outlined"> category </span>
 
-                <div>
+        <span> Categorías </span>
+      </a>
 
-                    <span class="material-symbols-outlined">
-                        assignment_ind
-                    </span>
+      <!-- ETIQUETAS -->
 
-                    <span>
-                        Solicitudes de Editor
-                    </span>
+      <a
+        class="admin-sidebar-link {% if seccion_activa == 'etiquetas' %}active{% endif %}"
+        href="{{ url_for('admin_etiquetas') }}"
+      >
+        <span class="material-symbols-outlined"> label </span>
 
-                </div>
+        <span> Etiquetas </span>
+      </a>
 
+      <!-- COMENTARIOS -->
 
-            </a>
+      <a
+        class="admin-sidebar-link {% if seccion_activa == 'comentarios' %}active{% endif %}"
+        href="{{ url_for('admin_comentarios') }}"
+      >
+        <span class="material-symbols-outlined"> forum </span>
 
+        <span> Comentarios </span>
+      </a>
 
-            <!-- SEPARADOR -->
+      <a
+        class="admin-sidebar-link {% if seccion_activa == 'analiticas' %}active{% endif %}"
+        href="{{ url_for('admin_analiticas') }}"
+      >
+        <span class="material-symbols-outlined"> monitoring </span>
 
-            <div class="admin-sidebar-separator">
+        <span> Analíticas </span>
+      </a>
 
-                <span>
-                    CONTENIDO
-                </span>
+      <!-- SEPARADOR -->
 
-            </div>
+      <div class="admin-sidebar-separator">
+        <span> CUENTA </span>
+      </div>
 
+      <!-- PERFIL -->
 
-            <!-- PUBLICACIONES -->
+      <a
+        class="admin-sidebar-link {% if seccion_activa == 'perfil' %}active{% endif %}"
+        href="{{ url_for('admin_perfil') }}"
+      >
+        <span class="material-symbols-outlined"> account_circle </span>
 
-            <a
-                class="admin-sidebar-link {% if seccion_activa == 'publicaciones' %}active{% endif %}"
-                href="{{ url_for('admin_publicaciones') }}"
-            >
+        <span> Mi Perfil </span>
+      </a>
 
-                <span class="material-symbols-outlined">
-                    article
-                </span>
+      <!-- PORTAL -->
 
-                <span>
-                    Publicaciones
-                </span>
+      <a class="admin-sidebar-link" href="{{ url_for('inicio') }}">
+        <span class="material-symbols-outlined"> home </span>
 
-            </a>
+        <span> Volver al Portal </span>
+      </a>
+    </nav>
+  </div>
 
-
-            <!-- CATEGORÍAS -->
-
-            <a
-                class="admin-sidebar-link {% if seccion_activa == 'categorias' %}active{% endif %}"
-                href="{{ url_for('admin_categorias') }}"
-            >
-
-                <span class="material-symbols-outlined">
-                    category
-                </span>
-
-                <span>
-                    Categorías
-                </span>
-
-            </a>
-
-
-            <!-- ETIQUETAS -->
-
-            <a
-                class="admin-sidebar-link {% if seccion_activa == 'etiquetas' %}active{% endif %}"
-                href="{{ url_for('admin_etiquetas') }}"
-            >
-
-                <span class="material-symbols-outlined">
-                    label
-                </span>
-
-                <span>
-                    Etiquetas
-                </span>
-
-            </a>
-
-
-            <!-- COMENTARIOS -->
-
-            <a
-                class="admin-sidebar-link {% if seccion_activa == 'comentarios' %}active{% endif %}"
-                href="{{ url_for('admin_comentarios') }}"
-            >
-
-                <span class="material-symbols-outlined">
-                    forum
-                </span>
-
-                <span>
-                    Comentarios
-                </span>
-
-            </a>
-
-
-            <!-- SEPARADOR -->
-
-            <div class="admin-sidebar-separator">
-
-                <span>
-                    CUENTA
-                </span>
-
-            </div>
-
-
-            <!-- PERFIL -->
-
-            <a
-                class="admin-sidebar-link {% if seccion_activa == 'perfil' %}active{% endif %}"
-                href="#"
-            >
-
-                <span class="material-symbols-outlined">
-                    account_circle
-                </span>
-
-                <span>
-                    Mi Perfil
-                </span>
-
-            </a>
-
-
-            <!-- PORTAL -->
-
-            <a
-                class="admin-sidebar-link"
-                href="{{ url_for('inicio') }}"
-            >
-
-                <span class="material-symbols-outlined">
-                    home
-                </span>
-
-                <span>
-                    Volver al Portal
-                </span>
-
-            </a>
-
-
-        </nav>
-
-
-    </div>
-
-
-    <!-- =========================
+  <!-- =========================
          PARTE INFERIOR
     ========================== -->
 
-    <div class="admin-sidebar-bottom">
+  <div class="admin-sidebar-bottom">
+    <div class="admin-status">
+      <span class="admin-status-dot"></span>
 
+      <div>
+        <strong> Administrador </strong>
 
-        <div class="admin-status">
-
-            <span class="admin-status-dot"></span>
-
-
-            <div>
-
-                <strong>
-                    Administrador
-                </strong>
-
-                <span>
-                    Sesión activa
-                </span>
-
-            </div>
-
-        </div>
-
-
-        <a
-            class="admin-logout"
-            href="{{ url_for('logout') }}"
-        >
-
-            <span class="material-symbols-outlined">
-                logout
-            </span>
-
-            <span>
-                Cerrar Sesión
-            </span>
-
-        </a>
-
-
+        <span> Sesión activa </span>
+      </div>
     </div>
 
+    <a class="admin-logout" href="{{ url_for('logout') }}">
+      <span class="material-symbols-outlined"> logout </span>
 
+      <span> Cerrar Sesión </span>
+    </a>
+  </div>
 </aside>
-
-
 
 <!-- =========================
      JAVASCRIPT SIDEBAR
 ========================= -->
 
 <script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const menuButton = document.getElementById("admin-menu-btn");
 
-document.addEventListener(
-    "DOMContentLoaded",
-    function () {
+    const sidebar = document.getElementById("admin-sidebar");
 
+    const overlay = document.getElementById("admin-sidebar-overlay");
 
-        const menuButton =
-            document.getElementById(
-                "admin-menu-btn"
-            );
+    const closeButton = document.getElementById("admin-sidebar-close");
 
+    function abrirSidebar() {
+      sidebar.classList.add("open");
 
-        const sidebar =
-            document.getElementById(
-                "admin-sidebar"
-            );
-
-
-        const overlay =
-            document.getElementById(
-                "admin-sidebar-overlay"
-            );
-
-
-        const closeButton =
-            document.getElementById(
-                "admin-sidebar-close"
-            );
-
-
-
-        function abrirSidebar() {
-
-            sidebar.classList.add(
-                "open"
-            );
-
-            overlay.classList.add(
-                "open"
-            );
-
-        }
-
-
-
-        function cerrarSidebar() {
-
-            sidebar.classList.remove(
-                "open"
-            );
-
-            overlay.classList.remove(
-                "open"
-            );
-
-        }
-
-
-
-        if (menuButton) {
-
-            menuButton.addEventListener(
-                "click",
-                abrirSidebar
-            );
-
-        }
-
-
-        if (closeButton) {
-
-            closeButton.addEventListener(
-                "click",
-                cerrarSidebar
-            );
-
-        }
-
-
-        if (overlay) {
-
-            overlay.addEventListener(
-                "click",
-                cerrarSidebar
-            );
-
-        }
-
-
+      overlay.classList.add("open");
     }
-);
 
+    function cerrarSidebar() {
+      sidebar.classList.remove("open");
+
+      overlay.classList.remove("open");
+    }
+
+    if (menuButton) {
+      menuButton.addEventListener("click", abrirSidebar);
+    }
+
+    if (closeButton) {
+      closeButton.addEventListener("click", cerrarSidebar);
+    }
+
+    if (overlay) {
+      overlay.addEventListener("click", cerrarSidebar);
+    }
+  });
 </script>
