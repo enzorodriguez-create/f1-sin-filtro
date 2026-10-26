@@ -1,0 +1,1882 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <meta charset="utf-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        F1 SIN FILTRO - Gestión de Categorías
+    </title>
+
+
+    <!-- FUENTES -->
+
+    <link
+        href="https://fonts.googleapis.com"
+        rel="preconnect"
+    >
+
+    <link
+        href="https://fonts.gstatic.com"
+        rel="preconnect"
+        crossorigin
+    >
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Anybody:wght@100..900&family=Geist:wght@100..900&display=swap"
+        rel="stylesheet"
+    >
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
+        rel="stylesheet"
+    >
+
+
+    <!-- CSS GLOBAL -->
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='styles/style.css') }}"
+    >
+
+
+    <!-- CSS ADMIN -->
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='styles/admin/base.css') }}"
+    >
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='styles/admin/sidebar.css') }}"
+    >
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='styles/admin/dashboard.css') }}"
+    >
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='styles/admin/categorias.css') }}"
+    >
+
+</head>
+
+
+<body>
+
+
+<div class="admin-page">
+
+
+    <!-- =========================
+         SIDEBAR
+    ========================== -->
+
+    {% include "admin/sidebar.html" %}
+
+
+
+    <!-- =========================
+         CONTENIDO
+    ========================== -->
+
+    <div class="admin-content">
+
+
+        <!-- =========================
+             TOPBAR
+        ========================== -->
+
+        <header class="admin-topbar">
+
+
+            <div class="admin-topbar-left">
+
+
+                <button
+                    class="admin-menu-btn"
+                    id="admin-menu-btn"
+                    type="button"
+                    aria-label="Abrir menú"
+                >
+
+                    <span class="material-symbols-outlined">
+                        menu
+                    </span>
+
+                </button>
+
+
+                <span class="admin-topbar-section">
+                    GESTIÓN DE CATEGORÍAS
+                </span>
+
+
+            </div>
+
+
+            <div class="admin-topbar-right">
+
+
+                <div class="admin-role-badge">
+
+                    <span class="admin-role-dot"></span>
+
+                    <span>
+                        ROL:
+                    </span>
+
+                    <strong>
+                        ADMIN
+                    </strong>
+
+                </div>
+
+
+                <div class="admin-user">
+
+
+                    <div class="admin-user-data">
+
+                        <strong>
+                            {{ usuario.nombre if usuario else "Administrador" }}
+                        </strong>
+
+                        <span>
+                            {{ usuario.email if usuario else "admin@f1sinfiltro.com" }}
+                        </span>
+
+                    </div>
+
+
+                    {% if usuario and usuario.foto %}
+
+                        <div class="admin-avatar">
+
+                            <img
+                                src="{{ usuario.foto }}"
+                                alt="{{ usuario.nombre }}"
+                            >
+
+                        </div>
+
+                    {% else %}
+
+                        <div class="admin-avatar">
+
+                            <span class="material-symbols-outlined">
+                                person
+                            </span>
+
+                        </div>
+
+                    {% endif %}
+
+
+                </div>
+
+
+            </div>
+
+
+        </header>
+
+
+
+        <!-- =========================
+             MAIN
+        ========================== -->
+
+        <main class="admin-main">
+
+
+            <div class="admin-container">
+
+
+                <!-- =========================
+                     CABECERA
+                ========================== -->
+
+                <div class="categories-head">
+
+
+                    <div class="categories-path">
+
+                        <span>
+                            ADMINISTRACIÓN
+                        </span>
+
+                        <span>
+                            /
+                        </span>
+
+                        <strong>
+                            CATEGORÍAS
+                        </strong>
+
+                    </div>
+
+
+                    <h1>
+                        GESTIÓN DE <span>CATEGORÍAS</span>
+                    </h1>
+
+
+                    <p>
+                        Supervisá las categorías utilizadas para organizar
+                        las publicaciones del portal.
+                    </p>
+
+
+                </div>
+
+
+
+                <!-- =========================
+                     ESTADÍSTICAS
+                ========================== -->
+
+                <div class="categories-stats">
+
+
+                    <!-- TOTAL -->
+
+                    <div class="category-stat-card">
+
+
+                        <div class="category-stat-top">
+
+                            <span>
+                                TOTAL CATEGORÍAS
+                            </span>
+
+                            <span class="material-symbols-outlined">
+                                category
+                            </span>
+
+                        </div>
+
+
+                        <strong id="category-total">
+                            5
+                        </strong>
+
+
+                        <span>
+                            Categorías registradas
+                        </span>
+
+
+                    </div>
+
+
+
+                    <!-- ACTIVAS -->
+
+                    <div class="category-stat-card">
+
+
+                        <div class="category-stat-top">
+
+                            <span>
+                                ACTIVAS
+                            </span>
+
+                            <span class="material-symbols-outlined">
+                                check_circle
+                            </span>
+
+                        </div>
+
+
+                        <strong id="category-active">
+                            4
+                        </strong>
+
+
+                        <span>
+                            Disponibles en el portal
+                        </span>
+
+
+                    </div>
+
+
+
+                    <!-- BLOQUEADAS -->
+
+                    <div class="category-stat-card category-stat-blocked">
+
+
+                        <div class="category-stat-top">
+
+                            <span>
+                                BLOQUEADAS
+                            </span>
+
+                            <span class="material-symbols-outlined">
+                                block
+                            </span>
+
+                        </div>
+
+
+                        <strong id="category-blocked">
+                            1
+                        </strong>
+
+
+                        <span>
+                            Ocultas por administración
+                        </span>
+
+
+                    </div>
+
+
+                </div>
+
+
+
+                <!-- =========================
+                     FILTROS
+                ========================== -->
+
+                <section class="categories-tools">
+
+
+                    <div class="categories-search">
+
+
+                        <span class="material-symbols-outlined">
+                            search
+                        </span>
+
+
+                        <input
+                            id="category-search"
+                            type="text"
+                            placeholder="Buscar por nombre o slug..."
+                        >
+
+
+                        <button
+                            id="clear-category-search"
+                            type="button"
+                            aria-label="Limpiar búsqueda"
+                        >
+
+                            <span class="material-symbols-outlined">
+                                close
+                            </span>
+
+                        </button>
+
+
+                    </div>
+
+
+
+                    <div class="category-status-filter">
+
+
+                        <select id="category-status-filter">
+
+                            <option value="all">
+                                Todos los estados
+                            </option>
+
+                            <option value="activa">
+                                Activas
+                            </option>
+
+                            <option value="bloqueada">
+                                Bloqueadas
+                            </option>
+
+                        </select>
+
+
+                        <span class="material-symbols-outlined">
+                            expand_more
+                        </span>
+
+
+                    </div>
+
+
+
+                    <div class="categories-tool-bottom">
+
+
+                        <span id="categories-result-count">
+                            Mostrando 5 categorías
+                        </span>
+
+
+                        <button
+                            class="categories-reset"
+                            id="reset-category-filters"
+                            type="button"
+                        >
+
+                            <span class="material-symbols-outlined">
+                                refresh
+                            </span>
+
+                            Restablecer filtros
+
+                        </button>
+
+
+                    </div>
+
+
+                </section>
+
+
+
+                <!-- =========================
+                     TABLA
+                ========================== -->
+
+                <section class="categories-table-card">
+
+
+                    <div class="categories-table-wrapper">
+
+
+                        <table class="categories-table">
+
+
+                            <thead>
+
+                                <tr>
+
+                                    <th>
+                                        Categoría
+                                    </th>
+
+                                    <th>
+                                        Slug
+                                    </th>
+
+                                    <th>
+                                        Publicaciones
+                                    </th>
+
+                                    <th>
+                                        Estado
+                                    </th>
+
+                                    <th class="categories-actions-title">
+                                        Acciones
+                                    </th>
+
+                                </tr>
+
+                            </thead>
+
+
+                            <tbody id="categories-table-body">
+
+
+                                <!-- =========================
+                                     CATEGORÍA 1
+                                ========================== -->
+
+                                <tr
+                                    class="category-row"
+                                    data-name="Equipos"
+                                    data-slug="/equipos"
+                                    data-status="activa"
+                                    data-previous-status="activa"
+                                    data-count="420"
+                                >
+
+
+                                    <td>
+
+                                        <div class="category-info">
+
+                                            <div class="category-icon">
+
+                                                <span class="material-symbols-outlined">
+                                                    groups
+                                                </span>
+
+                                            </div>
+
+
+                                            <div>
+
+                                                <strong>
+                                                    Equipos
+                                                </strong>
+
+                                                <span>
+                                                    Noticias y contenido sobre las escuderías.
+                                                </span>
+
+                                            </div>
+
+                                        </div>
+
+                                    </td>
+
+
+                                    <td>
+
+                                        <span class="category-slug">
+                                            /equipos
+                                        </span>
+
+                                    </td>
+
+
+                                    <td>
+
+                                        <span class="category-count">
+                                            420
+                                        </span>
+
+                                    </td>
+
+
+                                    <td>
+
+                                        <span class="category-state active">
+
+                                            <span></span>
+
+                                            Activa
+
+                                        </span>
+
+                                    </td>
+
+
+                                    <td>
+
+                                        <div class="category-actions">
+
+
+                                            <button
+                                                class="category-block-btn"
+                                                type="button"
+                                                title="Bloquear categoría"
+                                            >
+
+                                                <span class="material-symbols-outlined">
+                                                    block
+                                                </span>
+
+                                                Bloquear
+
+                                            </button>
+
+
+                                            <button
+                                                class="category-delete-btn"
+                                                type="button"
+                                                title="Eliminar categoría"
+                                            >
+
+                                                <span class="material-symbols-outlined">
+                                                    delete
+                                                </span>
+
+                                            </button>
+
+
+                                        </div>
+
+                                    </td>
+
+
+                                </tr>
+
+
+
+                                <!-- =========================
+                                     CATEGORÍA 2
+                                ========================== -->
+
+                                <tr
+                                    class="category-row"
+                                    data-name="Pilotos"
+                                    data-slug="/pilotos"
+                                    data-status="activa"
+                                    data-previous-status="activa"
+                                    data-count="360"
+                                >
+
+
+                                    <td>
+
+                                        <div class="category-info">
+
+                                            <div class="category-icon">
+
+                                                <span class="material-symbols-outlined">
+                                                    sports_motorsports
+                                                </span>
+
+                                            </div>
+
+
+                                            <div>
+
+                                                <strong>
+                                                    Pilotos
+                                                </strong>
+
+                                                <span>
+                                                    Información y noticias de los pilotos.
+                                                </span>
+
+                                            </div>
+
+                                        </div>
+
+                                    </td>
+
+
+                                    <td>
+
+                                        <span class="category-slug">
+                                            /pilotos
+                                        </span>
+
+                                    </td>
+
+
+                                    <td>
+
+                                        <span class="category-count">
+                                            360
+                                        </span>
+
+                                    </td>
+
+
+                                    <td>
+
+                                        <span class="category-state active">
+
+                                            <span></span>
+
+                                            Activa
+
+                                        </span>
+
+                                    </td>
+
+
+                                    <td>
+
+                                        <div class="category-actions">
+
+
+                                            <button
+                                                class="category-block-btn"
+                                                type="button"
+                                                title="Bloquear categoría"
+                                            >
+
+                                                <span class="material-symbols-outlined">
+                                                    block
+                                                </span>
+
+                                                Bloquear
+
+                                            </button>
+
+
+                                            <button
+                                                class="category-delete-btn"
+                                                type="button"
+                                                title="Eliminar categoría"
+                                            >
+
+                                                <span class="material-symbols-outlined">
+                                                    delete
+                                                </span>
+
+                                            </button>
+
+
+                                        </div>
+
+                                    </td>
+
+
+                                </tr>
+
+
+
+                                <!-- =========================
+                                     CATEGORÍA 3
+                                ========================== -->
+
+                                <tr
+                                    class="category-row"
+                                    data-name="Carreras"
+                                    data-slug="/carreras"
+                                    data-status="activa"
+                                    data-previous-status="activa"
+                                    data-count="312"
+                                >
+
+
+                                    <td>
+
+                                        <div class="category-info">
+
+                                            <div class="category-icon">
+
+                                                <span class="material-symbols-outlined">
+                                                    flag
+                                                </span>
+
+                                            </div>
+
+
+                                            <div>
+
+                                                <strong>
+                                                    Carreras
+                                                </strong>
+
+                                                <span>
+                                                    Previas, resultados y análisis.
+                                                </span>
+
+                                            </div>
+
+                                        </div>
+
+                                    </td>
+
+
+                                    <td>
+
+                                        <span class="category-slug">
+                                            /carreras
+                                        </span>
+
+                                    </td>
+
+
+                                    <td>
+
+                                        <span class="category-count">
+                                            312
+                                        </span>
+
+                                    </td>
+
+
+                                    <td>
+
+                                        <span class="category-state active">
+
+                                            <span></span>
+
+                                            Activa
+
+                                        </span>
+
+                                    </td>
+
+
+                                    <td>
+
+                                        <div class="category-actions">
+
+
+                                            <button
+                                                class="category-block-btn"
+                                                type="button"
+                                                title="Bloquear categoría"
+                                            >
+
+                                                <span class="material-symbols-outlined">
+                                                    block
+                                                </span>
+
+                                                Bloquear
+
+                                            </button>
+
+
+                                            <button
+                                                class="category-delete-btn"
+                                                type="button"
+                                                title="Eliminar categoría"
+                                            >
+
+                                                <span class="material-symbols-outlined">
+                                                    delete
+                                                </span>
+
+                                            </button>
+
+
+                                        </div>
+
+                                    </td>
+
+
+                                </tr>
+
+
+
+                                <!-- =========================
+                                     CATEGORÍA 4
+                                ========================== -->
+
+                                <tr
+                                    class="category-row"
+                                    data-name="Técnica"
+                                    data-slug="/tecnica"
+                                    data-status="activa"
+                                    data-previous-status="activa"
+                                    data-count="275"
+                                >
+
+
+                                    <td>
+
+                                        <div class="category-info">
+
+                                            <div class="category-icon">
+
+                                                <span class="material-symbols-outlined">
+                                                    build
+                                                </span>
+
+                                            </div>
+
+
+                                            <div>
+
+                                                <strong>
+                                                    Técnica
+                                                </strong>
+
+                                                <span>
+                                                    Motores, monoplazas y reglamento.
+                                                </span>
+
+                                            </div>
+
+                                        </div>
+
+                                    </td>
+
+
+                                    <td>
+
+                                        <span class="category-slug">
+                                            /tecnica
+                                        </span>
+
+                                    </td>
+
+
+                                    <td>
+
+                                        <span class="category-count">
+                                            275
+                                        </span>
+
+                                    </td>
+
+
+                                    <td>
+
+                                        <span class="category-state active">
+
+                                            <span></span>
+
+                                            Activa
+
+                                        </span>
+
+                                    </td>
+
+
+                                    <td>
+
+                                        <div class="category-actions">
+
+
+                                            <button
+                                                class="category-block-btn"
+                                                type="button"
+                                                title="Bloquear categoría"
+                                            >
+
+                                                <span class="material-symbols-outlined">
+                                                    block
+                                                </span>
+
+                                                Bloquear
+
+                                            </button>
+
+
+                                            <button
+                                                class="category-delete-btn"
+                                                type="button"
+                                                title="Eliminar categoría"
+                                            >
+
+                                                <span class="material-symbols-outlined">
+                                                    delete
+                                                </span>
+
+                                            </button>
+
+
+                                        </div>
+
+                                    </td>
+
+
+                                </tr>
+
+
+
+                                <!-- =========================
+                                     CATEGORÍA 5 BLOQUEADA
+                                ========================== -->
+
+                                <tr
+                                    class="category-row blocked-category-row"
+                                    data-name="Mercado"
+                                    data-slug="/mercado"
+                                    data-status="bloqueada"
+                                    data-previous-status="activa"
+                                    data-count="175"
+                                >
+
+
+                                    <td>
+
+                                        <div class="category-info">
+
+                                            <div class="category-icon blocked">
+
+                                                <span class="material-symbols-outlined">
+                                                    block
+                                                </span>
+
+                                            </div>
+
+
+                                            <div>
+
+                                                <strong>
+                                                    Mercado
+                                                </strong>
+
+                                                <span>
+                                                    Fichajes y movimientos del paddock.
+                                                </span>
+
+                                            </div>
+
+                                        </div>
+
+                                    </td>
+
+
+                                    <td>
+
+                                        <span class="category-slug">
+                                            /mercado
+                                        </span>
+
+                                    </td>
+
+
+                                    <td>
+
+                                        <span class="category-count">
+                                            175
+                                        </span>
+
+                                    </td>
+
+
+                                    <td>
+
+                                        <span class="category-state blocked">
+
+                                            <span></span>
+
+                                            Bloqueada
+
+                                        </span>
+
+                                    </td>
+
+
+                                    <td>
+
+                                        <div class="category-actions">
+
+
+                                            <button
+                                                class="category-unblock-btn"
+                                                type="button"
+                                                title="Desbloquear categoría"
+                                            >
+
+                                                <span class="material-symbols-outlined">
+                                                    lock_open
+                                                </span>
+
+                                                Desbloquear
+
+                                            </button>
+
+
+                                            <button
+                                                class="category-delete-btn"
+                                                type="button"
+                                                title="Eliminar categoría"
+                                            >
+
+                                                <span class="material-symbols-outlined">
+                                                    delete
+                                                </span>
+
+                                            </button>
+
+
+                                        </div>
+
+                                    </td>
+
+
+                                </tr>
+
+
+                            </tbody>
+
+
+                        </table>
+
+
+                    </div>
+
+
+
+                    <!-- =========================
+                         SIN RESULTADOS
+                    ========================== -->
+
+                    <div
+                        class="categories-empty"
+                        id="categories-empty"
+                    >
+
+                        <span class="material-symbols-outlined">
+                            category
+                        </span>
+
+                        <strong>
+                            No se encontraron categorías
+                        </strong>
+
+                        <span>
+                            Probá modificando los filtros.
+                        </span>
+
+                    </div>
+
+
+                </section>
+
+
+            </div>
+
+
+        </main>
+
+
+    </div>
+
+
+</div>
+
+
+
+<!-- =========================
+     MODAL ELIMINAR
+========================= -->
+
+<div
+    class="category-modal-overlay"
+    id="category-delete-modal"
+>
+
+
+    <div class="category-modal">
+
+
+        <div class="category-modal-icon">
+
+            <span class="material-symbols-outlined">
+                warning
+            </span>
+
+        </div>
+
+
+        <div class="category-modal-content">
+
+
+            <span class="category-modal-label">
+                ELIMINAR CATEGORÍA
+            </span>
+
+
+            <h2>
+                ¿Eliminar esta categoría?
+            </h2>
+
+
+            <p>
+                Esta acción eliminará definitivamente
+                la categoría seleccionada.
+            </p>
+
+
+            <div class="category-modal-info">
+
+                <span>
+                    CATEGORÍA
+                </span>
+
+                <strong id="category-delete-name">
+                    -
+                </strong>
+
+            </div>
+
+
+            <div class="category-modal-actions">
+
+
+                <button
+                    id="category-delete-cancel"
+                    class="category-modal-cancel"
+                    type="button"
+                >
+                    Cancelar
+                </button>
+
+
+                <button
+                    id="category-delete-confirm"
+                    class="category-modal-confirm"
+                    type="button"
+                >
+                    Eliminar
+                </button>
+
+
+            </div>
+
+
+        </div>
+
+
+    </div>
+
+
+</div>
+
+
+
+<!-- =========================
+     FOOTER GLOBAL
+========================= -->
+
+{% include "base/footer.html" %}
+
+
+
+<!-- =========================
+     JAVASCRIPT
+========================= -->
+
+<script>
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function () {
+
+
+        const searchInput =
+            document.getElementById(
+                "category-search"
+            );
+
+
+        const statusFilter =
+            document.getElementById(
+                "category-status-filter"
+            );
+
+
+        const clearSearch =
+            document.getElementById(
+                "clear-category-search"
+            );
+
+
+        const resetFilters =
+            document.getElementById(
+                "reset-category-filters"
+            );
+
+
+        const emptyState =
+            document.getElementById(
+                "categories-empty"
+            );
+
+
+        const resultCount =
+            document.getElementById(
+                "categories-result-count"
+            );
+
+
+
+        function getRows() {
+
+            return document.querySelectorAll(
+                ".category-row"
+            );
+
+        }
+
+
+
+        /* =========================
+           FILTROS
+        ========================= */
+
+        function filtrarCategorias() {
+
+
+            const search =
+                searchInput.value
+                    .toLowerCase()
+                    .trim();
+
+
+            const status =
+                statusFilter.value;
+
+
+            let visible =
+                0;
+
+
+            getRows().forEach(
+                function (row) {
+
+
+                    const text =
+                        (
+                            row.dataset.name +
+                            " " +
+                            row.dataset.slug
+                        ).toLowerCase();
+
+
+                    const matchesSearch =
+                        text.includes(
+                            search
+                        );
+
+
+                    const matchesStatus =
+                        status === "all"
+                        ||
+                        row.dataset.status === status;
+
+
+                    const show =
+                        matchesSearch
+                        &&
+                        matchesStatus;
+
+
+                    row.style.display =
+                        show
+                        ? ""
+                        : "none";
+
+
+                    if (show) {
+
+                        visible++;
+
+                    }
+
+
+                }
+            );
+
+
+            resultCount.textContent =
+                "Mostrando " +
+                visible +
+                " categoría" +
+                (
+                    visible === 1
+                    ? ""
+                    : "s"
+                );
+
+
+            if (visible === 0) {
+
+                emptyState.classList.add(
+                    "show"
+                );
+
+            } else {
+
+                emptyState.classList.remove(
+                    "show"
+                );
+
+            }
+
+
+        }
+
+
+
+        searchInput.addEventListener(
+            "input",
+            filtrarCategorias
+        );
+
+
+        statusFilter.addEventListener(
+            "change",
+            filtrarCategorias
+        );
+
+
+
+        clearSearch.addEventListener(
+            "click",
+            function () {
+
+
+                searchInput.value =
+                    "";
+
+
+                filtrarCategorias();
+
+
+                searchInput.focus();
+
+
+            }
+        );
+
+
+
+        resetFilters.addEventListener(
+            "click",
+            function () {
+
+
+                searchInput.value =
+                    "";
+
+
+                statusFilter.value =
+                    "all";
+
+
+                filtrarCategorias();
+
+
+            }
+        );
+
+
+
+        /* =========================
+           BLOQUEAR
+        ========================= */
+
+        document.addEventListener(
+            "click",
+            function (event) {
+
+
+                const blockButton =
+                    event.target.closest(
+                        ".category-block-btn"
+                    );
+
+
+                if (!blockButton) {
+
+                    return;
+
+                }
+
+
+                const row =
+                    blockButton.closest(
+                        ".category-row"
+                    );
+
+
+                const name =
+                    row.dataset.name;
+
+
+                const confirmar =
+                    confirm(
+                        "¿Seguro que querés bloquear la categoría \"" +
+                        name +
+                        "\"?"
+                    );
+
+
+                if (!confirmar) {
+
+                    return;
+
+                }
+
+
+                row.dataset.previousStatus =
+                    row.dataset.status;
+
+
+                row.dataset.status =
+                    "bloqueada";
+
+
+                row.classList.add(
+                    "blocked-category-row"
+                );
+
+
+                const state =
+                    row.querySelector(
+                        ".category-state"
+                    );
+
+
+                state.className =
+                    "category-state blocked";
+
+
+                state.innerHTML =
+                    `
+                        <span></span>
+                        Bloqueada
+                    `;
+
+
+                const icon =
+                    row.querySelector(
+                        ".category-icon"
+                    );
+
+
+                icon.classList.add(
+                    "blocked"
+                );
+
+
+                blockButton.className =
+                    "category-unblock-btn";
+
+
+                blockButton.title =
+                    "Desbloquear categoría";
+
+
+                blockButton.innerHTML =
+                    `
+                        <span class="material-symbols-outlined">
+                            lock_open
+                        </span>
+
+                        Desbloquear
+                    `;
+
+
+                actualizarEstadisticas();
+
+                filtrarCategorias();
+
+
+                alert(
+                    "Por ahora el bloqueo se actualiza solamente de forma visual."
+                );
+
+
+            }
+        );
+
+
+
+        /* =========================
+           DESBLOQUEAR
+        ========================= */
+
+        document.addEventListener(
+            "click",
+            function (event) {
+
+
+                const unblockButton =
+                    event.target.closest(
+                        ".category-unblock-btn"
+                    );
+
+
+                if (!unblockButton) {
+
+                    return;
+
+                }
+
+
+                const row =
+                    unblockButton.closest(
+                        ".category-row"
+                    );
+
+
+                row.dataset.status =
+                    "activa";
+
+
+                row.classList.remove(
+                    "blocked-category-row"
+                );
+
+
+                const state =
+                    row.querySelector(
+                        ".category-state"
+                    );
+
+
+                state.className =
+                    "category-state active";
+
+
+                state.innerHTML =
+                    `
+                        <span></span>
+                        Activa
+                    `;
+
+
+                const icon =
+                    row.querySelector(
+                        ".category-icon"
+                    );
+
+
+                icon.classList.remove(
+                    "blocked"
+                );
+
+
+                unblockButton.className =
+                    "category-block-btn";
+
+
+                unblockButton.title =
+                    "Bloquear categoría";
+
+
+                unblockButton.innerHTML =
+                    `
+                        <span class="material-symbols-outlined">
+                            block
+                        </span>
+
+                        Bloquear
+                    `;
+
+
+                actualizarEstadisticas();
+
+                filtrarCategorias();
+
+
+                alert(
+                    "Por ahora el desbloqueo se actualiza solamente de forma visual."
+                );
+
+
+            }
+        );
+
+
+
+        /* =========================
+           ELIMINAR
+        ========================= */
+
+        const deleteModal =
+            document.getElementById(
+                "category-delete-modal"
+            );
+
+
+        const deleteName =
+            document.getElementById(
+                "category-delete-name"
+            );
+
+
+        const deleteCancel =
+            document.getElementById(
+                "category-delete-cancel"
+            );
+
+
+        const deleteConfirm =
+            document.getElementById(
+                "category-delete-confirm"
+            );
+
+
+        let selectedRow =
+            null;
+
+
+
+        document.addEventListener(
+            "click",
+            function (event) {
+
+
+                const deleteButton =
+                    event.target.closest(
+                        ".category-delete-btn"
+                    );
+
+
+                if (!deleteButton) {
+
+                    return;
+
+                }
+
+
+                selectedRow =
+                    deleteButton.closest(
+                        ".category-row"
+                    );
+
+
+                deleteName.textContent =
+                    selectedRow.dataset.name;
+
+
+                deleteModal.classList.add(
+                    "open"
+                );
+
+
+            }
+        );
+
+
+
+        function cerrarModalEliminar() {
+
+
+            deleteModal.classList.remove(
+                "open"
+            );
+
+
+            selectedRow =
+                null;
+
+
+        }
+
+
+
+        deleteCancel.addEventListener(
+            "click",
+            cerrarModalEliminar
+        );
+
+
+
+        deleteModal.addEventListener(
+            "click",
+            function (event) {
+
+
+                if (
+                    event.target ===
+                    deleteModal
+                ) {
+
+                    cerrarModalEliminar();
+
+                }
+
+
+            }
+        );
+
+
+
+        deleteConfirm.addEventListener(
+            "click",
+            function () {
+
+
+                if (!selectedRow) {
+
+                    return;
+
+                }
+
+
+                selectedRow.remove();
+
+
+                cerrarModalEliminar();
+
+
+                actualizarEstadisticas();
+
+                filtrarCategorias();
+
+
+                alert(
+                    "Por ahora la categoría se elimina solamente de forma visual."
+                );
+
+
+            }
+        );
+
+
+
+        /* =========================
+           ESTADÍSTICAS
+        ========================= */
+
+        function actualizarEstadisticas() {
+
+
+            const rows =
+                getRows();
+
+
+            let active =
+                0;
+
+
+            let blocked =
+                0;
+
+
+            rows.forEach(
+                function (row) {
+
+
+                    if (
+                        row.dataset.status ===
+                        "activa"
+                    ) {
+
+                        active++;
+
+                    }
+
+
+                    if (
+                        row.dataset.status ===
+                        "bloqueada"
+                    ) {
+
+                        blocked++;
+
+                    }
+
+
+                }
+            );
+
+
+            document.getElementById(
+                "category-total"
+            ).textContent =
+                rows.length;
+
+
+            document.getElementById(
+                "category-active"
+            ).textContent =
+                active;
+
+
+            document.getElementById(
+                "category-blocked"
+            ).textContent =
+                blocked;
+
+
+        }
+
+
+
+        actualizarEstadisticas();
+
+        filtrarCategorias();
+
+
+    }
+);
+
+</script>
+
+
+</body>
+
+</html>
