@@ -253,6 +253,7 @@
 
                     <div class="publication-stat-card">
 
+
                         <div class="publication-stat-top">
 
                             <span>
@@ -265,20 +266,25 @@
 
                         </div>
 
+
                         <strong id="stat-total">
                             5
                         </strong>
+
 
                         <span>
                             Publicaciones registradas
                         </span>
 
+
                     </div>
+
 
 
                     <!-- PUBLICADAS -->
 
                     <div class="publication-stat-card">
+
 
                         <div class="publication-stat-top">
 
@@ -292,20 +298,25 @@
 
                         </div>
 
+
                         <strong id="stat-published">
-                            3
+                            2
                         </strong>
+
 
                         <span>
                             Visibles en el portal
                         </span>
 
+
                     </div>
+
 
 
                     <!-- BORRADORES -->
 
                     <div class="publication-stat-card">
+
 
                         <div class="publication-stat-top">
 
@@ -319,47 +330,57 @@
 
                         </div>
 
+
                         <strong id="stat-draft">
                             1
                         </strong>
+
 
                         <span>
                             Todavía sin publicar
                         </span>
 
+
                     </div>
 
 
-                    <!-- PROGRAMADAS -->
 
-                    <div class="publication-stat-card">
+                    <!-- BLOQUEADAS -->
+
+                    <div class="publication-stat-card publication-stat-blocked">
+
 
                         <div class="publication-stat-top">
 
                             <span>
-                                PROGRAMADAS
+                                BLOQUEADAS
                             </span>
 
                             <span class="material-symbols-outlined">
-                                schedule
+                                block
                             </span>
 
                         </div>
 
-                        <strong id="stat-scheduled">
+
+                        <strong id="stat-blocked">
                             1
                         </strong>
 
+
                         <span>
-                            Con publicación futura
+                            Ocultas por administración
                         </span>
 
+
                     </div>
+
 
 
                     <!-- PREMIUM -->
 
                     <div class="publication-stat-card premium">
+
 
                         <div class="publication-stat-top">
 
@@ -373,13 +394,16 @@
 
                         </div>
 
+
                         <strong id="stat-premium">
                             2
                         </strong>
 
+
                         <span>
                             Contenido exclusivo
                         </span>
+
 
                     </div>
 
@@ -461,6 +485,7 @@
                         </div>
 
 
+
                         <!-- CATEGORÍA -->
 
                         <div class="publication-select">
@@ -496,6 +521,7 @@
                         </div>
 
 
+
                         <!-- ESTADO -->
 
                         <div class="publication-select">
@@ -518,6 +544,10 @@
                                     Programado
                                 </option>
 
+                                <option value="bloqueado">
+                                    Bloqueado
+                                </option>
+
                             </select>
 
                             <span class="material-symbols-outlined">
@@ -525,6 +555,7 @@
                             </span>
 
                         </div>
+
 
 
                         <!-- PREMIUM -->
@@ -651,6 +682,7 @@
                                     data-author="carlos"
                                     data-category="tecnica"
                                     data-status="publicado"
+                                    data-previous-status="publicado"
                                     data-premium="no"
                                 >
 
@@ -752,16 +784,16 @@
 
 
                                             <button
-                                                class="publication-edit-btn"
+                                                class="publication-block-btn"
                                                 type="button"
-                                                title="Editar publicación"
+                                                title="Bloquear publicación"
                                             >
 
                                                 <span class="material-symbols-outlined">
-                                                    edit
+                                                    block
                                                 </span>
 
-                                                Editar
+                                                Bloquear
 
                                             </button>
 
@@ -798,6 +830,7 @@
                                     data-author="lucia"
                                     data-category="campeonato"
                                     data-status="borrador"
+                                    data-previous-status="borrador"
                                     data-premium="no"
                                 >
 
@@ -899,16 +932,16 @@
 
 
                                             <button
-                                                class="publication-edit-btn"
+                                                class="publication-block-btn"
                                                 type="button"
-                                                title="Editar publicación"
+                                                title="Bloquear publicación"
                                             >
 
                                                 <span class="material-symbols-outlined">
-                                                    edit
+                                                    block
                                                 </span>
 
-                                                Editar
+                                                Bloquear
 
                                             </button>
 
@@ -945,6 +978,7 @@
                                     data-author="carlos"
                                     data-category="previa"
                                     data-status="programado"
+                                    data-previous-status="programado"
                                     data-premium="si"
                                 >
 
@@ -1046,16 +1080,16 @@
 
 
                                             <button
-                                                class="publication-edit-btn"
+                                                class="publication-block-btn"
                                                 type="button"
-                                                title="Editar publicación"
+                                                title="Bloquear publicación"
                                             >
 
                                                 <span class="material-symbols-outlined">
-                                                    edit
+                                                    block
                                                 </span>
 
-                                                Editar
+                                                Bloquear
 
                                             </button>
 
@@ -1083,15 +1117,16 @@
 
 
                                 <!-- =========================
-                                     PUBLICACIÓN 4
+                                     PUBLICACIÓN 4 BLOQUEADA
                                 ========================== -->
 
                                 <tr
-                                    class="publication-row"
+                                    class="publication-row blocked-publication-row"
                                     data-title="Mercedes analiza cambios importantes para 2027"
                                     data-author="laura"
                                     data-category="equipos"
-                                    data-status="publicado"
+                                    data-status="bloqueado"
+                                    data-previous-status="publicado"
                                     data-premium="si"
                                 >
 
@@ -1100,10 +1135,10 @@
 
                                         <div class="publication-info">
 
-                                            <div class="publication-cover">
+                                            <div class="publication-cover blocked">
 
                                                 <span class="material-symbols-outlined">
-                                                    article
+                                                    block
                                                 </span>
 
                                             </div>
@@ -1162,11 +1197,11 @@
 
                                     <td>
 
-                                        <span class="publication-state published">
+                                        <span class="publication-state blocked">
 
                                             <span></span>
 
-                                            Publicado
+                                            Bloqueado
 
                                         </span>
 
@@ -1193,16 +1228,16 @@
 
 
                                             <button
-                                                class="publication-edit-btn"
+                                                class="publication-unblock-btn"
                                                 type="button"
-                                                title="Editar publicación"
+                                                title="Desbloquear publicación"
                                             >
 
                                                 <span class="material-symbols-outlined">
-                                                    edit
+                                                    lock_open
                                                 </span>
 
-                                                Editar
+                                                Desbloquear
 
                                             </button>
 
@@ -1239,6 +1274,7 @@
                                     data-author="lucia"
                                     data-category="equipos"
                                     data-status="publicado"
+                                    data-previous-status="publicado"
                                     data-premium="no"
                                 >
 
@@ -1340,16 +1376,16 @@
 
 
                                             <button
-                                                class="publication-edit-btn"
+                                                class="publication-block-btn"
                                                 type="button"
-                                                title="Editar publicación"
+                                                title="Bloquear publicación"
                                             >
 
                                                 <span class="material-symbols-outlined">
-                                                    edit
+                                                    block
                                                 </span>
 
-                                                Editar
+                                                Bloquear
 
                                             </button>
 
@@ -1461,7 +1497,8 @@
 
 
             <p>
-                Esta acción eliminará la publicación seleccionada.
+                Esta acción eliminará definitivamente
+                la publicación seleccionada.
             </p>
 
 
@@ -1823,7 +1860,7 @@ document.addEventListener(
 
 
         /* =========================
-           EDITAR
+           BLOQUEAR
         ========================= */
 
 
@@ -1832,21 +1869,258 @@ document.addEventListener(
             function (event) {
 
 
-                const editButton =
+                const blockButton =
                     event.target.closest(
-                        ".publication-edit-btn"
+                        ".publication-block-btn"
                     );
 
 
-                if (!editButton) {
+                if (!blockButton) {
 
                     return;
 
                 }
 
 
+                const row =
+                    blockButton.closest(
+                        ".publication-row"
+                    );
+
+
+                const title =
+                    row.dataset.title;
+
+
+                const confirmar =
+                    confirm(
+                        "¿Seguro que querés bloquear la publicación \"" +
+                        title +
+                        "\"?"
+                    );
+
+
+                if (!confirmar) {
+
+                    return;
+
+                }
+
+
+                row.dataset.previousStatus =
+                    row.dataset.status;
+
+
+                row.dataset.status =
+                    "bloqueado";
+
+
+                row.classList.add(
+                    "blocked-publication-row"
+                );
+
+
+                const state =
+                    row.querySelector(
+                        ".publication-state"
+                    );
+
+
+                state.className =
+                    "publication-state blocked";
+
+
+                state.innerHTML =
+                    `
+                        <span></span>
+                        Bloqueado
+                    `;
+
+
+                const cover =
+                    row.querySelector(
+                        ".publication-cover"
+                    );
+
+
+                cover.classList.add(
+                    "blocked"
+                );
+
+
+                blockButton.className =
+                    "publication-unblock-btn";
+
+
+                blockButton.title =
+                    "Desbloquear publicación";
+
+
+                blockButton.innerHTML =
+                    `
+                        <span class="material-symbols-outlined">
+                            lock_open
+                        </span>
+
+                        Desbloquear
+                    `;
+
+
+                actualizarEstadisticas();
+
+                filtrarPublicaciones();
+
+
                 alert(
-                    "Más adelante este botón abrirá la edición real de la publicación."
+                    "Por ahora el bloqueo se actualiza solamente de forma visual."
+                );
+
+
+            }
+        );
+
+
+
+        /* =========================
+           DESBLOQUEAR
+        ========================= */
+
+
+        document.addEventListener(
+            "click",
+            function (event) {
+
+
+                const unblockButton =
+                    event.target.closest(
+                        ".publication-unblock-btn"
+                    );
+
+
+                if (!unblockButton) {
+
+                    return;
+
+                }
+
+
+                const row =
+                    unblockButton.closest(
+                        ".publication-row"
+                    );
+
+
+                const previousStatus =
+                    row.dataset.previousStatus
+                    ||
+                    "publicado";
+
+
+                row.dataset.status =
+                    previousStatus;
+
+
+                row.classList.remove(
+                    "blocked-publication-row"
+                );
+
+
+                const state =
+                    row.querySelector(
+                        ".publication-state"
+                    );
+
+
+                if (
+                    previousStatus ===
+                    "publicado"
+                ) {
+
+                    state.className =
+                        "publication-state published";
+
+
+                    state.innerHTML =
+                        `
+                            <span></span>
+                            Publicado
+                        `;
+
+                }
+
+
+                if (
+                    previousStatus ===
+                    "borrador"
+                ) {
+
+                    state.className =
+                        "publication-state draft";
+
+
+                    state.innerHTML =
+                        `
+                            <span></span>
+                            Borrador
+                        `;
+
+                }
+
+
+                if (
+                    previousStatus ===
+                    "programado"
+                ) {
+
+                    state.className =
+                        "publication-state scheduled";
+
+
+                    state.innerHTML =
+                        `
+                            <span></span>
+                            Programado
+                        `;
+
+                }
+
+
+                const cover =
+                    row.querySelector(
+                        ".publication-cover"
+                    );
+
+
+                cover.classList.remove(
+                    "blocked"
+                );
+
+
+                unblockButton.className =
+                    "publication-block-btn";
+
+
+                unblockButton.title =
+                    "Bloquear publicación";
+
+
+                unblockButton.innerHTML =
+                    `
+                        <span class="material-symbols-outlined">
+                            block
+                        </span>
+
+                        Bloquear
+                    `;
+
+
+                actualizarEstadisticas();
+
+                filtrarPublicaciones();
+
+
+                alert(
+                    "Por ahora el desbloqueo se actualiza solamente de forma visual."
                 );
 
 
@@ -2023,7 +2297,7 @@ document.addEventListener(
                 0;
 
 
-            let scheduled =
+            let blocked =
                 0;
 
 
@@ -2057,10 +2331,10 @@ document.addEventListener(
 
                     if (
                         row.dataset.status ===
-                        "programado"
+                        "bloqueado"
                     ) {
 
-                        scheduled++;
+                        blocked++;
 
                     }
 
@@ -2098,9 +2372,9 @@ document.addEventListener(
 
 
             document.getElementById(
-                "stat-scheduled"
+                "stat-blocked"
             ).textContent =
-                scheduled;
+                blocked;
 
 
             document.getElementById(
@@ -2110,6 +2384,7 @@ document.addEventListener(
 
 
         }
+
 
 
         actualizarEstadisticas();
@@ -2125,4 +2400,4 @@ document.addEventListener(
 
 </body>
 
-</html>å
+</html>
