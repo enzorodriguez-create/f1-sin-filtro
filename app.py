@@ -1,11 +1,18 @@
 import os
 import requests
 
-from flask import Flask, render_template, redirect, url_for, session, request
+from flask import Flask, render_template, redirect, url_for, session, request, flash
 from dotenv import load_dotenv
 from authlib.integrations.flask_client import OAuth
 from werkzeug.middleware.proxy_fix import ProxyFix
 from models import db, Usuario, bcrypt
+from almacenamiento import (
+    extension_valida,
+    subir_imagen,
+    url_imagen,
+    borrar_imagen,
+    usa_s3
+)
 
 load_dotenv()
 
@@ -16,6 +23,8 @@ app.wsgi_app = ProxyFix(app.wsgi_app, x_proto=1, x_host=1)
 app.config["SECRET_KEY"] = os.environ.get("SECRET_KEY", "bd1xd")
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///f1_sin_filtro.db"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+# Limito las imágenes a un máximo de 5 MB
+app.config["MAX_CONTENT_LENGTH"] = 5 * 1024 * 1024
 
 db.init_app(app)
 bcrypt.init_app(app)
@@ -30,6 +39,115 @@ google = oauth.register(
     client_kwargs={"scope": "openid email profile"},
 )
 
+def guardar_usuario_en_session(usuario):
+
+    # Guardo en la sesión los datos principales del usuario
+    session["usuario"] = {
+        "id": usuario.id,
+        "nombre": usuario.nombre,
+        "apellido": usuario.apellido,
+        "usuario": usuario.usuario,
+        "email": usuario.email,
+        "foto": usuario.foto,
+        "rol": usuario.rol,
+        "tipo_login": usuario.tipo_login,
+        "premium": usuario.premium
+    }
+
+
+def obtener_usuario_actual():
+
+    # Obtengo los datos guardados en la sesión
+    datos_usuario = session.get("usuario")
+
+    if not datos_usuario:
+        return None
+
+    # Busco al usuario real en la base de datos
+    return db.session.get(
+        Usuario,
+        datos_usuario["id"]
+    )
+
+
+def actualizar_perfil_usuario(usuario):
+
+    # Actualizo los datos del formulario
+    usuario.nombre = request.form.get(
+        "nombre",
+        ""
+    ).strip()
+
+    usuario.apellido = request.form.get(
+        "apellido",
+        ""
+    ).strip()
+
+    usuario.usuario = request.form.get(
+        "usuario",
+        ""
+    ).strip()
+
+    usuario.email = request.form.get(
+        "email",
+        ""
+    ).strip()
+
+
+    # Obtengo la foto enviada
+    foto = request.files.get("foto")
+
+
+    if foto and foto.filename:
+
+        # Compruebo que sea una extensión permitida
+        if not extension_valida(foto.filename):
+
+            return (
+                False,
+                "La imagen debe ser JPG, JPEG, PNG, WEBP o GIF."
+            )
+
+
+        # Guardo la foto anterior
+        foto_anterior = usuario.foto
+
+
+        # Subo la nueva foto a S3
+        usuario.foto = subir_imagen(
+            foto,
+            carpeta="avatares"
+        )
+
+
+        # Guardo primero la nueva key en la base
+        db.session.commit()
+
+
+        # Después elimino la imagen anterior
+        borrar_imagen(
+            foto_anterior
+        )
+
+
+    else:
+
+        # Si no cambia la foto,
+        # guardo solamente los otros datos
+        db.session.commit()
+
+
+    # Actualizo también la sesión
+    guardar_usuario_en_session(
+        usuario
+    )
+
+
+    return (
+        True,
+        "Perfil actualizado correctamente."
+    )
+
 @app.route("/")
 def inicio():
     return render_template("index.html")
@@ -43,19 +161,19 @@ def login():
         email = request.form.get("email")
         password = request.form.get("password")
 
-        usuario = Usuario.query.filter_by(email=email).first()
+        usuario = Usuario.query.filter_by(
+            email=email
+        ).first()
 
         if usuario and usuario.verificar_password(password):
 
-            session["usuario"] = {
-                "id": usuario.id,
-                "nombre": usuario.nombre,
-                "email": usuario.email,
-                "rol": usuario.rol,
-                "premium": usuario.premium
-            }
+            guardar_usuario_en_session(
+                usuario
+            )
 
-            return redirect(url_for("inicio"))
+            return redirect(
+                url_for("inicio")
+            )
 
         return "Email o contraseña incorrectos."
 
@@ -126,10 +244,20 @@ def post():
 
 @app.route("/perfil")
 def perfil():
-    usuario = session.get("usuario")
+
+    usuario = obtener_usuario_actual()
+
+    if not usuario:
+
+        return redirect(
+            url_for("login")
+        )
 
 
-    return render_template("perfil/perfil.html", usuario=usuario)
+    return render_template(
+        "perfil/perfil.html",
+        usuario=usuario
+    )
 
 @app.route("/calendario")
 def calendario():
@@ -175,9 +303,42 @@ def editor():
         seccion_activa="dashboard"
     )
 
-@app.route("/perfil/editar")
+@app.route(
+    "/perfil/editar",
+    methods=["GET", "POST"]
+)
 def editar_perfil():
-    return render_template("perfil/editar.html")
+
+    usuario = obtener_usuario_actual()
+
+    if not usuario:
+
+        return redirect(
+            url_for("login")
+        )
+
+
+    if request.method == "POST":
+
+        correcto, mensaje = actualizar_perfil_usuario(
+            usuario
+        )
+
+
+        if not correcto:
+
+            return mensaje
+
+
+        return redirect(
+            url_for("perfil")
+        )
+
+
+    return render_template(
+        "perfil/editar.html",
+        usuario=usuario
+    )
 
 @app.route("/perfil/comentarios")
 def mis_comentarios():
@@ -240,19 +401,14 @@ def callback_google():
         usuario = nuevo_usuario
 
 
-    session["usuario"] = {
-        "id": usuario.id,
-        "nombre": usuario.nombre,
-        "apellido": usuario.apellido,
-        "usuario": usuario.usuario,
-        "email": usuario.email,
-        "foto": usuario.foto,
-        "rol": usuario.rol,
-        "tipo_login": usuario.tipo_login,
-        "premium": usuario.premium
-    }
+    guardar_usuario_en_session(
+        usuario
+    )
 
-    return redirect(url_for("inicio"))
+
+    return redirect(
+        url_for("inicio")
+    )
 
 @app.route("/editor/crear-publicacion")
 def editor_crear_publicacion():
@@ -321,10 +477,37 @@ def editor_etiquetas():
         seccion_activa="etiquetas"
     )
 
-@app.route("/editor/perfil")
+@app.route(
+    "/editor/perfil",
+    methods=["GET", "POST"]
+)
 def editor_perfil():
 
-    usuario = session.get("usuario")
+    usuario = obtener_usuario_actual()
+
+    if not usuario:
+
+        return redirect(
+            url_for("login")
+        )
+
+
+    if request.method == "POST":
+
+        correcto, mensaje = actualizar_perfil_usuario(
+            usuario
+        )
+
+
+        if not correcto:
+
+            return mensaje
+
+
+        return redirect(
+            url_for("editor_perfil")
+        )
+
 
     return render_template(
         "editor/perfil.html",
@@ -420,16 +603,54 @@ def admin_analiticas():
         seccion_activa="analiticas"
     )
 
-@app.route("/admin/perfil")
+@app.route(
+    "/admin/perfil",
+    methods=["GET", "POST"]
+)
 def admin_perfil():
 
-    usuario = session.get("usuario")
+    usuario = obtener_usuario_actual()
+
+    if not usuario:
+
+        return redirect(
+            url_for("login")
+        )
+
+
+    if request.method == "POST":
+
+        correcto, mensaje = actualizar_perfil_usuario(
+            usuario
+        )
+
+
+        if not correcto:
+
+            return mensaje
+
+
+        return redirect(
+            url_for("admin_perfil")
+        )
+
 
     return render_template(
         "admin/perfil.html",
         usuario=usuario,
         seccion_activa="perfil"
     )
+
+@app.context_processor
+def funciones_para_plantillas():
+
+    return {
+        "url_imagen":
+            url_imagen,
+
+        "usa_s3":
+            usa_s3()
+    }
 
 if __name__ == "__main__":
 
