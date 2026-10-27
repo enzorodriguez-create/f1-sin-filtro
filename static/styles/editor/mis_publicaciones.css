@@ -1,4 +1,3 @@
-
 /* =========================
    VARIABLES
 ========================= */
@@ -403,22 +402,32 @@ input {
 .publications-grid {
     display: grid;
 
-    grid-template-columns: 1fr;
+    grid-template-columns:
+        repeat(
+            auto-fill,
+            minmax(320px, 360px)
+        );
 
-    gap: 16px;
+    gap: 24px;
+
+    justify-content: start;
+
+    align-items: start;
 }
 
 
 .publication-card {
+    width: 100%;
+
+    max-width: 360px;
+
     overflow: hidden;
 
-    background: var(--card);
-
-    backdrop-filter: blur(10px);
+    border-radius: 12px;
 
     border: 1px solid var(--border);
 
-    border-radius: 6px;
+    background: rgba(14, 14, 14, 0.92);
 
     transition:
         transform 0.2s,
@@ -440,9 +449,26 @@ input {
 .publication-image {
     position: relative;
 
-    height: 145px;
+    width: 100%;
 
-    background: rgba(14, 14, 14, 0.75);
+    height: 190px;
+
+    overflow: hidden;
+
+    background: rgba(20, 20, 20, 0.9);
+}
+
+
+.publication-cover {
+    width: 100%;
+
+    height: 100%;
+
+    display: block;
+
+    object-fit: cover;
+
+    object-position: center;
 }
 
 
@@ -471,18 +497,20 @@ input {
     top: 10px;
     right: 10px;
 
-    padding: 3px 7px;
+    padding: 4px 8px;
 
     border-radius: 3px;
 
     font-size: 9px;
 
     font-weight: 800;
+
+    letter-spacing: 0.04em;
 }
 
 
 .status.published {
-    background: rgba(0, 51, 102, 0.85);
+    background: rgba(0, 51, 102, 0.9);
 
     color: var(--primary);
 }
@@ -508,34 +536,41 @@ input {
 
 .publication-content {
     padding: 16px;
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 12px;
 }
 
 
 .publication-meta {
-    margin-bottom: 8px;
-
     display: flex;
-
     justify-content: space-between;
+    align-items: center;
 
-    gap: 10px;
+    gap: 12px;
 
-    color: var(--primary);
+    color: var(--muted);
 
     font-size: 10px;
 
-    font-weight: 700;
+    font-weight: 600;
+
+    text-transform: uppercase;
 }
 
 
 .publication-content h2 {
-    margin: 0 0 8px;
+    margin: 0;
 
     font-family: var(--font-title);
 
-    font-size: 18px;
+    font-size: 19px;
 
     line-height: 1.25;
+
+    color: var(--text);
 }
 
 
@@ -555,7 +590,7 @@ input {
 ========================= */
 
 .publication-info {
-    margin-top: 14px;
+    margin-top: 4px;
 
     padding-top: 12px;
 
@@ -594,26 +629,25 @@ input {
 ========================= */
 
 .publication-footer {
-    margin-top: 14px;
+    margin-top: 6px;
 
-    display: flex;
+    display: grid;
 
-    gap: 8px;
+    grid-template-columns: 1fr 1fr;
+
+    gap: 10px;
 }
 
 
 .edit-btn,
 .delete-btn {
-    flex: 1;
-
-    padding: 8px 10px;
+    min-height: 42px;
 
     display: flex;
-
     align-items: center;
     justify-content: center;
 
-    gap: 5px;
+    gap: 7px;
 
     border-radius: 4px;
 
@@ -626,6 +660,8 @@ input {
 
 
 .edit-btn {
+    border: none;
+
     background: var(--primary-container);
 
     color: #fff;
@@ -640,7 +676,7 @@ input {
 .delete-btn {
     background: rgba(50, 20, 20, 0.7);
 
-    border: 1px solid rgba(255, 112, 105, 0.2);
+    border: 1px solid rgba(255, 112, 105, 0.25);
 
     color: var(--error);
 }
@@ -658,14 +694,58 @@ input {
 
 
 /* =========================
+   VACÍO
+========================= */
+
+.empty-publications {
+    min-height: 220px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    gap: 10px;
+
+    padding: 24px;
+
+    border: 1px solid var(--border);
+
+    border-radius: 12px;
+
+    background: rgba(14, 14, 14, 0.8);
+
+    color: var(--muted);
+}
+
+
+.empty-publications .material-symbols-outlined {
+    font-size: 42px;
+
+    color: var(--primary);
+}
+
+
+.empty-publications p {
+    margin: 0;
+
+    font-size: 13px;
+}
+
+
+/* =========================
    RESPONSIVE
 ========================= */
 
-@media (min-width: 640px) {
+@media (max-width: 639px) {
 
     .publications-grid {
-        grid-template-columns:
-            repeat(2, 1fr);
+        grid-template-columns: 1fr;
+    }
+
+
+    .publication-card {
+        max-width: 100%;
     }
 
 }
@@ -716,14 +796,41 @@ input {
 
 }
 
+.preview-btn {
+    min-height: 42px;
 
-@media (min-width: 1280px) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
-    .publications-grid {
-        grid-template-columns:
-            repeat(3, 1fr);
-    }
+    gap: 7px;
 
+    background: rgba(
+        41,
+        41,
+        41,
+        0.86
+    );
+
+    color: #ffffff;
+
+    border: 1px solid var(--border);
+
+    border-radius: 4px;
+
+    font-size: 12px;
+    font-weight: 700;
+
+    text-decoration: none;
 }
 
+
+.preview-btn:hover {
+    background: rgba(
+        55,
+        55,
+        55,
+        0.9
+    );
+}
 
