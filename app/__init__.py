@@ -2,6 +2,7 @@ from flask import Flask
 
 from config import Config
 from app.extensions import db, bcrypt, oauth
+from almacenamiento import url_imagen, usa_s3
 
 
 def create_app():
@@ -31,6 +32,21 @@ def create_app():
     app.register_blueprint(
         auth_bp
     )
+
+     # Blueprint de perfil
+    from app.perfil.routes import bp as perfil_bp
+
+    app.register_blueprint(
+        perfil_bp
+    )
+
+    @app.context_processor
+    def funciones_para_plantillas():
+
+        return {
+            "url_imagen": url_imagen,
+            "usa_s3": usa_s3()
+        }
 
 
     return app

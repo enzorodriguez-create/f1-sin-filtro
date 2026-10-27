@@ -135,7 +135,7 @@
 
         <a
           class="perfil-btn-edit"
-          href="{{ url_for('editar_perfil') }}"
+          href="{{ url_for('perfil.editar_perfil') }}"
         >
           <span class="material-symbols-outlined">
             edit
@@ -149,7 +149,7 @@
       
         <a
           class="perfil-btn-editor"
-          href="{{ url_for('solicitar_editor') }}"
+          href="{{ url_for('perfil.solicitar_editor') }}"
         >
           <span class="material-symbols-outlined">
             workspace_premium
@@ -340,7 +340,7 @@
         <!-- MIS COMENTARIOS -->
 
         <a
-          href="{{ url_for('mis_comentarios') }}"
+        href="{{ url_for('perfil.mis_comentarios') }}"
           class="perfil-link-card"
         >
 
@@ -373,7 +373,7 @@
         <!-- PUBLICACIONES GUARDADAS -->
 
         <a
-          href="{{ url_for('guardados') }}"
+        href="{{ url_for('perfil.guardados') }}"
           class="perfil-link-card"
         >
 
@@ -406,7 +406,7 @@
         <!-- ETIQUETAS GUARDADAS -->
 
         <a
-          href="{{ url_for('etiquetas_guardadas') }}"
+        href="{{ url_for('perfil.etiquetas_guardadas') }}"
           class="perfil-link-card"
         >
 
@@ -499,7 +499,7 @@
 
             En
 
-            <a href="{{ url_for('post') }}">
+            <a href="{{ url_for('main.post') }}">
               Ferrari prepara mejoras para la próxima carrera
             </a>
 
@@ -538,7 +538,7 @@
 
             Publicación
 
-            <a href="{{ url_for('post') }}">
+            <a href="{{ url_for('main.post') }}">
               Ferrari prepara mejoras para la próxima carrera
             </a>
 
