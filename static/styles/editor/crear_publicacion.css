@@ -2011,3 +2011,16 @@ body {
 
 }
 
+.cover-preview {
+    width: 100%;
+    max-height: 360px;
+
+    object-fit: cover;
+
+    border-radius: 8px;
+}
+
+.cover-preview.hidden {
+    display: none;
+}
+
