@@ -139,7 +139,6 @@
 }
 
 
-
 /* =========================
    PUBLICACIÓN ACTUAL
 ========================= */
@@ -240,7 +239,6 @@
 }
 
 
-
 /* =========================
    GRID
 ========================= */
@@ -274,7 +272,6 @@
 
     gap: 1rem;
 }
-
 
 
 /* =========================
@@ -335,13 +332,15 @@
 }
 
 
-
 /* =========================
    CAMPOS
 ========================= */
 
 .edit-field,
-.edit-select {
+.edit-select,
+.field {
+    box-sizing: border-box;
+
     width: 100%;
 
     padding: 0.8rem;
@@ -364,14 +363,15 @@
 
 
 .edit-field:focus,
-.edit-select:focus {
+.edit-select:focus,
+.field:focus {
     background: rgba(18, 18, 18, 0.9);
 
     border-color: #a7c8ff;
 }
 
 
-.edit-title-field {
+.field-title {
     font-family: "Chivo", sans-serif;
 
     font-size: 1.05rem;
@@ -388,9 +388,8 @@
 }
 
 
-
 /* =========================
-   IMAGEN
+   IMAGEN PRINCIPAL
 ========================= */
 
 .edit-aspect {
@@ -410,7 +409,12 @@
 
 
 .edit-image-preview {
+    width: 100%;
+
     min-height: 220px;
+    max-height: 360px;
+
+    overflow: hidden;
 
     display: flex;
     flex-direction: column;
@@ -425,6 +429,18 @@
 
     border: 1px dashed rgba(255, 255, 255, 0.15);
     border-radius: 0.45rem;
+}
+
+
+.edit-image-preview img {
+    width: 100%;
+    height: 100%;
+
+    max-height: 360px;
+
+    object-fit: cover;
+
+    display: block;
 }
 
 
@@ -469,9 +485,8 @@
 }
 
 
-
 /* =========================
-   EDITOR DE TEXTO
+   EDITOR DE CONTENIDO
 ========================= */
 
 .edit-editor {
@@ -563,9 +578,18 @@
 
 
 .edit-workspace {
-    min-height: 380px;
+    box-sizing: border-box;
 
-    padding: 1.5rem;
+    width: 100%;
+
+    min-height: 200px;
+
+    padding: 1rem;
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 1rem;
 
     background: rgba(14, 14, 14, 0.72);
 
@@ -574,19 +598,6 @@
     outline: none;
 
     line-height: 1.7;
-}
-
-
-.edit-workspace h2,
-.edit-workspace h3 {
-    margin-top: 0;
-
-    font-family: "Chivo", sans-serif;
-}
-
-
-.edit-workspace p {
-    color: #d4d4d4;
 }
 
 
@@ -612,6 +623,95 @@
     color: #a7c8ff;
 }
 
+
+/* =========================
+   BLOQUES DE PUBLICACIÓN
+========================= */
+
+.bloque-edicion {
+    box-sizing: border-box;
+
+    width: 100%;
+
+    padding: 1rem;
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 0.75rem;
+
+    background: rgba(18, 18, 18, 0.82);
+
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 0.45rem;
+}
+
+
+.bloque-edicion + .bloque-edicion {
+    margin-top: 0;
+}
+
+
+/* =========================
+   BLOQUES DE TEXTO
+========================= */
+
+.bloque-texto {
+    box-sizing: border-box;
+
+    width: 100%;
+
+    min-height: 140px;
+
+    resize: vertical;
+
+    line-height: 1.6;
+}
+
+
+/* =========================
+   IMÁGENES DE BLOQUES
+========================= */
+
+.edit-block-image {
+    width: 100%;
+
+    max-width: 100%;
+    max-height: 420px;
+
+    object-fit: cover;
+
+    display: block;
+
+    border-radius: 0.45rem;
+}
+
+
+/* =========================
+   CARRUSEL
+========================= */
+
+.edit-carousel-preview {
+    width: 100%;
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(
+            auto-fit,
+            minmax(160px, 1fr)
+        );
+
+    gap: 0.75rem;
+}
+
+
+.edit-carousel-preview .edit-block-image {
+    width: 100%;
+    height: 150px;
+
+    object-fit: cover;
+}
 
 
 /* =========================
@@ -647,7 +747,6 @@
 
     font-size: 1rem;
 }
-
 
 
 /* =========================
@@ -700,7 +799,6 @@
 
     line-height: 1.4;
 }
-
 
 
 /* =========================
@@ -803,7 +901,6 @@
 }
 
 
-
 /* =========================
    SELECT
 ========================= */
@@ -814,7 +911,6 @@
 
     cursor: pointer;
 }
-
 
 
 /* =========================
@@ -902,7 +998,6 @@
 }
 
 
-
 /* =========================
    INFORMACIÓN
 ========================= */
@@ -952,7 +1047,6 @@
 }
 
 
-
 /* =========================
    ACCIONES
 ========================= */
@@ -967,6 +1061,8 @@
 
 .edit-save-btn,
 .edit-cancel-btn {
+    box-sizing: border-box;
+
     width: 100%;
 
     min-height: 42px;
@@ -1022,7 +1118,6 @@
 
     color: #ffffff;
 }
-
 
 
 /* =========================
@@ -1084,6 +1179,11 @@
         white-space: normal;
     }
 
+
+    .edit-carousel-preview {
+        grid-template-columns: 1fr 1fr;
+    }
+
 }
 
 
@@ -1096,18 +1196,34 @@
 
     .edit-image-preview {
         min-height: 170px;
+        max-height: 250px;
+    }
+
+
+    .edit-image-preview img {
+        max-height: 250px;
     }
 
 
     .edit-workspace {
-        min-height: 300px;
+        min-height: 200px;
 
-        padding: 1rem;
+        padding: 0.75rem;
     }
 
 
     .edit-toolbar-separator {
         display: none;
+    }
+
+
+    .edit-carousel-preview {
+        grid-template-columns: 1fr;
+    }
+
+
+    .edit-carousel-preview .edit-block-image {
+        height: 180px;
     }
 
 }

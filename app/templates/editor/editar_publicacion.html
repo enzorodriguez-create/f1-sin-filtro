@@ -1,92 +1,79 @@
 <!DOCTYPE html>
 <html lang="es">
-
-<head>
-
-    <meta charset="utf-8">
+  <head>
+    <meta charset="utf-8" />
 
     <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
+      name="viewport"
+      content="width=device-width, initial-scale=1.0"
+    />
 
     <title>
-        F1 SIN FILTRO - Editar Publicación
+      F1 SIN FILTRO - Editar Publicación
     </title>
-
 
     <!-- FUENTES -->
 
     <link
-        href="https://fonts.googleapis.com"
-        rel="preconnect"
-    >
+      href="https://fonts.googleapis.com"
+      rel="preconnect"
+    />
 
     <link
-        href="https://fonts.gstatic.com"
-        rel="preconnect"
-        crossorigin
-    >
+      href="https://fonts.gstatic.com"
+      rel="preconnect"
+      crossorigin
+    />
 
     <link
-        href="https://fonts.googleapis.com/css2?family=Chivo:wght@400;600;700;900&family=Geist:wght@400;500;600;700&display=swap"
-        rel="stylesheet"
-    >
+      href="https://fonts.googleapis.com/css2?family=Chivo:wght@400;600;700;900&family=Geist:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
 
     <link
-        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
-        rel="stylesheet"
-    >
-
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
+      rel="stylesheet"
+    />
 
     <!-- CSS -->
 
     <link
-        rel="stylesheet"
-        href="{{ url_for('static', filename='styles/style.css') }}"
-    >
+      rel="stylesheet"
+      href="{{ url_for('static', filename='styles/style.css') }}"
+    />
 
     <link
-        rel="stylesheet"
-        href="{{ url_for('static', filename='styles/editor/sidebar.css') }}"
-    >
+      rel="stylesheet"
+      href="{{ url_for('static', filename='styles/editor/sidebar.css') }}"
+    />
 
     <link
-        rel="stylesheet"
-        href="{{ url_for('static', filename='styles/editor/dashboard.css') }}"
-    >
+      rel="stylesheet"
+      href="{{ url_for('static', filename='styles/editor/dashboard.css') }}"
+    />
 
     <link
-        rel="stylesheet"
-        href="{{ url_for('static', filename='styles/editor/editar_publicacion.css') }}"
-    >
+      rel="stylesheet"
+      href="{{ url_for('static', filename='styles/editor/editar_publicacion.css') }}"
+    />
+  </head>
 
-</head>
-
-
-<body>
-
-
-<!-- =========================
-     LAYOUT EDITOR
-========================= -->
-
-<div class="editor-page">
-
+  <body>
 
     <!-- =========================
-         SIDEBAR
+         LAYOUT EDITOR
     ========================== -->
 
-    {% include "editor/sidebar.html" %}
+    <div class="editor-page">
+
+      <!-- SIDEBAR -->
+
+      {% include "editor/sidebar.html" %}
 
 
-    <!-- =========================
-         CONTENIDO
-    ========================== -->
+      <!-- CONTENIDO -->
 
-    <div class="editor-content">
-
+      <div class="editor-content">
 
         <!-- =========================
              TOPBAR
@@ -94,83 +81,79 @@
 
         <header class="editor-topbar">
 
+          <div class="topbar-left">
 
-            <div class="topbar-left">
+            <button
+              class="menu-btn"
+              type="button"
+              id="editor-menu-btn"
+              aria-label="Abrir menú"
+            >
 
-                <button
-                    class="menu-btn"
-                    type="button"
-                    id="editor-menu-btn"
-                    aria-label="Abrir menú"
-                >
+              <span class="material-symbols-outlined">
+                menu
+              </span>
 
-                    <span class="material-symbols-outlined">
-                        menu
-                    </span>
+            </button>
 
-                </button>
-
-            </div>
-
-
-            <div class="topbar-right">
+          </div>
 
 
-                <div class="role-badge">
+          <div class="topbar-right">
 
-                    <span class="role-dot"></span>
+            <div class="role-badge">
 
-                    <span>
-                        ROL:
-                    </span>
+              <span class="role-dot"></span>
 
-                    <strong>
-                        EDITOR
-                    </strong>
+              <span>
+                ROL:
+              </span>
 
-                </div>
-
-                <div class="editor-user">
-
-                    <div class="editor-user-data">
-                
-                        <strong>
-                            {{ usuario.nombre if usuario else "Editor" }}
-                        </strong>
-                
-                        <span>
-                            {{ usuario.email if usuario else "editor@f1sinfiltro.com" }}
-                        </span>
-                
-                    </div>
-                
-                
-                    {% if usuario and usuario.foto %}
-                
-                        <img
-                            class="editor-avatar editor-avatar-img"
-                            src="{{ url_imagen(usuario.foto) }}"
-                            alt="{{ usuario.nombre }}"
-                        >
-                
-                    {% else %}
-                
-                        <div class="editor-avatar">
-                
-                            <span class="material-symbols-outlined">
-                                person
-                            </span>
-                
-                        </div>
-                
-                    {% endif %}
-                
-                </div>
-
-
+              <strong>
+                EDITOR
+              </strong>
 
             </div>
 
+
+            <div class="editor-user">
+
+              <div class="editor-user-data">
+
+                <strong>
+                  {{ usuario.nombre if usuario else "Editor" }}
+                </strong>
+
+                <span>
+                  {{ usuario.email if usuario else "editor@f1sinfiltro.com" }}
+                </span>
+
+              </div>
+
+
+              {% if usuario and usuario.foto %}
+
+              <img
+                class="editor-avatar editor-avatar-img"
+                src="{{ url_imagen(usuario.foto) }}"
+                alt="{{ usuario.nombre }}"
+              />
+
+              {% else %}
+
+              <div class="editor-avatar">
+
+                <span class="material-symbols-outlined">
+                  person
+                </span>
+
+              </div>
+
+              {% endif %}
+
+            </div>
+
+          </div>
 
         </header>
 
@@ -181,1150 +164,1110 @@
 
         <main class="editor-main">
 
+          <div class="editor-container">
 
-            <div class="editor-container">
+            <!-- =========================
+                 ENCABEZADO
+            ========================== -->
 
+            <div class="edit-head">
 
-                <!-- =========================
-                     ENCABEZADO
-                ========================== -->
+              <div>
 
-                <div class="edit-head">
+                <div class="edit-path">
 
+                  <span>
+                    PANEL DE CONTROL
+                  </span>
 
-                    <div>
+                  <span>
+                    /
+                  </span>
 
+                  <span>
+                    MIS PUBLICACIONES
+                  </span>
 
-                        <div class="edit-path">
+                  <span>
+                    /
+                  </span>
 
-                            <span>
-                                PANEL DE CONTROL
-                            </span>
-
-                            <span>
-                                /
-                            </span>
-
-                            <span>
-                                MIS PUBLICACIONES
-                            </span>
-
-                            <span>
-                                /
-                            </span>
-
-                            <strong>
-                                EDITAR PUBLICACIÓN
-                            </strong>
-
-                        </div>
-
-
-                        <h1>
-                            EDITAR <span>PUBLICACIÓN</span>
-                        </h1>
-
-
-                        <p>
-                            Modificá el contenido y la configuración de la publicación.
-                        </p>
-
-
-                    </div>
-
-
-                    <div class="edit-head-actions">
-
-
-                        <a
-                            class="btn-secondary"
-                            href="{{ url_for('editor.editor_publicaciones') }}"
-                        >
-
-                            <span class="material-symbols-outlined">
-                                arrow_back
-                            </span>
-
-                            Volver
-
-                        </a>
-
-
-                        <button
-                            class="btn-primary"
-                            type="button"
-                            id="btn-save-edit"
-                        >
-
-                            <span class="material-symbols-outlined">
-                                save
-                            </span>
-
-                            Guardar Cambios
-
-                        </button>
-
-
-                    </div>
-
+                  <strong>
+                    EDITAR PUBLICACIÓN
+                  </strong>
 
                 </div>
 
 
-                <!-- =========================
-                     PUBLICACIÓN ACTUAL
-                ========================== -->
+                <h1>
 
-                <div class="edit-current-post">
+                  EDITAR
 
+                  <span>
+                    PUBLICACIÓN
+                  </span>
 
-                    <div class="edit-current-left">
+                </h1>
 
-                        <span class="material-symbols-outlined">
-                            article
-                        </span>
 
+                <p>
+                  Modificá el contenido y la configuración de la publicación.
+                </p>
 
-                        <div>
+              </div>
 
-                            <span>
-                                PUBLICACIÓN ACTUAL
-                            </span>
 
-                            <strong>
-                                Ferrari prepara nuevas mejoras para la próxima carrera
-                            </strong>
+              <div class="edit-head-actions">
 
-                        </div>
+                <a
+                  class="btn-secondary"
+                  href="{{ url_for('editor.editor_publicaciones') }}"
+                >
 
-                    </div>
+                  <span class="material-symbols-outlined">
+                    arrow_back
+                  </span>
 
+                  Volver
 
-                    <span class="edit-status">
-                        PUBLICADA
-                    </span>
+                </a>
 
 
-                </div>
+                <button
+                  class="btn-primary"
+                  type="submit"
+                  form="edit-form"
+                >
 
+                  <span class="material-symbols-outlined">
+                    save
+                  </span>
 
-                <!-- =========================
-                     GRID
-                ========================== -->
+                  Guardar Cambios
 
-                <div class="edit-grid">
+                </button>
 
-
-                    <!-- =========================
-                         COLUMNA IZQUIERDA
-                    ========================== -->
-
-                    <div class="edit-main">
-
-
-                        <!-- TÍTULO -->
-
-                        <div class="edit-card">
-
-
-                            <div class="edit-label-row">
-
-                                <label
-                                    for="edit-title"
-                                >
-                                    TÍTULO DE LA PUBLICACIÓN
-                                </label>
-
-                                <span id="edit-title-count">
-                                    59/120
-                                </span>
-
-                            </div>
-
-
-                            <input
-                                class="edit-field edit-title-field"
-                                id="edit-title"
-                                type="text"
-                                maxlength="120"
-                                value="Ferrari prepara nuevas mejoras para la próxima carrera"
-                            >
-
-
-                        </div>
-
-
-                        <!-- RESUMEN -->
-
-                        <div class="edit-card">
-
-
-                            <label
-                                class="edit-label"
-                                for="edit-summary"
-                            >
-                                SUBTÍTULO / RESUMEN DE PORTADA
-                            </label>
-
-
-                            <textarea
-                                class="edit-field edit-summary"
-                                id="edit-summary"
-                                rows="4"
-                            >Análisis de los últimos cambios técnicos y el impacto esperado en el rendimiento del equipo.</textarea>
-
-
-                        </div>
-
-
-                        <!-- IMAGEN -->
-
-                        <div class="edit-card">
-
-
-                            <div class="edit-label-row">
-
-                                <div>
-
-                                    <span class="edit-label">
-                                        IMAGEN PRINCIPAL / PORTADA
-                                    </span>
-
-                                    <p class="edit-help">
-                                        Podés mantener la imagen actual o seleccionar una nueva.
-                                    </p>
-
-                                </div>
-
-
-                                <span class="edit-aspect">
-                                    ASPECTO 16:9
-                                </span>
-
-
-                            </div>
-
-
-                            <div class="edit-image-preview">
-
-
-                                <span class="material-symbols-outlined">
-                                    image
-                                </span>
-
-
-                                <span>
-                                    Imagen actual de la publicación
-                                </span>
-
-
-                            </div>
-
-
-                            <label
-                                class="edit-image-btn"
-                                for="edit-image"
-                            >
-
-                                <span class="material-symbols-outlined">
-                                    upload
-                                </span>
-
-                                Cambiar Imagen
-
-                            </label>
-
-
-                            <input
-                                id="edit-image"
-                                type="file"
-                                accept="image/png, image/jpeg, image/webp"
-                                hidden
-                            >
-
-
-                        </div>
-
-
-                        <!-- =========================
-                             EDITOR
-                        ========================== -->
-
-                        <div class="edit-editor">
-
-
-                            <div class="edit-toolbar">
-
-
-                                <div class="edit-toolbar-group">
-
-
-                                    <button
-                                        class="edit-toolbar-btn"
-                                        id="edit-bold"
-                                        type="button"
-                                    >
-
-                                        <span class="material-symbols-outlined">
-                                            format_bold
-                                        </span>
-
-                                    </button>
-
-
-                                    <button
-                                        class="edit-toolbar-btn"
-                                        id="edit-italic"
-                                        type="button"
-                                    >
-
-                                        <span class="material-symbols-outlined">
-                                            format_italic
-                                        </span>
-
-                                    </button>
-
-
-                                    <button
-                                        class="edit-toolbar-btn"
-                                        id="edit-underline"
-                                        type="button"
-                                    >
-
-                                        <span class="material-symbols-outlined">
-                                            format_underlined
-                                        </span>
-
-                                    </button>
-
-
-                                </div>
-
-
-                                <div class="edit-toolbar-separator"></div>
-
-
-                                <div class="edit-toolbar-group">
-
-
-                                    <button
-                                        class="edit-toolbar-btn edit-toolbar-text"
-                                        id="edit-h2"
-                                        type="button"
-                                    >
-                                        H2
-                                    </button>
-
-
-                                    <button
-                                        class="edit-toolbar-btn edit-toolbar-text"
-                                        id="edit-h3"
-                                        type="button"
-                                    >
-                                        H3
-                                    </button>
-
-
-                                </div>
-
-
-                                <div class="edit-toolbar-separator"></div>
-
-
-                                <div class="edit-toolbar-group">
-
-
-                                    <button
-                                        class="edit-toolbar-btn"
-                                        id="edit-list"
-                                        type="button"
-                                    >
-
-                                        <span class="material-symbols-outlined">
-                                            format_list_bulleted
-                                        </span>
-
-                                    </button>
-
-
-                                    <button
-                                        class="edit-toolbar-btn"
-                                        id="edit-link"
-                                        type="button"
-                                    >
-
-                                        <span class="material-symbols-outlined">
-                                            link
-                                        </span>
-
-                                    </button>
-
-
-                                </div>
-
-
-                            </div>
-
-
-                            <div
-                                class="edit-workspace"
-                                id="edit-workspace"
-                                contenteditable="true"
-                                spellcheck="true"
-                            >
-
-                                <h2>
-                                    Nuevas mejoras técnicas
-                                </h2>
-
-                                <p>
-                                    Ferrari prepara una serie de actualizaciones para
-                                    mejorar el rendimiento del monoplaza durante las
-                                    próximas carreras.
-                                </p>
-
-                                <p>
-                                    El equipo espera que los cambios permitan mejorar
-                                    especialmente el comportamiento en curvas de media
-                                    y alta velocidad.
-                                </p>
-
-                            </div>
-
-
-                            <div class="edit-editor-footer">
-
-
-                                <span>
-                                    PALABRAS:
-                                    <strong id="edit-word-count">
-                                        0
-                                    </strong>
-                                </span>
-
-
-                                <span>
-                                    CARACTERES:
-                                    <strong id="edit-char-count">
-                                        0
-                                    </strong>
-                                </span>
-
-
-                            </div>
-
-
-                        </div>
-
-
-                    </div>
-
-
-                    <!-- =========================
-                         COLUMNA DERECHA
-                    ========================== -->
-
-                    <div class="edit-sidebar">
-
-
-                        <!-- ESTADO -->
-
-                        <div class="edit-card edit-side-card">
-
-
-                            <div class="edit-side-title">
-
-                                <span class="material-symbols-outlined">
-                                    tune
-                                </span>
-
-                                <h2>
-                                    Estado de Publicación
-                                </h2>
-
-                            </div>
-
-
-                            <label class="edit-radio">
-
-                                <input
-                                    type="radio"
-                                    name="edit_status"
-                                    value="published"
-                                    checked
-                                >
-
-                                <div>
-
-                                    <strong>
-                                        Publicada
-                                    </strong>
-
-                                    <span>
-                                        La publicación está visible.
-                                    </span>
-
-                                </div>
-
-                            </label>
-
-
-                            <label class="edit-radio">
-
-                                <input
-                                    type="radio"
-                                    name="edit_status"
-                                    value="draft"
-                                >
-
-                                <div>
-
-                                    <strong>
-                                        Borrador
-                                    </strong>
-
-                                    <span>
-                                        Ocultar temporalmente la publicación.
-                                    </span>
-
-                                </div>
-
-                            </label>
-
-
-                        </div>
-
-
-                        <!-- PREMIUM -->
-
-                        <div class="edit-card edit-side-card">
-
-
-                            <div class="edit-side-title">
-
-                                <span class="material-symbols-outlined">
-                                    stars
-                                </span>
-
-                                <h2>
-                                    Nivel de Suscripción
-                                </h2>
-
-                            </div>
-
-
-                            <div class="edit-premium">
-
-
-                                <div>
-
-                                    <strong>
-                                        Contenido Premium
-                                    </strong>
-
-                                    <span>
-                                        Solo disponible para usuarios Premium.
-                                    </span>
-
-                                </div>
-
-
-                                <label class="edit-switch">
-
-                                    <input
-                                        type="checkbox"
-                                        id="edit-premium"
-                                    >
-
-                                    <span class="edit-switch-track"></span>
-
-                                </label>
-
-
-                            </div>
-
-
-                        </div>
-
-
-                        <!-- CATEGORÍA -->
-
-                        <div class="edit-card edit-side-card">
-
-
-                            <div class="edit-side-title">
-
-                                <span class="material-symbols-outlined">
-                                    category
-                                </span>
-
-                                <h2>
-                                    Categoría
-                                </h2>
-
-                            </div>
-
-
-                            <select
-                                class="edit-select"
-                                id="edit-category"
-                            >
-
-                                <option
-                                    value="tecnica"
-                                    selected
-                                >
-                                    Técnica
-                                </option>
-
-                                <option value="equipos">
-                                    Equipos
-                                </option>
-
-                                <option value="pilotos">
-                                    Pilotos
-                                </option>
-
-                                <option value="campeonato">
-                                    Campeonato
-                                </option>
-
-                                <option value="previa">
-                                    Previa
-                                </option>
-
-                            </select>
-
-
-                        </div>
-
-
-                        <!-- ETIQUETAS -->
-
-                        <div class="edit-card edit-side-card">
-
-
-                            <div class="edit-side-title">
-
-                                <span class="material-symbols-outlined">
-                                    label
-                                </span>
-
-                                <h2>
-                                    Etiquetas
-                                </h2>
-
-                            </div>
-
-
-                            <div
-                                class="edit-tags"
-                                id="edit-tags"
-                            >
-
-
-                                <span class="edit-tag">
-                                    #Ferrari
-
-                                    <button type="button">
-                                        ×
-                                    </button>
-                                </span>
-
-
-                                <span class="edit-tag">
-                                    #F1
-
-                                    <button type="button">
-                                        ×
-                                    </button>
-                                </span>
-
-
-                                <span class="edit-tag">
-                                    #Técnica
-
-                                    <button type="button">
-                                        ×
-                                    </button>
-                                </span>
-
-
-                            </div>
-
-
-                            <div class="edit-add-tag">
-
-
-                                <input
-                                    class="edit-field"
-                                    id="edit-tag-input"
-                                    type="text"
-                                    placeholder="Nueva etiqueta"
-                                >
-
-
-                                <button
-                                    id="edit-add-tag"
-                                    type="button"
-                                >
-
-                                    <span class="material-symbols-outlined">
-                                        add
-                                    </span>
-
-                                </button>
-
-
-                            </div>
-
-
-                        </div>
-
-
-                        <!-- INFORMACIÓN -->
-
-                        <div class="edit-card edit-side-card">
-
-
-                            <div class="edit-side-title">
-
-                                <span class="material-symbols-outlined">
-                                    info
-                                </span>
-
-                                <h2>
-                                    Información
-                                </h2>
-
-                            </div>
-
-
-                            <div class="edit-info">
-
-
-                                <div>
-
-                                    <span>
-                                        Fecha
-                                    </span>
-
-                                    <strong>
-                                        22/10/2026
-                                    </strong>
-
-                                </div>
-
-
-                                <div>
-
-                                    <span>
-                                        Comentarios
-                                    </span>
-
-                                    <strong>
-                                        12
-                                    </strong>
-
-                                </div>
-
-
-                                <div>
-
-                                    <span>
-                                        Vistas
-                                    </span>
-
-                                    <strong>
-                                        1.250
-                                    </strong>
-
-                                </div>
-
-
-                            </div>
-
-
-                        </div>
-
-
-                        <!-- BOTONES -->
-
-                        <div class="edit-card edit-side-card edit-actions">
-
-
-                            <button
-                                class="edit-save-btn"
-                                id="edit-save-side"
-                                type="button"
-                            >
-
-                                <span class="material-symbols-outlined">
-                                    save
-                                </span>
-
-                                Guardar Cambios
-
-                            </button>
-
-
-                            <a
-                                class="edit-cancel-btn"
-                                href="{{ url_for('editor.editor_publicaciones') }}"
-                            >
-                                Cancelar
-                            </a>
-
-
-                        </div>
-
-
-                    </div>
-
-
-                </div>
-
+              </div>
 
             </div>
 
 
+            <!-- =========================
+                 PUBLICACIÓN ACTUAL
+            ========================== -->
+
+            <div class="edit-current-post">
+
+              <div class="edit-current-left">
+
+                <span class="material-symbols-outlined">
+                  article
+                </span>
+
+                <div>
+
+                  <span>
+                    PUBLICACIÓN ACTUAL
+                  </span>
+
+                  <strong>
+                    {{ publicacion.titulo }}
+                  </strong>
+
+                </div>
+
+              </div>
+
+
+              <span class="edit-status">
+
+                {% if publicacion.estado == "publicada" %}
+
+                  PUBLICADA
+
+                {% else %}
+
+                  BORRADOR
+
+                {% endif %}
+
+              </span>
+
+            </div>
+
+
+            <!-- =========================
+                 FORMULARIO
+            ========================== -->
+
+            <form
+              method="POST"
+              enctype="multipart/form-data"
+              id="edit-form"
+            >
+
+              <div class="edit-grid">
+
+
+                <!-- =========================
+                     COLUMNA IZQUIERDA
+                ========================== -->
+
+                <div class="edit-main">
+
+
+                  <!-- =========================
+                       TÍTULO
+                  ========================== -->
+
+                  <div class="edit-card">
+
+                    <div class="edit-label-row">
+
+                      <label for="edit-title">
+                        TÍTULO DE LA PUBLICACIÓN
+                      </label>
+
+                      <span id="edit-title-count">
+                        {{ publicacion.titulo|length }}/120
+                      </span>
+
+                    </div>
+
+
+                    <input
+                      class="field field-title"
+                      id="edit-title"
+                      name="titulo"
+                      type="text"
+                      maxlength="120"
+                      value="{{ publicacion.titulo }}"
+                    />
+
+                  </div>
+
+
+                  <!-- =========================
+                       SUBTÍTULO / RESUMEN
+                  ========================== -->
+
+                  <div class="edit-card">
+
+                    <label
+                      class="edit-label"
+                      for="edit-summary"
+                    >
+                      SUBTÍTULO / RESUMEN DE PORTADA
+                    </label>
+
+
+                    <textarea
+                      class="edit-field edit-summary"
+                      id="edit-summary"
+                      name="resumen"
+                      rows="4"
+                      placeholder="Ingresá un resumen breve para mostrar en la portada..."
+                    >{{ publicacion.resumen or "" }}</textarea>
+
+                  </div>
+
+
+                  <!-- =========================
+                       PORTADA
+                  ========================== -->
+
+                  <div class="edit-card">
+
+                    <div class="edit-label-row">
+
+                      <div>
+
+                        <span class="edit-label">
+                          IMAGEN PRINCIPAL / PORTADA
+                        </span>
+
+                        <p class="edit-help">
+                          Podés mantener la imagen actual o seleccionar una nueva.
+                        </p>
+
+                      </div>
+
+
+                      <span class="edit-aspect">
+                        ASPECTO 16:9
+                      </span>
+
+                    </div>
+
+
+                    <div class="edit-image-preview">
+
+                      {% if publicacion.imagen_portada %}
+
+                      <img
+                        id="preview-portada"
+                        src="{{ url_imagen(publicacion.imagen_portada) }}"
+                        alt="{{ publicacion.titulo }}"
+                      />
+
+                      {% else %}
+
+                      <span class="material-symbols-outlined">
+                        image
+                      </span>
+
+                      <span>
+                        Sin imagen de portada
+                      </span>
+
+                      {% endif %}
+
+                    </div>
+
+
+                    <label
+                      class="edit-image-btn"
+                      for="edit-image"
+                    >
+
+                      <span class="material-symbols-outlined">
+                        upload
+                      </span>
+
+                      Cambiar Imagen
+
+                    </label>
+
+
+                    <input
+                      id="edit-image"
+                      name="imagen_portada"
+                      type="file"
+                      accept="image/png, image/jpeg, image/webp"
+                      hidden
+                    />
+
+                  </div>
+
+
+                  <!-- =========================
+                       CONTENIDO
+                  ========================== -->
+
+                  <div class="edit-editor">
+
+                    <div class="edit-toolbar">
+
+                      <span class="edit-label">
+                        CONTENIDO DE LA PUBLICACIÓN
+                      </span>
+
+                    </div>
+
+
+                    <div
+                      class="edit-workspace"
+                      id="edit-workspace"
+                    >
+
+                      {% if bloques %}
+
+
+                        {% for bloque in bloques %}
+
+
+                          <!-- =========================
+                               BLOQUE TEXTO
+                          ========================== -->
+
+                          {% if bloque.tipo == "texto" %}
+
+                          <div class="bloque-edicion">
+
+                            <label class="edit-label">
+                              BLOQUE DE TEXTO
+                            </label>
+
+
+                            <textarea
+                              class="edit-field bloque-texto"
+                              name="bloque_{{ bloque.id }}_texto"
+                              rows="6"
+                            >{{ bloque.contenido }}</textarea>
+
+                          </div>
+
+
+                          <!-- =========================
+                               BLOQUE IMAGEN
+                          ========================== -->
+
+                          {% elif bloque.tipo == "imagen" %}
+
+                          <div class="bloque-edicion">
+
+                            <label class="edit-label">
+                              IMAGEN
+                            </label>
+
+
+                            {% if bloque.contenido %}
+
+                            <img
+                              id="preview-bloque-{{ bloque.id }}"
+                              src="{{ url_imagen(bloque.contenido) }}"
+                              alt="Imagen de la publicación"
+                              class="edit-block-image"
+                            />
+
+                            {% endif %}
+
+
+                            <label
+                              class="edit-image-btn"
+                              for="bloque-imagen-{{ bloque.id }}"
+                            >
+
+                              <span class="material-symbols-outlined">
+                                upload
+                              </span>
+
+                              Cambiar Imagen
+
+                            </label>
+
+
+                            <input
+                              id="bloque-imagen-{{ bloque.id }}"
+                              class="input-imagen-bloque"
+                              data-preview="preview-bloque-{{ bloque.id }}"
+                              name="bloque_{{ bloque.id }}_imagen"
+                              type="file"
+                              accept="image/png, image/jpeg, image/webp"
+                              hidden
+                            />
+
+                          </div>
+
+
+                          <!-- =========================
+                               CARRUSEL
+                          ========================== -->
+
+                          {% elif bloque.tipo == "carrusel" %}
+
+                          <div class="bloque-edicion">
+
+                            <label class="edit-label">
+                              CARRUSEL
+                            </label>
+
+
+                            <div class="edit-carousel-preview">
+
+                              {% for imagen in carruseles.get(bloque.id, []) %}
+
+                              <img
+                                src="{{ url_imagen(imagen.imagen) }}"
+                                alt="Imagen del carrusel"
+                                class="edit-block-image"
+                              />
+
+                              {% endfor %}
+
+                            </div>
+
+
+                            <p class="edit-help">
+                              Las imágenes actuales del carrusel se mantienen.
+                            </p>
+
+                          </div>
+
+                          {% endif %}
+
+
+                        {% endfor %}
+
+
+                      {% else %}
+
+                      <p>
+                        Esta publicación no tiene bloques de contenido.
+                      </p>
+
+                      {% endif %}
+
+                    </div>
+
+
+                    <div class="edit-editor-footer">
+
+                      <span>
+
+                        BLOQUES:
+
+                        <strong>
+                          {{ bloques|length }}
+                        </strong>
+
+                      </span>
+
+                    </div>
+
+                  </div>
+
+                </div>
+
+
+                <!-- =========================
+                     COLUMNA DERECHA
+                ========================== -->
+
+                <div class="edit-sidebar">
+
+
+                  <!-- =========================
+                       ESTADO
+                  ========================== -->
+
+                  <div class="edit-card edit-side-card">
+
+                    <div class="edit-side-title">
+
+                      <span class="material-symbols-outlined">
+                        tune
+                      </span>
+
+                      <h2>
+                        Estado de Publicación
+                      </h2>
+
+                    </div>
+
+
+                    <label class="edit-radio">
+
+                      <input
+                        type="radio"
+                        name="accion"
+                        value="publicar"
+                        {% if publicacion.estado == "publicada" %}checked{% endif %}
+                      />
+
+                      <div>
+
+                        <strong>
+                          Publicada
+                        </strong>
+
+                        <span>
+                          La publicación está visible.
+                        </span>
+
+                      </div>
+
+                    </label>
+
+
+                    <label class="edit-radio">
+
+                      <input
+                        type="radio"
+                        name="accion"
+                        value="borrador"
+                        {% if publicacion.estado == "borrador" %}checked{% endif %}
+                      />
+
+                      <div>
+
+                        <strong>
+                          Borrador
+                        </strong>
+
+                        <span>
+                          Ocultar temporalmente la publicación.
+                        </span>
+
+                      </div>
+
+                    </label>
+
+                  </div>
+
+
+                  <!-- =========================
+                       PREMIUM
+                  ========================== -->
+
+                  <div class="edit-card edit-side-card">
+
+                    <div class="edit-side-title">
+
+                      <span class="material-symbols-outlined">
+                        stars
+                      </span>
+
+                      <h2>
+                        Nivel de Suscripción
+                      </h2>
+
+                    </div>
+
+
+                    <div class="edit-premium">
+
+                      <div>
+
+                        <strong>
+                          Contenido Premium
+                        </strong>
+
+                        <span>
+                          Solo disponible para usuarios Premium.
+                        </span>
+
+                      </div>
+
+
+                      <label class="edit-switch">
+
+                        <input
+                          type="checkbox"
+                          id="edit-premium"
+                        />
+
+                        <span class="edit-switch-track"></span>
+
+                      </label>
+
+                    </div>
+
+                  </div>
+
+
+                  <!-- =========================
+                       CATEGORÍA
+                  ========================== -->
+
+                  <div class="edit-card edit-side-card">
+
+                    <div class="edit-side-title">
+
+                      <span class="material-symbols-outlined">
+                        category
+                      </span>
+
+                      <h2>
+                        Categoría
+                      </h2>
+
+                    </div>
+
+
+                    <select
+                      class="edit-select"
+                      id="edit-category"
+                    >
+
+                      <option value="tecnica">
+                        Técnica
+                      </option>
+
+                      <option value="equipos">
+                        Equipos
+                      </option>
+
+                      <option value="pilotos">
+                        Pilotos
+                      </option>
+
+                      <option value="campeonato">
+                        Campeonato
+                      </option>
+
+                      <option value="previa">
+                        Previa
+                      </option>
+
+                    </select>
+
+                  </div>
+
+
+                  <!-- =========================
+                       ETIQUETAS
+                  ========================== -->
+
+                  <div class="edit-card edit-side-card">
+
+                    <div class="edit-side-title">
+
+                      <span class="material-symbols-outlined">
+                        label
+                      </span>
+
+                      <h2>
+                        Etiquetas
+                      </h2>
+
+                    </div>
+
+
+                    <div
+                      class="edit-tags"
+                      id="edit-tags"
+                    >
+                    </div>
+
+
+                    <div class="edit-add-tag">
+
+                      <input
+                        class="edit-field"
+                        id="edit-tag-input"
+                        type="text"
+                        placeholder="Nueva etiqueta"
+                      />
+
+
+                      <button
+                        id="edit-add-tag"
+                        type="button"
+                      >
+
+                        <span class="material-symbols-outlined">
+                          add
+                        </span>
+
+                      </button>
+
+                    </div>
+
+                  </div>
+
+
+                  <!-- =========================
+                       INFORMACIÓN
+                  ========================== -->
+
+                  <div class="edit-card edit-side-card">
+
+                    <div class="edit-side-title">
+
+                      <span class="material-symbols-outlined">
+                        info
+                      </span>
+
+                      <h2>
+                        Información
+                      </h2>
+
+                    </div>
+
+
+                    <div class="edit-info">
+
+                      <div>
+
+                        <span>
+                          ID
+                        </span>
+
+                        <strong>
+                          {{ publicacion.id }}
+                        </strong>
+
+                      </div>
+
+
+                      <div>
+
+                        <span>
+                          Estado
+                        </span>
+
+                        <strong>
+                          {{ publicacion.estado }}
+                        </strong>
+
+                      </div>
+
+                    </div>
+
+                  </div>
+
+
+                  <!-- =========================
+                       BOTONES
+                  ========================== -->
+
+                  <div class="edit-card edit-side-card edit-actions">
+
+                    <button
+                      class="edit-save-btn"
+                      type="submit"
+                    >
+
+                      <span class="material-symbols-outlined">
+                        save
+                      </span>
+
+                      Guardar Cambios
+
+                    </button>
+
+
+                    <a
+                      class="edit-cancel-btn"
+                      href="{{ url_for('editor.editor_publicaciones') }}"
+                    >
+                      Cancelar
+                    </a>
+
+                  </div>
+
+                </div>
+
+              </div>
+
+            </form>
+
+          </div>
+
         </main>
 
+      </div>
 
     </div>
 
 
-</div>
+    <!-- =========================
+         FOOTER
+    ========================== -->
+
+    {% include "base/footer.html" %}
 
 
-<!-- =========================
-     FOOTER GLOBAL
-========================= -->
+    <!-- =========================
+         JAVASCRIPT
+    ========================== -->
 
-{% include "base/footer.html" %}
+    <script>
 
+      /* =========================
+         CONTADOR TÍTULO
+      ========================= */
 
-<!-- =========================
-     JAVASCRIPT
-========================= -->
-
-<script>
-
-    const workspace =
-        document.getElementById("edit-workspace");
-
-    const wordCount =
-        document.getElementById("edit-word-count");
-
-    const charCount =
-        document.getElementById("edit-char-count");
-
-    const titleInput =
-        document.getElementById("edit-title");
-
-    const titleCount =
-        document.getElementById("edit-title-count");
+      const titleInput =
+        document.getElementById(
+          "edit-title"
+        );
 
 
-    function actualizarContadores() {
-
-        const texto =
-            workspace.innerText.trim();
-
-        const palabras =
-            texto
-                ? texto.split(/\s+/).length
-                : 0;
-
-        wordCount.textContent =
-            palabras;
-
-        charCount.textContent =
-            texto.length;
-
-    }
+      const titleCount =
+        document.getElementById(
+          "edit-title-count"
+        );
 
 
-    workspace.addEventListener(
-        "input",
-        actualizarContadores
-    );
+      if (
+        titleInput &&
+        titleCount
+      ) {
 
-
-    titleInput.addEventListener(
-        "input",
-        function () {
+        titleInput.addEventListener(
+          "input",
+          function () {
 
             titleCount.textContent =
-                titleInput.value.length
-                +
-                "/120";
+              titleInput.value.length
+              + "/120";
 
-        }
-    );
+          }
+        );
+
+      }
 
 
-    document
-        .getElementById("edit-bold")
-        .addEventListener(
-            "click",
-            function () {
+      /* =========================
+         PREVIEW PORTADA
+      ========================= */
 
-                workspace.focus();
-
-                document.execCommand(
-                    "bold",
-                    false,
-                    null
-                );
-
-            }
+      const inputPortada =
+        document.getElementById(
+          "edit-image"
         );
 
 
-    document
-        .getElementById("edit-italic")
-        .addEventListener(
-            "click",
-            function () {
+      if (inputPortada) {
 
-                workspace.focus();
+        inputPortada.addEventListener(
+          "change",
+          function () {
 
-                document.execCommand(
-                    "italic",
-                    false,
-                    null
-                );
-
-            }
-        );
+            const archivo =
+              inputPortada.files[0];
 
 
-    document
-        .getElementById("edit-underline")
-        .addEventListener(
-            "click",
-            function () {
+            if (!archivo) {
 
-                workspace.focus();
-
-                document.execCommand(
-                    "underline",
-                    false,
-                    null
-                );
+              return;
 
             }
-        );
 
 
-    document
-        .getElementById("edit-h2")
-        .addEventListener(
-            "click",
-            function () {
-
-                workspace.focus();
-
-                document.execCommand(
-                    "formatBlock",
-                    false,
-                    "h2"
-                );
-
-            }
-        );
+            const lector =
+              new FileReader();
 
 
-    document
-        .getElementById("edit-h3")
-        .addEventListener(
-            "click",
-            function () {
+            lector.onload =
+              function (evento) {
 
-                workspace.focus();
-
-                document.execCommand(
-                    "formatBlock",
-                    false,
-                    "h3"
-                );
-
-            }
-        );
+                let preview =
+                  document.getElementById(
+                    "preview-portada"
+                  );
 
 
-    document
-        .getElementById("edit-list")
-        .addEventListener(
-            "click",
-            function () {
+                if (!preview) {
 
-                workspace.focus();
-
-                document.execCommand(
-                    "insertUnorderedList",
-                    false,
-                    null
-                );
-
-            }
-        );
-
-
-    document
-        .getElementById("edit-link")
-        .addEventListener(
-            "click",
-            function () {
-
-                const url =
-                    prompt(
-                        "Ingresá la dirección del enlace:"
+                  preview =
+                    document.createElement(
+                      "img"
                     );
 
-                if (!url) {
-                    return;
+
+                  preview.id =
+                    "preview-portada";
+
+
+                  const contenedor =
+                    document.querySelector(
+                      ".edit-image-preview"
+                    );
+
+
+                  contenedor.innerHTML =
+                    "";
+
+
+                  contenedor.appendChild(
+                    preview
+                  );
+
                 }
 
-                workspace.focus();
 
-                document.execCommand(
-                    "createLink",
-                    false,
-                    url
-                );
+                preview.src =
+                  evento.target.result;
 
-            }
+              };
+
+
+            lector.readAsDataURL(
+              archivo
+            );
+
+          }
+        );
+
+      }
+
+
+      /* =========================
+         PREVIEW IMÁGENES BLOQUES
+      ========================= */
+
+      const inputsBloques =
+        document.querySelectorAll(
+          ".input-imagen-bloque"
         );
 
 
-    const tags =
-        document.getElementById("edit-tags");
+      inputsBloques.forEach(
+        function (input) {
 
-    const tagInput =
-        document.getElementById("edit-tag-input");
+          input.addEventListener(
+            "change",
+            function () {
 
-    const addTag =
-        document.getElementById("edit-add-tag");
+              const archivo =
+                input.files[0];
 
 
-    function agregarEtiqueta() {
+              if (!archivo) {
+
+                return;
+
+              }
+
+
+              const previewId =
+                input.dataset.preview;
+
+
+              const preview =
+                document.getElementById(
+                  previewId
+                );
+
+
+              const lector =
+                new FileReader();
+
+
+              lector.onload =
+                function (evento) {
+
+                  if (preview) {
+
+                    preview.src =
+                      evento.target.result;
+
+                  }
+
+                };
+
+
+              lector.readAsDataURL(
+                archivo
+              );
+
+            }
+          );
+
+        }
+      );
+
+
+      /* =========================
+         ETIQUETAS VISUALES
+      ========================= */
+
+      const tags =
+        document.getElementById(
+          "edit-tags"
+        );
+
+
+      const tagInput =
+        document.getElementById(
+          "edit-tag-input"
+        );
+
+
+      const addTag =
+        document.getElementById(
+          "edit-add-tag"
+        );
+
+
+      function agregarEtiqueta() {
 
         let valor =
-            tagInput.value.trim();
+          tagInput.value.trim();
+
 
         if (!valor) {
-            return;
+
+          return;
+
         }
 
 
         valor =
-            valor.replace(
-                /^#/,
-                ""
-            );
+          valor.replace(
+            /^#/,
+            ""
+          );
 
 
         const etiqueta =
-            document.createElement("span");
+          document.createElement(
+            "span"
+          );
+
 
         etiqueta.className =
-            "edit-tag";
+          "edit-tag";
 
-        etiqueta.innerHTML =
-            `
-                #${valor}
 
-                <button type="button">
-                    ×
-                </button>
-            `;
+        etiqueta.innerHTML = `
+          #${valor}
+
+          <button type="button">
+            ×
+          </button>
+        `;
 
 
         tags.appendChild(
-            etiqueta
+          etiqueta
         );
 
 
         tagInput.value =
-            "";
+          "";
 
-    }
-
-
-    addTag.addEventListener(
-        "click",
-        agregarEtiqueta
-    );
+      }
 
 
-    tagInput.addEventListener(
-        "keydown",
-        function (event) {
+      if (addTag) {
+
+        addTag.addEventListener(
+          "click",
+          agregarEtiqueta
+        );
+
+      }
+
+
+      if (tagInput) {
+
+        tagInput.addEventListener(
+          "keydown",
+          function (event) {
 
             if (
-                event.key === "Enter"
+              event.key === "Enter"
             ) {
 
-                event.preventDefault();
+              event.preventDefault();
 
-                agregarEtiqueta();
+              agregarEtiqueta();
 
             }
 
-        }
-    );
+          }
+        );
+
+      }
 
 
-    tags.addEventListener(
-        "click",
-        function (event) {
+      if (tags) {
+
+        tags.addEventListener(
+          "click",
+          function (event) {
 
             if (
-                event.target.tagName === "BUTTON"
+              event.target.tagName ===
+              "BUTTON"
             ) {
 
-                event.target
-                    .parentElement
-                    .remove();
+              event.target
+                .parentElement
+                .remove();
 
             }
 
-        }
-    );
-
-
-    function guardarCambios() {
-
-        alert(
-            "Por ahora los cambios no se guardan en la base de datos."
+          }
         );
 
-    }
+      }
 
+    </script>
 
-    document
-        .getElementById("btn-save-edit")
-        .addEventListener(
-            "click",
-            guardarCambios
-        );
-
-
-    document
-        .getElementById("edit-save-side")
-        .addEventListener(
-            "click",
-            guardarCambios
-        );
-
-
-    actualizarContadores();
-
-</script>
-
-
-</body>
-
+  </body>
 </html>

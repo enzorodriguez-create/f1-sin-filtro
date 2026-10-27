@@ -95,24 +95,45 @@ def editor_crear_publicacion():
             )
         )
 
+
     if request.method == "POST":
 
-        # Obtengo el título
+        # =========================
+        # TÍTULO
+        # =========================
+
         titulo = request.form.get(
             "titulo",
             ""
         ).strip()
 
+
         if not titulo:
 
             return "Tenés que ingresar un título."
 
-        # Obtengo la portada
+
+        # =========================
+        # RESUMEN
+        # =========================
+
+        resumen = request.form.get(
+            "resumen",
+            ""
+        ).strip()
+
+
+        # =========================
+        # PORTADA
+        # =========================
+
         portada = request.files.get(
             "imagen_portada"
         )
 
+
         imagen_portada = None
+
 
         if portada and portada.filename:
 
@@ -122,16 +143,22 @@ def editor_crear_publicacion():
 
                 return "Formato de portada no válido."
 
+
             imagen_portada = subir_imagen(
                 portada,
                 carpeta="publicaciones"
             )
 
-        # Compruebo si se publica o queda como borrador
+
+        # =========================
+        # ESTADO
+        # =========================
+
         accion = request.form.get(
             "accion",
             "borrador"
         )
+
 
         if accion == "publicar":
 
@@ -141,26 +168,38 @@ def editor_crear_publicacion():
 
             estado = "borrador"
 
-        # Creo la publicación
+
+        # =========================
+        # CREO PUBLICACIÓN
+        # =========================
+
         nueva_publicacion = Publicacion(
             titulo=titulo,
+            resumen=resumen,
             imagen_portada=imagen_portada,
             estado=estado,
             autor_id=usuario.id
         )
 
+
         db.session.add(
             nueva_publicacion
         )
 
+
         # Guardo primero para obtener el ID
         db.session.commit()
 
-        # Obtengo el orden de los bloques
+
+        # =========================
+        # ORDEN DE BLOQUES
+        # =========================
+
         bloques_orden = request.form.get(
             "bloques_orden",
             ""
         )
+
 
         tipos_bloques = [
             tipo
@@ -168,19 +207,28 @@ def editor_crear_publicacion():
             if tipo
         ]
 
-        # Recorro los bloques respetando el orden
+
+        # =========================
+        # GUARDO BLOQUES
+        # =========================
+
         for indice, tipo in enumerate(
             tipos_bloques,
             start=1
         ):
 
+
+            # =========================
             # TEXTO
+            # =========================
+
             if tipo == "texto":
 
                 contenido = request.form.get(
                     f"bloque_{indice}_texto",
                     ""
                 ).strip()
+
 
                 if contenido:
 
@@ -191,16 +239,22 @@ def editor_crear_publicacion():
                         orden=indice
                     )
 
+
                     db.session.add(
                         nuevo_bloque
                     )
 
+
+            # =========================
             # IMAGEN
+            # =========================
+
             elif tipo == "imagen":
 
                 imagen = request.files.get(
                     f"bloque_{indice}_imagen"
                 )
+
 
                 if imagen and imagen.filename:
 
@@ -213,6 +267,7 @@ def editor_crear_publicacion():
                             carpeta="publicaciones/contenido"
                         )
 
+
                         nuevo_bloque = BloquePublicacion(
                             publicacion_id=nueva_publicacion.id,
                             tipo="imagen",
@@ -220,22 +275,29 @@ def editor_crear_publicacion():
                             orden=indice
                         )
 
+
                         db.session.add(
                             nuevo_bloque
                         )
 
+
+            # =========================
             # CARRUSEL
+            # =========================
+
             elif tipo == "carrusel":
 
                 imagenes = request.files.getlist(
                     f"bloque_{indice}_carrusel"
                 )
 
+
                 imagenes_validas = [
                     imagen
                     for imagen in imagenes
                     if imagen and imagen.filename
                 ]
+
 
                 if imagenes_validas:
 
@@ -246,13 +308,17 @@ def editor_crear_publicacion():
                         orden=indice
                     )
 
+
                     db.session.add(
                         bloque_carrusel
                     )
 
+
                     db.session.flush()
 
+
                     orden_imagen = 1
+
 
                     for imagen in imagenes_validas:
 
@@ -265,26 +331,31 @@ def editor_crear_publicacion():
                                 carpeta="publicaciones/carruseles"
                             )
 
+
                             nueva_imagen = ImagenCarrusel(
                                 bloque_id=bloque_carrusel.id,
                                 imagen=imagen_key,
                                 orden=orden_imagen
                             )
 
+
                             db.session.add(
                                 nueva_imagen
                             )
 
+
                             orden_imagen += 1
 
-        # Guardo bloques e imágenes
+
         db.session.commit()
+
 
         return redirect(
             url_for(
                 "editor.editor_publicaciones"
             )
         )
+
 
     return render_template(
         "editor/crear_publicacion.html",
@@ -393,15 +464,209 @@ def editor_vista_previa_publicacion(id_publicacion):
     )
 
 @bp.route(
-    "/editor/publicaciones/<int:id_publicacion>/editar"
+    "/editor/publicaciones/<int:id_publicacion>/editar",
+    methods=["GET", "POST"]
 )
 def editor_editar_publicacion(id_publicacion):
 
     usuario = obtener_usuario_actual()
 
+
+    if not usuario:
+
+        return redirect(
+            url_for(
+                "auth.login"
+            )
+        )
+
+
+    publicacion = Publicacion.query.filter_by(
+        id=id_publicacion,
+        autor_id=usuario.id
+    ).first()
+
+
+    if not publicacion:
+
+        return "Publicación no encontrada."
+
+
+    bloques = BloquePublicacion.query.filter_by(
+        publicacion_id=publicacion.id
+    ).order_by(
+        BloquePublicacion.orden
+    ).all()
+
+
+    # =========================
+    # GUARDAR CAMBIOS
+    # =========================
+
+    if request.method == "POST":
+
+
+        # =========================
+        # TÍTULO
+        # =========================
+
+        titulo = request.form.get(
+            "titulo",
+            ""
+        ).strip()
+
+
+        if titulo:
+
+            publicacion.titulo = titulo
+
+
+        # =========================
+        # RESUMEN
+        # =========================
+
+        resumen = request.form.get(
+            "resumen",
+            ""
+        ).strip()
+
+
+        publicacion.resumen = resumen
+
+
+        # =========================
+        # ESTADO
+        # =========================
+
+        accion = request.form.get(
+            "accion",
+            "borrador"
+        )
+
+
+        if accion == "publicar":
+
+            publicacion.estado = "publicada"
+
+        else:
+
+            publicacion.estado = "borrador"
+
+
+        # =========================
+        # PORTADA
+        # =========================
+
+        nueva_portada = request.files.get(
+            "imagen_portada"
+        )
+
+
+        if (
+            nueva_portada
+            and nueva_portada.filename
+        ):
+
+            if not extension_valida(
+                nueva_portada.filename
+            ):
+
+                return "Formato de portada no válido."
+
+
+            publicacion.imagen_portada = subir_imagen(
+                nueva_portada,
+                carpeta="publicaciones"
+            )
+
+
+        # =========================
+        # BLOQUES EXISTENTES
+        # =========================
+
+        for bloque in bloques:
+
+
+            # =========================
+            # TEXTO
+            # =========================
+
+            if bloque.tipo == "texto":
+
+                contenido = request.form.get(
+                    f"bloque_{bloque.id}_texto",
+                    ""
+                ).strip()
+
+
+                bloque.contenido = contenido
+
+
+            # =========================
+            # IMAGEN
+            # =========================
+
+            elif bloque.tipo == "imagen":
+
+                nueva_imagen = request.files.get(
+                    f"bloque_{bloque.id}_imagen"
+                )
+
+
+                if (
+                    nueva_imagen
+                    and nueva_imagen.filename
+                ):
+
+                    if not extension_valida(
+                        nueva_imagen.filename
+                    ):
+
+                        return "Formato de imagen no válido."
+
+
+                    bloque.contenido = subir_imagen(
+                        nueva_imagen,
+                        carpeta="publicaciones/contenido"
+                    )
+
+
+        db.session.commit()
+
+
+        return redirect(
+            url_for(
+                "editor.editor_publicaciones"
+            )
+        )
+
+
+    # =========================
+    # CARRUSELES
+    # =========================
+
+    carruseles = {}
+
+
+    for bloque in bloques:
+
+        if bloque.tipo == "carrusel":
+
+            imagenes = ImagenCarrusel.query.filter_by(
+                bloque_id=bloque.id
+            ).order_by(
+                ImagenCarrusel.orden
+            ).all()
+
+
+            carruseles[bloque.id] = imagenes
+
+
     return render_template(
         "editor/editar_publicacion.html",
         usuario=usuario,
-        id_publicacion=id_publicacion,
+        publicacion=publicacion,
+        bloques=bloques,
+        carruseles=carruseles,
         seccion_activa="publicaciones"
     )

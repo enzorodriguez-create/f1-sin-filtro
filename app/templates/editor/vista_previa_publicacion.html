@@ -195,7 +195,7 @@
                         {% if publicacion.resumen %}
 
                             <p class="preview-subtitle">
-                                {{ publicacion.resumen }}
+                                {{ publicacion.resumen or "Sin resumen." }}
                             </p>
 
                         {% else %}
