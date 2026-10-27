@@ -1,3 +1,5 @@
+import requests
+
 from flask import Blueprint, render_template
 
 
@@ -34,8 +36,37 @@ def post():
 @bp.route("/calendario")
 def calendario():
 
+    url = "https://api.openf1.org/v1/meetings?year=2026"
+
+    respuesta = requests.get(url)
+
+    carreras = respuesta.json()
+
+
+    tipos_circuito = {
+        "Permanent": "Permanente",
+        "Street": "Callejero",
+        "Temporary": "Temporal",
+        "Temporary - Street": "Temporal - Callejero"
+    }
+
+
+    for carrera in carreras:
+
+        tipo_original = carrera.get(
+            "circuit_type",
+            ""
+        )
+
+        carrera["tipo_es"] = tipos_circuito.get(
+            tipo_original,
+            tipo_original
+        )
+
+
     return render_template(
-        "calendario.html"
+        "calendario.html",
+        carreras=carreras
     )
 
 
