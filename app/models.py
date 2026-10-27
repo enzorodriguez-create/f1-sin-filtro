@@ -115,6 +115,11 @@ class Publicacion(db.Model):
         nullable=False
     )
 
+    resumen = db.Column(
+     db.String(255),
+     nullable=True
+     )
+
     imagen_portada = db.Column(
         db.String(500),
         nullable=True
