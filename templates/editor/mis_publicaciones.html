@@ -279,367 +279,138 @@
 
                     <div class="publications-grid">
 
-
-                        <!-- PUBLICACIÓN 1 -->
-
-                        <article class="publication-card">
-
-
-                            <div class="publication-image">
-
-                                <div class="image-placeholder">
-
-                                    <span class="material-symbols-outlined">
-                                        image
-                                    </span>
-
+                        {% for publicacion in publicaciones %}
+                    
+                            <article class="publication-card">
+                    
+                    
+                                <div class="publication-image">
+                    
+                                    {% if publicacion.imagen_portada %}
+                    
+                                        <img
+                                            src="{{ url_imagen(publicacion.imagen_portada) }}"
+                                            alt="{{ publicacion.titulo }}"
+                                            class="publication-cover"
+                                        >
+                    
+                                    {% else %}
+                    
+                                        <div class="image-placeholder">
+                    
+                                            <span class="material-symbols-outlined">
+                                                image
+                                            </span>
+                    
+                                        </div>
+                    
+                                    {% endif %}
+                    
+                    
+                                    {% if publicacion.estado == "publicada" %}
+                    
+                                        <span class="status published">
+                                            PUBLICADA
+                                        </span>
+                    
+                                    {% elif publicacion.estado == "borrador" %}
+                    
+                                        <span class="status draft">
+                                            BORRADOR
+                                        </span>
+                    
+                                    {% else %}
+                    
+                                        <span class="status scheduled">
+                                            {{ publicacion.estado.upper() }}
+                                        </span>
+                    
+                                    {% endif %}
+                    
                                 </div>
+                    
+                    
+                                <div class="publication-content">
+                    
+                    
+                                    <div class="publication-meta">
 
+                                        <span>
+                                            PUBLICACIÓN #{{ publicacion.id }}
+                                        </span>
+                                    
+                                        <span>
+                                            {{ publicacion.estado.upper() }}
+                                        </span>
+                                    
+                                    </div>
+                    
+                    
+                                    <h2>
+                                        {{ publicacion.titulo }}
+                                    </h2>
 
-                                <span class="status published">
-                                    PUBLICADA
+                                    <div class="publication-footer">
+
+                                        <a
+                                            class="preview-btn"
+                                            href="{{ url_for(
+                                                'editor_vista_previa_publicacion',
+                                                id_publicacion=publicacion.id
+                                            ) }}"
+                                        >
+                                    
+                                            <span class="material-symbols-outlined">
+                                                visibility
+                                            </span>
+                                    
+                                            Vista Previa
+                                    
+                                        </a>
+                                    
+                                    
+                                        <a
+                                            class="edit-btn"
+                                            href="{{ url_for(
+                                                'editor_editar_publicacion',
+                                                id_publicacion=publicacion.id
+                                            ) }}"
+                                        >
+                                    
+                                            <span class="material-symbols-outlined">
+                                                edit
+                                            </span>
+                                    
+                                            Editar
+                                    
+                                        </a>
+                                    
+                                    </div>
+                    
+                                </div>
+                    
+                            </article>
+                    
+                    
+                        {% else %}
+                    
+                            <div class="empty-publications">
+                    
+                                <span class="material-symbols-outlined">
+                                    article
                                 </span>
-
-                            </div>
-
-
-                            <div class="publication-content">
-
-
-                                <div class="publication-meta">
-
-                                    <span>
-                                        Técnica
-                                    </span>
-
-                                    <span>
-                                        22/10/2026
-                                    </span>
-
-                                </div>
-
-
-                                <h2>
-                                    Ferrari prepara nuevas mejoras para la próxima carrera
-                                </h2>
-
-
+                    
                                 <p>
-                                    Análisis de los últimos cambios técnicos y el impacto
-                                    esperado en el rendimiento del equipo.
+                                    Todavía no creaste ninguna publicación.
                                 </p>
-
-
-                                <div class="publication-info">
-
-
-                                    <span>
-
-                                        <span class="material-symbols-outlined">
-                                            forum
-                                        </span>
-
-                                        12 comentarios
-
-                                    </span>
-
-
-                                    <span>
-
-                                        <span class="material-symbols-outlined">
-                                            visibility
-                                        </span>
-
-                                        1.250 vistas
-
-                                    </span>
-
-
-                                </div>
-
-
-                                <div class="publication-footer">
-
-
-                                    <a
-                                        class="edit-btn"
-                                        href="{{ url_for('editor_editar_publicacion', id_publicacion=1) }}"
-                                    >
-
-                                        <span class="material-symbols-outlined">
-                                            edit
-                                        </span>
-
-                                        Editar
-
-                                    </a>
-
-
-                                    <button
-                                        class="delete-btn"
-                                        type="button"
-                                        onclick="confirmarEliminacion()"
-                                    >
-
-                                        <span class="material-symbols-outlined">
-                                            delete
-                                        </span>
-
-                                        Eliminar
-
-                                    </button>
-
-
-                                </div>
-
-
+                    
                             </div>
-
-
-                        </article>
-
-
-
-                        <!-- PUBLICACIÓN 2 -->
-
-                        <article class="publication-card">
-
-
-                            <div class="publication-image">
-
-                                <div class="image-placeholder">
-
-                                    <span class="material-symbols-outlined">
-                                        image
-                                    </span>
-
-                                </div>
-
-
-                                <span class="status draft">
-                                    BORRADOR
-                                </span>
-
-                            </div>
-
-
-                            <div class="publication-content">
-
-
-                                <div class="publication-meta">
-
-                                    <span>
-                                        Campeonato
-                                    </span>
-
-                                    <span>
-                                        21/10/2026
-                                    </span>
-
-                                </div>
-
-
-                                <h2>
-                                    Análisis de la lucha por el campeonato
-                                </h2>
-
-
-                                <p>
-                                    Una mirada a los puntos, las próximas carreras y las
-                                    posibilidades de los principales candidatos.
-                                </p>
-
-
-                                <div class="publication-info">
-
-
-                                    <span>
-
-                                        <span class="material-symbols-outlined">
-                                            forum
-                                        </span>
-
-                                        0 comentarios
-
-                                    </span>
-
-
-                                    <span>
-
-                                        <span class="material-symbols-outlined">
-                                            edit_note
-                                        </span>
-
-                                        Borrador
-
-                                    </span>
-
-
-                                </div>
-
-
-                                <div class="publication-footer">
-
-
-                                    <a
-                                        class="edit-btn"
-                                        href="#"
-                                    >
-
-                                        <span class="material-symbols-outlined">
-                                            edit
-                                        </span>
-
-                                        Editar
-
-                                    </a>
-
-
-                                    <button
-                                        class="delete-btn"
-                                        type="button"
-                                        onclick="confirmarEliminacion()"
-                                    >
-
-                                        <span class="material-symbols-outlined">
-                                            delete
-                                        </span>
-
-                                        Eliminar
-
-                                    </button>
-
-
-                                </div>
-
-
-                            </div>
-
-
-                        </article>
-
-
-
-                        <!-- PUBLICACIÓN 3 -->
-
-                        <article class="publication-card">
-
-
-                            <div class="publication-image">
-
-                                <div class="image-placeholder">
-
-                                    <span class="material-symbols-outlined">
-                                        image
-                                    </span>
-
-                                </div>
-
-
-                                <span class="status scheduled">
-                                    PROGRAMADA
-                                </span>
-
-                            </div>
-
-
-                            <div class="publication-content">
-
-
-                                <div class="publication-meta">
-
-                                    <span>
-                                        Previa
-                                    </span>
-
-                                    <span>
-                                        25/10/2026
-                                    </span>
-
-                                </div>
-
-
-                                <h2>
-                                    Todo lo que hay que saber antes del próximo Gran Premio
-                                </h2>
-
-
-                                <p>
-                                    Horarios, condiciones de pista y claves a tener en cuenta
-                                    antes del comienzo del fin de semana.
-                                </p>
-
-
-                                <div class="publication-info">
-
-
-                                    <span>
-
-                                        <span class="material-symbols-outlined">
-                                            schedule
-                                        </span>
-
-                                        Programada
-
-                                    </span>
-
-
-                                    <span>
-
-                                        <span class="material-symbols-outlined">
-                                            lock
-                                        </span>
-
-                                        Premium
-
-                                    </span>
-
-
-                                </div>
-
-
-                                <div class="publication-footer">
-
-
-                                    <a
-                                        class="edit-btn"
-                                        href="#"
-                                    >
-
-                                        <span class="material-symbols-outlined">
-                                            edit
-                                        </span>
-
-                                        Editar
-
-                                    </a>
-
-
-                                    <button
-                                        class="delete-btn"
-                                        type="button"
-                                        onclick="confirmarEliminacion()"
-                                    >
-
-                                        <span class="material-symbols-outlined">
-                                            delete
-                                        </span>
-
-                                        Eliminar
-
-                                    </button>
-
-
-                                </div>
-
-
-                            </div>
-
-
-                        </article>
-
-
+                    
+                        {% endfor %}
+                    
                     </div>
+
+                    
 
 
                 </div>
