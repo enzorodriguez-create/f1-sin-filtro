@@ -1,0 +1,1003 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        Vista Previa - {{ publicacion.titulo }}
+    </title>
+
+
+    <!-- FUENTES -->
+
+    <link
+        href="https://fonts.googleapis.com"
+        rel="preconnect"
+    >
+
+    <link
+        href="https://fonts.gstatic.com"
+        rel="preconnect"
+        crossorigin
+    >
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Anybody:wght@400;600;700;800;900&family=JetBrains+Mono:wght@400;600;700&family=Sora:wght@400;500;600;700&display=swap"
+        rel="stylesheet"
+    >
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
+        rel="stylesheet"
+    >
+
+
+    <!-- CSS -->
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='styles/style.css') }}"
+    >
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='styles/editor/vista_previa_publicacion.css') }}"
+    >
+
+</head>
+
+
+<body>
+
+
+    <div class="preview-page">
+
+
+        <div class="preview-container">
+
+
+            <!-- =========================
+                 BARRA SUPERIOR
+            ========================== -->
+
+            <div class="preview-editor-bar">
+
+
+                <div class="preview-editor-info">
+
+                    <span class="material-symbols-outlined">
+                        visibility
+                    </span>
+
+
+                    <div>
+
+                        <strong>
+                            VISTA PREVIA DEL EDITOR
+                        </strong>
+
+                        <span>
+                            Así se verá aproximadamente la publicación.
+                        </span>
+
+                    </div>
+
+
+                </div>
+
+
+
+                <div class="preview-editor-actions">
+
+
+                    <span
+                        class="preview-state
+                        {% if publicacion.estado == 'publicada' %}
+                            published
+                        {% else %}
+                            draft
+                        {% endif %}"
+                    >
+
+                        {{ publicacion.estado.upper() }}
+
+                    </span>
+
+
+                    <a
+                        class="preview-editor-btn"
+                        href="{{ url_for('editor_publicaciones') }}"
+                    >
+
+                        <span class="material-symbols-outlined">
+                            arrow_back
+                        </span>
+
+                        Mis Publicaciones
+
+                    </a>
+
+
+                    <a
+                        class="preview-editor-btn primary"
+                        href="{{ url_for(
+                            'editor_editar_publicacion',
+                            id_publicacion=publicacion.id
+                        ) }}"
+                    >
+
+                        <span class="material-symbols-outlined">
+                            edit
+                        </span>
+
+                        Editar
+
+                    </a>
+
+
+                </div>
+
+
+            </div>
+
+
+
+            <!-- =========================
+                 LAYOUT
+            ========================== -->
+
+            <div class="preview-layout">
+
+
+
+                <!-- =========================
+                     ARTÍCULO
+                ========================== -->
+
+                <article class="preview-article">
+
+
+
+                    <!-- =========================
+                         CABECERA
+                    ========================== -->
+
+                    <section class="preview-card preview-head">
+
+
+                        <div class="preview-category">
+
+                            <span class="material-symbols-outlined">
+                                news
+                            </span>
+
+                            <span>
+                                NOTICIAS
+                            </span>
+
+                        </div>
+
+
+
+                        <h1>
+                            {{ publicacion.titulo }}
+                        </h1>
+
+
+
+                        {% if publicacion.resumen %}
+
+                            <p class="preview-subtitle">
+                                {{ publicacion.resumen }}
+                            </p>
+
+                        {% else %}
+
+                            <p class="preview-subtitle preview-empty">
+                                Subtítulo / resumen de la publicación.
+                            </p>
+
+                        {% endif %}
+
+
+
+                        <div class="preview-meta">
+
+
+                            <div class="preview-author">
+
+
+                                {% if usuario and usuario.foto %}
+
+                                    <img
+                                        class="preview-author-avatar preview-author-image"
+                                        src="{{ url_imagen(usuario.foto) }}"
+                                        alt="{{ usuario.nombre }}"
+                                    >
+
+                                {% else %}
+
+                                    <div class="preview-author-avatar">
+
+                                        {% if usuario %}
+
+                                            {{ usuario.nombre[0] }}
+
+                                            {% if usuario.apellido %}
+                                                {{ usuario.apellido[0] }}
+                                            {% endif %}
+
+                                        {% else %}
+
+                                            ED
+
+                                        {% endif %}
+
+                                    </div>
+
+                                {% endif %}
+
+
+
+                                <div>
+
+
+                                    <p class="preview-author-name">
+
+                                        {% if usuario %}
+
+                                            {{ usuario.nombre }}
+
+                                            {% if usuario.apellido %}
+                                                {{ usuario.apellido }}
+                                            {% endif %}
+
+                                        {% else %}
+
+                                            Editor
+
+                                        {% endif %}
+
+                                    </p>
+
+
+                                    <p class="preview-author-date">
+                                        VISTA PREVIA • PUBLICACIÓN #{{ publicacion.id }}
+                                    </p>
+
+
+                                </div>
+
+
+                            </div>
+
+
+
+                            <div class="preview-mode">
+
+                                <span class="material-symbols-outlined">
+                                    edit_note
+                                </span>
+
+                                MODO EDITOR
+
+                            </div>
+
+
+                        </div>
+
+
+                    </section>
+
+
+
+                    <!-- =========================
+                         PORTADA
+                    ========================== -->
+
+                    {% if publicacion.imagen_portada %}
+
+                        <section class="preview-card preview-cover-card">
+
+
+                            <figure class="preview-hero">
+
+                                <img
+                                    src="{{ url_imagen(publicacion.imagen_portada) }}"
+                                    alt="{{ publicacion.titulo }}"
+                                >
+
+                            </figure>
+
+
+                        </section>
+
+                    {% endif %}
+
+
+
+                    <!-- =========================
+                         BLOQUES
+                    ========================== -->
+
+                    <div class="preview-body">
+
+
+                        {% for bloque in bloques %}
+
+
+
+                            <!-- TEXTO -->
+
+                            {% if bloque.tipo == "texto" %}
+
+                                <section class="preview-card preview-text-block">
+
+
+                                    <div class="preview-block-label">
+
+                                        <span class="material-symbols-outlined">
+                                            notes
+                                        </span>
+
+                                        TEXTO
+
+                                    </div>
+
+
+                                    <p>
+                                        {{ bloque.contenido }}
+                                    </p>
+
+
+                                </section>
+
+
+
+                            <!-- IMAGEN -->
+
+                            {% elif bloque.tipo == "imagen" %}
+
+                                <section class="preview-card preview-media-card">
+
+
+                                    <div class="preview-block-label">
+
+                                        <span class="material-symbols-outlined">
+                                            image
+                                        </span>
+
+                                        IMAGEN
+
+                                    </div>
+
+
+                                    <figure class="preview-content-image">
+
+                                        <img
+                                            src="{{ url_imagen(bloque.contenido) }}"
+                                            alt="Imagen de la publicación"
+                                        >
+
+                                    </figure>
+
+
+                                </section>
+
+
+
+                            <!-- CARRUSEL -->
+
+                            {% elif bloque.tipo == "carrusel" %}
+
+                                {% set imagenes = carruseles.get(bloque.id, []) %}
+
+
+                                {% if imagenes %}
+
+                                    <section class="preview-card preview-media-card">
+
+
+                                        <div class="preview-block-label">
+
+                                            <span class="material-symbols-outlined">
+                                                collections
+                                            </span>
+
+                                            CARRUSEL
+
+                                        </div>
+
+
+                                        <div
+                                            class="preview-carousel"
+                                            data-carousel="{{ bloque.id }}"
+                                        >
+
+
+                                            <div class="preview-carousel-window">
+
+
+                                                <div
+                                                    class="preview-carousel-track"
+                                                    id="carousel-track-{{ bloque.id }}"
+                                                >
+
+
+                                                    {% for imagen in imagenes %}
+
+                                                        <div class="preview-carousel-slide">
+
+                                                            <img
+                                                                src="{{ url_imagen(imagen.imagen) }}"
+                                                                alt="Imagen {{ loop.index }} del carrusel"
+                                                            >
+
+                                                        </div>
+
+                                                    {% endfor %}
+
+
+                                                </div>
+
+
+
+                                                {% if imagenes|length > 1 %}
+
+
+                                                    <button
+                                                        class="preview-carousel-arrow previous"
+                                                        type="button"
+                                                        data-action="previous"
+                                                        data-carousel="{{ bloque.id }}"
+                                                    >
+
+                                                        <span class="material-symbols-outlined">
+                                                            chevron_left
+                                                        </span>
+
+                                                    </button>
+
+
+
+                                                    <button
+                                                        class="preview-carousel-arrow next"
+                                                        type="button"
+                                                        data-action="next"
+                                                        data-carousel="{{ bloque.id }}"
+                                                    >
+
+                                                        <span class="material-symbols-outlined">
+                                                            chevron_right
+                                                        </span>
+
+                                                    </button>
+
+
+                                                {% endif %}
+
+
+                                            </div>
+
+
+
+                                            {% if imagenes|length > 1 %}
+
+
+                                                <div class="preview-carousel-bottom">
+
+
+                                                    <div
+                                                        class="preview-carousel-dots"
+                                                        id="carousel-dots-{{ bloque.id }}"
+                                                    >
+
+
+                                                        {% for imagen in imagenes %}
+
+                                                            <button
+                                                                class="
+                                                                    preview-carousel-dot
+
+                                                                    {% if loop.first %}
+                                                                        active
+                                                                    {% endif %}
+                                                                "
+                                                                type="button"
+                                                                data-index="{{ loop.index0 }}"
+                                                                data-carousel="{{ bloque.id }}"
+                                                            ></button>
+
+                                                        {% endfor %}
+
+
+                                                    </div>
+
+
+
+                                                    <span
+                                                        class="preview-carousel-counter"
+                                                        id="carousel-counter-{{ bloque.id }}"
+                                                    >
+
+                                                        1 / {{ imagenes|length }}
+
+                                                    </span>
+
+
+                                                </div>
+
+
+                                            {% endif %}
+
+
+                                        </div>
+
+
+                                    </section>
+
+
+                                {% endif %}
+
+
+                            {% endif %}
+
+
+                        {% endfor %}
+
+
+                    </div>
+
+
+
+                    <!-- =========================
+                         FIN
+                    ========================== -->
+
+                    <div class="preview-end">
+
+                        <span class="material-symbols-outlined">
+                            flag
+                        </span>
+
+                        FIN DE LA VISTA PREVIA
+
+                    </div>
+
+
+                </article>
+
+
+
+                <!-- =========================
+                     SIDEBAR
+                ========================== -->
+
+                <aside class="preview-sidebar">
+
+
+
+                    <!-- ESTADO -->
+
+                    <section class="preview-panel preview-status-panel">
+
+
+                        <span class="preview-sidebar-label">
+                            PUBLICACIÓN
+                        </span>
+
+
+                        <h3>
+                            Estado actual
+                        </h3>
+
+
+
+                        <div class="preview-info-row">
+
+                            <span>
+                                ID
+                            </span>
+
+                            <strong>
+                                #{{ publicacion.id }}
+                            </strong>
+
+                        </div>
+
+
+
+                        <div class="preview-info-row">
+
+                            <span>
+                                Estado
+                            </span>
+
+                            <strong class="preview-blue">
+                                {{ publicacion.estado.upper() }}
+                            </strong>
+
+                        </div>
+
+
+
+                        <div class="preview-info-row">
+
+                            <span>
+                                Autor
+                            </span>
+
+                            <strong>
+
+                                {% if usuario %}
+                                    {{ usuario.nombre }}
+                                {% else %}
+                                    Editor
+                                {% endif %}
+
+                            </strong>
+
+                        </div>
+
+
+                    </section>
+
+
+
+                    <!-- BLOQUES -->
+
+                    <section class="preview-panel">
+
+
+                        <span class="preview-sidebar-label">
+                            CONTENIDO
+                        </span>
+
+
+                        <h3>
+                            Bloques
+                        </h3>
+
+
+
+                        <div class="preview-block-count">
+
+                            <span class="material-symbols-outlined">
+                                dashboard
+                            </span>
+
+                            <div>
+
+                                <strong>
+                                    {{ bloques|length }}
+                                </strong>
+
+                                <span>
+                                    bloques cargados
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+
+                        <div class="preview-block-list">
+
+
+                            {% for bloque in bloques %}
+
+
+                                <div class="preview-block-item">
+
+
+                                    {% if bloque.tipo == "texto" %}
+
+                                        <span class="material-symbols-outlined">
+                                            notes
+                                        </span>
+
+                                        <span>
+                                            Texto
+                                        </span>
+
+
+                                    {% elif bloque.tipo == "imagen" %}
+
+                                        <span class="material-symbols-outlined">
+                                            image
+                                        </span>
+
+                                        <span>
+                                            Imagen
+                                        </span>
+
+
+                                    {% elif bloque.tipo == "carrusel" %}
+
+                                        <span class="material-symbols-outlined">
+                                            collections
+                                        </span>
+
+                                        <span>
+                                            Carrusel
+                                        </span>
+
+
+                                    {% endif %}
+
+
+                                </div>
+
+
+                            {% endfor %}
+
+
+                        </div>
+
+
+                    </section>
+
+
+
+                    <!-- ACCIONES -->
+
+                    <section class="preview-panel">
+
+
+                        <span class="preview-sidebar-label">
+                            ACCIONES
+                        </span>
+
+
+                        <h3>
+                            Editor
+                        </h3>
+
+
+
+                        <a
+                            class="preview-side-button primary"
+                            href="{{ url_for(
+                                'editor_editar_publicacion',
+                                id_publicacion=publicacion.id
+                            ) }}"
+                        >
+
+                            <span class="material-symbols-outlined">
+                                edit
+                            </span>
+
+                            Editar publicación
+
+                        </a>
+
+
+
+                        <a
+                            class="preview-side-button"
+                            href="{{ url_for('editor_publicaciones') }}"
+                        >
+
+                            <span class="material-symbols-outlined">
+                                arrow_back
+                            </span>
+
+                            Volver
+
+                        </a>
+
+
+                    </section>
+
+
+                </aside>
+
+
+            </div>
+
+
+        </div>
+
+
+    </div>
+
+
+
+    <!-- =========================
+         JAVASCRIPT CARRUSEL
+    ========================== -->
+
+    <script>
+
+
+        document
+            .querySelectorAll(
+                ".preview-carousel"
+            )
+            .forEach(
+                (carousel) => {
+
+
+                    const id =
+                        carousel.dataset.carousel;
+
+
+                    const track =
+                        document.getElementById(
+                            `carousel-track-${id}`
+                        );
+
+
+                    const slides =
+                        carousel.querySelectorAll(
+                            ".preview-carousel-slide"
+                        );
+
+
+                    const counter =
+                        document.getElementById(
+                            `carousel-counter-${id}`
+                        );
+
+
+                    const dots =
+                        carousel.querySelectorAll(
+                            ".preview-carousel-dot"
+                        );
+
+
+                    let actual =
+                        0;
+
+
+
+                    function mostrarSlide() {
+
+
+                        if (!track) {
+
+                            return;
+
+                        }
+
+
+                        track.style.transform =
+                            `translateX(-${actual * 100}%)`;
+
+
+                        if (counter) {
+
+                            counter.textContent =
+                                `${actual + 1} / ${slides.length}`;
+
+                        }
+
+
+                        dots.forEach(
+                            (dot, indice) => {
+
+                                dot.classList.toggle(
+                                    "active",
+                                    indice === actual
+                                );
+
+                            }
+                        );
+
+
+                    }
+
+
+
+                    carousel
+                        .querySelectorAll(
+                            ".preview-carousel-arrow"
+                        )
+                        .forEach(
+                            (button) => {
+
+
+                                button.addEventListener(
+                                    "click",
+                                    () => {
+
+
+                                        const action =
+                                            button.dataset.action;
+
+
+                                        if (
+                                            action === "next"
+                                        ) {
+
+                                            actual++;
+
+                                            if (
+                                                actual >= slides.length
+                                            ) {
+
+                                                actual =
+                                                    0;
+
+                                            }
+
+                                        }
+
+
+                                        if (
+                                            action === "previous"
+                                        ) {
+
+                                            actual--;
+
+                                            if (
+                                                actual < 0
+                                            ) {
+
+                                                actual =
+                                                    slides.length - 1;
+
+                                            }
+
+                                        }
+
+
+                                        mostrarSlide();
+
+
+                                    }
+                                );
+
+
+                            }
+                        );
+
+
+
+                    dots.forEach(
+                        (dot) => {
+
+
+                            dot.addEventListener(
+                                "click",
+                                () => {
+
+
+                                    actual =
+                                        Number(
+                                            dot.dataset.index
+                                        );
+
+
+                                    mostrarSlide();
+
+
+                                }
+                            );
+
+
+                        }
+                    );
+
+
+                    mostrarSlide();
+
+
+                }
+            );
+
+
+    </script>
+
+
+</body>
+
+</html>
