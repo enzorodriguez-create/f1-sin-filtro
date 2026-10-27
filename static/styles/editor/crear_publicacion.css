@@ -628,6 +628,8 @@ body {
     padding-bottom: 8px;
 
     border-bottom: 1px solid var(--line);
+
+    width: 100%;
 }
 
 .kicker {
@@ -730,7 +732,7 @@ body {
 .grid {
     display: grid;
 
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 2fr) minmax(320px, 0.9fr);
 
     gap: 24px;
 
@@ -984,6 +986,12 @@ body {
     backdrop-filter: blur(10px);
 
     border: 1px solid var(--line);
+}
+.editor-container {
+    width: 100%;
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 24px;
 }
 
 .toolbar {
@@ -1991,6 +1999,14 @@ body {
 
     .col-right {
         grid-column: span 4;
+    }
+
+}
+
+@media (max-width: 1000px) {
+
+    .grid {
+        grid-template-columns: 1fr;
     }
 
 }
