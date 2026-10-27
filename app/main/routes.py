@@ -77,6 +77,13 @@ def premium():
         "premium.html"
     )
 
+@bp.route("/premium/suscripcion")
+def suscripcion():
+
+    return render_template(
+        "suscripcion.html"
+    )
+
 
 @bp.route("/categorias")
 def categorias():
