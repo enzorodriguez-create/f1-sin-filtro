@@ -2,10 +2,19 @@
 <html lang="es">
 
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Registro - F1 Sin Filtro</title>
+    <meta charset="utf-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+
+    <title>
+        Registro - F1 Sin Filtro
+    </title>
+
 
     <!-- Fuentes -->
     <link
@@ -13,33 +22,47 @@
         rel="stylesheet"
     >
 
+
     <!-- Iconos -->
     <link
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0"
         rel="stylesheet"
     >
 
+
     <!-- CSS del registro -->
     <link
         rel="stylesheet"
         href="{{ url_for('static', filename='styles/registro.css') }}"
     >
+
 </head>
+
 
 <body class="register">
 
+
     <!-- Fondo decorativo -->
+
     <div class="bg-grid"></div>
+
     <div class="glow glow-top"></div>
+
     <div class="glow glow-bottom"></div>
 
 
+
     <!-- Header propio del registro -->
+
     <header class="header">
 
         <div class="header-inner">
 
-            <a class="logo" href="{{ url_for('inicio') }}">
+
+            <a
+                class="logo"
+                href="{{ url_for('main.inicio') }}"
+            >
 
                 <span class="logo-white">
                     F1
@@ -65,12 +88,15 @@
     </header>
 
 
+
     <!-- Contenido principal -->
+
     <main class="main">
 
         <div class="card card-wide">
 
             <div class="card-bar"></div>
+
 
 
             <div class="card-top">
@@ -93,6 +119,7 @@
             </div>
 
 
+
             <div class="card-title">
 
                 <h1>
@@ -106,17 +133,25 @@
             </div>
 
 
-            <form action="{{ url_for('registro') }}" method="POST" class="form">
+
+            <form
+                action="{{ url_for('auth.registro') }}"
+                method="POST"
+                class="form"
+            >
 
 
                 <!-- Nombre y apellido -->
+
                 <div class="row-2">
+
 
                     <div class="field">
 
                         <label for="nombre">
                             NOMBRE
                         </label>
+
 
                         <div class="input-wrap">
 
@@ -134,11 +169,13 @@
                     </div>
 
 
+
                     <div class="field">
 
                         <label for="apellido">
                             APELLIDO
                         </label>
+
 
                         <div class="input-wrap">
 
@@ -158,18 +195,22 @@
                 </div>
 
 
+
                 <!-- Usuario -->
+
                 <div class="field">
 
                     <label for="usuario">
                         USUARIO
                     </label>
 
+
                     <div class="input-wrap">
 
                         <span class="input-icon material-symbols-outlined">
                             alternate_email
                         </span>
+
 
                         <input
                             id="usuario"
@@ -184,18 +225,22 @@
                 </div>
 
 
+
                 <!-- Email -->
+
                 <div class="field">
 
                     <label for="email">
                         CORREO ELECTRÓNICO
                     </label>
 
+
                     <div class="input-wrap">
 
                         <span class="input-icon material-symbols-outlined">
                             mail
                         </span>
+
 
                         <input
                             id="email"
@@ -210,8 +255,11 @@
                 </div>
 
 
+
                 <!-- Contraseñas -->
+
                 <div class="row-2">
+
 
                     <div class="field">
 
@@ -219,11 +267,13 @@
                             CONTRASEÑA
                         </label>
 
+
                         <div class="input-wrap">
 
                             <span class="input-icon material-symbols-outlined">
                                 lock
                             </span>
+
 
                             <input
                                 id="password"
@@ -238,17 +288,20 @@
                     </div>
 
 
+
                     <div class="field">
 
                         <label for="confirm_password">
                             CONFIRMAR CONTRASEÑA
                         </label>
 
+
                         <div class="input-wrap">
 
                             <span class="input-icon material-symbols-outlined">
                                 verified_user
                             </span>
+
 
                             <input
                                 id="confirm_password"
@@ -265,7 +318,9 @@
                 </div>
 
 
+
                 <!-- Términos -->
+
                 <div class="options">
 
                     <label class="remember">
@@ -281,13 +336,19 @@
 
                             Acepto los
 
-                            <a class="link-white" href="#">
+                            <a
+                                class="link-white"
+                                href="#"
+                            >
                                 Términos y condiciones
                             </a>
 
                             y la
 
-                            <a class="link-white" href="#">
+                            <a
+                                class="link-white"
+                                href="#"
+                            >
                                 Política de privacidad
                             </a>
 
@@ -295,13 +356,16 @@
 
                     </label>
 
-
-
                 </div>
 
 
+
                 <!-- Botón -->
-                <button type="submit" class="btn">
+
+                <button
+                    type="submit"
+                    class="btn"
+                >
 
                     <span>
                         CREAR CUENTA
@@ -316,14 +380,16 @@
             </form>
 
 
+
             <!-- Ir a login -->
+
             <div class="card-bottom">
 
                 <p>
 
                     ¿Ya tenés cuenta?
 
-                    <a href="{{ url_for('login') }}">
+                    <a href="{{ url_for('auth.login') }}">
                         Iniciar sesión
                     </a>
 
@@ -336,12 +402,12 @@
     </main>
 
 
+
     <!-- Footer propio -->
+
     <footer class="footer">
 
         <div class="footer-inner">
-
-            
 
             <span>
                 © 2026 F1 SIN FILTRO
@@ -350,6 +416,7 @@
         </div>
 
     </footer>
+
 
 </body>
 

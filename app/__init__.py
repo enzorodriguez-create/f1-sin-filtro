@@ -17,12 +17,19 @@ def create_app():
     oauth.init_app(app)
 
 
-    # Importo el Blueprint principal
+    # Blueprint principal
     from app.main.routes import bp as main_bp
 
-    # Registro el Blueprint
     app.register_blueprint(
         main_bp
+    )
+
+
+    # Blueprint de autenticación
+    from app.auth.routes import bp as auth_bp
+
+    app.register_blueprint(
+        auth_bp
     )
 
 

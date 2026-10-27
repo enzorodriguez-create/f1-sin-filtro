@@ -196,7 +196,7 @@
                     <!-- Cerrar sesión -->
                     <a
                         class="site-register"
-                        href="#"
+                        href="{{ url_for('auth.logout') }}"
                     >
                         CERRAR SESIÓN
                     </a>
@@ -206,7 +206,7 @@
                     <!-- Login -->
                     <a
                         class="site-login"
-                        href="#"
+                        href="{{ url_for('auth.login') }}"
                     >
                         INICIAR SESIÓN
                     </a>
@@ -215,7 +215,7 @@
                     <!-- Registro -->
                     <a
                         class="site-register"
-                        href="#"
+                        href="{{ url_for('auth.registro') }}"
                     >
                         REGISTRARSE
                     </a>
