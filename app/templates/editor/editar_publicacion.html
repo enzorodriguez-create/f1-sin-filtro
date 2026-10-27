@@ -1,64 +1,71 @@
 <!DOCTYPE html>
 <html lang="es">
-  <head>
-    <meta charset="utf-8" />
+
+<head>
+
+    <meta charset="utf-8">
 
     <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1.0"
-    />
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
     <title>
-      F1 SIN FILTRO - Editar Publicación
+        F1 SIN FILTRO - Editar Publicación
     </title>
+
 
     <!-- FUENTES -->
 
     <link
-      href="https://fonts.googleapis.com"
-      rel="preconnect"
-    />
+        href="https://fonts.googleapis.com"
+        rel="preconnect"
+    >
 
     <link
-      href="https://fonts.gstatic.com"
-      rel="preconnect"
-      crossorigin
-    />
+        href="https://fonts.gstatic.com"
+        rel="preconnect"
+        crossorigin
+    >
 
     <link
-      href="https://fonts.googleapis.com/css2?family=Chivo:wght@400;600;700;900&family=Geist:wght@400;500;600;700&display=swap"
-      rel="stylesheet"
-    />
+        href="https://fonts.googleapis.com/css2?family=Chivo:ital,wght@0,400;0,600;0,700;0,900;1,700&family=Geist:wght@400;500;600;700&display=swap"
+        rel="stylesheet"
+    >
 
     <link
-      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
-      rel="stylesheet"
-    />
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0"
+        rel="stylesheet"
+    >
+
 
     <!-- CSS -->
 
     <link
-      rel="stylesheet"
-      href="{{ url_for('static', filename='styles/style.css') }}"
-    />
+        rel="stylesheet"
+        href="{{ url_for('static', filename='styles/style.css') }}"
+    >
 
     <link
-      rel="stylesheet"
-      href="{{ url_for('static', filename='styles/editor/sidebar.css') }}"
-    />
+        rel="stylesheet"
+        href="{{ url_for('static', filename='styles/editor/sidebar.css') }}"
+    >
 
     <link
-      rel="stylesheet"
-      href="{{ url_for('static', filename='styles/editor/dashboard.css') }}"
-    />
+        rel="stylesheet"
+        href="{{ url_for('static', filename='styles/editor/dashboard.css') }}"
+    >
 
     <link
-      rel="stylesheet"
-      href="{{ url_for('static', filename='styles/editor/editar_publicacion.css') }}"
-    />
-  </head>
+        rel="stylesheet"
+        href="{{ url_for('static', filename='styles/editor/crear_publicacion.css') }}"
+    >
 
-  <body>
+</head>
+
+
+<body>
+
 
     <!-- =========================
          LAYOUT EDITOR
@@ -66,887 +73,796 @@
 
     <div class="editor-page">
 
-      <!-- SIDEBAR -->
 
-      {% include "editor/sidebar.html" %}
+        {% include "editor/sidebar.html" %}
 
 
-      <!-- CONTENIDO -->
-
-      <div class="editor-content">
-
-        <!-- =========================
-             TOPBAR
-        ========================== -->
-
-        <header class="editor-topbar">
-
-          <div class="topbar-left">
-
-            <button
-              class="menu-btn"
-              type="button"
-              id="editor-menu-btn"
-              aria-label="Abrir menú"
-            >
-
-              <span class="material-symbols-outlined">
-                menu
-              </span>
-
-            </button>
-
-          </div>
-
-
-          <div class="topbar-right">
-
-            <div class="role-badge">
-
-              <span class="role-dot"></span>
-
-              <span>
-                ROL:
-              </span>
-
-              <strong>
-                EDITOR
-              </strong>
-
-            </div>
-
-
-            <div class="editor-user">
-
-              <div class="editor-user-data">
-
-                <strong>
-                  {{ usuario.nombre if usuario else "Editor" }}
-                </strong>
-
-                <span>
-                  {{ usuario.email if usuario else "editor@f1sinfiltro.com" }}
-                </span>
-
-              </div>
-
-
-              {% if usuario and usuario.foto %}
-
-              <img
-                class="editor-avatar editor-avatar-img"
-                src="{{ url_imagen(usuario.foto) }}"
-                alt="{{ usuario.nombre }}"
-              />
-
-              {% else %}
-
-              <div class="editor-avatar">
-
-                <span class="material-symbols-outlined">
-                  person
-                </span>
-
-              </div>
-
-              {% endif %}
-
-            </div>
-
-          </div>
-
-        </header>
-
-
-        <!-- =========================
-             MAIN
-        ========================== -->
-
-        <main class="editor-main">
-
-          <div class="editor-container">
-
-            <!-- =========================
-                 ENCABEZADO
-            ========================== -->
-
-            <div class="edit-head">
-
-              <div>
-
-                <div class="edit-path">
-
-                  <span>
-                    PANEL DE CONTROL
-                  </span>
-
-                  <span>
-                    /
-                  </span>
-
-                  <span>
-                    MIS PUBLICACIONES
-                  </span>
-
-                  <span>
-                    /
-                  </span>
-
-                  <strong>
-                    EDITAR PUBLICACIÓN
-                  </strong>
-
-                </div>
-
-
-                <h1>
-
-                  EDITAR
-
-                  <span>
-                    PUBLICACIÓN
-                  </span>
-
-                </h1>
-
-
-                <p>
-                  Modificá el contenido y la configuración de la publicación.
-                </p>
-
-              </div>
-
-
-              <div class="edit-head-actions">
-
-                <a
-                  class="btn-secondary"
-                  href="{{ url_for('editor.editor_publicaciones') }}"
-                >
-
-                  <span class="material-symbols-outlined">
-                    arrow_back
-                  </span>
-
-                  Volver
-
-                </a>
-
-
-                <button
-                  class="btn-primary"
-                  type="submit"
-                  form="edit-form"
-                >
-
-                  <span class="material-symbols-outlined">
-                    save
-                  </span>
-
-                  Guardar Cambios
-
-                </button>
-
-              </div>
-
-            </div>
+        <div class="editor-content">
 
 
             <!-- =========================
-                 PUBLICACIÓN ACTUAL
+                 TOPBAR
             ========================== -->
 
-            <div class="edit-current-post">
-
-              <div class="edit-current-left">
-
-                <span class="material-symbols-outlined">
-                  article
-                </span>
-
-                <div>
-
-                  <span>
-                    PUBLICACIÓN ACTUAL
-                  </span>
-
-                  <strong>
-                    {{ publicacion.titulo }}
-                  </strong>
-
-                </div>
-
-              </div>
+            <header class="editor-topbar">
 
 
-              <span class="edit-status">
+                <div class="topbar-left">
 
-                {% if publicacion.estado == "publicada" %}
-
-                  PUBLICADA
-
-                {% else %}
-
-                  BORRADOR
-
-                {% endif %}
-
-              </span>
-
-            </div>
-
-
-            <!-- =========================
-                 FORMULARIO
-            ========================== -->
-
-            <form
-              method="POST"
-              enctype="multipart/form-data"
-              id="edit-form"
-            >
-
-              <div class="edit-grid">
-
-
-                <!-- =========================
-                     COLUMNA IZQUIERDA
-                ========================== -->
-
-                <div class="edit-main">
-
-
-                  <!-- =========================
-                       TÍTULO
-                  ========================== -->
-
-                  <div class="edit-card">
-
-                    <div class="edit-label-row">
-
-                      <label for="edit-title">
-                        TÍTULO DE LA PUBLICACIÓN
-                      </label>
-
-                      <span id="edit-title-count">
-                        {{ publicacion.titulo|length }}/120
-                      </span>
-
-                    </div>
-
-
-                    <input
-                      class="field field-title"
-                      id="edit-title"
-                      name="titulo"
-                      type="text"
-                      maxlength="120"
-                      value="{{ publicacion.titulo }}"
-                    />
-
-                  </div>
-
-
-                  <!-- =========================
-                       SUBTÍTULO / RESUMEN
-                  ========================== -->
-
-                  <div class="edit-card">
-
-                    <label
-                      class="edit-label"
-                      for="edit-summary"
+                    <button
+                        class="menu-btn"
+                        type="button"
+                        id="editor-menu-btn"
+                        aria-label="Abrir menú"
                     >
-                      SUBTÍTULO / RESUMEN DE PORTADA
-                    </label>
 
-
-                    <textarea
-                      class="edit-field edit-summary"
-                      id="edit-summary"
-                      name="resumen"
-                      rows="4"
-                      placeholder="Ingresá un resumen breve para mostrar en la portada..."
-                    >{{ publicacion.resumen or "" }}</textarea>
-
-                  </div>
-
-
-                  <!-- =========================
-                       PORTADA
-                  ========================== -->
-
-                  <div class="edit-card">
-
-                    <div class="edit-label-row">
-
-                      <div>
-
-                        <span class="edit-label">
-                          IMAGEN PRINCIPAL / PORTADA
+                        <span class="material-symbols-outlined">
+                            menu
                         </span>
 
-                        <p class="edit-help">
-                          Podés mantener la imagen actual o seleccionar una nueva.
-                        </p>
+                    </button>
 
-                      </div>
+                </div>
 
 
-                      <span class="edit-aspect">
-                        ASPECTO 16:9
-                      </span>
-
-                    </div>
+                <div class="topbar-right">
 
 
-                    <div class="edit-image-preview">
+                    <div class="role-badge">
 
-                      {% if publicacion.imagen_portada %}
+                        <span class="role-dot"></span>
 
-                      <img
-                        id="preview-portada"
-                        src="{{ url_imagen(publicacion.imagen_portada) }}"
-                        alt="{{ publicacion.titulo }}"
-                      />
+                        <span>
+                            ROL:
+                        </span>
 
-                      {% else %}
-
-                      <span class="material-symbols-outlined">
-                        image
-                      </span>
-
-                      <span>
-                        Sin imagen de portada
-                      </span>
-
-                      {% endif %}
+                        <strong>
+                            EDITOR
+                        </strong>
 
                     </div>
 
 
-                    <label
-                      class="edit-image-btn"
-                      for="edit-image"
-                    >
-
-                      <span class="material-symbols-outlined">
-                        upload
-                      </span>
-
-                      Cambiar Imagen
-
-                    </label>
+                    <div class="editor-user">
 
 
-                    <input
-                      id="edit-image"
-                      name="imagen_portada"
-                      type="file"
-                      accept="image/png, image/jpeg, image/webp"
-                      hidden
-                    />
+                        <div class="editor-user-data">
 
-                  </div>
+                            <strong>
+                                {{ usuario.nombre if usuario else "Editor" }}
+                            </strong>
 
+                            <span>
+                                {{ usuario.email if usuario else "editor@f1sinfiltro.com" }}
+                            </span>
 
-                  <!-- =========================
-                       CONTENIDO
-                  ========================== -->
-
-                  <div class="edit-editor">
-
-                    <div class="edit-toolbar">
-
-                      <span class="edit-label">
-                        CONTENIDO DE LA PUBLICACIÓN
-                      </span>
-
-                    </div>
+                        </div>
 
 
-                    <div
-                      class="edit-workspace"
-                      id="edit-workspace"
-                    >
-
-                      {% if bloques %}
-
-
-                        {% for bloque in bloques %}
-
-
-                          <!-- =========================
-                               BLOQUE TEXTO
-                          ========================== -->
-
-                          {% if bloque.tipo == "texto" %}
-
-                          <div class="bloque-edicion">
-
-                            <label class="edit-label">
-                              BLOQUE DE TEXTO
-                            </label>
-
-
-                            <textarea
-                              class="edit-field bloque-texto"
-                              name="bloque_{{ bloque.id }}_texto"
-                              rows="6"
-                            >{{ bloque.contenido }}</textarea>
-
-                          </div>
-
-
-                          <!-- =========================
-                               BLOQUE IMAGEN
-                          ========================== -->
-
-                          {% elif bloque.tipo == "imagen" %}
-
-                          <div class="bloque-edicion">
-
-                            <label class="edit-label">
-                              IMAGEN
-                            </label>
-
-
-                            {% if bloque.contenido %}
+                        {% if usuario and usuario.foto %}
 
                             <img
-                              id="preview-bloque-{{ bloque.id }}"
-                              src="{{ url_imagen(bloque.contenido) }}"
-                              alt="Imagen de la publicación"
-                              class="edit-block-image"
-                            />
-
-                            {% endif %}
-
-
-                            <label
-                              class="edit-image-btn"
-                              for="bloque-imagen-{{ bloque.id }}"
+                                class="editor-avatar editor-avatar-img"
+                                src="{{ url_imagen(usuario.foto) }}"
+                                alt="{{ usuario.nombre }}"
                             >
 
-                              <span class="material-symbols-outlined">
-                                upload
-                              </span>
+                        {% else %}
 
-                              Cambiar Imagen
+                            <div class="editor-avatar">
 
-                            </label>
+                                <span class="material-symbols-outlined">
+                                    person
+                                </span>
 
+                            </div>
 
-                            <input
-                              id="bloque-imagen-{{ bloque.id }}"
-                              class="input-imagen-bloque"
-                              data-preview="preview-bloque-{{ bloque.id }}"
-                              name="bloque_{{ bloque.id }}_imagen"
-                              type="file"
-                              accept="image/png, image/jpeg, image/webp"
-                              hidden
-                            />
-
-                          </div>
+                        {% endif %}
 
 
-                          <!-- =========================
-                               CARRUSEL
-                          ========================== -->
-
-                          {% elif bloque.tipo == "carrusel" %}
-
-                          <div class="bloque-edicion">
-
-                            <label class="edit-label">
-                              CARRUSEL
-                            </label>
+                    </div>
 
 
-                            <div class="edit-carousel-preview">
+                </div>
 
-                              {% for imagen in carruseles.get(bloque.id, []) %}
 
-                              <img
-                                src="{{ url_imagen(imagen.imagen) }}"
-                                alt="Imagen del carrusel"
-                                class="edit-block-image"
-                              />
+            </header>
 
-                              {% endfor %}
+
+
+            <!-- =========================
+                 MAIN
+            ========================== -->
+
+            <main class="editor-main">
+
+
+                <div class="editor-container">
+
+
+                    <form
+                        method="POST"
+                        enctype="multipart/form-data"
+                        id="form-publicacion"
+                    >
+
+
+                        <!-- GUARDO EL ORDEN DE LOS BLOQUES NUEVOS -->
+
+                        <input
+                            type="hidden"
+                            name="bloques_nuevos_orden"
+                            id="bloques-nuevos-orden"
+                        >
+
+
+
+                        <!-- =========================
+                             ENCABEZADO
+                        ========================== -->
+
+                        <header class="action-bar">
+
+
+                            <div>
+
+
+                                <div class="kicker">
+
+                                    <span
+                                        class="dot dot-8 bg-primary ping"
+                                    ></span>
+
+                                    <span class="lbl up c-primary fw700">
+                                        PANEL DE CONTROL // EDITOR
+                                    </span>
+
+                                </div>
+
+
+                                <h1>
+
+                                    EDITAR PUBLICACIÓN
+
+                                    <span class="h1-sub">
+                                        // CENTRO EDITORIAL
+                                    </span>
+
+                                </h1>
+
 
                             </div>
 
 
-                            <p class="edit-help">
-                              Las imágenes actuales del carrusel se mantienen.
-                            </p>
-
-                          </div>
-
-                          {% endif %}
+                        </header>
 
 
-                        {% endfor %}
+
+                        <!-- =========================
+                             GRID
+                        ========================== -->
+
+                        <div class="grid">
 
 
-                      {% else %}
 
-                      <p>
-                        Esta publicación no tiene bloques de contenido.
-                      </p>
+                            <!-- =========================
+                                 COLUMNA IZQUIERDA
+                            ========================== -->
 
-                      {% endif %}
-
-                    </div>
+                            <div class="col-left">
 
 
-                    <div class="edit-editor-footer">
 
-                      <span>
+                                <!-- =========================
+                                     TÍTULO
+                                ========================== -->
 
-                        BLOQUES:
+                                <div class="card gap8">
 
-                        <strong>
-                          {{ bloques|length }}
-                        </strong>
 
-                      </span>
+                                    <div class="row-between">
 
-                    </div>
 
-                  </div>
+                                        <label
+                                            class="lbl up c-variant"
+                                            for="post-title"
+                                        >
+
+                                            TÍTULO DE LA PUBLICACIÓN
+
+                                            <span class="c-primary">
+                                                *
+                                            </span>
+
+                                        </label>
+
+
+                                        <span
+                                            class="lbl fw600 c-outline"
+                                            id="title-char-count"
+                                        >
+                                            {{ publicacion.titulo|length }}/120
+                                        </span>
+
+
+                                    </div>
+
+
+                                    <input
+                                        class="field field-title"
+                                        id="post-title"
+                                        name="titulo"
+                                        type="text"
+                                        maxlength="120"
+                                        value="{{ publicacion.titulo }}"
+                                    >
+
+
+                                </div>
+
+
+
+                                <!-- =========================
+                                     SUBTÍTULO / RESUMEN
+                                ========================== -->
+
+                                <div class="card gap8">
+
+
+                                    <label
+                                        class="lbl up c-variant"
+                                        for="post-excerpt"
+                                    >
+                                        SUBTÍTULO / RESUMEN DE PORTADA
+                                    </label>
+
+
+                                    <textarea
+                                        class="field field-text"
+                                        id="post-excerpt"
+                                        name="resumen"
+                                        rows="3"
+                                        placeholder="Ingresá un resumen breve para mostrar en la portada..."
+                                    >{{ publicacion.resumen or "" }}</textarea>
+
+
+                                </div>
+
+
+
+                                <!-- =========================
+                                     IMAGEN DE PORTADA
+                                ========================== -->
+
+                                <div class="card gap12">
+
+
+                                    <div class="row-between wrap gap8">
+
+
+                                        <span class="lbl up c-variant">
+                                            IMAGEN PRINCIPAL / PORTADA
+                                        </span>
+
+
+                                        <span class="tag-aspect">
+                                            ASPECTO 16:9
+                                        </span>
+
+
+                                    </div>
+
+
+                                    {% if publicacion.imagen_portada %}
+
+                                        <img
+                                            id="cover-preview"
+                                            src="{{ url_imagen(publicacion.imagen_portada) }}"
+                                            alt="{{ publicacion.titulo }}"
+                                            style="
+                                                width: 100%;
+                                                max-height: 420px;
+                                                object-fit: cover;
+                                                border-radius: 10px;
+                                            "
+                                        >
+
+                                    {% else %}
+
+                                        <img
+                                            id="cover-preview"
+                                            class="hidden"
+                                            alt="Vista previa de la portada"
+                                            style="
+                                                width: 100%;
+                                                max-height: 420px;
+                                                object-fit: cover;
+                                                border-radius: 10px;
+                                            "
+                                        >
+
+                                    {% endif %}
+
+
+                                    <div class="dropzone">
+
+
+                                        <input
+                                            class="drop-input"
+                                            id="cover-file-input"
+                                            name="imagen_portada"
+                                            type="file"
+                                            accept="image/png, image/jpeg, image/webp"
+                                        >
+
+
+                                        <div class="drop-icon">
+
+                                            <span class="material-symbols-outlined">
+                                                cloud_upload
+                                            </span>
+
+                                        </div>
+
+
+                                        <p class="drop-title">
+
+                                            Cambiá la imagen de portada o
+
+                                            <span>
+                                                seleccioná un archivo
+                                            </span>
+
+                                        </p>
+
+
+                                        <p class="lbl fw600 c-variant">
+                                            JPG, PNG o WebP
+                                        </p>
+
+
+                                    </div>
+
+
+                                </div>
+
+
+
+                                <!-- =========================
+                                     CONTENIDO POR BLOQUES
+                                ========================== -->
+
+                                <div class="editor-card">
+
+
+
+                                    <!-- BOTONES -->
+
+                                    <div class="toolbar">
+
+
+                                        <div class="tb-group">
+
+
+                                            <button
+                                                class="tb tb-text"
+                                                id="btn-agregar-texto"
+                                                type="button"
+                                            >
+
+                                                <span class="material-symbols-outlined i18">
+                                                    notes
+                                                </span>
+
+                                                TEXTO
+
+                                            </button>
+
+
+                                            <button
+                                                class="tb tb-text"
+                                                id="btn-agregar-imagen"
+                                                type="button"
+                                            >
+
+                                                <span class="material-symbols-outlined i18">
+                                                    add_photo_alternate
+                                                </span>
+
+                                                IMAGEN
+
+                                            </button>
+
+
+                                            <button
+                                                class="tb tb-text"
+                                                id="btn-agregar-carrusel"
+                                                type="button"
+                                            >
+
+                                                <span class="material-symbols-outlined i18">
+                                                    collections
+                                                </span>
+
+                                                CARRUSEL
+
+                                            </button>
+
+
+                                        </div>
+
+
+                                        <div class="tb-mode">
+
+
+                                            <span class="lbl fw600 c-variant">
+                                                CONTENIDO DEL ARTÍCULO
+                                            </span>
+
+
+                                            <div
+                                                class="dot dot-8 bg-primary"
+                                            ></div>
+
+
+                                        </div>
+
+
+                                    </div>
+
+
+
+                                    <!-- =========================
+                                         BLOQUES
+                                    ========================== -->
+
+                                    <div
+                                        class="bloques-contenido"
+                                        id="bloques-contenido"
+                                    >
+
+
+                                        {% for bloque in bloques %}
+
+
+                                            <!-- =========================
+                                                 TEXTO EXISTENTE
+                                            ========================== -->
+
+                                            {% if bloque.tipo == "texto" %}
+
+                                                <div
+                                                    class="bloque-contenido bloque-existente"
+                                                    data-tipo="texto"
+                                                >
+
+
+                                                    <div class="bloque-header">
+
+                                                        <span class="lbl up c-primary fw700">
+                                                            TEXTO
+                                                        </span>
+
+                                                    </div>
+
+
+                                                    <textarea
+                                                        class="field field-text bloque-texto"
+                                                        name="bloque_{{ bloque.id }}_texto"
+                                                        rows="7"
+                                                    >{{ bloque.contenido }}</textarea>
+
+
+                                                </div>
+
+
+
+                                            <!-- =========================
+                                                 IMAGEN EXISTENTE
+                                            ========================== -->
+
+                                            {% elif bloque.tipo == "imagen" %}
+
+                                                <div
+                                                    class="bloque-contenido bloque-existente"
+                                                    data-tipo="imagen"
+                                                >
+
+
+                                                    <div class="bloque-header">
+
+                                                        <span class="lbl up c-primary fw700">
+                                                            IMAGEN
+                                                        </span>
+
+                                                    </div>
+
+
+                                                    {% if bloque.contenido %}
+
+                                                        <img
+                                                            src="{{ url_imagen(bloque.contenido) }}"
+                                                            alt="Imagen de la publicación"
+                                                            style="
+                                                                width: 100%;
+                                                                max-height: 420px;
+                                                                object-fit: cover;
+                                                                border-radius: 8px;
+                                                                margin-bottom: 12px;
+                                                            "
+                                                        >
+
+                                                    {% endif %}
+
+
+                                                    <input
+                                                        class="field"
+                                                        type="file"
+                                                        name="bloque_{{ bloque.id }}_imagen"
+                                                        accept="image/png, image/jpeg, image/webp"
+                                                    >
+
+
+                                                </div>
+
+
+
+                                            <!-- =========================
+                                                 CARRUSEL EXISTENTE
+                                            ========================== -->
+
+                                            {% elif bloque.tipo == "carrusel" %}
+
+                                                <div
+                                                    class="bloque-contenido bloque-existente"
+                                                    data-tipo="carrusel"
+                                                >
+
+
+                                                    <div class="bloque-header">
+
+                                                        <span class="lbl up c-primary fw700">
+                                                            CARRUSEL
+                                                        </span>
+
+                                                    </div>
+
+
+                                                    <div
+                                                        style="
+                                                            display: grid;
+                                                            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+                                                            gap: 10px;
+                                                            margin-bottom: 12px;
+                                                        "
+                                                    >
+
+                                                        {% for imagen in carruseles.get(bloque.id, []) %}
+
+                                                            <img
+                                                                src="{{ url_imagen(imagen.imagen) }}"
+                                                                alt="Imagen del carrusel"
+                                                                style="
+                                                                    width: 100%;
+                                                                    height: 150px;
+                                                                    object-fit: cover;
+                                                                    border-radius: 8px;
+                                                                "
+                                                            >
+
+                                                        {% endfor %}
+
+                                                    </div>
+
+
+                                                    <p class="lbl fw600 c-variant">
+                                                        Las imágenes actuales del carrusel se mantienen.
+                                                    </p>
+
+
+                                                </div>
+
+                                            {% endif %}
+
+
+                                        {% endfor %}
+
+
+                                        <!-- LOS BLOQUES NUEVOS SE AGREGAN ACÁ -->
+
+
+                                    </div>
+
+
+
+                                    <div class="editor-foot">
+
+                                        <span class="lbl fw600 c-variant">
+                                            Podés modificar los bloques existentes o agregar texto, imágenes y carruseles nuevos.
+                                        </span>
+
+                                    </div>
+
+
+                                </div>
+
+
+                            </div>
+
+
+
+                            <!-- =========================
+                                 COLUMNA DERECHA
+                            ========================== -->
+
+                            <div class="col-right">
+
+
+
+                                <!-- =========================
+                                     ESTADO
+                                ========================== -->
+
+                                <div class="card card-side gap16">
+
+
+                                    <div class="row-between">
+
+
+                                        <div class="flex-c gap8">
+
+
+                                            <span class="material-symbols-outlined i20 c-primary">
+                                                tune
+                                            </span>
+
+
+                                            <h2 class="card-h2">
+                                                Estado de Publicación
+                                            </h2>
+
+
+                                        </div>
+
+
+                                    </div>
+
+
+                                    <label>
+
+                                        <input
+                                            type="radio"
+                                            name="accion"
+                                            value="publicar"
+                                            {% if publicacion.estado == "publicada" %}checked{% endif %}
+                                        >
+
+                                        Publicada
+
+                                    </label>
+
+
+                                    <label>
+
+                                        <input
+                                            type="radio"
+                                            name="accion"
+                                            value="borrador"
+                                            {% if publicacion.estado == "borrador" %}checked{% endif %}
+                                        >
+
+                                        Borrador
+
+                                    </label>
+
+
+                                </div>
+
+
+
+                                <!-- =========================
+                                     INFORMACIÓN
+                                ========================== -->
+
+                                <div class="card card-side gap16">
+
+
+                                    <h2 class="card-h2">
+
+                                        <span class="material-symbols-outlined i20 c-primary">
+                                            info
+                                        </span>
+
+                                        Información
+
+                                    </h2>
+
+
+                                    <div class="col gap8">
+
+                                        <span class="lbl fw600 c-variant">
+
+                                            ID:
+                                            {{ publicacion.id }}
+
+                                        </span>
+
+
+                                        <span class="lbl fw600 c-variant">
+
+                                            Estado:
+                                            {{ publicacion.estado }}
+
+                                        </span>
+
+                                    </div>
+
+
+                                </div>
+
+
+
+                                <!-- =========================
+                                     ACCIONES
+                                ========================== -->
+
+                                <div class="card card-side gap12">
+
+
+                                    <button
+                                        class="btn-big"
+                                        type="submit"
+                                    >
+
+                                        <span class="material-symbols-outlined i20">
+                                            save
+                                        </span>
+
+                                        <span>
+                                            GUARDAR CAMBIOS
+                                        </span>
+
+                                    </button>
+
+
+                                    <a
+                                        class="btn-discard"
+                                        href="{{ url_for('editor.editor_publicaciones') }}"
+                                    >
+                                        Cancelar
+                                    </a>
+
+
+                                </div>
+
+
+                            </div>
+
+
+                        </div>
+
+
+                    </form>
+
 
                 </div>
 
 
-                <!-- =========================
-                     COLUMNA DERECHA
-                ========================== -->
+            </main>
 
-                <div class="edit-sidebar">
 
+        </div>
 
-                  <!-- =========================
-                       ESTADO
-                  ========================== -->
-
-                  <div class="edit-card edit-side-card">
-
-                    <div class="edit-side-title">
-
-                      <span class="material-symbols-outlined">
-                        tune
-                      </span>
-
-                      <h2>
-                        Estado de Publicación
-                      </h2>
-
-                    </div>
-
-
-                    <label class="edit-radio">
-
-                      <input
-                        type="radio"
-                        name="accion"
-                        value="publicar"
-                        {% if publicacion.estado == "publicada" %}checked{% endif %}
-                      />
-
-                      <div>
-
-                        <strong>
-                          Publicada
-                        </strong>
-
-                        <span>
-                          La publicación está visible.
-                        </span>
-
-                      </div>
-
-                    </label>
-
-
-                    <label class="edit-radio">
-
-                      <input
-                        type="radio"
-                        name="accion"
-                        value="borrador"
-                        {% if publicacion.estado == "borrador" %}checked{% endif %}
-                      />
-
-                      <div>
-
-                        <strong>
-                          Borrador
-                        </strong>
-
-                        <span>
-                          Ocultar temporalmente la publicación.
-                        </span>
-
-                      </div>
-
-                    </label>
-
-                  </div>
-
-
-                  <!-- =========================
-                       PREMIUM
-                  ========================== -->
-
-                  <div class="edit-card edit-side-card">
-
-                    <div class="edit-side-title">
-
-                      <span class="material-symbols-outlined">
-                        stars
-                      </span>
-
-                      <h2>
-                        Nivel de Suscripción
-                      </h2>
-
-                    </div>
-
-
-                    <div class="edit-premium">
-
-                      <div>
-
-                        <strong>
-                          Contenido Premium
-                        </strong>
-
-                        <span>
-                          Solo disponible para usuarios Premium.
-                        </span>
-
-                      </div>
-
-
-                      <label class="edit-switch">
-
-                        <input
-                          type="checkbox"
-                          id="edit-premium"
-                        />
-
-                        <span class="edit-switch-track"></span>
-
-                      </label>
-
-                    </div>
-
-                  </div>
-
-
-                  <!-- =========================
-                       CATEGORÍA
-                  ========================== -->
-
-                  <div class="edit-card edit-side-card">
-
-                    <div class="edit-side-title">
-
-                      <span class="material-symbols-outlined">
-                        category
-                      </span>
-
-                      <h2>
-                        Categoría
-                      </h2>
-
-                    </div>
-
-
-                    <select
-                      class="edit-select"
-                      id="edit-category"
-                    >
-
-                      <option value="tecnica">
-                        Técnica
-                      </option>
-
-                      <option value="equipos">
-                        Equipos
-                      </option>
-
-                      <option value="pilotos">
-                        Pilotos
-                      </option>
-
-                      <option value="campeonato">
-                        Campeonato
-                      </option>
-
-                      <option value="previa">
-                        Previa
-                      </option>
-
-                    </select>
-
-                  </div>
-
-
-                  <!-- =========================
-                       ETIQUETAS
-                  ========================== -->
-
-                  <div class="edit-card edit-side-card">
-
-                    <div class="edit-side-title">
-
-                      <span class="material-symbols-outlined">
-                        label
-                      </span>
-
-                      <h2>
-                        Etiquetas
-                      </h2>
-
-                    </div>
-
-
-                    <div
-                      class="edit-tags"
-                      id="edit-tags"
-                    >
-                    </div>
-
-
-                    <div class="edit-add-tag">
-
-                      <input
-                        class="edit-field"
-                        id="edit-tag-input"
-                        type="text"
-                        placeholder="Nueva etiqueta"
-                      />
-
-
-                      <button
-                        id="edit-add-tag"
-                        type="button"
-                      >
-
-                        <span class="material-symbols-outlined">
-                          add
-                        </span>
-
-                      </button>
-
-                    </div>
-
-                  </div>
-
-
-                  <!-- =========================
-                       INFORMACIÓN
-                  ========================== -->
-
-                  <div class="edit-card edit-side-card">
-
-                    <div class="edit-side-title">
-
-                      <span class="material-symbols-outlined">
-                        info
-                      </span>
-
-                      <h2>
-                        Información
-                      </h2>
-
-                    </div>
-
-
-                    <div class="edit-info">
-
-                      <div>
-
-                        <span>
-                          ID
-                        </span>
-
-                        <strong>
-                          {{ publicacion.id }}
-                        </strong>
-
-                      </div>
-
-
-                      <div>
-
-                        <span>
-                          Estado
-                        </span>
-
-                        <strong>
-                          {{ publicacion.estado }}
-                        </strong>
-
-                      </div>
-
-                    </div>
-
-                  </div>
-
-
-                  <!-- =========================
-                       BOTONES
-                  ========================== -->
-
-                  <div class="edit-card edit-side-card edit-actions">
-
-                    <button
-                      class="edit-save-btn"
-                      type="submit"
-                    >
-
-                      <span class="material-symbols-outlined">
-                        save
-                      </span>
-
-                      Guardar Cambios
-
-                    </button>
-
-
-                    <a
-                      class="edit-cancel-btn"
-                      href="{{ url_for('editor.editor_publicaciones') }}"
-                    >
-                      Cancelar
-                    </a>
-
-                  </div>
-
-                </div>
-
-              </div>
-
-            </form>
-
-          </div>
-
-        </main>
-
-      </div>
 
     </div>
 
 
-    <!-- =========================
-         FOOTER
-    ========================== -->
+
+    <!-- FOOTER -->
 
     {% include "base/footer.html" %}
+
 
 
     <!-- =========================
@@ -955,319 +871,577 @@
 
     <script>
 
-      /* =========================
-         CONTADOR TÍTULO
-      ========================= */
 
-      const titleInput =
-        document.getElementById(
-          "edit-title"
-        );
+        (function editarPublicacion() {
 
 
-      const titleCount =
-        document.getElementById(
-          "edit-title-count"
-        );
+            /* =========================
+               TÍTULO
+            ========================= */
 
-
-      if (
-        titleInput &&
-        titleCount
-      ) {
-
-        titleInput.addEventListener(
-          "input",
-          function () {
-
-            titleCount.textContent =
-              titleInput.value.length
-              + "/120";
-
-          }
-        );
-
-      }
-
-
-      /* =========================
-         PREVIEW PORTADA
-      ========================= */
-
-      const inputPortada =
-        document.getElementById(
-          "edit-image"
-        );
-
-
-      if (inputPortada) {
-
-        inputPortada.addEventListener(
-          "change",
-          function () {
-
-            const archivo =
-              inputPortada.files[0];
-
-
-            if (!archivo) {
-
-              return;
-
-            }
-
-
-            const lector =
-              new FileReader();
-
-
-            lector.onload =
-              function (evento) {
-
-                let preview =
-                  document.getElementById(
-                    "preview-portada"
-                  );
-
-
-                if (!preview) {
-
-                  preview =
-                    document.createElement(
-                      "img"
-                    );
-
-
-                  preview.id =
-                    "preview-portada";
-
-
-                  const contenedor =
-                    document.querySelector(
-                      ".edit-image-preview"
-                    );
-
-
-                  contenedor.innerHTML =
-                    "";
-
-
-                  contenedor.appendChild(
-                    preview
-                  );
-
-                }
-
-
-                preview.src =
-                  evento.target.result;
-
-              };
-
-
-            lector.readAsDataURL(
-              archivo
-            );
-
-          }
-        );
-
-      }
-
-
-      /* =========================
-         PREVIEW IMÁGENES BLOQUES
-      ========================= */
-
-      const inputsBloques =
-        document.querySelectorAll(
-          ".input-imagen-bloque"
-        );
-
-
-      inputsBloques.forEach(
-        function (input) {
-
-          input.addEventListener(
-            "change",
-            function () {
-
-              const archivo =
-                input.files[0];
-
-
-              if (!archivo) {
-
-                return;
-
-              }
-
-
-              const previewId =
-                input.dataset.preview;
-
-
-              const preview =
+            const titleInput =
                 document.getElementById(
-                  previewId
+                    "post-title"
                 );
 
 
-              const lector =
-                new FileReader();
+            const titleCounter =
+                document.getElementById(
+                    "title-char-count"
+                );
 
-
-              lector.onload =
-                function (evento) {
-
-                  if (preview) {
-
-                    preview.src =
-                      evento.target.result;
-
-                  }
-
-                };
-
-
-              lector.readAsDataURL(
-                archivo
-              );
-
-            }
-          );
-
-        }
-      );
-
-
-      /* =========================
-         ETIQUETAS VISUALES
-      ========================= */
-
-      const tags =
-        document.getElementById(
-          "edit-tags"
-        );
-
-
-      const tagInput =
-        document.getElementById(
-          "edit-tag-input"
-        );
-
-
-      const addTag =
-        document.getElementById(
-          "edit-add-tag"
-        );
-
-
-      function agregarEtiqueta() {
-
-        let valor =
-          tagInput.value.trim();
-
-
-        if (!valor) {
-
-          return;
-
-        }
-
-
-        valor =
-          valor.replace(
-            /^#/,
-            ""
-          );
-
-
-        const etiqueta =
-          document.createElement(
-            "span"
-          );
-
-
-        etiqueta.className =
-          "edit-tag";
-
-
-        etiqueta.innerHTML = `
-          #${valor}
-
-          <button type="button">
-            ×
-          </button>
-        `;
-
-
-        tags.appendChild(
-          etiqueta
-        );
-
-
-        tagInput.value =
-          "";
-
-      }
-
-
-      if (addTag) {
-
-        addTag.addEventListener(
-          "click",
-          agregarEtiqueta
-        );
-
-      }
-
-
-      if (tagInput) {
-
-        tagInput.addEventListener(
-          "keydown",
-          function (event) {
 
             if (
-              event.key === "Enter"
+                titleInput &&
+                titleCounter
             ) {
 
-              event.preventDefault();
+                titleInput.addEventListener(
+                    "input",
+                    () => {
 
-              agregarEtiqueta();
+                        titleCounter.textContent =
+                            titleInput.value.length
+                            +
+                            "/120";
+
+                    }
+                );
 
             }
 
-          }
-        );
-
-      }
 
 
-      if (tags) {
+            /* =========================
+               BLOQUES
+            ========================= */
 
-        tags.addEventListener(
-          "click",
-          function (event) {
+            const bloquesContenido =
+                document.getElementById(
+                    "bloques-contenido"
+                );
+
+
+            const btnAgregarTexto =
+                document.getElementById(
+                    "btn-agregar-texto"
+                );
+
+
+            const btnAgregarImagen =
+                document.getElementById(
+                    "btn-agregar-imagen"
+                );
+
+
+            const btnAgregarCarrusel =
+                document.getElementById(
+                    "btn-agregar-carrusel"
+                );
+
+
+            const inputOrden =
+                document.getElementById(
+                    "bloques-nuevos-orden"
+                );
+
+
+
+            /* =========================
+               ACTUALIZO ORDEN
+            ========================= */
+
+            function actualizarOrdenBloquesNuevos() {
+
+
+                const bloquesNuevos =
+                    bloquesContenido.querySelectorAll(
+                        ".bloque-nuevo"
+                    );
+
+
+                const orden = [];
+
+
+                bloquesNuevos.forEach(
+                    (bloque) => {
+
+                        orden.push(
+                            bloque.dataset.tipo
+                        );
+
+                    }
+                );
+
+
+                inputOrden.value =
+                    orden.join(",");
+
+            }
+
+
+
+            /* =========================
+               CREAR TEXTO
+            ========================= */
+
+            function crearBloqueTexto() {
+
+
+                const bloque =
+                    document.createElement(
+                        "div"
+                    );
+
+
+                bloque.className =
+                    "bloque-contenido bloque-nuevo";
+
+
+                bloque.dataset.tipo =
+                    "texto";
+
+
+                bloque.innerHTML = `
+
+                    <div class="bloque-header">
+
+                        <span class="lbl up c-primary fw700">
+                            TEXTO NUEVO
+                        </span>
+
+                        <button
+                            class="btn-eliminar-bloque"
+                            type="button"
+                            title="Eliminar bloque"
+                        >
+
+                            <span class="material-symbols-outlined">
+                                delete
+                            </span>
+
+                        </button>
+
+                    </div>
+
+
+                    <textarea
+                        class="field field-text bloque-texto"
+                        rows="7"
+                        placeholder="Escribí acá el contenido..."
+                    ></textarea>
+
+                `;
+
+
+                bloquesContenido.appendChild(
+                    bloque
+                );
+
+
+                actualizarOrdenBloquesNuevos();
+
+            }
+
+
+
+            /* =========================
+               CREAR IMAGEN
+            ========================= */
+
+            function crearBloqueImagen() {
+
+
+                const bloque =
+                    document.createElement(
+                        "div"
+                    );
+
+
+                bloque.className =
+                    "bloque-contenido bloque-nuevo";
+
+
+                bloque.dataset.tipo =
+                    "imagen";
+
+
+                bloque.innerHTML = `
+
+                    <div class="bloque-header">
+
+                        <span class="lbl up c-primary fw700">
+                            IMAGEN NUEVA
+                        </span>
+
+                        <button
+                            class="btn-eliminar-bloque"
+                            type="button"
+                            title="Eliminar bloque"
+                        >
+
+                            <span class="material-symbols-outlined">
+                                delete
+                            </span>
+
+                        </button>
+
+                    </div>
+
+
+                    <input
+                        class="field"
+                        type="file"
+                        accept="image/png, image/jpeg, image/webp"
+                    >
+
+                `;
+
+
+                bloquesContenido.appendChild(
+                    bloque
+                );
+
+
+                actualizarOrdenBloquesNuevos();
+
+            }
+
+
+
+            /* =========================
+               CREAR CARRUSEL
+            ========================= */
+
+            function crearBloqueCarrusel() {
+
+
+                const bloque =
+                    document.createElement(
+                        "div"
+                    );
+
+
+                bloque.className =
+                    "bloque-contenido bloque-nuevo";
+
+
+                bloque.dataset.tipo =
+                    "carrusel";
+
+
+                bloque.innerHTML = `
+
+                    <div class="bloque-header">
+
+                        <span class="lbl up c-primary fw700">
+                            CARRUSEL NUEVO
+                        </span>
+
+                        <button
+                            class="btn-eliminar-bloque"
+                            type="button"
+                            title="Eliminar bloque"
+                        >
+
+                            <span class="material-symbols-outlined">
+                                delete
+                            </span>
+
+                        </button>
+
+                    </div>
+
+
+                    <input
+                        class="field"
+                        type="file"
+                        accept="image/png, image/jpeg, image/webp"
+                        multiple
+                    >
+
+
+                    <span class="lbl fw600 c-variant">
+                        Podés seleccionar varias imágenes juntas.
+                    </span>
+
+                `;
+
+
+                bloquesContenido.appendChild(
+                    bloque
+                );
+
+
+                actualizarOrdenBloquesNuevos();
+
+            }
+
+
+
+            /* =========================
+               BOTONES
+            ========================= */
+
+            if (btnAgregarTexto) {
+
+                btnAgregarTexto.addEventListener(
+                    "click",
+                    crearBloqueTexto
+                );
+
+            }
+
+
+            if (btnAgregarImagen) {
+
+                btnAgregarImagen.addEventListener(
+                    "click",
+                    crearBloqueImagen
+                );
+
+            }
+
+
+            if (btnAgregarCarrusel) {
+
+                btnAgregarCarrusel.addEventListener(
+                    "click",
+                    crearBloqueCarrusel
+                );
+
+            }
+
+
+
+            /* =========================
+               ELIMINAR BLOQUE NUEVO
+            ========================= */
+
+            if (bloquesContenido) {
+
+                bloquesContenido.addEventListener(
+                    "click",
+                    (event) => {
+
+
+                        const boton =
+                            event.target.closest(
+                                ".btn-eliminar-bloque"
+                            );
+
+
+                        if (!boton) {
+
+                            return;
+
+                        }
+
+
+                        const bloque =
+                            boton.closest(
+                                ".bloque-nuevo"
+                            );
+
+
+                        if (bloque) {
+
+                            bloque.remove();
+
+                            actualizarOrdenBloquesNuevos();
+
+                        }
+
+
+                    }
+                );
+
+            }
+
+
+
+            /* =========================
+               PREPARO BLOQUES NUEVOS
+               ANTES DE GUARDAR
+            ========================= */
+
+            const formulario =
+                document.getElementById(
+                    "form-publicacion"
+                );
+
+
+            if (formulario) {
+
+                formulario.addEventListener(
+                    "submit",
+                    () => {
+
+
+                        const bloquesNuevos =
+                            bloquesContenido.querySelectorAll(
+                                ".bloque-nuevo"
+                            );
+
+
+                        bloquesNuevos.forEach(
+                            (bloque, indice) => {
+
+
+                                const numero =
+                                    indice + 1;
+
+
+                                const tipo =
+                                    bloque.dataset.tipo;
+
+
+
+                                /* TEXTO */
+
+                                if (
+                                    tipo === "texto"
+                                ) {
+
+                                    const textarea =
+                                        bloque.querySelector(
+                                            "textarea"
+                                        );
+
+
+                                    if (textarea) {
+
+                                        textarea.name =
+                                            `nuevo_bloque_${numero}_texto`;
+
+                                    }
+
+                                }
+
+
+
+                                /* IMAGEN */
+
+                                if (
+                                    tipo === "imagen"
+                                ) {
+
+                                    const input =
+                                        bloque.querySelector(
+                                            'input[type="file"]'
+                                        );
+
+
+                                    if (input) {
+
+                                        input.name =
+                                            `nuevo_bloque_${numero}_imagen`;
+
+                                    }
+
+                                }
+
+
+
+                                /* CARRUSEL */
+
+                                if (
+                                    tipo === "carrusel"
+                                ) {
+
+                                    const input =
+                                        bloque.querySelector(
+                                            'input[type="file"]'
+                                        );
+
+
+                                    if (input) {
+
+                                        input.name =
+                                            `nuevo_bloque_${numero}_carrusel`;
+
+                                    }
+
+                                }
+
+
+                            }
+                        );
+
+
+                        actualizarOrdenBloquesNuevos();
+
+
+                    }
+                );
+
+            }
+
+
+
+            /* =========================
+               PREVIEW PORTADA
+            ========================= */
+
+            const coverInput =
+                document.getElementById(
+                    "cover-file-input"
+                );
+
+
+            const coverPreview =
+                document.getElementById(
+                    "cover-preview"
+                );
+
 
             if (
-              event.target.tagName ===
-              "BUTTON"
+                coverInput &&
+                coverPreview
             ) {
 
-              event.target
-                .parentElement
-                .remove();
+                coverInput.addEventListener(
+                    "change",
+                    () => {
+
+
+                        const archivo =
+                            coverInput.files[0];
+
+
+                        if (!archivo) {
+
+                            return;
+
+                        }
+
+
+                        coverPreview.src =
+                            URL.createObjectURL(
+                                archivo
+                            );
+
+
+                        coverPreview.classList.remove(
+                            "hidden"
+                        );
+
+
+                    }
+                );
 
             }
 
-          }
-        );
 
-      }
+            actualizarOrdenBloquesNuevos();
+
+
+        })();
+
 
     </script>
 
-  </body>
+
+</body>
+
 </html>

@@ -588,7 +588,7 @@ def editor_editar_publicacion(id_publicacion):
 
 
             # =========================
-            # TEXTO
+            # TEXTO EXISTENTE
             # =========================
 
             if bloque.tipo == "texto":
@@ -603,7 +603,7 @@ def editor_editar_publicacion(id_publicacion):
 
 
             # =========================
-            # IMAGEN
+            # IMAGEN EXISTENTE
             # =========================
 
             elif bloque.tipo == "imagen":
@@ -631,6 +631,192 @@ def editor_editar_publicacion(id_publicacion):
                     )
 
 
+        # =========================
+        # BLOQUES NUEVOS
+        # =========================
+
+        bloques_nuevos_orden = request.form.get(
+            "bloques_nuevos_orden",
+            ""
+        )
+
+
+        tipos_nuevos = [
+            tipo
+            for tipo in bloques_nuevos_orden.split(",")
+            if tipo
+        ]
+
+
+        # =========================
+        # OBTENGO EL ÚLTIMO ORDEN
+        # =========================
+
+        ultimo_orden = 0
+
+
+        if bloques:
+
+            ultimo_orden = bloques[-1].orden
+
+
+        # =========================
+        # RECORRO BLOQUES NUEVOS
+        # =========================
+
+        for indice, tipo in enumerate(
+            tipos_nuevos,
+            start=1
+        ):
+
+
+            nuevo_orden = (
+                ultimo_orden
+                +
+                indice
+            )
+
+
+            # =========================
+            # TEXTO NUEVO
+            # =========================
+
+            if tipo == "texto":
+
+                contenido = request.form.get(
+                    f"nuevo_bloque_{indice}_texto",
+                    ""
+                ).strip()
+
+
+                if contenido:
+
+                    nuevo_bloque = BloquePublicacion(
+                        publicacion_id=publicacion.id,
+                        tipo="texto",
+                        contenido=contenido,
+                        orden=nuevo_orden
+                    )
+
+
+                    db.session.add(
+                        nuevo_bloque
+                    )
+
+
+            # =========================
+            # IMAGEN NUEVA
+            # =========================
+
+            elif tipo == "imagen":
+
+                imagen = request.files.get(
+                    f"nuevo_bloque_{indice}_imagen"
+                )
+
+
+                if (
+                    imagen
+                    and imagen.filename
+                ):
+
+                    if not extension_valida(
+                        imagen.filename
+                    ):
+
+                        return "Formato de imagen no válido."
+
+
+                    imagen_key = subir_imagen(
+                        imagen,
+                        carpeta="publicaciones/contenido"
+                    )
+
+
+                    nuevo_bloque = BloquePublicacion(
+                        publicacion_id=publicacion.id,
+                        tipo="imagen",
+                        contenido=imagen_key,
+                        orden=nuevo_orden
+                    )
+
+
+                    db.session.add(
+                        nuevo_bloque
+                    )
+
+
+            # =========================
+            # CARRUSEL NUEVO
+            # =========================
+
+            elif tipo == "carrusel":
+
+                imagenes = request.files.getlist(
+                    f"nuevo_bloque_{indice}_carrusel"
+                )
+
+
+                imagenes_validas = [
+                    imagen
+                    for imagen in imagenes
+                    if imagen and imagen.filename
+                ]
+
+
+                if imagenes_validas:
+
+                    bloque_carrusel = BloquePublicacion(
+                        publicacion_id=publicacion.id,
+                        tipo="carrusel",
+                        contenido=None,
+                        orden=nuevo_orden
+                    )
+
+
+                    db.session.add(
+                        bloque_carrusel
+                    )
+
+
+                    # Obtengo el ID del bloque
+                    db.session.flush()
+
+
+                    orden_imagen = 1
+
+
+                    for imagen in imagenes_validas:
+
+                        if extension_valida(
+                            imagen.filename
+                        ):
+
+                            imagen_key = subir_imagen(
+                                imagen,
+                                carpeta="publicaciones/carruseles"
+                            )
+
+
+                            nueva_imagen = ImagenCarrusel(
+                                bloque_id=bloque_carrusel.id,
+                                imagen=imagen_key,
+                                orden=orden_imagen
+                            )
+
+
+                            db.session.add(
+                                nueva_imagen
+                            )
+
+
+                            orden_imagen += 1
+
+
+        # =========================
+        # GUARDO TODOS LOS CAMBIOS
+        # =========================
+
         db.session.commit()
 
 
@@ -640,6 +826,40 @@ def editor_editar_publicacion(id_publicacion):
             )
         )
 
+
+    # =========================
+    # CARRUSELES EXISTENTES
+    # =========================
+
+    carruseles = {}
+
+
+    for bloque in bloques:
+
+        if bloque.tipo == "carrusel":
+
+            imagenes = ImagenCarrusel.query.filter_by(
+                bloque_id=bloque.id
+            ).order_by(
+                ImagenCarrusel.orden
+            ).all()
+
+
+            carruseles[bloque.id] = imagenes
+
+
+    # =========================
+    # MUESTRO LA PÁGINA
+    # =========================
+
+    return render_template(
+        "editor/editar_publicacion.html",
+        usuario=usuario,
+        publicacion=publicacion,
+        bloques=bloques,
+        carruseles=carruseles,
+        seccion_activa="publicaciones"
+    )
 
     # =========================
     # CARRUSELES
