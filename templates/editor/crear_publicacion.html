@@ -1,2417 +1,1687 @@
 <!DOCTYPE html>
 <html lang="es">
+  <head>
+    <meta charset="utf-8" />
 
-<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <meta charset="utf-8">
-
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
-
-    <title>
-        F1 SIN FILTRO - Crear Publicación
-    </title>
-
+    <title>F1 SIN FILTRO - Crear Publicación</title>
 
     <!-- FUENTES -->
 
-    <link
-        href="https://fonts.googleapis.com"
-        rel="preconnect"
-    >
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+
+    <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin />
 
     <link
-        href="https://fonts.gstatic.com"
-        rel="preconnect"
-        crossorigin
-    >
+      href="https://fonts.googleapis.com/css2?family=Chivo:ital,wght@0,400;0,600;0,700;0,900;1,700&family=Geist:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
 
     <link
-        href="https://fonts.googleapis.com/css2?family=Chivo:ital,wght@0,400;0,600;0,700;0,900;1,700&family=Geist:wght@400;500;600;700&display=swap"
-        rel="stylesheet"
-    >
-
-    <link
-        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0"
-        rel="stylesheet"
-    >
-
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0"
+      rel="stylesheet"
+    />
 
     <!-- CSS -->
 
     <link
-        rel="stylesheet"
-        href="{{ url_for('static', filename='styles/style.css') }}"
-    >
+      rel="stylesheet"
+      href="{{ url_for('static', filename='styles/style.css') }}"
+    />
 
     <link
-        rel="stylesheet"
-        href="{{ url_for('static', filename='styles/editor/sidebar.css') }}"
-    >
+      rel="stylesheet"
+      href="{{ url_for('static', filename='styles/editor/sidebar.css') }}"
+    />
 
     <link
-        rel="stylesheet"
-        href="{{ url_for('static', filename='styles/editor/dashboard.css') }}"
-    >
+      rel="stylesheet"
+      href="{{ url_for('static', filename='styles/editor/dashboard.css') }}"
+    />
 
     <link
-        rel="stylesheet"
-        href="{{ url_for('static', filename='styles/editor/crear_publicacion.css') }}"
-    >
+      rel="stylesheet"
+      href="{{ url_for('static', filename='styles/editor/crear_publicacion.css') }}"
+    />
+  </head>
 
-</head>
-
-
-<body>
-
-
-<!-- =========================
+  <body>
+    <!-- =========================
      LAYOUT EDITOR
 ========================= -->
 
-<div class="editor-page">
-
-
-    <!-- =========================
+    <div class="editor-page">
+      <!-- =========================
          SIDEBAR
     ========================== -->
 
-    {% include "editor/sidebar.html" %}
+      {% include "editor/sidebar.html" %}
 
-
-    <!-- =========================
+      <!-- =========================
          CONTENIDO
     ========================== -->
 
-    <div class="editor-content">
-
-
+      <div class="editor-content">
         <!-- =========================
              TOPBAR
         ========================== -->
 
         <header class="editor-topbar">
+          <div class="topbar-left">
+            <button
+              class="menu-btn"
+              type="button"
+              id="editor-menu-btn"
+              aria-label="Abrir menú"
+            >
+              <span class="material-symbols-outlined"> menu </span>
+            </button>
+          </div>
 
+          <div class="topbar-right">
+            <div class="role-badge">
+              <span class="role-dot"></span>
 
-            <div class="topbar-left">
+              <span> ROL: </span>
 
-                <button
-                    class="menu-btn"
-                    type="button"
-                    id="editor-menu-btn"
-                    aria-label="Abrir menú"
-                >
-                    <span class="material-symbols-outlined">
-                        menu
-                    </span>
-                </button>
-
+              <strong> EDITOR </strong>
             </div>
 
+            <div class="editor-user">
+              <div class="editor-user-data">
+                <strong> {{ usuario.nombre if usuario else "Editor" }} </strong>
 
-            <div class="topbar-right">
+                <span>
+                  {{ usuario.email if usuario else "editor@f1sinfiltro.com" }}
+                </span>
+              </div>
 
+              {% if usuario and usuario.foto %}
 
-                <div class="role-badge">
+              <img
+                class="editor-avatar editor-avatar-img"
+                src="{{ url_imagen(usuario.foto) }}"
+                alt="{{ usuario.nombre }}"
+              />
 
-                    <span class="role-dot"></span>
+              {% else %}
 
-                    <span>
-                        ROL:
-                    </span>
+              <div class="editor-avatar">
+                <span class="material-symbols-outlined"> person </span>
+              </div>
 
-                    <strong>
-                        EDITOR
-                    </strong>
-
-                </div>
-
-                <div class="editor-user">
-
-                    <div class="editor-user-data">
-                
-                        <strong>
-                            {{ usuario.nombre if usuario else "Editor" }}
-                        </strong>
-                
-                        <span>
-                            {{ usuario.email if usuario else "editor@f1sinfiltro.com" }}
-                        </span>
-                
-                    </div>
-                
-                
-                    {% if usuario and usuario.foto %}
-                
-                        <img
-                            class="editor-avatar editor-avatar-img"
-                            src="{{ url_imagen(usuario.foto) }}"
-                            alt="{{ usuario.nombre }}"
-                        >
-                
-                    {% else %}
-                
-                        <div class="editor-avatar">
-                
-                            <span class="material-symbols-outlined">
-                                person
-                            </span>
-                
-                        </div>
-                
-                    {% endif %}
-                
-                </div>
-
-
-                
-
-
+              {% endif %}
             </div>
-
-
+          </div>
         </header>
-
 
         <!-- =========================
              MAIN
         ========================== -->
 
         <main class="editor-main">
+          <div class="editor-container">
 
+            <form
+            method="POST"
+            enctype="multipart/form-data"
+            id="form-publicacion">
 
-            <div class="editor-container">
+            <input
+             type="hidden"
+             name="bloques_orden"
+             id="bloques-orden"
+            >
 
+            
+            <!-- MENSAJE DE BORRADOR -->
 
-                <!-- MENSAJE DE BORRADOR -->
+            <div class="toast hidden" id="save-alert">
+              <span class="material-symbols-outlined i20 c-primary">
+                check_circle
+              </span>
 
-                <div
-                    class="toast hidden"
-                    id="save-alert"
-                >
+              <span> Borrador guardado temporalmente </span>
+            </div>
 
-                    <span class="material-symbols-outlined i20 c-primary">
-                        check_circle
-                    </span>
-
-                    <span>
-                        Borrador guardado temporalmente
-                    </span>
-
-                </div>
-
-
-                <!-- =========================
+            <!-- =========================
                      ENCABEZADO
                 ========================== -->
 
-                <header class="action-bar">
+            <header class="action-bar">
+              <div>
+                <div class="kicker">
+                  <span class="dot dot-8 bg-primary ping"></span>
 
+                  <span class="lbl up c-primary fw700">
+                    PANEL DE CONTROL // EDITOR
+                  </span>
+                </div>
 
-                    <div>
+                <h1>
+                  CREAR NUEVA PUBLICACIÓN
 
+                  <span class="h1-sub"> // CENTRO EDITORIAL </span>
+                </h1>
+              </div>
 
-                        <div class="kicker">
+              <div class="action-btns">
+                <button class="btn-draft" id="btn-draft" type="button">
+                  <span class="material-symbols-outlined i18"> save </span>
 
-                            <span class="dot dot-8 bg-primary ping"></span>
+                  <span> Guardar como borrador </span>
+                </button>
 
-                            <span class="lbl up c-primary fw700">
-                                PANEL DE CONTROL // EDITOR
-                            </span>
+                <button class="btn-blue" type="button">
+                  <span class="material-symbols-outlined i18">
+                    add_circle
+                  </span>
 
-                        </div>
+                  <span> PUBLICAR ARTÍCULO </span>
+                </button>
+              </div>
+            </header>
 
-
-                        <h1>
-
-                            CREAR NUEVA PUBLICACIÓN
-
-                            <span class="h1-sub">
-                                // CENTRO EDITORIAL
-                            </span>
-
-                        </h1>
-
-
-                    </div>
-
-
-                    <div class="action-btns">
-
-
-                        <button
-                            class="btn-draft"
-                            id="btn-draft"
-                            type="button"
-                        >
-
-                            <span class="material-symbols-outlined i18">
-                                save
-                            </span>
-
-                            <span>
-                                Guardar como borrador
-                            </span>
-
-                        </button>
-
-
-                        <button
-                            class="btn-blue"
-                            type="button"
-                        >
-
-                            <span class="material-symbols-outlined i18">
-                                add_circle
-                            </span>
-
-                            <span>
-                                PUBLICAR ARTÍCULO
-                            </span>
-
-                        </button>
-
-
-                    </div>
-
-
-                </header>
-
-
-                <!-- =========================
+            <!-- =========================
                      GRID
                 ========================== -->
 
-                <div class="grid">
-
-
-                    <!-- =========================
+            <div class="grid">
+              <!-- =========================
                          COLUMNA IZQUIERDA
                     ========================== -->
 
-                    <div class="col-left">
+              <div class="col-left">
+                <!-- TÍTULO -->
 
+                <div class="card gap8">
+                  <div class="row-between">
+                    <label class="lbl up c-variant" for="post-title">
+                      TÍTULO DE LA PUBLICACIÓN
 
-                        <!-- TÍTULO -->
+                      <span class="c-primary"> * </span>
+                    </label>
 
-                        <div class="card gap8">
+                    <span class="lbl fw600 c-outline" id="title-char-count">
+                      0/120
+                    </span>
+                  </div>
 
+                  <input
+                    class="field field-title"
+                    id="post-title"
+                    name="titulo"
+                    type="text"
+                    maxlength="120"
+                    placeholder="Ej: Ferrari prepara mejoras para la próxima carrera"
+                  />
+                </div>
 
-                            <div class="row-between">
+                <!-- RESUMEN -->
 
-                                <label
-                                    class="lbl up c-variant"
-                                    for="post-title"
-                                >
+                <div class="card gap8">
+                  <label class="lbl up c-variant" for="post-excerpt">
+                    SUBTÍTULO / RESUMEN DE PORTADA
+                  </label>
 
-                                    TÍTULO DE LA PUBLICACIÓN
+                  <textarea
+                    class="field field-text"
+                    id="post-excerpt"
+                    rows="3"
+                    placeholder="Ingresá un resumen breve para mostrar en la portada..."
+                  ></textarea>
+                </div>
 
-                                    <span class="c-primary">
-                                        *
-                                    </span>
-
-                                </label>
-
-
-                                <span
-                                    class="lbl fw600 c-outline"
-                                    id="title-char-count"
-                                >
-                                    0/120
-                                </span>
-
-                            </div>
-
-
-                            <input
-                                class="field field-title"
-                                id="post-title"
-                                type="text"
-                                maxlength="120"
-                                placeholder="Ej: Ferrari prepara mejoras para la próxima carrera"
-                            >
-
-
-                        </div>
-
-
-                        <!-- RESUMEN -->
-
-                        <div class="card gap8">
-
-
-                            <label
-                                class="lbl up c-variant"
-                                for="post-excerpt"
-                            >
-                                SUBTÍTULO / RESUMEN DE PORTADA
-                            </label>
-
-
-                            <textarea
-                                class="field field-text"
-                                id="post-excerpt"
-                                rows="3"
-                                placeholder="Ingresá un resumen breve para mostrar en la portada..."
-                            ></textarea>
-
-
-                        </div>
-
-
-                        <!-- =========================
+                <!-- =========================
                              IMAGEN DE PORTADA
                         ========================== -->
 
-                        <div class="card gap12">
-
-
-                            <div class="row-between wrap gap8">
-
-                                <span class="lbl up c-variant">
-                                    IMAGEN PRINCIPAL / PORTADA
-                                </span>
-
-                                <span class="tag-aspect">
-                                    ASPECTO 16:9
-                                </span>
-
-                            </div>
-
-
-                            <div class="dropzone">
-
-
-                                <input
-                                    class="drop-input"
-                                    id="cover-file-input"
-                                    type="file"
-                                    accept="image/png, image/jpeg, image/webp"
-                                >
-
-
-                                <div class="drop-icon">
-
-                                    <span class="material-symbols-outlined">
-                                        cloud_upload
-                                    </span>
-
-                                </div>
-
-
-                                <p class="drop-title">
-
-                                    Arrastrá tu imagen de portada aquí o
-
-                                    <span>
-                                        seleccioná un archivo
-                                    </span>
-
-                                </p>
-
-
-                                <p class="lbl fw600 c-variant">
-                                    JPG, PNG o WebP · Máximo 5MB
-                                </p>
-
-
-                                <div class="drop-info">
-
-                                    <span class="material-symbols-outlined i16">
-                                        info
-                                    </span>
-
-                                    <span>
-                                        Se recomienda una imagen de 1920x1080px.
-                                    </span>
-
-                                </div>
-
-
-                            </div>
-
-
-                        </div>
-
-
-                        <!-- =========================
-                             EDITOR FUNCIONAL
-                        ========================== -->
-
-                        <div class="editor-card">
-
-
-                            <!-- TOOLBAR -->
-
-                            <div class="toolbar">
-
-
-                                <div class="tb-group">
-
-                                    <button
-                                        class="tb"
-                                        id="btn-bold"
-                                        title="Negrita"
-                                        type="button"
-                                    >
-                                        <span class="material-symbols-outlined i18">
-                                            format_bold
-                                        </span>
-                                    </button>
-
-
-                                    <button
-                                        class="tb"
-                                        id="btn-italic"
-                                        title="Cursiva"
-                                        type="button"
-                                    >
-                                        <span class="material-symbols-outlined i18">
-                                            format_italic
-                                        </span>
-                                    </button>
-
-
-                                    <button
-                                        class="tb"
-                                        id="btn-underline"
-                                        title="Subrayado"
-                                        type="button"
-                                    >
-                                        <span class="material-symbols-outlined i18">
-                                            format_underlined
-                                        </span>
-                                    </button>
-
-                                </div>
-
-
-                                <div class="tb-sep"></div>
-
-
-                                <div class="tb-group">
-
-                                    <button
-                                        class="tb tb-text"
-                                        id="btn-h2"
-                                        title="Título grande"
-                                        type="button"
-                                    >
-                                        H2
-                                    </button>
-
-
-                                    <button
-                                        class="tb tb-text"
-                                        id="btn-h3"
-                                        title="Subtítulo"
-                                        type="button"
-                                    >
-                                        H3
-                                    </button>
-
-                                </div>
-
-
-                                <div class="tb-sep"></div>
-
-
-                                <div class="tb-group">
-
-                                    <button
-                                        class="tb"
-                                        id="btn-quote"
-                                        title="Cita"
-                                        type="button"
-                                    >
-                                        <span class="material-symbols-outlined i18">
-                                            format_quote
-                                        </span>
-                                    </button>
-
-
-                                    <button
-                                        class="tb"
-                                        id="btn-list"
-                                        title="Lista"
-                                        type="button"
-                                    >
-                                        <span class="material-symbols-outlined i18">
-                                            format_list_bulleted
-                                        </span>
-                                    </button>
-
-
-                                    <button
-                                        class="tb"
-                                        id="btn-image"
-                                        title="Insertar imagen dentro del artículo"
-                                        type="button"
-                                    >
-                                        <span class="material-symbols-outlined i18">
-                                            add_photo_alternate
-                                        </span>
-                                    </button>
-
-
-                                    <button
-                                        class="tb"
-                                        id="btn-link"
-                                        title="Insertar enlace"
-                                        type="button"
-                                    >
-                                        <span class="material-symbols-outlined i18">
-                                            link
-                                        </span>
-                                    </button>
-
-                                </div>
-
-
-                                <div class="tb-mode">
-
-                                    <span class="lbl fw600 c-variant">
-                                        MODO REDACCIÓN
-                                    </span>
-
-                                    <div class="dot dot-8 bg-primary"></div>
-
-                                </div>
-
-
-                            </div>
-
-
-                            <!-- INPUT OCULTO PARA IMÁGENES DEL CONTENIDO -->
-
-                            <input
-                                type="file"
-                                id="editor-image-input"
-                                accept="image/png, image/jpeg, image/webp"
-                                hidden
-                            >
-
-
-                            <!-- ÁREA EDITABLE -->
-
-                            <div class="canvas">
-
-                                <div
-                                    class="editor"
-                                    id="editor-workspace"
-                                    contenteditable="true"
-                                    spellcheck="true"
-                                    data-placeholder="Escribí acá el contenido de la publicación..."
-                                ></div>
-
-                            </div>
-
-
-                            <!-- CONTADORES -->
-
-                            <div class="editor-foot">
-
-
-                                <div class="editor-stats">
-
-                                    <span>
-                                        PALABRAS:
-
-                                        <strong id="word-count">
-                                            0
-                                        </strong>
-                                    </span>
-
-
-                                    <span>
-                                        •
-                                    </span>
-
-
-                                    <span>
-                                        CARACTERES:
-
-                                        <strong id="char-count">
-                                            0
-                                        </strong>
-                                    </span>
-
-                                </div>
-
-
-                                <div class="editor-saved">
-
-                                    <span class="material-symbols-outlined i16 c-primary">
-                                        edit
-                                    </span>
-
-                                    <span>
-                                        Editando publicación
-                                    </span>
-
-                                </div>
-
-
-                            </div>
-
-
-                        </div>
-
-
+                <div class="card gap12">
+                  <div class="row-between wrap gap8">
+                    <span class="lbl up c-variant">
+                      IMAGEN PRINCIPAL / PORTADA
+                    </span>
+
+                    <span class="tag-aspect"> ASPECTO 16:9 </span>
+                  </div>
+
+                  <div class="dropzone">
+                    <input
+                      class="drop-input"
+                      id="cover-file-input"
+                      name="imagen_portada"
+                      type="file"
+                      accept="image/png, image/jpeg, image/webp"
+                    />
+
+                    <div class="drop-icon">
+                      <span class="material-symbols-outlined">
+                        cloud_upload
+                      </span>
                     </div>
 
+                    <p class="drop-title">
+                      Arrastrá tu imagen de portada aquí o
 
-                    <!-- =========================
-                         COLUMNA DERECHA
-                    ========================== -->
+                      <span> seleccioná un archivo </span>
+                    </p>
 
-                    <div class="col-right">
+                    <p class="lbl fw600 c-variant">
+                      JPG, PNG o WebP · Máximo 5MB
+                    </p>
 
+                    <div class="drop-info">
+                      <span class="material-symbols-outlined i16"> info </span>
 
-                        <!-- =========================
-                             ESTADO PUBLICACIÓN
-                        ========================== -->
-
-                        <div class="card card-side gap16">
-
-
-                            <div class="row-between">
-
-
-                                <h2 class="card-h2">
-
-                                    <span class="material-symbols-outlined i20 c-primary">
-                                        tune
-                                    </span>
-
-                                    <span>
-                                        Estado de Publicación
-                                    </span>
-
-                                </h2>
-
-
-                                <span class="badge-grey">
-                                    CONFIG
-                                </span>
-
-
-                            </div>
-
-
-                            <div class="radios">
-
-
-                                <label class="radio">
-
-                                    <input
-                                        type="radio"
-                                        name="publish_status"
-                                        value="draft"
-                                        checked
-                                    >
-
-                                    <div class="col">
-
-                                        <span class="radio-title">
-                                            Borrador privado
-                                        </span>
-
-                                        <span class="lbl fw600 c-variant">
-                                            Todavía no se publica.
-                                        </span>
-
-                                    </div>
-
-                                </label>
-
-
-                                <label class="radio">
-
-                                    <input
-                                        type="radio"
-                                        name="publish_status"
-                                        value="immediate"
-                                    >
-
-                                    <div class="col">
-
-                                        <span class="radio-title">
-                                            Publicar inmediatamente
-                                        </span>
-
-                                        <span class="lbl fw600 c-variant">
-                                            La publicación queda visible al instante.
-                                        </span>
-
-                                    </div>
-
-                                </label>
-
-
-                                <label class="radio">
-
-                                    <input
-                                        type="radio"
-                                        name="publish_status"
-                                        value="schedule"
-                                    >
-
-                                    <div class="col">
-
-                                        <span class="radio-title">
-                                            Programar publicación
-                                        </span>
-
-                                        <span class="lbl fw600 c-variant">
-                                            Seleccioná una fecha y hora.
-                                        </span>
-
-                                    </div>
-
-                                </label>
-
-
-                            </div>
-
-
-                            <div
-                                class="schedule"
-                                id="schedule-box"
-                            >
-
-                                <label class="lbl up c-variant block mb4">
-                                    FECHA Y HORA
-                                </label>
-
-                                <input
-                                    class="field-sm"
-                                    type="datetime-local"
-                                >
-
-                            </div>
-
-
-                        </div>
-
-
-                        <!-- =========================
-                             PREMIUM
-                        ========================== -->
-
-                        <div class="card card-side gap16">
-
-
-                            <div class="row-between">
-
-
-                                <div class="flex-c gap8">
-
-                                    <span class="material-symbols-outlined i20 c-primary">
-                                        stars
-                                    </span>
-
-                                    <h2 class="card-h2">
-                                        Nivel de Suscripción
-                                    </h2>
-
-                                </div>
-
-
-                                <span class="badge-paywall">
-                                    PREMIUM
-                                </span>
-
-
-                            </div>
-
-
-                            <div class="paywall">
-
-
-                                <div class="col pr8">
-
-                                    <span class="radio-title">
-                                        Contenido Premium
-                                    </span>
-
-                                    <span class="lbl fw600 c-variant mt4">
-                                        Solo los usuarios Premium podrán acceder al artículo completo.
-                                    </span>
-
-                                </div>
-
-
-                                <label class="switch">
-
-                                    <input
-                                        type="checkbox"
-                                        id="premium-toggle"
-                                    >
-
-                                    <div class="switch-track"></div>
-
-                                </label>
-
-
-                            </div>
-
-
-                        </div>
-
-
-                        <!-- =========================
-                             CATEGORÍA
-                        ========================== -->
-
-                        <div class="card card-side gap12">
-
-
-                            <div class="row-between">
-
-
-                                <label
-                                    class="card-h2"
-                                    for="post-category"
-                                >
-
-                                    <span class="material-symbols-outlined i20 c-primary">
-                                        category
-                                    </span>
-
-                                    <span>
-                                        Categoría
-                                    </span>
-
-                                </label>
-
-
-                                <button
-                                    class="link-btn"
-                                    id="btn-new-cat"
-                                    type="button"
-                                >
-
-                                    <span class="material-symbols-outlined i16">
-                                        add
-                                    </span>
-
-                                    <span>
-                                        Nueva
-                                    </span>
-
-                                </button>
-
-
-                            </div>
-
-
-                            <p class="lbl fw600 c-variant">
-                                Seleccioná la categoría correspondiente.
-                            </p>
-
-
-                            <div class="col gap8">
-
-
-                                <select
-                                    class="select"
-                                    id="post-category"
-                                >
-
-                                    <option
-                                        value="tecnica"
-                                        selected
-                                    >
-                                        Técnica
-                                    </option>
-
-                                    <option value="equipos">
-                                        Equipos
-                                    </option>
-
-                                    <option value="pilotos">
-                                        Pilotos
-                                    </option>
-
-                                    <option value="campeonato">
-                                        Campeonato
-                                    </option>
-
-                                    <option value="previa">
-                                        Previa
-                                    </option>
-
-                                </select>
-
-
-                                <div
-                                    class="newcat hidden"
-                                    id="new-cat-box"
-                                >
-
-                                    <span class="lbl up c-primary fw600">
-                                        Crear nueva categoría
-                                    </span>
-
-
-                                    <div class="newcat-row">
-
-                                        <input
-                                            class="field-xs"
-                                            id="new-category-input"
-                                            type="text"
-                                            placeholder="Nombre de la categoría"
-                                        >
-
-
-                                        <button
-                                            class="btn-save"
-                                            id="btn-save-cat"
-                                            type="button"
-                                        >
-
-                                            <span class="material-symbols-outlined i14">
-                                                check
-                                            </span>
-
-                                            <span>
-                                                Guardar
-                                            </span>
-
-                                        </button>
-
-                                    </div>
-
-
-                                </div>
-
-
-                                <button
-                                    class="link-btn link-left"
-                                    id="btn-new-cat-2"
-                                    type="button"
-                                >
-
-                                    <span class="material-symbols-outlined i16">
-                                        add_circle
-                                    </span>
-
-                                    <span>
-                                        Crear nueva categoría
-                                    </span>
-
-                                </button>
-
-
-                            </div>
-
-
-                        </div>
-
-
-                        <!-- =========================
-                             ETIQUETAS
-                        ========================== -->
-
-                        <div class="card card-side gap16">
-
-
-                            <div class="row-between">
-
-
-                                <h2 class="card-h2">
-
-                                    <span class="material-symbols-outlined i20 c-primary">
-                                        label
-                                    </span>
-
-                                    <span>
-                                        Etiquetas
-                                    </span>
-
-                                </h2>
-
-
-                                <span
-                                    class="lbl fw600 c-outline"
-                                    id="tag-counter"
-                                >
-                                    0 ACTIVAS
-                                </span>
-
-
-                            </div>
-
-
-                            <div class="tag-form">
-
-
-                                <div class="tag-input-wrap">
-
-                                    <span class="tag-hash">
-                                        #
-                                    </span>
-
-                                    <input
-                                        class="field-xs tag-input"
-                                        id="tag-input"
-                                        type="text"
-                                        placeholder="Añadir etiqueta..."
-                                    >
-
-                                </div>
-
-
-                                <button
-                                    class="btn-add"
-                                    id="btn-add-tag"
-                                    type="button"
-                                >
-
-                                    <span class="material-symbols-outlined i16">
-                                        add
-                                    </span>
-
-                                    <span>
-                                        Añadir
-                                    </span>
-
-                                </button>
-
-
-                            </div>
-
-
-                            <div class="col gap6">
-
-                                <span class="lbl up c-outline sug-title">
-                                    Sugerencias:
-                                </span>
-
-
-                                <div class="sugs">
-
-                                    <button
-                                        class="sug"
-                                        data-tag="Ferrari"
-                                        type="button"
-                                    >
-                                        + #Ferrari
-                                    </button>
-
-
-                                    <button
-                                        class="sug"
-                                        data-tag="F1"
-                                        type="button"
-                                    >
-                                        + #F1
-                                    </button>
-
-
-                                    <button
-                                        class="sug"
-                                        data-tag="Verstappen"
-                                        type="button"
-                                    >
-                                        + #Verstappen
-                                    </button>
-
-
-                                    <button
-                                        class="sug"
-                                        data-tag="Pirelli"
-                                        type="button"
-                                    >
-                                        + #Pirelli
-                                    </button>
-
-                                </div>
-
-
-                            </div>
-
-
-                            <div
-                                class="tags"
-                                id="tags-container"
-                            ></div>
-
-
-                        </div>
-
-
-                        <!-- =========================
-                             VALIDACIÓN
-                        ========================== -->
-
-                        <div class="card card-side gap16">
-
-
-                            <h2 class="card-h2">
-
-                                <span class="material-symbols-outlined i20 c-primary">
-                                    checklist
-                                </span>
-
-                                <span>
-                                    Validación
-                                </span>
-
-                            </h2>
-
-
-                            <ul class="checks">
-
-
-                                <li class="c-variant">
-
-                                    <span class="chk">
-
-                                        <span class="material-symbols-outlined i18 c-outline">
-                                            radio_button_unchecked
-                                        </span>
-
-                                        Título definido
-
-                                    </span>
-
-                                </li>
-
-
-                                <li class="c-variant">
-
-                                    <span class="chk">
-
-                                        <span class="material-symbols-outlined i18 c-outline">
-                                            radio_button_unchecked
-                                        </span>
-
-                                        Categoría seleccionada
-
-                                    </span>
-
-                                </li>
-
-
-                                <li class="c-variant">
-
-                                    <span class="chk">
-
-                                        <span class="material-symbols-outlined i18 c-outline">
-                                            radio_button_unchecked
-                                        </span>
-
-                                        Imagen de portada
-
-                                    </span>
-
-                                </li>
-
-
-                                <li class="c-variant">
-
-                                    <span class="chk">
-
-                                        <span class="material-symbols-outlined i18 c-outline">
-                                            radio_button_unchecked
-                                        </span>
-
-                                        Contenido de la publicación
-
-                                    </span>
-
-                                </li>
-
-
-                            </ul>
-
-
-                            <div class="progress">
-
-                                <div class="progress-fill"></div>
-
-                            </div>
-
-
-                        </div>
-
-
-                        <!-- =========================
-                             BOTONES FINALES
-                        ========================== -->
-
-                        <div class="card card-side gap12">
-
-
-                            <button
-                                class="btn-big"
-                                type="button"
-                            >
-
-                                <span class="material-symbols-outlined i20">
-                                    send
-                                </span>
-
-                                <span>
-                                    Publicar Noticia
-                                </span>
-
-                            </button>
-
-
-                            <button
-                                class="btn-preview"
-                                type="button"
-                            >
-
-                                <span class="material-symbols-outlined i18">
-                                    visibility
-                                </span>
-
-                                <span>
-                                    Vista Previa
-                                </span>
-
-                            </button>
-
-
-                            <button
-                                class="btn-discard"
-                                id="btn-discard"
-                                type="button"
-                            >
-                                Descartar cambios
-                            </button>
-
-
-                        </div>
-
-
+                      <span> Se recomienda una imagen de 1920x1080px. </span>
                     </div>
-
-
+                  </div>
                 </div>
 
+                <!-- =========================
+                             EDITOR FUNCIONAL
+                        ========================== -->
+                     
+                        <!-- =========================
+     CONTENIDO POR BLOQUES
+========================== -->
 
-            </div>
+<div class="editor-card">
+
+    <div class="toolbar">
+
+        <div class="tb-group">
+
+            <button
+                class="tb tb-text"
+                id="btn-agregar-texto"
+                type="button"
+            >
+                <span class="material-symbols-outlined i18">
+                    notes
+                </span>
+
+                TEXTO
+            </button>
 
 
-        </main>
+            <button
+                class="tb tb-text"
+                id="btn-agregar-imagen"
+                type="button"
+            >
+                <span class="material-symbols-outlined i18">
+                    add_photo_alternate
+                </span>
 
+                IMAGEN
+            </button>
+
+
+            <button
+                class="tb tb-text"
+                id="btn-agregar-carrusel"
+                type="button"
+            >
+                <span class="material-symbols-outlined i18">
+                    collections
+                </span>
+
+                CARRUSEL
+            </button>
+
+        </div>
+
+
+        <div class="tb-mode">
+
+            <span class="lbl fw600 c-variant">
+                CONTENIDO DEL ARTÍCULO
+            </span>
+
+            <div class="dot dot-8 bg-primary"></div>
+
+        </div>
 
     </div>
 
 
+    <div
+        class="bloques-contenido"
+        id="bloques-contenido"
+    >
+
+        <!-- Empiezo con un bloque de texto -->
+
+        <div
+            class="bloque-contenido"
+            data-tipo="texto"
+        >
+
+            <div class="bloque-header">
+
+                <span class="lbl up c-primary fw700">
+                    TEXTO
+                </span>
+
+                <button
+                    class="btn-eliminar-bloque"
+                    type="button"
+                    title="Eliminar bloque"
+                >
+                    <span class="material-symbols-outlined">
+                        delete
+                    </span>
+                </button>
+
+            </div>
+
+
+            <textarea
+                class="field field-text bloque-texto"
+                name="bloque_texto[]"
+                rows="7"
+                placeholder="Escribí acá el contenido de la publicación..."
+            ></textarea>
+
+        </div>
+
+    </div>
+
+
+    <div class="editor-foot">
+
+        <span class="lbl fw600 c-variant">
+            Agregá texto, imágenes o carruseles en el orden que quieras.
+        </span>
+
+    </div>
+
 </div>
 
+                
+              
 
-<!-- =========================
+              <!-- =========================
+                         COLUMNA DERECHA
+                    ========================== -->
+
+              <div class="col-right">
+                <!-- =========================
+                             ESTADO PUBLICACIÓN
+                        ========================== -->
+
+                <div class="card card-side gap16">
+                  <div class="row-between">
+                    <h2 class="card-h2">
+                      <span class="material-symbols-outlined i20 c-primary">
+                        tune
+                      </span>
+
+                      <span> Estado de Publicación </span>
+                    </h2>
+
+                    <span class="badge-grey"> CONFIG </span>
+                  </div>
+
+                  <div class="radios">
+                    <label class="radio">
+                      <input
+                        type="radio"
+                        name="publish_status"
+                        value="draft"
+                        checked
+                      />
+
+                      <div class="col">
+                        <span class="radio-title"> Borrador privado </span>
+
+                        <span class="lbl fw600 c-variant">
+                          Todavía no se publica.
+                        </span>
+                      </div>
+                    </label>
+
+                    <label class="radio">
+                      <input
+                        type="radio"
+                        name="publish_status"
+                        value="immediate"
+                      />
+
+                      <div class="col">
+                        <span class="radio-title">
+                          Publicar inmediatamente
+                        </span>
+
+                        <span class="lbl fw600 c-variant">
+                          La publicación queda visible al instante.
+                        </span>
+                      </div>
+                    </label>
+
+                    <label class="radio">
+                      <input
+                        type="radio"
+                        name="publish_status"
+                        value="schedule"
+                      />
+
+                      <div class="col">
+                        <span class="radio-title"> Programar publicación </span>
+
+                        <span class="lbl fw600 c-variant">
+                          Seleccioná una fecha y hora.
+                        </span>
+                      </div>
+                    </label>
+                  </div>
+
+                  <div class="schedule" id="schedule-box">
+                    <label class="lbl up c-variant block mb4">
+                      FECHA Y HORA
+                    </label>
+
+                    <input class="field-sm" type="datetime-local" />
+                  </div>
+                </div>
+
+                <!-- =========================
+                             PREMIUM
+                        ========================== -->
+
+                <div class="card card-side gap16">
+                  <div class="row-between">
+                    <div class="flex-c gap8">
+                      <span class="material-symbols-outlined i20 c-primary">
+                        stars
+                      </span>
+
+                      <h2 class="card-h2">Nivel de Suscripción</h2>
+                    </div>
+
+                    <span class="badge-paywall"> PREMIUM </span>
+                  </div>
+
+                  <div class="paywall">
+                    <div class="col pr8">
+                      <span class="radio-title"> Contenido Premium </span>
+
+                      <span class="lbl fw600 c-variant mt4">
+                        Solo los usuarios Premium podrán acceder al artículo
+                        completo.
+                      </span>
+                    </div>
+
+                    <label class="switch">
+                      <input type="checkbox" id="premium-toggle" />
+
+                      <div class="switch-track"></div>
+                    </label>
+                  </div>
+                </div>
+
+                <!-- =========================
+                             CATEGORÍA
+                        ========================== -->
+
+                <div class="card card-side gap12">
+                  <div class="row-between">
+                    <label class="card-h2" for="post-category">
+                      <span class="material-symbols-outlined i20 c-primary">
+                        category
+                      </span>
+
+                      <span> Categoría </span>
+                    </label>
+
+                    <button class="link-btn" id="btn-new-cat" type="button">
+                      <span class="material-symbols-outlined i16"> add </span>
+
+                      <span> Nueva </span>
+                    </button>
+                  </div>
+
+                  <p class="lbl fw600 c-variant">
+                    Seleccioná la categoría correspondiente.
+                  </p>
+
+                  <div class="col gap8">
+                    <select class="select" id="post-category">
+                      <option value="tecnica" selected>Técnica</option>
+
+                      <option value="equipos">Equipos</option>
+
+                      <option value="pilotos">Pilotos</option>
+
+                      <option value="campeonato">Campeonato</option>
+
+                      <option value="previa">Previa</option>
+                    </select>
+
+                    <div class="newcat hidden" id="new-cat-box">
+                      <span class="lbl up c-primary fw600">
+                        Crear nueva categoría
+                      </span>
+
+                      <div class="newcat-row">
+                        <input
+                          class="field-xs"
+                          id="new-category-input"
+                          type="text"
+                          placeholder="Nombre de la categoría"
+                        />
+
+                        <button
+                          class="btn-save"
+                          id="btn-save-cat"
+                          type="button"
+                        >
+                          <span class="material-symbols-outlined i14">
+                            check
+                          </span>
+
+                          <span> Guardar </span>
+                        </button>
+                      </div>
+                    </div>
+
+                    <button
+                      class="link-btn link-left"
+                      id="btn-new-cat-2"
+                      type="button"
+                    >
+                      <span class="material-symbols-outlined i16">
+                        add_circle
+                      </span>
+
+                      <span> Crear nueva categoría </span>
+                    </button>
+                  </div>
+                </div>
+
+                <!-- =========================
+                             ETIQUETAS
+                        ========================== -->
+
+                <div class="card card-side gap16">
+                  <div class="row-between">
+                    <h2 class="card-h2">
+                      <span class="material-symbols-outlined i20 c-primary">
+                        label
+                      </span>
+
+                      <span> Etiquetas </span>
+                    </h2>
+
+                    <span class="lbl fw600 c-outline" id="tag-counter">
+                      0 ACTIVAS
+                    </span>
+                  </div>
+
+                  <div class="tag-form">
+                    <div class="tag-input-wrap">
+                      <span class="tag-hash"> # </span>
+
+                      <input
+                        class="field-xs tag-input"
+                        id="tag-input"
+                        type="text"
+                        placeholder="Añadir etiqueta..."
+                      />
+                    </div>
+
+                    <button class="btn-add" id="btn-add-tag" type="button">
+                      <span class="material-symbols-outlined i16"> add </span>
+
+                      <span> Añadir </span>
+                    </button>
+                  </div>
+
+                  <div class="col gap6">
+                    <span class="lbl up c-outline sug-title">
+                      Sugerencias:
+                    </span>
+
+                    <div class="sugs">
+                      <button class="sug" data-tag="Ferrari" type="button">
+                        + #Ferrari
+                      </button>
+
+                      <button class="sug" data-tag="F1" type="button">
+                        + #F1
+                      </button>
+
+                      <button class="sug" data-tag="Verstappen" type="button">
+                        + #Verstappen
+                      </button>
+
+                      <button class="sug" data-tag="Pirelli" type="button">
+                        + #Pirelli
+                      </button>
+                    </div>
+                  </div>
+
+                  <div class="tags" id="tags-container"></div>
+                </div>
+
+                <!-- =========================
+                             VALIDACIÓN
+                        ========================== -->
+
+                <div class="card card-side gap16">
+                  <h2 class="card-h2">
+                    <span class="material-symbols-outlined i20 c-primary">
+                      checklist
+                    </span>
+
+                    <span> Validación </span>
+                  </h2>
+
+                  <ul class="checks">
+                    <li class="c-variant">
+                      <span class="chk">
+                        <span class="material-symbols-outlined i18 c-outline">
+                          radio_button_unchecked
+                        </span>
+
+                        Título definido
+                      </span>
+                    </li>
+
+                    <li class="c-variant">
+                      <span class="chk">
+                        <span class="material-symbols-outlined i18 c-outline">
+                          radio_button_unchecked
+                        </span>
+
+                        Categoría seleccionada
+                      </span>
+                    </li>
+
+                    <li class="c-variant">
+                      <span class="chk">
+                        <span class="material-symbols-outlined i18 c-outline">
+                          radio_button_unchecked
+                        </span>
+
+                        Imagen de portada
+                      </span>
+                    </li>
+
+                    <li class="c-variant">
+                      <span class="chk">
+                        <span class="material-symbols-outlined i18 c-outline">
+                          radio_button_unchecked
+                        </span>
+
+                        Contenido de la publicación
+                      </span>
+                    </li>
+                  </ul>
+
+                  <div class="progress">
+                    <div class="progress-fill"></div>
+                  </div>
+                </div>
+
+                <!-- =========================
+                             BOTONES FINALES
+                        ========================== -->
+
+                <div class="card card-side gap12">
+                  <button class="btn-big" type="button">
+                    <span class="material-symbols-outlined i20"> send </span>
+
+                    <span> Publicar Noticia </span>
+                  </button>
+
+                  <button class="btn-preview" type="button">
+                    <span class="material-symbols-outlined i18">
+                      visibility
+                    </span>
+
+                    <span> Vista Previa </span>
+                  </button>
+
+                  <button class="btn-discard" id="btn-discard" type="button">
+                    Descartar cambios
+                  </button>
+                </div>
+              </div>
+            </div>
+          </form>
+          </div>
+        </main>
+      </div>
+    
+    </div>
+
+    <!-- =========================
      FOOTER GLOBAL
 ========================= -->
 
-{% include "base/footer.html" %}
+    {% include "base/footer.html" %}
 
-
-<!-- =========================
+    <!-- =========================
      JAVASCRIPT
 ========================= -->
 
 <script>
 
-
-(function initPostEditor() {
-
-
-    /* =========================
-       ELEMENTOS GENERALES
-    ========================= */
-
-
-    const editor =
-        document.getElementById(
-            "editor-workspace"
-        );
-
-
-    const wordCount =
-        document.getElementById(
-            "word-count"
-        );
-
-
-    const charCount =
-        document.getElementById(
-            "char-count"
-        );
-
-
-    const titleInput =
-        document.getElementById(
-            "post-title"
-        );
-
-
-    const titleCounter =
-        document.getElementById(
-            "title-char-count"
-        );
-
-
-    /* =========================
-       CONTADOR DEL TÍTULO
-    ========================= */
-
-
-    if (
-        titleInput &&
-        titleCounter
-    ) {
-
-
-        titleInput.addEventListener(
-            "input",
-            () => {
-
-
-                titleCounter.textContent =
-                    titleInput.value.length
+    (function initPostEditor() {
+    
+    
+        /* =========================
+           TÍTULO
+        ========================= */
+    
+        const titleInput =
+            document.getElementById(
+                "post-title"
+            );
+    
+    
+        const titleCounter =
+            document.getElementById(
+                "title-char-count"
+            );
+    
+    
+        if (
+            titleInput &&
+            titleCounter
+        ) {
+    
+            titleInput.addEventListener(
+                "input",
+                () => {
+    
+                    titleCounter.textContent =
+                        titleInput.value.length
+                        +
+                        "/120";
+    
+                }
+            );
+    
+        }
+    
+    
+    
+        /* =========================
+           ETIQUETAS
+        ========================= */
+    
+        const tagsContainer =
+            document.getElementById(
+                "tags-container"
+            );
+    
+    
+        const tagInput =
+            document.getElementById(
+                "tag-input"
+            );
+    
+    
+        const addTagBtn =
+            document.getElementById(
+                "btn-add-tag"
+            );
+    
+    
+        const tagCounter =
+            document.getElementById(
+                "tag-counter"
+            );
+    
+    
+        function updateTagCounter() {
+    
+            if (
+                tagsContainer &&
+                tagCounter
+            ) {
+    
+                tagCounter.textContent =
+                    tagsContainer.children.length
                     +
-                    "/120";
-
-
+                    " ACTIVAS";
+    
             }
-        );
-
-
-    }
-
-
-    /* =========================
-       CONTADOR DEL EDITOR
-    ========================= */
-
-
-    function updateEditorStats() {
-
-
-        if (!editor) {
-            return;
+    
         }
-
-
-        const text =
-            editor.innerText.trim();
-
-
-        const words =
-            text
-                ? text
-                    .split(/\s+/)
-                    .length
-                : 0;
-
-
-        if (wordCount) {
-
-            wordCount.textContent =
-                words.toLocaleString(
-                    "es-ES"
-                );
-
-        }
-
-
-        if (charCount) {
-
-            charCount.textContent =
-                text.length.toLocaleString(
-                    "es-ES"
-                );
-
-        }
-
-
-    }
-
-
-    if (editor) {
-
-
-        editor.addEventListener(
-            "input",
-            updateEditorStats
-        );
-
-
-        updateEditorStats();
-
-
-    }
-
-
-    /* =========================
-       BOTONES DEL EDITOR
-    ========================= */
-
-
-    const btnBold =
-        document.getElementById(
-            "btn-bold"
-        );
-
-
-    const btnItalic =
-        document.getElementById(
-            "btn-italic"
-        );
-
-
-    const btnUnderline =
-        document.getElementById(
-            "btn-underline"
-        );
-
-
-    const btnH2 =
-        document.getElementById(
-            "btn-h2"
-        );
-
-
-    const btnH3 =
-        document.getElementById(
-            "btn-h3"
-        );
-
-
-    const btnQuote =
-        document.getElementById(
-            "btn-quote"
-        );
-
-
-    const btnList =
-        document.getElementById(
-            "btn-list"
-        );
-
-
-    const btnImage =
-        document.getElementById(
-            "btn-image"
-        );
-
-
-    const btnLink =
-        document.getElementById(
-            "btn-link"
-        );
-
-
-    const editorImageInput =
-        document.getElementById(
-            "editor-image-input"
-        );
-
-
-    /* =========================
-       NEGRITA
-    ========================= */
-
-
-    if (btnBold) {
-
-
-        btnBold.addEventListener(
-            "click",
-            () => {
-
-
-                editor.focus();
-
-
-                document.execCommand(
-                    "bold",
-                    false,
-                    null
-                );
-
-
+    
+    
+        function addTag() {
+    
+            if (
+                !tagInput ||
+                !tagsContainer
+            ) {
+    
+                return;
+    
             }
-        );
-
-
-    }
-
-
-    /* =========================
-       CURSIVA
-    ========================= */
-
-
-    if (btnItalic) {
-
-
-        btnItalic.addEventListener(
-            "click",
-            () => {
-
-
-                editor.focus();
-
-
-                document.execCommand(
-                    "italic",
-                    false,
-                    null
+    
+    
+            let value =
+                tagInput.value.trim();
+    
+    
+            if (!value) {
+    
+                return;
+    
+            }
+    
+    
+            value =
+                value.replace(
+                    /^#/,
+                    ""
                 );
-
-
-            }
-        );
-
-
-    }
-
-
-    /* =========================
-       SUBRAYADO
-    ========================= */
-
-
-    if (btnUnderline) {
-
-
-        btnUnderline.addEventListener(
-            "click",
-            () => {
-
-
-                editor.focus();
-
-
-                document.execCommand(
-                    "underline",
-                    false,
-                    null
+    
+    
+            const tag =
+                document.createElement(
+                    "span"
                 );
-
-
-            }
-        );
-
-
-    }
-
-
-    /* =========================
-       H2
-    ========================= */
-
-
-    if (btnH2) {
-
-
-        btnH2.addEventListener(
-            "click",
-            () => {
-
-
-                editor.focus();
-
-
-                document.execCommand(
-                    "formatBlock",
-                    false,
-                    "h2"
-                );
-
-
-            }
-        );
-
-
-    }
-
-
-    /* =========================
-       H3
-    ========================= */
-
-
-    if (btnH3) {
-
-
-        btnH3.addEventListener(
-            "click",
-            () => {
-
-
-                editor.focus();
-
-
-                document.execCommand(
-                    "formatBlock",
-                    false,
-                    "h3"
-                );
-
-
-            }
-        );
-
-
-    }
-
-
-    /* =========================
-       CITA
-    ========================= */
-
-
-    if (btnQuote) {
-
-
-        btnQuote.addEventListener(
-            "click",
-            () => {
-
-
-                editor.focus();
-
-
-                document.execCommand(
-                    "formatBlock",
-                    false,
-                    "blockquote"
-                );
-
-
-            }
-        );
-
-
-    }
-
-
-    /* =========================
-       LISTA
-    ========================= */
-
-
-    if (btnList) {
-
-
-        btnList.addEventListener(
-            "click",
-            () => {
-
-
-                editor.focus();
-
-
-                document.execCommand(
-                    "insertUnorderedList",
-                    false,
-                    null
-                );
-
-
-            }
-        );
-
-
-    }
-
-
-    /* =========================
-       LINK
-    ========================= */
-
-
-    if (btnLink) {
-
-
-        btnLink.addEventListener(
-            "click",
-            () => {
-
-
-                const url =
-                    prompt(
-                        "Ingresá la dirección del enlace:"
-                    );
-
-
-                if (!url) {
-                    return;
-                }
-
-
-                editor.focus();
-
-
-                document.execCommand(
-                    "createLink",
-                    false,
-                    url
-                );
-
-
-            }
-        );
-
-
-    }
-
-
-    /* =========================
-       INSERTAR IMAGEN
-    ========================= */
-
-
-    if (
-        btnImage &&
-        editorImageInput
-    ) {
-
-
-        btnImage.addEventListener(
-            "click",
-            () => {
-
-
-                editorImageInput.click();
-
-
-            }
-        );
-
-
-        editorImageInput.addEventListener(
-            "change",
-            () => {
-
-
-                const archivo =
-                    editorImageInput.files[0];
-
-
-                if (!archivo) {
-                    return;
-                }
-
-
-                if (
-                    !archivo.type.startsWith(
-                        "image/"
-                    )
-                ) {
-
-
-                    alert(
-                        "Seleccioná una imagen válida."
-                    );
-
-
-                    return;
-
-                }
-
-
-                const lector =
-                    new FileReader();
-
-
-                lector.onload =
-                    function (evento) {
-
-
-                        editor.focus();
-
-
-                        document.execCommand(
-                            "insertImage",
-                            false,
-                            evento.target.result
-                        );
-
-
-                        updateEditorStats();
-
-
-                        editorImageInput.value =
-                            "";
-
-
-                    };
-
-
-                lector.readAsDataURL(
-                    archivo
-                );
-
-
-            }
-        );
-
-
-    }
-
-
-    /* =========================
-       ETIQUETAS
-    ========================= */
-
-
-    const tagsContainer =
-        document.getElementById(
-            "tags-container"
-        );
-
-
-    const tagInput =
-        document.getElementById(
-            "tag-input"
-        );
-
-
-    const addTagBtn =
-        document.getElementById(
-            "btn-add-tag"
-        );
-
-
-    const tagCounter =
-        document.getElementById(
-            "tag-counter"
-        );
-
-
-    function updateTagCounter() {
-
-
-        if (
-            tagsContainer &&
-            tagCounter
-        ) {
-
-
-            tagCounter.textContent =
-                tagsContainer.children.length
-                +
-                " ACTIVAS";
-
-
-        }
-
-
-    }
-
-
-    function addTag() {
-
-
-        if (
-            !tagInput ||
-            !tagsContainer
-        ) {
-            return;
-        }
-
-
-        let value =
-            tagInput.value.trim();
-
-
-        if (!value) {
-            return;
-        }
-
-
-        value =
-            value.replace(
-                /^#/,
-                ""
-            );
-
-
-        const tag =
-            document.createElement(
-                "span"
-            );
-
-
-        tag.className =
-            "tag";
-
-
-        tag.innerHTML =
-            `
-            #${value}
-
-            <button
-                class="tag-remove"
-                type="button"
-            >
-
-                <span
-                    class="material-symbols-outlined i14"
+    
+    
+            tag.className =
+                "tag";
+    
+    
+            tag.innerHTML = `
+    
+                #${value}
+    
+                <button
+                    class="tag-remove"
+                    type="button"
                 >
-                    close
-                </span>
-
-            </button>
+    
+                    <span
+                        class="material-symbols-outlined i14"
+                    >
+                        close
+                    </span>
+    
+                </button>
+    
             `;
-
-
-        tagsContainer.appendChild(
-            tag
-        );
-
-
-        tagInput.value =
-            "";
-
-
-        updateTagCounter();
-
-
-    }
-
-
-    if (addTagBtn) {
-
-
-        addTagBtn.addEventListener(
-            "click",
-            addTag
-        );
-
-
-    }
-
-
-    if (tagInput) {
-
-
-        tagInput.addEventListener(
-            "keydown",
-            (event) => {
-
-
-                if (
-                    event.key === "Enter"
-                ) {
-
-
-                    event.preventDefault();
-
-
-                    addTag();
-
-
-                }
-
-
-            }
-        );
-
-
-    }
-
-
-    if (tagsContainer) {
-
-
-        tagsContainer.addEventListener(
-            "click",
-            (event) => {
-
-
-                const removeButton =
-                    event.target.closest(
-                        ".tag-remove"
-                    );
-
-
-                if (!removeButton) {
-                    return;
-                }
-
-
-                const tag =
-                    removeButton.closest(
-                        ".tag"
-                    );
-
-
-                if (tag) {
-
-
-                    tag.remove();
-
-
-                    updateTagCounter();
-
-
-                }
-
-
-            }
-        );
-
-
-    }
-
-
-    document
-        .querySelectorAll(
-            ".sug"
-        )
-        .forEach(
-            (button) => {
-
-
-                button.addEventListener(
-                    "click",
-                    () => {
-
-
-                        if (!tagInput) {
-                            return;
-                        }
-
-
-                        tagInput.value =
-                            button.dataset.tag;
-
-
-                        addTag();
-
-
-                    }
-                );
-
-
-            }
-        );
-
-
-    updateTagCounter();
-
-
-    /* =========================
-       NUEVA CATEGORÍA
-    ========================= */
-
-
-    const newCatBox =
-        document.getElementById(
-            "new-cat-box"
-        );
-
-
-    const newCatButton =
-        document.getElementById(
-            "btn-new-cat"
-        );
-
-
-    const newCatButton2 =
-        document.getElementById(
-            "btn-new-cat-2"
-        );
-
-
-    const saveCategoryButton =
-        document.getElementById(
-            "btn-save-cat"
-        );
-
-
-    function toggleCategoryBox() {
-
-
-        if (newCatBox) {
-
-
-            newCatBox.classList.toggle(
-                "hidden"
+    
+    
+            tagsContainer.appendChild(
+                tag
             );
-
-
+    
+    
+            tagInput.value =
+                "";
+    
+    
+            updateTagCounter();
+    
         }
-
-
-    }
-
-
-    if (newCatButton) {
-
-
-        newCatButton.addEventListener(
-            "click",
-            toggleCategoryBox
-        );
-
-
-    }
-
-
-    if (newCatButton2) {
-
-
-        newCatButton2.addEventListener(
-            "click",
-            toggleCategoryBox
-        );
-
-
-    }
-
-
-    if (saveCategoryButton) {
-
-
-        saveCategoryButton.addEventListener(
-            "click",
-            () => {
-
-
-                const categoryInput =
-                    document.getElementById(
-                        "new-category-input"
-                    );
-
-
-                const categorySelect =
-                    document.getElementById(
-                        "post-category"
-                    );
-
-
-                if (
-                    !categoryInput ||
-                    !categorySelect
-                ) {
-                    return;
+    
+    
+        if (addTagBtn) {
+    
+            addTagBtn.addEventListener(
+                "click",
+                addTag
+            );
+    
+        }
+    
+    
+        if (tagInput) {
+    
+            tagInput.addEventListener(
+                "keydown",
+                (event) => {
+    
+                    if (
+                        event.key === "Enter"
+                    ) {
+    
+                        event.preventDefault();
+    
+                        addTag();
+    
+                    }
+    
                 }
-
-
-                const value =
-                    categoryInput.value.trim();
-
-
-                if (!value) {
-                    return;
-                }
-
-
-                const option =
-                    document.createElement(
-                        "option"
-                    );
-
-
-                option.value =
-                    value
-                        .toLowerCase()
-                        .replace(
-                            /\s+/g,
-                            "-"
+            );
+    
+        }
+    
+    
+        if (tagsContainer) {
+    
+            tagsContainer.addEventListener(
+                "click",
+                (event) => {
+    
+                    const removeButton =
+                        event.target.closest(
+                            ".tag-remove"
                         );
-
-
-                option.textContent =
-                    value;
-
-
-                option.selected =
-                    true;
-
-
-                categorySelect.appendChild(
-                    option
-                );
-
-
-                categoryInput.value =
-                    "";
-
-
-                if (newCatBox) {
-
-
-                    newCatBox.classList.add(
-                        "hidden"
-                    );
-
-
+    
+    
+                    if (!removeButton) {
+    
+                        return;
+    
+                    }
+    
+    
+                    const tag =
+                        removeButton.closest(
+                            ".tag"
+                        );
+    
+    
+                    if (tag) {
+    
+                        tag.remove();
+    
+                        updateTagCounter();
+    
+                    }
+    
                 }
-
-
-            }
-        );
-
-
-    }
-
-
-    /* =========================
-       GUARDAR BORRADOR
-    ========================= */
-
-
-    const draftButton =
-        document.getElementById(
-            "btn-draft"
-        );
-
-
-    const saveAlert =
-        document.getElementById(
-            "save-alert"
-        );
-
-
-    if (
-        draftButton &&
-        saveAlert
-    ) {
-
-
-        draftButton.addEventListener(
-            "click",
-            () => {
-
-
-                saveAlert.classList.remove(
+            );
+    
+        }
+    
+    
+        document
+            .querySelectorAll(
+                ".sug"
+            )
+            .forEach(
+                (button) => {
+    
+                    button.addEventListener(
+                        "click",
+                        () => {
+    
+                            if (!tagInput) {
+    
+                                return;
+    
+                            }
+    
+    
+                            tagInput.value =
+                                button.dataset.tag;
+    
+    
+                            addTag();
+    
+                        }
+                    );
+    
+                }
+            );
+    
+    
+        updateTagCounter();
+    
+    
+    
+        /* =========================
+           NUEVA CATEGORÍA
+        ========================= */
+    
+        const newCatBox =
+            document.getElementById(
+                "new-cat-box"
+            );
+    
+    
+        const newCatButton =
+            document.getElementById(
+                "btn-new-cat"
+            );
+    
+    
+        const newCatButton2 =
+            document.getElementById(
+                "btn-new-cat-2"
+            );
+    
+    
+        const saveCategoryButton =
+            document.getElementById(
+                "btn-save-cat"
+            );
+    
+    
+        function toggleCategoryBox() {
+    
+            if (newCatBox) {
+    
+                newCatBox.classList.toggle(
                     "hidden"
                 );
-
-
-                setTimeout(
-                    () => {
-
-
-                        saveAlert.classList.add(
+    
+            }
+    
+        }
+    
+    
+        if (newCatButton) {
+    
+            newCatButton.addEventListener(
+                "click",
+                toggleCategoryBox
+            );
+    
+        }
+    
+    
+        if (newCatButton2) {
+    
+            newCatButton2.addEventListener(
+                "click",
+                toggleCategoryBox
+            );
+    
+        }
+    
+    
+        if (saveCategoryButton) {
+    
+            saveCategoryButton.addEventListener(
+                "click",
+                () => {
+    
+                    const categoryInput =
+                        document.getElementById(
+                            "new-category-input"
+                        );
+    
+    
+                    const categorySelect =
+                        document.getElementById(
+                            "post-category"
+                        );
+    
+    
+                    if (
+                        !categoryInput ||
+                        !categorySelect
+                    ) {
+    
+                        return;
+    
+                    }
+    
+    
+                    const value =
+                        categoryInput.value.trim();
+    
+    
+                    if (!value) {
+    
+                        return;
+    
+                    }
+    
+    
+                    const option =
+                        document.createElement(
+                            "option"
+                        );
+    
+    
+                    option.value =
+                        value
+                            .toLowerCase()
+                            .replace(
+                                /\s+/g,
+                                "-"
+                            );
+    
+    
+                    option.textContent =
+                        value;
+    
+    
+                    option.selected =
+                        true;
+    
+    
+                    categorySelect.appendChild(
+                        option
+                    );
+    
+    
+                    categoryInput.value =
+                        "";
+    
+    
+                    if (newCatBox) {
+    
+                        newCatBox.classList.add(
                             "hidden"
                         );
-
-
-                    },
-                    2500
+    
+                    }
+    
+                }
+            );
+    
+        }
+    
+    
+    
+        /* =========================
+           BLOQUES DE CONTENIDO
+        ========================= */
+    
+        const bloquesContenido =
+            document.getElementById(
+                "bloques-contenido"
+            );
+    
+    
+        const btnAgregarTexto =
+            document.getElementById(
+                "btn-agregar-texto"
+            );
+    
+    
+        const btnAgregarImagen =
+            document.getElementById(
+                "btn-agregar-imagen"
+            );
+    
+    
+        const btnAgregarCarrusel =
+            document.getElementById(
+                "btn-agregar-carrusel"
+            );
+    
+    
+        /* =========================
+           ORDEN DE LOS BLOQUES
+        ========================= */
+    
+        function actualizarOrdenBloques() {
+    
+            if (!bloquesContenido) {
+    
+                return;
+    
+            }
+    
+    
+            const bloques =
+                bloquesContenido.querySelectorAll(
+                    ".bloque-contenido"
                 );
-
-
-            }
-        );
-
-
-    }
-
-
-    /* =========================
-       DESCARTAR
-    ========================= */
-
-
-    const discardButton =
-        document.getElementById(
-            "btn-discard"
-        );
-
-
-    if (discardButton) {
-
-
-        discardButton.addEventListener(
-            "click",
-            () => {
-
-
-                const confirmar =
-                    confirm(
-                        "¿Querés descartar los cambios?"
+    
+    
+            const orden = [];
+    
+    
+            bloques.forEach(
+                (bloque) => {
+    
+                    orden.push(
+                        bloque.dataset.tipo
                     );
-
-
-                if (!confirmar) {
-                    return;
+    
                 }
-
-
-                if (titleInput) {
-
-                    titleInput.value =
-                        "";
-
-                }
-
-
-                const excerpt =
-                    document.getElementById(
-                        "post-excerpt"
-                    );
-
-
-                if (excerpt) {
-
-                    excerpt.value =
-                        "";
-
-                }
-
-
-                if (editor) {
-
-                    editor.innerHTML =
-                        "";
-
-                }
-
-
-                if (tagsContainer) {
-
-                    tagsContainer.innerHTML =
-                        "";
-
-                }
-
-
-                if (titleCounter) {
-
-                    titleCounter.textContent =
-                        "0/120";
-
-                }
-
-
-                updateEditorStats();
-
-
-                updateTagCounter();
-
-
+            );
+    
+    
+            const inputOrden =
+                document.getElementById(
+                    "bloques-orden"
+                );
+    
+    
+            if (inputOrden) {
+    
+                inputOrden.value =
+                    orden.join(",");
+    
             }
-        );
-
-
-    }
-
-
-})();
-
-
-</script>
-
-
-</body>
-
+    
+        }
+    
+    
+    
+        /* =========================
+           CREAR BLOQUE DE TEXTO
+        ========================= */
+    
+        function crearBloqueTexto() {
+    
+            const bloque =
+                document.createElement(
+                    "div"
+                );
+    
+    
+            bloque.className =
+                "bloque-contenido";
+    
+    
+            bloque.dataset.tipo =
+                "texto";
+    
+    
+            bloque.innerHTML = `
+    
+                <div class="bloque-header">
+    
+                    <span class="lbl up c-primary fw700">
+                        TEXTO
+                    </span>
+    
+                    <button
+                        class="btn-eliminar-bloque"
+                        type="button"
+                        title="Eliminar bloque"
+                    >
+    
+                        <span class="material-symbols-outlined">
+                            delete
+                        </span>
+    
+                    </button>
+    
+                </div>
+    
+    
+                <textarea
+                    class="field field-text bloque-texto"
+                    name="bloque_texto[]"
+                    rows="7"
+                    placeholder="Escribí acá el contenido..."
+                ></textarea>
+    
+            `;
+    
+    
+            bloquesContenido.appendChild(
+                bloque
+            );
+    
+    
+            actualizarOrdenBloques();
+    
+        }
+    
+    
+    
+        /* =========================
+           CREAR BLOQUE DE IMAGEN
+        ========================= */
+    
+        function crearBloqueImagen() {
+    
+            const bloque =
+                document.createElement(
+                    "div"
+                );
+    
+    
+            bloque.className =
+                "bloque-contenido";
+    
+    
+            bloque.dataset.tipo =
+                "imagen";
+    
+    
+            bloque.innerHTML = `
+    
+                <div class="bloque-header">
+    
+                    <span class="lbl up c-primary fw700">
+                        IMAGEN
+                    </span>
+    
+                    <button
+                        class="btn-eliminar-bloque"
+                        type="button"
+                        title="Eliminar bloque"
+                    >
+    
+                        <span class="material-symbols-outlined">
+                            delete
+                        </span>
+    
+                    </button>
+    
+                </div>
+    
+    
+                <input
+                    class="field"
+                    type="file"
+                    name="bloque_imagen[]"
+                    accept="image/png, image/jpeg, image/webp"
+                >
+    
+            `;
+    
+    
+            bloquesContenido.appendChild(
+                bloque
+            );
+    
+    
+            actualizarOrdenBloques();
+    
+        }
+    
+    
+    
+        /* =========================
+           CREAR BLOQUE CARRUSEL
+        ========================= */
+    
+        function crearBloqueCarrusel() {
+    
+            const bloque =
+                document.createElement(
+                    "div"
+                );
+    
+    
+            bloque.className =
+                "bloque-contenido";
+    
+    
+            bloque.dataset.tipo =
+                "carrusel";
+    
+    
+            bloque.innerHTML = `
+    
+                <div class="bloque-header">
+    
+                    <span class="lbl up c-primary fw700">
+                        CARRUSEL
+                    </span>
+    
+                    <button
+                        class="btn-eliminar-bloque"
+                        type="button"
+                        title="Eliminar bloque"
+                    >
+    
+                        <span class="material-symbols-outlined">
+                            delete
+                        </span>
+    
+                    </button>
+    
+                </div>
+    
+    
+                <input
+                    class="field"
+                    type="file"
+                    name="bloque_carrusel[]"
+                    accept="image/png, image/jpeg, image/webp"
+                    multiple
+                >
+    
+    
+                <span class="lbl fw600 c-variant">
+                    Podés seleccionar varias imágenes.
+                </span>
+    
+            `;
+    
+    
+            bloquesContenido.appendChild(
+                bloque
+            );
+    
+    
+            actualizarOrdenBloques();
+    
+        }
+    
+    
+    
+        /* =========================
+           BOTONES AGREGAR BLOQUE
+        ========================= */
+    
+        if (btnAgregarTexto) {
+    
+            btnAgregarTexto.addEventListener(
+                "click",
+                crearBloqueTexto
+            );
+    
+        }
+    
+    
+        if (btnAgregarImagen) {
+    
+            btnAgregarImagen.addEventListener(
+                "click",
+                crearBloqueImagen
+            );
+    
+        }
+    
+    
+        if (btnAgregarCarrusel) {
+    
+            btnAgregarCarrusel.addEventListener(
+                "click",
+                crearBloqueCarrusel
+            );
+    
+        }
+    
+    
+    
+        /* =========================
+           ELIMINAR BLOQUES
+        ========================= */
+    
+        if (bloquesContenido) {
+    
+            bloquesContenido.addEventListener(
+                "click",
+                (event) => {
+    
+                    const botonEliminar =
+                        event.target.closest(
+                            ".btn-eliminar-bloque"
+                        );
+    
+    
+                    if (!botonEliminar) {
+    
+                        return;
+    
+                    }
+    
+    
+                    const bloque =
+                        botonEliminar.closest(
+                            ".bloque-contenido"
+                        );
+    
+    
+                    if (bloque) {
+    
+                        bloque.remove();
+    
+                        actualizarOrdenBloques();
+    
+                    }
+    
+                }
+            );
+    
+        }
+    
+    
+    
+        /* =========================
+           GUARDAR BORRADOR
+        ========================= */
+    
+        const draftButton =
+            document.getElementById(
+                "btn-draft"
+            );
+    
+    
+        const saveAlert =
+            document.getElementById(
+                "save-alert"
+            );
+    
+    
+        if (
+            draftButton &&
+            saveAlert
+        ) {
+    
+            draftButton.addEventListener(
+                "click",
+                () => {
+    
+                    saveAlert.classList.remove(
+                        "hidden"
+                    );
+    
+    
+                    setTimeout(
+                        () => {
+    
+                            saveAlert.classList.add(
+                                "hidden"
+                            );
+    
+                        },
+                        2500
+                    );
+    
+                }
+            );
+    
+        }
+    
+    
+    
+        /* =========================
+           DESCARTAR CAMBIOS
+        ========================= */
+    
+        const discardButton =
+            document.getElementById(
+                "btn-discard"
+            );
+    
+    
+        if (discardButton) {
+    
+            discardButton.addEventListener(
+                "click",
+                () => {
+    
+                    const confirmar =
+                        confirm(
+                            "¿Querés descartar los cambios?"
+                        );
+    
+    
+                    if (!confirmar) {
+    
+                        return;
+    
+                    }
+    
+    
+                    if (titleInput) {
+    
+                        titleInput.value =
+                            "";
+    
+                    }
+    
+    
+                    const excerpt =
+                        document.getElementById(
+                            "post-excerpt"
+                        );
+    
+    
+                    if (excerpt) {
+    
+                        excerpt.value =
+                            "";
+    
+                    }
+    
+    
+                    if (titleCounter) {
+    
+                        titleCounter.textContent =
+                            "0/120";
+    
+                    }
+    
+    
+                    if (tagsContainer) {
+    
+                        tagsContainer.innerHTML =
+                            "";
+    
+                        updateTagCounter();
+    
+                    }
+    
+    
+                    if (bloquesContenido) {
+    
+                        bloquesContenido.innerHTML =
+                            "";
+    
+                        crearBloqueTexto();
+    
+                    }
+    
+    
+                    actualizarOrdenBloques();
+    
+                }
+            );
+    
+        }
+    
+    
+    
+        /* =========================
+           ORDEN INICIAL
+        ========================= */
+    
+        actualizarOrdenBloques();
+    
+    
+    })();
+    
+    </script>
+  </body>
 </html>
-
