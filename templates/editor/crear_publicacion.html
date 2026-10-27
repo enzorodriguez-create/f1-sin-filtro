@@ -1213,6 +1213,8 @@
         /* =========================
            ORDEN DE LOS BLOQUES
         ========================= */
+
+        
     
         function actualizarOrdenBloques() {
     
@@ -1257,6 +1259,103 @@
             }
     
         }
+
+        /* =========================
+   PREPARAR BLOQUES PARA ENVIAR
+========================= */
+
+const formPublicacion =
+    document.getElementById(
+        "form-publicacion"
+    );
+
+
+if (formPublicacion) {
+
+    formPublicacion.addEventListener(
+        "submit",
+        () => {
+
+            const bloques =
+                bloquesContenido.querySelectorAll(
+                    ".bloque-contenido"
+                );
+
+
+            bloques.forEach(
+                (bloque, indice) => {
+
+                    const numero =
+                        indice + 1;
+
+
+                    const tipo =
+                        bloque.dataset.tipo;
+
+
+                    if (tipo === "texto") {
+
+                        const textarea =
+                            bloque.querySelector(
+                                "textarea"
+                            );
+
+
+                        if (textarea) {
+
+                            textarea.name =
+                                `bloque_${numero}_texto`;
+
+                        }
+
+                    }
+
+
+                    if (tipo === "imagen") {
+
+                        const input =
+                            bloque.querySelector(
+                                'input[type="file"]'
+                            );
+
+
+                        if (input) {
+
+                            input.name =
+                                `bloque_${numero}_imagen`;
+
+                        }
+
+                    }
+
+
+                    if (tipo === "carrusel") {
+
+                        const input =
+                            bloque.querySelector(
+                                'input[type="file"]'
+                            );
+
+
+                        if (input) {
+
+                            input.name =
+                                `bloque_${numero}_carrusel`;
+
+                        }
+
+                    }
+
+                }
+            );
+
+
+            actualizarOrdenBloques();
+
+        }
+    );
+
+}
     
     
     
