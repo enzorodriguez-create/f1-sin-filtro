@@ -5,7 +5,7 @@ from flask import Flask, render_template, redirect, url_for, session, request, f
 from dotenv import load_dotenv
 from authlib.integrations.flask_client import OAuth
 from werkzeug.middleware.proxy_fix import ProxyFix
-from models import db, Usuario,  SolicitudEditor, bcrypt
+from models import db, Usuario,  SolicitudEditor, Publicacion, BloquePublicacion, ImagenCarrusel, bcrypt
 from almacenamiento import (
     extension_valida,
     subir_imagen,
@@ -499,15 +499,76 @@ def callback_google():
         url_for("inicio")
     )
 
-@app.route("/editor/crear-publicacion")
+@app.route(
+    "/editor/crear-publicacion",
+    methods=["GET", "POST"]
+)
 def editor_crear_publicacion():
 
-    usuario = session.get("usuario")
+    usuario = obtener_usuario_actual()
+
+
+    if request.method == "POST":
+
+        titulo = request.form.get(
+            "titulo",
+            ""
+        ).strip()
+
+        estado = request.form.get(
+            "estado",
+            "borrador"
+        )
+
+        portada = request.files.get(
+            "imagen_portada"
+        )
+
+
+        imagen_portada = None
+
+
+        # Compruebo si se seleccionó una imagen de portada
+        if portada and portada.filename:
+
+            if not extension_valida(
+                portada.filename
+            ):
+
+                return "Formato de imagen no válido."
+
+
+            imagen_portada = subir_imagen(
+                portada,
+                carpeta="publicaciones"
+            )
+
+
+        # Creo la publicación
+        nueva_publicacion = Publicacion(
+            titulo=titulo,
+            imagen_portada=imagen_portada,
+            estado=estado,
+            autor_id=usuario.id
+        )
+
+
+        db.session.add(
+            nueva_publicacion
+        )
+
+        db.session.commit()
+
+
+        return redirect(
+            url_for("editor_publicaciones")
+        )
+
 
     return render_template(
         "editor/crear_publicacion.html",
         usuario=usuario,
-        seccion_activa="crear"
+        seccion_activa="crear_publicacion"
     )
 
 @app.route("/editor/publicaciones")
