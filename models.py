@@ -99,3 +99,89 @@ class SolicitudEditor(db.Model):
         nullable=False,
         default="pendiente"
     )
+class Publicacion(db.Model):
+
+    __tablename__ = "publicaciones"
+
+    id = db.Column(
+        db.Integer,
+        primary_key=True
+    )
+
+    titulo = db.Column(
+        db.String(200),
+        nullable=False
+    )
+
+    imagen_portada = db.Column(
+        db.String(500),
+        nullable=True
+    )
+
+    estado = db.Column(
+        db.String(20),
+        nullable=False,
+        default="borrador"
+    )
+
+    autor_id = db.Column(
+        db.Integer,
+        db.ForeignKey("usuarios.id"),
+        nullable=False
+    )
+
+class BloquePublicacion(db.Model):
+
+    __tablename__ = "bloques_publicacion"
+
+    id = db.Column(
+        db.Integer,
+        primary_key=True
+    )
+
+    publicacion_id = db.Column(
+        db.Integer,
+        db.ForeignKey("publicaciones.id"),
+        nullable=False
+    )
+
+    tipo = db.Column(
+        db.String(20),
+        nullable=False
+    )
+
+    contenido = db.Column(
+        db.Text,
+        nullable=True
+    )
+
+    orden = db.Column(
+        db.Integer,
+        nullable=False
+    )
+
+class ImagenCarrusel(db.Model):
+
+    __tablename__ = "imagenes_carrusel"
+
+    id = db.Column(
+        db.Integer,
+        primary_key=True
+    )
+
+    bloque_id = db.Column(
+        db.Integer,
+        db.ForeignKey("bloques_publicacion.id"),
+        nullable=False
+    )
+
+    imagen = db.Column(
+        db.String(500),
+        nullable=False
+    )
+
+    orden = db.Column(
+        db.Integer,
+        nullable=False
+    )
+
