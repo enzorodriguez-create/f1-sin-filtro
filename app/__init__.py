@@ -40,6 +40,12 @@ def create_app():
         perfil_bp
     )
 
+    from app.editor.routes import bp as editor_bp
+
+    app.register_blueprint(
+    editor_bp
+    )
+
     @app.context_processor
     def funciones_para_plantillas():
 
