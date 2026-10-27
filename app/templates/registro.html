@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Registro - F1 Sin Filtro</title>
+
+    <!-- Fuentes -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Anybody:wght@700;800;900&family=Hanken+Grotesk:wght@400;600&family=JetBrains+Mono:wght@700&display=swap"
+        rel="stylesheet"
+    >
+
+    <!-- Iconos -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0"
+        rel="stylesheet"
+    >
+
+    <!-- CSS del registro -->
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='styles/registro.css') }}"
+    >
+</head>
+
+<body class="register">
+
+    <!-- Fondo decorativo -->
+    <div class="bg-grid"></div>
+    <div class="glow glow-top"></div>
+    <div class="glow glow-bottom"></div>
+
+
+    <!-- Header propio del registro -->
+    <header class="header">
+
+        <div class="header-inner">
+
+            <a class="logo" href="{{ url_for('inicio') }}">
+
+                <span class="logo-white">
+                    F1
+                </span>
+
+                <span class="logo-red">
+                    SIN FILTRO
+                </span>
+
+            </a>
+
+
+            <div class="live-badge">
+
+                <span class="live-dot"></span>
+
+                LIVE
+
+            </div>
+
+        </div>
+
+    </header>
+
+
+    <!-- Contenido principal -->
+    <main class="main">
+
+        <div class="card card-wide">
+
+            <div class="card-bar"></div>
+
+
+            <div class="card-top">
+
+                <span class="gateway">
+
+                    <span class="gateway-line"></span>
+
+                    REGISTRO OFICIAL
+
+                </span>
+
+
+                <span class="pass">
+
+                    PADDOCK PASS // 2026
+
+                </span>
+
+            </div>
+
+
+            <div class="card-title">
+
+                <h1>
+                    CREAR CUENTA
+                </h1>
+
+                <p>
+                    Únete a la comunidad de F1 Sin Filtro.
+                </p>
+
+            </div>
+
+
+            <form action="{{ url_for('registro') }}" method="POST" class="form">
+
+
+                <!-- Nombre y apellido -->
+                <div class="row-2">
+
+                    <div class="field">
+
+                        <label for="nombre">
+                            NOMBRE
+                        </label>
+
+                        <div class="input-wrap">
+
+                            <input
+                                class="no-icon"
+                                id="nombre"
+                                name="nombre"
+                                type="text"
+                                placeholder="Ayrton"
+                                required
+                            >
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="field">
+
+                        <label for="apellido">
+                            APELLIDO
+                        </label>
+
+                        <div class="input-wrap">
+
+                            <input
+                                class="no-icon"
+                                id="apellido"
+                                name="apellido"
+                                type="text"
+                                placeholder="Senna"
+                                required
+                            >
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Usuario -->
+                <div class="field">
+
+                    <label for="usuario">
+                        USUARIO
+                    </label>
+
+                    <div class="input-wrap">
+
+                        <span class="input-icon material-symbols-outlined">
+                            alternate_email
+                        </span>
+
+                        <input
+                            id="usuario"
+                            name="usuario"
+                            type="text"
+                            placeholder="magic_senna"
+                            required
+                        >
+
+                    </div>
+
+                </div>
+
+
+                <!-- Email -->
+                <div class="field">
+
+                    <label for="email">
+                        CORREO ELECTRÓNICO
+                    </label>
+
+                    <div class="input-wrap">
+
+                        <span class="input-icon material-symbols-outlined">
+                            mail
+                        </span>
+
+                        <input
+                            id="email"
+                            name="email"
+                            type="email"
+                            placeholder="piloto@f1sinfiltro.com"
+                            required
+                        >
+
+                    </div>
+
+                </div>
+
+
+                <!-- Contraseñas -->
+                <div class="row-2">
+
+                    <div class="field">
+
+                        <label for="password">
+                            CONTRASEÑA
+                        </label>
+
+                        <div class="input-wrap">
+
+                            <span class="input-icon material-symbols-outlined">
+                                lock
+                            </span>
+
+                            <input
+                                id="password"
+                                name="password"
+                                type="password"
+                                placeholder="••••••••"
+                                required
+                            >
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="field">
+
+                        <label for="confirm_password">
+                            CONFIRMAR CONTRASEÑA
+                        </label>
+
+                        <div class="input-wrap">
+
+                            <span class="input-icon material-symbols-outlined">
+                                verified_user
+                            </span>
+
+                            <input
+                                id="confirm_password"
+                                name="confirm_password"
+                                type="password"
+                                placeholder="••••••••"
+                                required
+                            >
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Términos -->
+                <div class="options">
+
+                    <label class="remember">
+
+                        <input
+                            id="terms"
+                            name="terms"
+                            type="checkbox"
+                            required
+                        >
+
+                        <span>
+
+                            Acepto los
+
+                            <a class="link-white" href="#">
+                                Términos y condiciones
+                            </a>
+
+                            y la
+
+                            <a class="link-white" href="#">
+                                Política de privacidad
+                            </a>
+
+                        </span>
+
+                    </label>
+
+
+
+                </div>
+
+
+                <!-- Botón -->
+                <button type="submit" class="btn">
+
+                    <span>
+                        CREAR CUENTA
+                    </span>
+
+                    <span class="material-symbols-outlined">
+                        arrow_forward
+                    </span>
+
+                </button>
+
+            </form>
+
+
+            <!-- Ir a login -->
+            <div class="card-bottom">
+
+                <p>
+
+                    ¿Ya tenés cuenta?
+
+                    <a href="{{ url_for('login') }}">
+                        Iniciar sesión
+                    </a>
+
+                </p>
+
+            </div>
+
+        </div>
+
+    </main>
+
+
+    <!-- Footer propio -->
+    <footer class="footer">
+
+        <div class="footer-inner">
+
+            
+
+            <span>
+                © 2026 F1 SIN FILTRO
+            </span>
+
+        </div>
+
+    </footer>
+
+</body>
+
+</html>

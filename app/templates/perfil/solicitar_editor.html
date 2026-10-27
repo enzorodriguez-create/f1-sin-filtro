@@ -1,0 +1,230 @@
+{% include 'base/header.html' %}
+
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename='styles/perfil/solicitar_editor.css') }}"
+>
+
+<div class="solicitud-page">
+
+  <div class="solicitud-container">
+
+
+    <!-- CABECERA -->
+
+    <div class="solicitud-head">
+
+      <div>
+
+        <span class="solicitud-label">
+          // MI PADDOCK
+        </span>
+
+        <h1>
+          SOLICITAR SER EDITOR
+        </h1>
+
+        <p>
+          Enviá tu solicitud para formar parte del equipo editorial
+          de F1 Sin Filtro.
+        </p>
+
+      </div>
+
+
+      <a
+        href="{{ url_for('perfil') }}"
+        class="solicitud-volver"
+      >
+
+        <span class="material-symbols-outlined">
+          arrow_back
+        </span>
+
+        VOLVER AL PERFIL
+
+      </a>
+
+    </div>
+
+
+
+    <section class="solicitud-card">
+
+
+      {% if solicitud_pendiente %}
+
+      <!-- SOLICITUD YA ENVIADA -->
+
+      <div class="solicitud-pendiente">
+
+        <span class="material-symbols-outlined">
+          schedule
+        </span>
+
+        <div>
+
+          <span class="solicitud-card-label">
+            SOLICITUD ENVIADA
+          </span>
+
+          <h2>
+            Tu solicitud está pendiente
+          </h2>
+
+          <p>
+            Un administrador tiene que revisar tu solicitud
+            antes de que puedas convertirte en editor.
+          </p>
+
+        </div>
+
+      </div>
+
+
+      <div class="solicitud-estado">
+
+        <span>
+          ESTADO
+        </span>
+
+        <strong>
+          PENDIENTE
+        </strong>
+
+      </div>
+
+
+      {% else %}
+
+
+      <!-- FORMULARIO -->
+
+      <div class="solicitud-card-head">
+
+        <span class="material-symbols-outlined">
+          edit_note
+        </span>
+
+        <div>
+
+          <span class="solicitud-card-label">
+            SOLICITUD EDITORIAL
+          </span>
+
+          <h2>
+            ¿Por qué querés ser editor?
+          </h2>
+
+        </div>
+
+      </div>
+
+
+      {% if error %}
+
+      <div class="solicitud-error">
+        {{ error }}
+      </div>
+
+      {% endif %}
+
+
+      <form method="POST">
+
+
+        <div class="solicitud-datos">
+
+          <div>
+
+            <span>
+              USUARIO
+            </span>
+
+            <strong>
+              @{{ usuario.usuario }}
+            </strong>
+
+          </div>
+
+
+          <div>
+
+            <span>
+              EMAIL
+            </span>
+
+            <strong>
+              {{ usuario.email }}
+            </strong>
+
+          </div>
+
+        </div>
+
+
+
+        <div class="solicitud-field">
+
+          <label for="motivo">
+            MOTIVO DE LA SOLICITUD
+          </label>
+
+          <textarea
+            id="motivo"
+            name="motivo"
+            rows="7"
+            maxlength="500"
+            placeholder="Contanos por qué te gustaría formar parte del equipo editorial..."
+            required
+          ></textarea>
+
+          <span>
+            Máximo 500 caracteres.
+          </span>
+
+        </div>
+
+
+
+        <div class="solicitud-actions">
+
+          <a
+            href="{{ url_for('perfil') }}"
+            class="solicitud-cancelar"
+          >
+            CANCELAR
+          </a>
+
+
+          <button
+            type="submit"
+            class="solicitud-enviar"
+          >
+
+            <span class="material-symbols-outlined">
+              send
+            </span>
+
+            ENVIAR SOLICITUD
+
+          </button>
+
+        </div>
+
+
+      </form>
+
+
+      {% endif %}
+
+
+    </section>
+
+
+  </div>
+
+</div>
+
+
+{% include 'base/footer.html' %}

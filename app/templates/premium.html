@@ -1,0 +1,258 @@
+{% include 'base/header.html' %}
+
+<link
+    rel="stylesheet"
+    href="{{ url_for('static', filename='styles/premium.css') }}"
+>
+
+<div class="premium-page">
+
+    <!-- Fondo -->
+    <div
+        class="premium-bg-image"
+        style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDdKEssQFAa4Ay_7n6OTJgk9t9OnEvZXyONzhvKdEFcGV8ne9-tzCZNsIKFcll_62-rtPdBk2YM1aT_pxVj_7IkVoXIVMx8vVWlzOAQmT4ySKhy1xZQEt2GMTy8oYg5rjm9SHmEpe7CKzE5m5_GzzffDfdcGcxujNilY-OtABHM5lqBI0QJngfQNNvBT_YpBAJ3d0Llm09iXRVgtZtfx4hZhwRh_YXglrNoveAM1momKV0rKtMje4yt');"
+    >
+        <div class="premium-bg-fade-x"></div>
+        <div class="premium-bg-fade-y"></div>
+    </div>
+
+
+    <div class="premium-content">
+
+
+        <!-- =====================================
+             PROPUESTA DE VALOR
+        ====================================== -->
+
+        <section class="premium-pitch">
+
+            <div class="premium-badge">
+
+                <span class="material-symbols-outlined">
+                    workspace_premium
+                </span>
+
+                <span>
+                    ACCESO PREMIUM
+                </span>
+
+            </div>
+
+
+            <h1>
+                VIVÍ LA F1
+                <br>
+                <span>
+                    SIN FILTRO
+                </span>
+            </h1>
+
+
+            <p>
+                Accedé a contenido exclusivo de Fórmula 1,
+                análisis de Grandes Premios, artículos especiales
+                y estadísticas avanzadas para seguir cada carrera
+                desde otra perspectiva.
+            </p>
+
+
+            <div class="premium-extra">
+
+                <span class="material-symbols-outlined">
+                    verified
+                </span>
+
+                Contenido exclusivo para suscriptores
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =====================================
+             TARJETA DE PRECIO
+        ====================================== -->
+
+        <section class="premium-pricing-wrap">
+
+            <div class="premium-pricing">
+
+                <div class="premium-glow premium-glow-tr"></div>
+                <div class="premium-glow premium-glow-bl"></div>
+
+
+                <div class="premium-pricing-inner">
+
+
+                    <div class="premium-pricing-head">
+
+                        <div>
+
+                            <span class="premium-plan-label">
+                                PLAN
+                            </span>
+
+                            <h2>
+                                F1 Sin Filtro Premium
+                            </h2>
+
+                            <p>
+                                Suscripción mensual
+                            </p>
+
+                        </div>
+
+
+                        <div class="premium-price">
+
+                            <span class="premium-price-amount">
+                                $5.000
+                            </span>
+
+                            <span class="premium-price-currency">
+                                ARS
+                            </span>
+
+                            <span class="premium-price-unit">
+                                / mes
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- Beneficios -->
+                    <ul class="premium-features">
+
+                        <li>
+
+                            <span class="material-symbols-outlined">
+                                check
+                            </span>
+
+                            <span>
+                                Análisis exclusivos después de cada Gran Premio
+                            </span>
+
+                        </li>
+
+
+                        <li>
+
+                            <span class="material-symbols-outlined">
+                                check
+                            </span>
+
+                            <span>
+                                Artículos especiales sobre pilotos y equipos
+                            </span>
+
+                        </li>
+
+
+                        <li>
+
+                            <span class="material-symbols-outlined">
+                                check
+                            </span>
+
+                            <span>
+                                Estadísticas y análisis avanzados
+                            </span>
+
+                        </li>
+
+
+                        <li>
+
+                            <span class="material-symbols-outlined">
+                                check
+                            </span>
+
+                            <span>
+                                Acceso a publicaciones marcadas como Premium
+                            </span>
+
+                        </li>
+
+
+                        <li>
+
+                            <span class="material-symbols-outlined">
+                                check
+                            </span>
+
+                            <span>
+                                Sin límite de acceso al contenido exclusivo
+                            </span>
+
+                        </li>
+
+                    </ul>
+
+
+
+                    <!-- Pago -->
+                    <div class="premium-payment">
+
+                        <span class="material-symbols-outlined">
+                            payments
+                        </span>
+
+                        <div>
+
+                            <strong>
+                                Pago seguro
+                            </strong>
+
+                            <p>
+                                La suscripción se realizará mediante Mercado Pago.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <button
+                        type="button"
+                        class="premium-subscribe-btn"
+                    >
+
+                    <a
+                    href="{{ url_for('suscripcion') }}"
+                    class="premium-subscribe-btn"
+                >
+                
+                    <span>
+                        SUSCRIBIRME AHORA
+                    </span>
+                
+                    <span class="material-symbols-outlined">
+                        arrow_forward
+                    </span>
+                
+                </a>
+
+                    </button>
+
+
+                    <p class="premium-note">
+                        Podés cancelar la suscripción cuando quieras.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </div>
+
+</div>
+
+{% include 'base/footer.html' %}

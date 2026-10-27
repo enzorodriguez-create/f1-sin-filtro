@@ -34,7 +34,8 @@
 
                 <div
                     class="hero-bg"
-                    style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuD4tfVWTWyCeO_HnfZP9m2IWnxZUq7yZgtXTglGthnrzVXg_0H2r3TZ6Rp3YC5m7yvl9pt1wOqB-ukU5fj0W9d42MegeKfpSZwOSwH2sSavZHMDUmhmdvsizpqR8LEM_8g5MKxaGq2Q2Two8bXCMlDcu-m0pH51lqumcxyVX0cR91l_Ha5J7PxRTF5m12x3KgfyvvgOa-IbPdd4F4ATJ4z19_qdH4IKVjQBz7vKu4AEb83ZgDkPr_fd');">
+                    style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuD4tfVWTWyCeO_HnfZP9m2IWnxZUq7yZgtXTglGthnrzVXg_0H2r3TZ6Rp3YC5m7yvl9pt1wOqB-ukU5fj0W9d42MegeKfpSZwOSwH2sSavZHMDUmhmdvsizpqR8LEM_8g5MKxaGq2Q2Two8bXCMlDcu-m0pH51lqumcxyVX0cR91l_Ha5J7PxRTF5m12x3KgfyvvgOa-IbPdd4F4ATJ4z19_qdH4IKVjQBz7vKu4AEb83ZgDkPr_fd');"
+                >
                 </div>
 
                 <div class="hero-overlay"></div>
@@ -69,7 +70,7 @@
 
                     <a
                         class="hero-btn"
-                        href="{{ url_for('post') }}"
+                        href="{{ url_for('main.post') }}"
                     >
                         LEER NOTICIA
 
@@ -265,7 +266,7 @@
 
                 <div class="ranking-foot">
 
-                    <a href="{{ url_for('calendario') }}">
+                    <a href="{{ url_for('main.calendario') }}">
 
                         <span>
                             VER CALENDARIO
@@ -306,7 +307,7 @@
 
                 <a
                     class="see-all"
-                    href="{{ url_for('noticias') }}"
+                    href="{{ url_for('main.noticias') }}"
                 >
 
                     <span>
@@ -343,7 +344,8 @@
 
                         <div
                             class="news-img-bg"
-                            style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBWA73nOS0RkOcjxg25DBTY3w2qG9O1O-4AaROjQ1fER6AfhmabTth5Rqs9KbfQT0zlrdakfKKDrngcYYhYMX_GcGB122sa3jWsvHL70a1FtkJXTabYEAzIL0rPX_P-ewuYg3XyS34lJ_TEoeOTBzqLHi7hwkh1eliPjI_OMj8kLXNwupnynYcqU2g4mj9VxhlZPoWHM8ceX-tr1SlGabeGtrOmRBQqpbCpw5k2sSkjhK3hqP8LYEJC');">
+                            style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBWA73nOS0RkOcjxg25DBTY3w2qG9O1O-4AaROjQ1fER6AfhmabTth5Rqs9KbfQT0zlrdakfKKDrngcYYhYMX_GcGB122sa3jWsvHL70a1FtkJXTabYEAzIL0rPX_P-ewuYg3XyS34lJ_TEoeOTBzqLHi7hwkh1eliPjI_OMj8kLXNwupnynYcqU2g4mj9VxhlZPoWHM8ceX-tr1SlGabeGtrOmRBQqpbCpw5k2sSkjhK3hqP8LYEJC');"
+                        >
                         </div>
 
                         <div class="news-img-fade"></div>
@@ -381,7 +383,7 @@
 
 
                         <a
-                            href="{{ url_for('premium') }}"
+                            href="{{ url_for('main.premium') }}"
                             class="news-link"
                         >
                             VER PREMIUM
@@ -400,7 +402,8 @@
 
                         <div
                             class="news-img-bg"
-                            style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAZSIj0SqzaN2GxwSA6Q4K5te3jYqzqsc4ZpolNEGg-O-l8yRZfVReZ5b8-VbRK8jw3pKIxhpGCzsO93rimHQ8xoIIMy2B3p66-Pi8WsRTEzvo-OwhRMkWVK3C5mV85AE184XZ2Vy96EkKX8GXiBsOcvLjmZ2ENmKAbEkPFs9wMLJHeGvAh7oaWni7ySnrjjP126BK2ZDfoD2mJO1UWwN2DvZMKLJFrBW5au0ckI6qv6eWivuYqfkuA');">
+                            style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAZSIj0SqzaN2GxwSA6Q4K5te3jYqzqsc4ZpolNEGg-O-l8yRZfVReZ5b8-VbRK8jw3pKIxhpGCzsO93rimHQ8xoIIMy2B3p66-Pi8WsRTEzvo-OwhRMkWVK3C5mV85AE184XZ2Vy96EkKX8GXiBsOcvLjmZ2ENmKAbEkPFs9wMLJHeGvAh7oaWni7ySnrjjP126BK2ZDfoD2mJO1UWwN2DvZMKLJFrBW5au0ckI6qv6eWivuYqfkuA');"
+                        >
                         </div>
 
                         <div class="news-img-fade"></div>
@@ -438,7 +441,7 @@
 
 
                         <a
-                            href="{{ url_for('post') }}"
+                            href="{{ url_for('main.post') }}"
                             class="news-link"
                         >
                             LEER NOTICIA
@@ -457,7 +460,8 @@
 
                         <div
                             class="news-img-bg"
-                            style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCsG93QF-3S8JbQ4j2YpDKDRLSVnvX-4YRGhSDT8rQ_45CbtFCobU__0twSidA9sWGzZxSZdxI7KB8aALQikXcF8Sr5asFZgWOUPy6jGRRbs9zWSyjhY33H1Z6BRykxsz88CQ_QhQ4Yo7YgruXm7cp7hASgJyBb6VSvAhsnXEJScGMztnM7wtFrcvOFywWjSoNOi_ckZ7dlTCjGJzVzVHjIckeCfPwT5uojaG7Yp0tTnixTUZ1N7mSB');">
+                            style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCsG93QF-3S8JbQ4j2YpDKDRLSVnvX-4YRGhSDT8rQ_45CbtFCobU__0twSidA9sWGzZxSZdxI7KB8aALQikXcF8Sr5asFZgWOUPy6jGRRbs9zWSyjhY33H1Z6BRykxsz88CQ_QhQ4Yo7YgruXm7cp7hASgJyBb6VSvAhsnXEJScGMztnM7wtFrcvOFywWjSoNOi_ckZ7dlTCjGJzVzVHjIckeCfPwT5uojaG7Yp0tTnixTUZ1N7mSB');"
+                        >
                         </div>
 
                         <div class="news-img-fade"></div>
@@ -495,7 +499,7 @@
 
 
                         <a
-                            href="{{ url_for('post') }}"
+                            href="{{ url_for('main.post') }}"
                             class="news-link"
                         >
                             LEER NOTICIA
