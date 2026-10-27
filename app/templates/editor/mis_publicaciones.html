@@ -219,7 +219,7 @@
 
                         <a
                             class="new-post-btn"
-                            href="{{ url_for('editor_crear_publicacion') }}"
+                            href="{{ url_for('editor.editor_crear_publicacion') }}"
                         >
 
                             <span class="material-symbols-outlined">
@@ -355,7 +355,7 @@
                                         <a
                                             class="preview-btn"
                                             href="{{ url_for(
-                                                'editor_vista_previa_publicacion',
+                                                'editor.editor_vista_previa_publicacion',
                                                 id_publicacion=publicacion.id
                                             ) }}"
                                         >
@@ -372,7 +372,7 @@
                                         <a
                                             class="edit-btn"
                                             href="{{ url_for(
-                                                'editor_editar_publicacion',
+                                                'editor.editor_editar_publicacion',
                                                 id_publicacion=publicacion.id
                                             ) }}"
                                         >

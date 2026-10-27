@@ -7,7 +7,8 @@ from flask import (
 )
 
 from app.extensions import db
-from app.models import Usuario, Publicacion     
+from app.models import (Usuario, Publicacion, BloquePublicacion,
+    ImagenCarrusel  )  
 
 
 bp = Blueprint(
@@ -153,4 +154,63 @@ def editor_perfil():
         "editor/perfil.html",
         usuario=usuario,
         seccion_activa="perfil_editor"
+    )
+
+@bp.route(
+    "/editor/publicaciones/<int:id_publicacion>/vista-previa"
+)
+def editor_vista_previa_publicacion(id_publicacion):
+
+    usuario = obtener_usuario_actual()
+
+    publicacion = Publicacion.query.filter_by(
+        id=id_publicacion,
+        autor_id=usuario.id
+    ).first()
+
+    if not publicacion:
+
+        return "Publicación no encontrada."
+
+    bloques = BloquePublicacion.query.filter_by(
+        publicacion_id=publicacion.id
+    ).order_by(
+        BloquePublicacion.orden
+    ).all()
+
+    carruseles = {}
+
+    for bloque in bloques:
+
+        if bloque.tipo == "carrusel":
+
+            imagenes = ImagenCarrusel.query.filter_by(
+                bloque_id=bloque.id
+            ).order_by(
+                ImagenCarrusel.orden
+            ).all()
+
+            carruseles[bloque.id] = imagenes
+
+    return render_template(
+        "editor/vista_previa_publicacion.html",
+        usuario=usuario,
+        publicacion=publicacion,
+        bloques=bloques,
+        carruseles=carruseles,
+        seccion_activa="publicaciones"
+    )
+
+@bp.route(
+    "/editor/publicaciones/<int:id_publicacion>/editar"
+)
+def editor_editar_publicacion(id_publicacion):
+
+    usuario = obtener_usuario_actual()
+
+    return render_template(
+        "editor/editar_publicacion.html",
+        usuario=usuario,
+        id_publicacion=id_publicacion,
+        seccion_activa="publicaciones"
     )
