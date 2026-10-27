@@ -861,32 +861,75 @@ def editor_editar_publicacion(id_publicacion):
         seccion_activa="publicaciones"
     )
 
-    # =========================
-    # CARRUSELES
-    # =========================
+@bp.route(
+    "/editor/publicaciones/<int:id_publicacion>/eliminar",
+    methods=["POST"]
+)
+def editor_eliminar_publicacion(id_publicacion):
 
-    carruseles = {}
+    usuario = obtener_usuario_actual()
+
+    if not usuario:
+
+        return redirect(
+            url_for(
+                "auth.login"
+            )
+        )
 
 
+    publicacion = Publicacion.query.filter_by(
+        id=id_publicacion,
+        autor_id=usuario.id
+    ).first()
+
+
+    if not publicacion:
+
+        return "Publicación no encontrada."
+
+
+    bloques = BloquePublicacion.query.filter_by(
+        publicacion_id=publicacion.id
+    ).all()
+
+
+    # Elimino primero las imágenes de carrusel
     for bloque in bloques:
 
         if bloque.tipo == "carrusel":
 
             imagenes = ImagenCarrusel.query.filter_by(
                 bloque_id=bloque.id
-            ).order_by(
-                ImagenCarrusel.orden
             ).all()
 
 
-            carruseles[bloque.id] = imagenes
+            for imagen in imagenes:
+
+                db.session.delete(
+                    imagen
+                )
 
 
-    return render_template(
-        "editor/editar_publicacion.html",
-        usuario=usuario,
-        publicacion=publicacion,
-        bloques=bloques,
-        carruseles=carruseles,
-        seccion_activa="publicaciones"
+    # Elimino los bloques
+    for bloque in bloques:
+
+        db.session.delete(
+            bloque
+        )
+
+
+    # Elimino la publicación
+    db.session.delete(
+        publicacion
+    )
+
+
+    db.session.commit()
+
+
+    return redirect(
+        url_for(
+            "editor.editor_publicaciones"
+        )
     )

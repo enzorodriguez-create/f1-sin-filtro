@@ -1,430 +1,269 @@
 <!DOCTYPE html>
 <html lang="es">
+  <head>
+    <meta charset="utf-8" />
 
-<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <meta charset="utf-8">
+    <title>F1 SIN FILTRO - Mis Publicaciones</title>
 
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
 
-    <title>
-        F1 SIN FILTRO - Mis Publicaciones
-    </title>
-
+    <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin />
 
     <link
-        href="https://fonts.googleapis.com"
-        rel="preconnect"
-    >
+      href="https://fonts.googleapis.com/css2?family=Chivo:wght@400;600;700;900&family=Geist:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
 
     <link
-        href="https://fonts.gstatic.com"
-        rel="preconnect"
-        crossorigin
-    >
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
+      rel="stylesheet"
+    />
 
     <link
-        href="https://fonts.googleapis.com/css2?family=Chivo:wght@400;600;700;900&family=Geist:wght@400;500;600;700&display=swap"
-        rel="stylesheet"
-    >
+      rel="stylesheet"
+      href="{{ url_for('static', filename='styles/style.css') }}"
+    />
 
     <link
-        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
-        rel="stylesheet"
-    >
-
-
-    <link
-        rel="stylesheet"
-        href="{{ url_for('static', filename='styles/style.css') }}"
-    >
+      rel="stylesheet"
+      href="{{ url_for('static', filename='styles/editor/sidebar.css') }}"
+    />
 
     <link
-        rel="stylesheet"
-        href="{{ url_for('static', filename='styles/editor/sidebar.css') }}"
-    >
+      rel="stylesheet"
+      href="{{ url_for('static', filename='styles/editor/dashboard.css') }}"
+    />
 
     <link
-        rel="stylesheet"
-        href="{{ url_for('static', filename='styles/editor/dashboard.css') }}"
-    >
+      rel="stylesheet"
+      href="{{ url_for('static', filename='styles/editor/mis_publicaciones.css') }}"
+    />
+  </head>
 
-    <link
-        rel="stylesheet"
-        href="{{ url_for('static', filename='styles/editor/mis_publicaciones.css') }}"
-    >
-
-</head>
-
-
-<body>
-
-
+  <body>
     <div class="editor-page">
-
-
-        <!-- =========================
+      <!-- =========================
              SIDEBAR
         ========================== -->
 
-        {% include "editor/sidebar.html" %}
+      {% include "editor/sidebar.html" %}
 
-
-
-        <!-- =========================
+      <!-- =========================
              CONTENIDO
         ========================== -->
 
-        <div class="editor-content">
-
-
-            <!-- =========================
+      <div class="editor-content">
+        <!-- =========================
                  TOPBAR
             ========================== -->
 
-            <header class="editor-topbar">
+        <header class="editor-topbar">
+          <div class="topbar-left">
+            <button
+              class="menu-btn"
+              type="button"
+              id="editor-menu-btn"
+              aria-label="Abrir menú"
+            >
+              <span class="material-symbols-outlined"> menu </span>
+            </button>
+          </div>
 
+          <div class="topbar-right">
+            <div class="role-badge">
+              <span class="role-dot"></span>
 
-                <div class="topbar-left">
+              <span> ROL: </span>
 
-                    <button
-                        class="menu-btn"
-                        type="button"
-                        id="editor-menu-btn"
-                        aria-label="Abrir menú"
-                    >
+              <strong> EDITOR </strong>
+            </div>
 
-                        <span class="material-symbols-outlined">
-                            menu
-                        </span>
+            <div class="editor-user">
+              <div class="editor-user-data">
+                <strong> {{ usuario.nombre if usuario else "Editor" }} </strong>
 
-                    </button>
+                <span>
+                  {{ usuario.email if usuario else "editor@f1sinfiltro.com" }}
+                </span>
+              </div>
 
-                </div>
+              {% if usuario and usuario.foto %}
 
+              <img
+                class="editor-avatar editor-avatar-img"
+                src="{{ url_imagen(usuario.foto) }}"
+                alt="{{ usuario.nombre }}"
+              />
 
-                <div class="topbar-right">
+              {% else %}
 
+              <div class="editor-avatar">
+                <span class="material-symbols-outlined"> person </span>
+              </div>
 
-                    <div class="role-badge">
+              {% endif %}
+            </div>
+          </div>
+        </header>
 
-                        <span class="role-dot"></span>
-
-                        <span>
-                            ROL:
-                        </span>
-
-                        <strong>
-                            EDITOR
-                        </strong>
-
-                    </div>
-
-                    <div class="editor-user">
-
-                        <div class="editor-user-data">
-                    
-                            <strong>
-                                {{ usuario.nombre if usuario else "Editor" }}
-                            </strong>
-                    
-                            <span>
-                                {{ usuario.email if usuario else "editor@f1sinfiltro.com" }}
-                            </span>
-                    
-                        </div>
-                    
-                    
-                        {% if usuario and usuario.foto %}
-                    
-                            <img
-                                class="editor-avatar editor-avatar-img"
-                                src="{{ url_imagen(usuario.foto) }}"
-                                alt="{{ usuario.nombre }}"
-                            >
-                    
-                        {% else %}
-                    
-                            <div class="editor-avatar">
-                    
-                                <span class="material-symbols-outlined">
-                                    person
-                                </span>
-                    
-                            </div>
-                    
-                        {% endif %}
-                    
-                    </div>
-
-                </div>
-
-
-            </header>
-
-
-
-            <!-- =========================
+        <!-- =========================
                  MAIN
             ========================== -->
 
-            <main class="editor-main">
-
-
-                <div class="editor-container">
-
-
-                    <!-- =========================
+        <main class="editor-main">
+          <div class="editor-container">
+            <!-- =========================
                          CABECERA
                     ========================== -->
 
-                    <div class="page-head">
+            <div class="page-head">
+              <div>
+                <div class="page-path">
+                  <span> PANEL DE CONTROL </span>
 
+                  <span> / </span>
 
-                        <div>
+                  <strong> MIS PUBLICACIONES </strong>
+                </div>
 
+                <h1>MIS <span>PUBLICACIONES</span></h1>
 
-                            <div class="page-path">
+                <p>
+                  Gestioná los artículos que creaste desde el panel de Editor.
+                </p>
+              </div>
 
-                                <span>
-                                    PANEL DE CONTROL
-                                </span>
+              <a
+                class="new-post-btn"
+                href="{{ url_for('editor.editor_crear_publicacion') }}"
+              >
+                <span class="material-symbols-outlined"> add </span>
 
-                                <span>
-                                    /
-                                </span>
+                Nueva Publicación
+              </a>
+            </div>
 
-                                <strong>
-                                    MIS PUBLICACIONES
-                                </strong>
-
-                            </div>
-
-
-                            <h1>
-                                MIS <span>PUBLICACIONES</span>
-                            </h1>
-
-
-                            <p>
-                                Gestioná los artículos que creaste desde el panel de Editor.
-                            </p>
-
-
-                        </div>
-
-
-                        <a
-                            class="new-post-btn"
-                            href="{{ url_for('editor.editor_crear_publicacion') }}"
-                        >
-
-                            <span class="material-symbols-outlined">
-                                add
-                            </span>
-
-                            Nueva Publicación
-
-                        </a>
-
-
-                    </div>
-
-
-
-                    <!-- =========================
+            <!-- =========================
                          FILTROS
                     ========================== -->
 
-                    <div class="filters">
+            <div class="filters">
+              <button class="filter active" type="button">Todas</button>
 
-                        <button
-                            class="filter active"
-                            type="button"
-                        >
-                            Todas
-                        </button>
+              <button class="filter" type="button">Publicadas</button>
 
-                        <button
-                            class="filter"
-                            type="button"
-                        >
-                            Publicadas
-                        </button>
+              <button class="filter" type="button">Borradores</button>
 
-                        <button
-                            class="filter"
-                            type="button"
-                        >
-                            Borradores
-                        </button>
+              <button class="filter" type="button">Programadas</button>
+            </div>
 
-                        <button
-                            class="filter"
-                            type="button"
-                        >
-                            Programadas
-                        </button>
-
-                    </div>
-
-
-
-                    <!-- =========================
+            <!-- =========================
                          PUBLICACIONES
                     ========================== -->
 
-                    <div class="publications-grid">
+            <div class="publications-grid">
+              {% for publicacion in publicaciones %}
 
-                        {% for publicacion in publicaciones %}
-                    
-                            <article class="publication-card">
-                    
-                    
-                                <div class="publication-image">
-                    
-                                    {% if publicacion.imagen_portada %}
-                    
-                                        <img
-                                            src="{{ url_imagen(publicacion.imagen_portada) }}"
-                                            alt="{{ publicacion.titulo }}"
-                                            class="publication-cover"
-                                        >
-                    
-                                    {% else %}
-                    
-                                        <div class="image-placeholder">
-                    
-                                            <span class="material-symbols-outlined">
-                                                image
-                                            </span>
-                    
-                                        </div>
-                    
-                                    {% endif %}
-                    
-                    
-                                    {% if publicacion.estado == "publicada" %}
-                    
-                                        <span class="status published">
-                                            PUBLICADA
-                                        </span>
-                    
-                                    {% elif publicacion.estado == "borrador" %}
-                    
-                                        <span class="status draft">
-                                            BORRADOR
-                                        </span>
-                    
-                                    {% else %}
-                    
-                                        <span class="status scheduled">
-                                            {{ publicacion.estado.upper() }}
-                                        </span>
-                    
-                                    {% endif %}
-                    
-                                </div>
-                    
-                    
-                                <div class="publication-content">
-                    
-                    
-                                    <div class="publication-meta">
+              <article class="publication-card">
+                <div class="publication-image">
+                  {% if publicacion.imagen_portada %}
 
-                                        <span>
-                                            PUBLICACIÓN #{{ publicacion.id }}
-                                        </span>
-                                    
-                                        <span>
-                                            {{ publicacion.estado.upper() }}
-                                        </span>
-                                    
-                                    </div>
-                    
-                    
-                                    <h2>
-                                        {{ publicacion.titulo }}
-                                    </h2>
+                  <img
+                    src="{{ url_imagen(publicacion.imagen_portada) }}"
+                    alt="{{ publicacion.titulo }}"
+                    class="publication-cover"
+                  />
 
-                                    <div class="publication-footer">
+                  {% else %}
 
-                                        <a
-                                            class="preview-btn"
-                                            href="{{ url_for(
+                  <div class="image-placeholder">
+                    <span class="material-symbols-outlined"> image </span>
+                  </div>
+
+                  {% endif %} {% if publicacion.estado == "publicada" %}
+
+                  <span class="status published"> PUBLICADA </span>
+
+                  {% elif publicacion.estado == "borrador" %}
+
+                  <span class="status draft"> BORRADOR </span>
+
+                  {% else %}
+
+                  <span class="status scheduled">
+                    {{ publicacion.estado.upper() }}
+                  </span>
+
+                  {% endif %}
+                </div>
+
+                <div class="publication-content">
+                  <div class="publication-meta">
+                    <span> PUBLICACIÓN #{{ publicacion.id }} </span>
+
+                    <span> {{ publicacion.estado.upper() }} </span>
+                  </div>
+
+                  <h2>{{ publicacion.titulo }}</h2>
+
+                  <div class="publication-footer">
+                    <a
+                      class="preview-btn"
+                      href="{{ url_for(
                                                 'editor.editor_vista_previa_publicacion',
                                                 id_publicacion=publicacion.id
                                             ) }}"
-                                        >
-                                    
-                                            <span class="material-symbols-outlined">
-                                                visibility
-                                            </span>
-                                    
-                                            Vista Previa
-                                    
-                                        </a>
-                                    
-                                    
-                                        <a
-                                            class="edit-btn"
-                                            href="{{ url_for(
+                    >
+                      <span class="material-symbols-outlined">
+                        visibility
+                      </span>
+
+                      Vista Previa
+                    </a>
+
+                    <a
+                      class="edit-btn"
+                      href="{{ url_for(
                                                 'editor.editor_editar_publicacion',
                                                 id_publicacion=publicacion.id
                                             ) }}"
-                                        >
-                                    
-                                            <span class="material-symbols-outlined">
-                                                edit
-                                            </span>
-                                    
-                                            Editar
-                                    
-                                        </a>
-                                    
-                                    </div>
-                    
-                                </div>
-                    
-                            </article>
-                    
-                    
-                        {% else %}
-                    
-                            <div class="empty-publications">
-                    
-                                <span class="material-symbols-outlined">
-                                    article
-                                </span>
-                    
-                                <p>
-                                    Todavía no creaste ninguna publicación.
-                                </p>
-                    
-                            </div>
-                    
-                        {% endfor %}
-                    
-                    </div>
+                    >
+                      <span class="material-symbols-outlined"> edit </span>
 
-                    
+                      Editar
+                    </a>
 
+                    <form
+                      method="POST"
+                      action="{{ url_for('editor.editor_eliminar_publicacion', id_publicacion=publicacion.id) }}"
+                      onsubmit="return confirm('¿Seguro que querés eliminar esta publicación?');"
+                    >
+                      <button type="submit" class="btn-eliminar-publicacion">
+                        <span class="material-symbols-outlined"> delete </span>
 
+                        Eliminar
+                      </button>
+                    </form>
+                  </div>
                 </div>
+              </article>
 
+              {% else %}
 
-            </main>
+              <div class="empty-publications">
+                <span class="material-symbols-outlined"> article </span>
 
+                <p>Todavía no creaste ninguna publicación.</p>
+              </div>
 
-        </div>
-
-
+              {% endfor %}
+            </div>
+          </div>
+        </main>
+      </div>
     </div>
-
-
 
     <!-- =========================
          FOOTER GLOBAL
@@ -432,30 +271,18 @@
 
     {% include "base/footer.html" %}
 
-
-
     <script>
+      function confirmarEliminacion() {
+        const confirmar = confirm(
+          "¿Seguro que querés eliminar esta publicación?"
+        );
 
-        function confirmarEliminacion() {
-
-            const confirmar = confirm(
-                "¿Seguro que querés eliminar esta publicación?"
-            );
-
-
-            if (confirmar) {
-
-                alert(
-                    "Por ahora la publicación no se elimina porque todavía no está conectada a la base de datos."
-                );
-
-            }
-
+        if (confirmar) {
+          alert(
+            "Por ahora la publicación no se elimina porque todavía no está conectada a la base de datos."
+          );
         }
-
+      }
     </script>
-
-
-</body>
-
+  </body>
 </html>
