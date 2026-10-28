@@ -100,7 +100,10 @@ def login():
                 )
 
 
-        return "Email o contraseña incorrectos."
+        return render_template(
+    "login.html",
+    error="Email o contraseña incorrectos."
+)
 
 
     return render_template(

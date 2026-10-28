@@ -82,6 +82,16 @@
           </label>
         </div>
 
+        {% if error %}
+
+        <div class="login-error">
+          <span class="material-symbols-outlined"> error </span>
+
+          <span> {{ error }} </span>
+        </div>
+
+        {% endif %}
+
         <button type="submit" class="login-btn">
           <span> INICIAR SESIÓN </span>
 

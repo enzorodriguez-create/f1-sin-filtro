@@ -768,3 +768,26 @@ body {
         0 20px 40px -15px rgba(0, 0, 0, 0.85),
         0 0 30px rgba(225, 6, 0, 0.05);
 }
+
+.login-error {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  
+    padding: 12px 14px;
+    margin-bottom: 18px;
+  
+    border: 1px solid #e10600;
+    border-radius: 6px;
+  
+    background: rgba(225, 6, 0, 0.12);
+  
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: 600;
+  }
+  
+  .login-error .material-symbols-outlined {
+    color: #e10600;
+    font-size: 22px;
+  }
