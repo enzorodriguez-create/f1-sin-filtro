@@ -144,10 +144,21 @@ def registro():
         )
 
 
+        # =========================
+        # CONTRASEÑAS
+        # =========================
+
         if password != confirm_password:
 
-            return "Las contraseñas no coinciden."
+            return render_template(
+                "registro.html",
+                error="Las contraseñas no coinciden."
+            )
 
+
+        # =========================
+        # EMAIL EXISTENTE
+        # =========================
 
         email_existente = Usuario.query.filter_by(
             email=email
@@ -156,8 +167,15 @@ def registro():
 
         if email_existente:
 
-            return "El email ya está registrado."
+            return render_template(
+                "registro.html",
+                error="El email ya está registrado."
+            )
 
+
+        # =========================
+        # USUARIO EXISTENTE
+        # =========================
 
         usuario_existente = Usuario.query.filter_by(
             usuario=nombre_usuario
@@ -166,8 +184,15 @@ def registro():
 
         if usuario_existente:
 
-            return "El nombre de usuario ya está registrado."
+            return render_template(
+                "registro.html",
+                error="El nombre de usuario ya está registrado."
+            )
 
+
+        # =========================
+        # CREO EL USUARIO
+        # =========================
 
         nuevo_usuario = Usuario(
             nombre=nombre,

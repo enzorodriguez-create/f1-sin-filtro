@@ -448,5 +448,29 @@
       background-attachment: fixed;
   } 
 
+
+  .register-error {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    padding: 12px 14px;
+    margin-bottom: 18px;
+
+    border: 1px solid #e10600;
+    border-radius: 6px;
+
+    background: rgba(225, 6, 0, 0.12);
+
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.register-error .material-symbols-outlined {
+    color: #e10600;
+    font-size: 22px;
+}
+
   
   
