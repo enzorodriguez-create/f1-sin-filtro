@@ -6,7 +6,7 @@ from flask import (
     session,
     request
 )
-from almacenamiento import extension_valida, subir_imagen
+from almacenamiento import (extension_valida, subir_imagen, borrar_imagen)
 from app.extensions import db
 from app.models import (Usuario, Publicacion, BloquePublicacion, ImagenCarrusel)  
 
@@ -404,6 +404,7 @@ def editor_perfil():
 
     usuario = obtener_usuario_actual()
 
+
     if not usuario:
 
         return redirect(
@@ -412,10 +413,230 @@ def editor_perfil():
             )
         )
 
+
+    if usuario.rol != "editor":
+
+        return redirect(
+            url_for(
+                "main.inicio"
+            )
+        )
+
+
+    if request.method == "POST":
+
+        # =========================
+        # NOMBRE
+        # =========================
+
+        usuario.nombre = request.form.get(
+            "nombre",
+            usuario.nombre
+        ).strip()
+
+
+        # =========================
+        # APELLIDO
+        # =========================
+
+        usuario.apellido = request.form.get(
+            "apellido",
+            usuario.apellido
+        ).strip()
+
+
+        # =========================
+        # USUARIO
+        # =========================
+
+        usuario.usuario = request.form.get(
+            "usuario",
+            usuario.usuario
+        ).strip()
+
+
+        # =========================
+        # EMAIL
+        # =========================
+
+        usuario.email = request.form.get(
+            "email",
+            usuario.email
+        ).strip()
+
+
+        # =========================
+        # FOTO
+        # =========================
+
+        foto = request.files.get(
+            "foto"
+        )
+
+        foto_anterior = None
+
+
+        if foto and foto.filename:
+
+            if not extension_valida(
+                foto.filename
+            ):
+
+                return (
+                    "La imagen debe ser JPG, JPEG, "
+                    "PNG, WEBP o GIF."
+                )
+
+
+            foto_anterior = usuario.foto
+
+
+            usuario.foto = subir_imagen(
+                foto,
+                carpeta="avatares"
+            )
+
+
+        # =========================
+        # GUARDO CAMBIOS
+        # =========================
+
+        db.session.commit()
+
+
+        # Elimino la foto anterior
+        # si se cambió
+        if foto_anterior:
+
+            borrar_imagen(
+                foto_anterior
+            )
+
+
+        # =========================
+        # ACTUALIZO LA SESIÓN
+        # =========================
+
+        session["usuario"] = {
+            "id": usuario.id,
+            "nombre": usuario.nombre,
+            "apellido": usuario.apellido,
+            "usuario": usuario.usuario,
+            "email": usuario.email,
+            "foto": usuario.foto,
+            "rol": usuario.rol,
+            "tipo_login": usuario.tipo_login,
+            "premium": usuario.premium
+        }
+
+
+        return redirect(
+            url_for(
+                "editor.editor_perfil"
+            )
+        )
+
+
     return render_template(
         "editor/perfil.html",
         usuario=usuario,
         seccion_activa="perfil_editor"
+    )
+
+@bp.route(
+    "/editor/perfil/cambiar-password",
+    methods=["POST"]
+)
+def editor_cambiar_password():
+
+    usuario = obtener_usuario_actual()
+
+
+    # Compruebo que haya iniciado sesión
+    if not usuario:
+
+        return redirect(
+            url_for(
+                "auth.login"
+            )
+        )
+
+
+    # Compruebo que sea editor
+    if usuario.rol != "editor":
+
+        return redirect(
+            url_for(
+                "main.inicio"
+            )
+        )
+
+
+    # Si inició con Google,
+    # no permito cambiar contraseña
+    if usuario.tipo_login == "google":
+
+        return redirect(
+            url_for(
+                "editor.editor_perfil"
+            )
+        )
+
+
+    # Obtengo las contraseñas del formulario
+    password_actual = request.form.get(
+        "pass_actual",
+        ""
+    )
+
+    password_nueva = request.form.get(
+        "pass_nueva",
+        ""
+    )
+
+    password_confirmacion = request.form.get(
+        "pass_confirm",
+        ""
+    )
+
+
+    # Compruebo la contraseña actual
+    if not usuario.verificar_password(
+        password_actual
+    ):
+
+        return "La contraseña actual es incorrecta."
+
+
+    # Compruebo que haya una contraseña nueva
+    if not password_nueva:
+
+        return "Tenés que ingresar una nueva contraseña."
+
+
+    # Compruebo que las nuevas coincidan
+    if (
+        password_nueva
+        !=
+        password_confirmacion
+    ):
+
+        return "Las contraseñas nuevas no coinciden."
+
+
+    # Guardo la nueva contraseña
+    usuario.guardar_password(
+        password_nueva
+    )
+
+
+    db.session.commit()
+
+
+    return redirect(
+        url_for(
+            "editor.editor_perfil"
+        )
     )
 
 @bp.route(
