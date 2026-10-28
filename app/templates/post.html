@@ -5,9 +5,11 @@
     href="{{ url_for('static', filename='styles/post.css') }}"
 >
 
+
 <div class="post-page">
 
     <div class="post-pattern"></div>
+
 
     <div class="post-container">
 
@@ -21,55 +23,14 @@
             <article class="post-article">
 
 
-                <!-- Cabecera -->
+                <!-- =====================================
+                     CABECERA
+                ====================================== -->
+
                 <header class="post-head">
 
-                    <div class="post-category">
 
-                        <span class="material-symbols-outlined">
-                            news
-                        </span>
-
-                        <span>
-                            NOTICIAS
-                        </span>
-
-                    </div>
-
-
-                    <h1>
-                        Ferrari prepara mejoras para la próxima carrera
-                    </h1>
-
-
-                    <p class="post-subtitle">
-                        Noticias y novedades de la Fórmula 1.
-                    </p>
-
-                    <div class="post-tags">
-
-                        <span class="post-tags-label">
-                            ETIQUETAS:
-                        </span>
-                    
-                        <a href="#" class="post-tag">
-                            #Ferrari
-                        </a>
-                    
-                        <a href="#" class="post-tag">
-                            #ScuderiaFerrari
-                        </a>
-                    
-                        <a href="#" class="post-tag">
-                            #Actualizaciones
-                        </a>
-                    
-                        <a href="#" class="post-tag">
-                            #Formula1
-                        </a>
-                    
-                    </div>
-
+                    <!-- AUTOR + ACCIONES -->
 
                     <div class="post-meta">
 
@@ -79,6 +40,7 @@
                                 FSF
                             </div>
 
+
                             <div>
 
                                 <p class="post-author-name">
@@ -86,7 +48,7 @@
                                 </p>
 
                                 <p class="post-author-date">
-                                    12 OCT 2026 • 4 MIN DE LECTURA
+                                    PUBLICACIÓN
                                 </p>
 
                             </div>
@@ -101,9 +63,11 @@
                                 class="post-icon-btn"
                                 title="Guardar publicación"
                             >
+
                                 <span class="material-symbols-outlined">
                                     bookmark
                                 </span>
+
                             </button>
 
 
@@ -112,105 +76,296 @@
                                 class="post-icon-btn"
                                 title="Compartir"
                             >
+
                                 <span class="material-symbols-outlined">
                                     share
                                 </span>
+
                             </button>
 
                         </div>
 
                     </div>
 
-                </header>
 
 
+                    <!-- CATEGORÍA -->
 
-                <!-- Imagen principal -->
-                <figure class="post-hero">
+                    <div class="post-category">
 
-                    <img
-                        src="https://images.unsplash.com/photo-1503736334956-4c8f8e92946d?auto=format&fit=crop&w=1600&q=80"
-                        alt="Ferrari prepara mejoras para la próxima carrera"
-                    >
+                        <span class="material-symbols-outlined">
+                            news
+                        </span>
 
-                    <figcaption>
-                        Ferrari continúa trabajando en el desarrollo de su monoplaza
-                        de cara a las próximas fechas del campeonato.
-                    </figcaption>
-
-                </figure>
-
-
-
-                <!-- =====================================
-                     TEXTO
-                ====================================== -->
-
-                <div class="post-body">
-
-                    <p class="post-drop-cap">
-                        Ferrari ya trabaja en una serie de mejoras para su monoplaza
-                        con el objetivo de dar un nuevo paso adelante en la próxima
-                        carrera. El equipo italiano busca mejorar su rendimiento y
-                        reducir la diferencia con sus principales rivales.
-                    </p>
-
-
-                    <h2>
-                        Nuevas mejoras en el monoplaza
-                    </h2>
-
-                    <p>
-                        Los ingenieros de Ferrari se encuentran analizando los datos
-                        recopilados durante las últimas carreras para determinar qué
-                        áreas del auto pueden ofrecer un mayor margen de mejora.
-                    </p>
-
-                    <p>
-                        Entre los principales puntos de trabajo se encuentran la
-                        aerodinámica, el equilibrio general del monoplaza y la
-                        gestión de los neumáticos durante tandas largas.
-                    </p>
-
-
-                    <div class="post-quote">
-
-                        <p>
-                            “El objetivo es seguir evolucionando el auto carrera
-                            tras carrera y aprovechar cada oportunidad para mejorar
-                            nuestro rendimiento.”
-                        </p>
+                        <span>
+                            NOTICIAS
+                        </span>
 
                     </div>
 
 
-                    <h2>
-                        El objetivo de Ferrari
-                    </h2>
 
-                    <p>
-                        La escudería italiana espera que las nuevas piezas permitan
-                        encontrar mayor estabilidad y rendimiento tanto en
-                        clasificación como en carrera.
+                    <!-- TÍTULO -->
+
+                    <h1>
+                        {{ publicacion.titulo }}
+                    </h1>
+
+
+
+                    <!-- RESUMEN -->
+
+                    {% if publicacion.resumen %}
+
+                    <p class="post-subtitle">
+                        {{ publicacion.resumen }}
                     </p>
 
-                    <p>
-                        Las próximas sesiones de entrenamientos serán importantes
-                        para comprobar si las modificaciones funcionan de la manera
-                        esperada antes de afrontar el resto del fin de semana.
-                    </p>
+                    {% endif %}
 
 
-                    <h2>
-                        Una temporada muy competitiva
-                    </h2>
 
-                    <p>
-                        Con varios equipos peleando en las primeras posiciones,
-                        cada actualización puede resultar determinante. Ferrari
-                        intentará aprovechar estas mejoras para mantenerse en la
-                        lucha y sumar puntos importantes para el campeonato.
-                    </p>
+                    <!-- ETIQUETAS -->
+
+                    <div class="post-tags">
+
+                        <span class="post-tags-label">
+                            ETIQUETAS:
+                        </span>
+
+                        <a href="#" class="post-tag">
+                            #Formula1
+                        </a>
+
+                        <a href="#" class="post-tag">
+                            #Noticias
+                        </a>
+
+                    </div>
+
+
+                </header>
+
+
+
+                <!-- =====================================
+                     PORTADA
+                ====================================== -->
+
+                {% if publicacion.imagen_portada %}
+
+                <div class="post-cover-card">
+
+                    <img
+                        src="{{ url_imagen(publicacion.imagen_portada) }}"
+                        alt="{{ publicacion.titulo }}"
+                    >
+
+                </div>
+
+                {% endif %}
+
+
+
+                <!-- =====================================
+                     BLOQUES DE LA PUBLICACIÓN
+                ====================================== -->
+
+                <div class="post-body">
+
+
+                    {% for bloque in bloques %}
+
+
+                        <!-- =========================
+                             BLOQUE DE TEXTO
+                        ========================== -->
+
+                        {% if bloque.tipo == "texto" %}
+
+                        <div class="post-content-card post-text-block">
+
+                            <span class="post-block-label">
+
+                                <span class="material-symbols-outlined">
+                                    subject
+                                </span>
+
+                                TEXTO
+
+                            </span>
+
+
+                            <p>
+                                {{ bloque.contenido }}
+                            </p>
+
+                        </div>
+
+
+
+                        <!-- =========================
+                             BLOQUE DE IMAGEN
+                        ========================== -->
+
+                        {% elif bloque.tipo == "imagen" %}
+
+                        <div class="post-content-card post-image-block">
+
+                            <span class="post-block-label">
+
+                                <span class="material-symbols-outlined">
+                                    image
+                                </span>
+
+                                IMAGEN
+
+                            </span>
+
+
+                            <img
+                                src="{{ url_imagen(bloque.contenido) }}"
+                                alt="Imagen de {{ publicacion.titulo }}"
+                            >
+
+                        </div>
+
+
+
+                        <!-- =========================
+                             BLOQUE DE CARRUSEL
+                        ========================== -->
+
+                        {% elif bloque.tipo == "carrusel" %}
+
+                        <div class="post-content-card post-carousel-block">
+
+
+                            <span class="post-block-label">
+
+                                <span class="material-symbols-outlined">
+                                    collections
+                                </span>
+
+                                CARRUSEL
+
+                            </span>
+
+
+
+                            <div
+                                id="carouselPost{{ bloque.id }}"
+                                class="carousel slide post-carousel-custom"
+                                data-bs-ride="false"
+                            >
+
+
+                                <!-- INDICADORES -->
+
+                                {% if carruseles.get(bloque.id, [])|length > 1 %}
+
+                                <div class="carousel-indicators">
+
+                                    {% for imagen in carruseles.get(bloque.id, []) %}
+
+                                    <button
+                                        type="button"
+                                        data-bs-target="#carouselPost{{ bloque.id }}"
+                                        data-bs-slide-to="{{ loop.index0 }}"
+                                        class="{% if loop.first %}active{% endif %}"
+                                        aria-current="{% if loop.first %}true{% endif %}"
+                                        aria-label="Imagen {{ loop.index }}"
+                                    >
+                                    </button>
+
+                                    {% endfor %}
+
+                                </div>
+
+                                {% endif %}
+
+
+
+                                <!-- IMÁGENES -->
+
+                                <div class="carousel-inner">
+
+                                    {% for imagen in carruseles.get(bloque.id, []) %}
+
+                                    <div
+                                        class="carousel-item {% if loop.first %}active{% endif %}"
+                                    >
+
+                                        <img
+                                            src="{{ url_imagen(imagen.imagen) }}"
+                                            class="d-block w-100"
+                                            alt="Imagen {{ loop.index }} del carrusel"
+                                        >
+
+                                    </div>
+
+                                    {% endfor %}
+
+                                </div>
+
+
+
+                                <!-- FLECHAS -->
+
+                                {% if carruseles.get(bloque.id, [])|length > 1 %}
+
+                                <button
+                                    class="carousel-control-prev"
+                                    type="button"
+                                    data-bs-target="#carouselPost{{ bloque.id }}"
+                                    data-bs-slide="prev"
+                                >
+
+                                    <span
+                                        class="carousel-control-prev-icon"
+                                        aria-hidden="true"
+                                    >
+                                    </span>
+
+                                    <span class="visually-hidden">
+                                        Anterior
+                                    </span>
+
+                                </button>
+
+
+                                <button
+                                    class="carousel-control-next"
+                                    type="button"
+                                    data-bs-target="#carouselPost{{ bloque.id }}"
+                                    data-bs-slide="next"
+                                >
+
+                                    <span
+                                        class="carousel-control-next-icon"
+                                        aria-hidden="true"
+                                    >
+                                    </span>
+
+                                    <span class="visually-hidden">
+                                        Siguiente
+                                    </span>
+
+                                </button>
+
+                                {% endif %}
+
+
+                            </div>
+
+
+                        </div>
+
+                        {% endif %}
+
+
+                    {% endfor %}
+
 
                 </div>
 
@@ -221,6 +376,7 @@
                 ====================================== -->
 
                 <section class="post-comments">
+
 
                     <h3 class="post-comments-title">
 
@@ -233,10 +389,16 @@
                     </h3>
 
 
-                    <!-- Formulario visual -->
+
+                    <!-- FORMULARIO -->
+
                     <div class="post-panel post-comment-form">
 
-                        <form action="#" method="POST">
+                        <form
+                            action="#"
+                            method="POST"
+                        >
+
 
                             <label
                                 class="post-sr-only"
@@ -250,7 +412,7 @@
                                 id="comment"
                                 name="comment"
                                 rows="4"
-                                placeholder="¿Qué opinás sobre las mejoras de Ferrari?"
+                                placeholder="¿Qué opinás sobre esta publicación?"
                             ></textarea>
 
 
@@ -271,13 +433,15 @@
 
                             </div>
 
+
                         </form>
 
                     </div>
 
 
 
-                    <!-- Comentarios de ejemplo -->
+                    <!-- COMENTARIOS DE EJEMPLO -->
+
                     <div class="post-comment-list">
 
 
@@ -304,9 +468,9 @@
 
 
                                 <p>
-                                    Ojalá las mejoras funcionen. Ferrari necesita
-                                    encontrar más regularidad durante todo el fin
-                                    de semana.
+                                    Muy buena publicación.
+                                    Interesante información sobre
+                                    la Fórmula 1.
                                 </p>
 
 
@@ -352,8 +516,8 @@
 
 
                                 <p>
-                                    Va a ser interesante ver si pueden acercarse
-                                    todavía más a los equipos de adelante.
+                                    Va a ser interesante seguir las
+                                    próximas novedades.
                                 </p>
 
 
@@ -374,9 +538,12 @@
 
                         </div>
 
+
                     </div>
 
+
                 </section>
+
 
             </article>
 
@@ -389,24 +556,29 @@
             <aside class="post-sidebar">
 
 
-                <!-- Premium -->
+                <!-- PREMIUM -->
+
                 <div class="post-panel post-premium">
 
                     <span class="post-sidebar-label">
                         F1 SIN FILTRO PREMIUM
                     </span>
 
+
                     <h3>
                         Análisis exclusivos
                     </h3>
 
+
                     <p>
-                        Accedé a contenido especial, análisis de Grandes Premios
+                        Accedé a contenido especial,
+                        análisis de Grandes Premios
                         y estadísticas avanzadas.
                     </p>
 
+
                     <a
-                        href="{{ url_for('premium') }}"
+                        href="{{ url_for('main.premium') }}"
                         class="post-btn-primary post-btn-full"
                     >
                         VER PREMIUM
@@ -416,7 +588,8 @@
 
 
 
-                <!-- Más noticias -->
+                <!-- MÁS NOTICIAS -->
+
                 <div class="post-panel post-trending">
 
                     <h3>
@@ -432,15 +605,15 @@
 
                     <ul>
 
+
                         <li>
 
                             <span class="post-trend-category">
                                 MERCADO
                             </span>
 
-                            <a href="{{ url_for('post') }}">
-                                Los equipos comienzan a definir sus próximos
-                                movimientos.
+                            <a href="#">
+                                Próximamente más noticias.
                             </a>
 
                         </li>
@@ -452,9 +625,8 @@
                                 CARRERA
                             </span>
 
-                            <a href="{{ url_for('post') }}">
-                                La lucha por los primeros puestos continúa
-                                cada vez más ajustada.
+                            <a href="#">
+                                Próximamente más noticias.
                             </a>
 
                         </li>
@@ -463,15 +635,15 @@
                         <li>
 
                             <span class="post-trend-category">
-                                FERRARI
+                                F1
                             </span>
 
-                            <a href="{{ url_for('post') }}">
-                                El equipo italiano analiza los datos de su
-                                última carrera.
+                            <a href="#">
+                                Próximamente más noticias.
                             </a>
 
                         </li>
+
 
                     </ul>
 
@@ -479,10 +651,11 @@
 
 
 
-                <!-- Volver a noticias -->
+                <!-- VOLVER -->
+
                 <a
                     class="post-back-news"
-                    href="{{ url_for('noticias') }}"
+                    href="{{ url_for('main.noticias') }}"
                 >
 
                     <span class="material-symbols-outlined">
@@ -493,6 +666,7 @@
 
                 </a>
 
+
             </aside>
 
 
@@ -501,5 +675,6 @@
     </div>
 
 </div>
+
 
 {% include 'base/footer.html' %}

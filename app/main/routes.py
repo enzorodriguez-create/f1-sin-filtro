@@ -1,6 +1,8 @@
 import requests
 
+
 from flask import Blueprint, render_template
+from app.models import (Publicacion,  BloquePublicacion, ImagenCarrusel)
 
 
 bp = Blueprint(
@@ -12,8 +14,35 @@ bp = Blueprint(
 @bp.route("/")
 def inicio():
 
+    # Obtengo las últimas 4
+    # publicaciones publicadas
+    publicaciones = Publicacion.query.filter_by(
+        estado="publicada"
+    ).order_by(
+        Publicacion.id.desc()
+    ).limit(4).all()
+
+
+    # La publicación más nueva
+    # va a ser la noticia principal
+    publicacion_principal = None
+
+
+    # Las siguientes van abajo
+    publicaciones_secundarias = []
+
+
+    if publicaciones:
+
+        publicacion_principal = publicaciones[0]
+
+        publicaciones_secundarias = publicaciones[1:4]
+
+
     return render_template(
-        "index.html"
+        "index.html",
+        publicacion_principal=publicacion_principal,
+        publicaciones_secundarias=publicaciones_secundarias
     )
 
 
@@ -25,11 +54,55 @@ def noticias():
     )
 
 
-@bp.route("/post")
-def post():
+@bp.route(
+    "/post/<int:id_publicacion>"
+)
+def post(id_publicacion):
+
+    # Obtengo la publicación
+    publicacion = Publicacion.query.filter_by(
+        id=id_publicacion,
+        estado="publicada"
+    ).first()
+
+
+    # Compruebo que exista
+    if not publicacion:
+
+        return "Publicación no encontrada."
+
+
+    # Obtengo todos los bloques
+    # respetando el orden en que
+    # fueron creados por el editor
+    bloques = BloquePublicacion.query.filter_by(
+        publicacion_id=publicacion.id
+    ).order_by(
+        BloquePublicacion.orden
+    ).all()
+
+
+    # Guardo las imágenes
+    # de cada carrusel
+    carruseles = {}
+
+
+    for bloque in bloques:
+
+        if bloque.tipo == "carrusel":
+
+            carruseles[bloque.id] = ImagenCarrusel.query.filter_by(
+                bloque_id=bloque.id
+            ).order_by(
+                ImagenCarrusel.orden
+            ).all()
+
 
     return render_template(
-        "post.html"
+        "post.html",
+        publicacion=publicacion,
+        bloques=bloques,
+        carruseles=carruseles
     )
 
 
