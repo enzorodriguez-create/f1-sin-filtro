@@ -620,9 +620,11 @@
 
 
                         <form
-                            class="profile-form"
-                            id="password-form"
-                        >
+    class="profile-form"
+    id="password-form"
+    method="POST"
+    action="{{ url_for('admin.admin_cambiar_password') }}"
+>
 
 
                             <div class="profile-field">
@@ -633,6 +635,7 @@
 
                                 <input
                                     id="current-password"
+                                    name="password_actual"
                                     type="password"
                                     placeholder="Ingresá tu contraseña actual"
                                     required
@@ -650,6 +653,7 @@
 
                                 <input
                                     id="new-password"
+                                    name="password_nueva"
                                     type="password"
                                     placeholder="Ingresá la nueva contraseña"
                                     required
@@ -667,6 +671,7 @@
 
                                 <input
                                     id="confirm-password"
+                                    name="password_confirmacion"
                                     type="password"
                                     placeholder="Repetí la nueva contraseña"
                                     required
@@ -785,78 +790,6 @@ document.addEventListener(
     "DOMContentLoaded",
     function () {
 
-
-        /*
-            El formulario de datos personales
-            ya no necesita JavaScript para guardar.
-
-            Ahora se envía directamente a Flask
-            mediante POST.
-        */
-
-
-        const passwordForm =
-            document.getElementById(
-                "password-form"
-            );
-
-
-
-        /* =========================
-           CAMBIAR CONTRASEÑA
-
-           POR AHORA SIGUE SIENDO
-           SOLAMENTE VISUAL
-        ========================== */
-
-        passwordForm.addEventListener(
-            "submit",
-            function (event) {
-
-
-                event.preventDefault();
-
-
-                const newPassword =
-                    document.getElementById(
-                        "new-password"
-                    ).value;
-
-
-                const confirmPassword =
-                    document.getElementById(
-                        "confirm-password"
-                    ).value;
-
-
-
-                if (
-                    newPassword !==
-                    confirmPassword
-                ) {
-
-
-                    alert(
-                        "Las contraseñas nuevas no coinciden."
-                    );
-
-
-                    return;
-
-
-                }
-
-
-                alert(
-                    "Por ahora el cambio de contraseña funciona solamente de forma visual."
-                );
-
-
-                passwordForm.reset();
-
-
-            }
-        );
 
 
     }
