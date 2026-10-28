@@ -210,30 +210,108 @@ def etiquetas_guardadas():
 
 def actualizar_perfil_usuario(usuario):
 
+    # =========================
+    # DATOS PERSONALES
+    # =========================
+
     usuario.nombre = request.form.get(
         "nombre",
         usuario.nombre
-    )
+    ).strip()
 
     usuario.apellido = request.form.get(
         "apellido",
         usuario.apellido
-    )
+    ).strip()
 
     usuario.usuario = request.form.get(
         "usuario",
         usuario.usuario
-    )
+    ).strip()
 
     usuario.email = request.form.get(
         "email",
         usuario.email
-    )
+    ).strip()
 
+
+    # =========================
+    # CAMBIO DE CONTRASEÑA
+    # =========================
+
+    if usuario.tipo_login == "normal":
+
+        password_actual = request.form.get(
+            "pass_actual",
+            ""
+        )
+
+        password_nueva = request.form.get(
+            "pass_nueva",
+            ""
+        )
+
+        password_confirmacion = request.form.get(
+            "pass_confirm",
+            ""
+        )
+
+
+        # Compruebo si quiso cambiar la contraseña
+        if (
+            password_actual
+            or password_nueva
+            or password_confirmacion
+        ):
+
+            # Compruebo la contraseña actual
+            if not usuario.verificar_password(
+                password_actual
+            ):
+
+                return (
+                    False,
+                    "La contraseña actual es incorrecta."
+                )
+
+
+            # Compruebo que haya una nueva contraseña
+            if not password_nueva:
+
+                return (
+                    False,
+                    "Tenés que ingresar una nueva contraseña."
+                )
+
+
+            # Compruebo que coincidan
+            if (
+                password_nueva
+                !=
+                password_confirmacion
+            ):
+
+                return (
+                    False,
+                    "Las contraseñas nuevas no coinciden."
+                )
+
+
+            # Guardo la nueva contraseña
+            usuario.guardar_password(
+                password_nueva
+            )
+
+
+    # =========================
+    # FOTO
+    # =========================
 
     foto = request.files.get(
         "foto"
     )
+
+    foto_anterior = None
 
 
     if foto and foto.filename:
@@ -242,7 +320,10 @@ def actualizar_perfil_usuario(usuario):
             foto.filename
         ):
 
-            return False, "La imagen debe ser JPG, JPEG, PNG, WEBP o GIF."
+            return (
+                False,
+                "La imagen debe ser JPG, JPEG, PNG, WEBP o GIF."
+            )
 
 
         foto_anterior = usuario.foto
@@ -254,17 +335,25 @@ def actualizar_perfil_usuario(usuario):
         )
 
 
-        db.session.commit()
+    # =========================
+    # GUARDO CAMBIOS
+    # =========================
 
+    db.session.commit()
+
+
+    # Si cambié la foto,
+    # elimino la anterior
+    if foto_anterior:
 
         borrar_imagen(
             foto_anterior
         )
 
-    else:
 
-        db.session.commit()
-
+    # =========================
+    # ACTUALIZO LA SESIÓN
+    # =========================
 
     session["usuario"] = {
         "id": usuario.id,
@@ -279,4 +368,7 @@ def actualizar_perfil_usuario(usuario):
     }
 
 
-    return True, "Perfil actualizado correctamente."
+    return (
+        True,
+        "Perfil actualizado correctamente."
+    )

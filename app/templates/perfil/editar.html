@@ -3,52 +3,31 @@
 <link
   rel="stylesheet"
   href="{{ url_for('static', filename='styles/perfil/perfil_editar.css') }}"
->
+/>
 
 <div class="editar-page">
-
   <div class="editar-container">
-
     <!-- ENCABEZADO -->
     <div class="editar-head">
-
       <div>
-        <span class="editar-label">
-          // MI PERFIL
-        </span>
+        <span class="editar-label"> // MI PERFIL </span>
 
         <h1>Editar Perfil</h1>
 
-        <p>
-          Actualizá tus datos personales y la configuración de tu cuenta.
-        </p>
+        <p>Actualizá tus datos personales y la configuración de tu cuenta.</p>
       </div>
 
-      <a
-      href="{{ url_for('perfil.perfil') }}"
-        class="editar-volver"
-      >
-        <span class="material-symbols-outlined">
-          arrow_back
-        </span>
+      <a href="{{ url_for('perfil.perfil') }}" class="editar-volver">
+        <span class="material-symbols-outlined"> arrow_back </span>
 
         VOLVER AL PERFIL
       </a>
-
     </div>
 
-
-    <form
-      class="editar-form"
-      method="POST"
-      enctype="multipart/form-data"
-    >
-
+    <form class="editar-form" method="POST" enctype="multipart/form-data">
       <!-- FOTO -->
       <section class="editar-card editar-foto">
-
         <div class="editar-avatar-wrap">
-
           {% if usuario and usuario.foto %}
 
           <img
@@ -56,7 +35,7 @@
             src="{{ url_imagen(usuario.foto) }}"
             alt="{{ usuario.nombre }}"
             id="preview-foto"
-          >
+          />
 
           {% else %}
 
@@ -65,38 +44,24 @@
             src="{{ url_for('static', filename='images/avatar-default.png') }}"
             alt="Foto de perfil"
             id="preview-foto"
-          >
+          />
 
           {% endif %}
 
-
           <div class="editar-avatar-overlay">
-
-            <span class="material-symbols-outlined">
-              photo_camera
-            </span>
-
+            <span class="material-symbols-outlined"> photo_camera </span>
           </div>
-
         </div>
 
-
         <div class="editar-foto-info">
+          <span class="editar-card-label"> IDENTIFICACIÓN VISUAL </span>
 
-          <span class="editar-card-label">
-            IDENTIFICACIÓN VISUAL
-          </span>
-
-          <h2>
-            Foto de Perfil
-          </h2>
+          <h2>Foto de Perfil</h2>
 
           <p>
-            Formatos soportados:
-            JPG, JPEG, PNG, WEBP y GIF.
-            Tamaño máximo: 5 MB.
+            Formatos soportados: JPG, JPEG, PNG, WEBP y GIF. Tamaño máximo: 5
+            MB.
           </p>
-
 
           <!-- INPUT REAL DE ARCHIVO -->
 
@@ -106,8 +71,7 @@
             type="file"
             accept=".jpg,.jpeg,.png,.webp,.gif"
             hidden
-          >
-
+          />
 
           <!-- BOTÓN VISUAL -->
 
@@ -118,46 +82,26 @@
           >
             CAMBIAR IMAGEN
           </button>
-
         </div>
-
       </section>
-
 
       <!-- DATOS PERSONALES -->
       <section class="editar-card">
-
         <div class="editar-card-head">
-
-          <span class="material-symbols-outlined">
-            person
-          </span>
+          <span class="material-symbols-outlined"> person </span>
 
           <div>
+            <span class="editar-card-label"> INFORMACIÓN PERSONAL </span>
 
-            <span class="editar-card-label">
-              INFORMACIÓN PERSONAL
-            </span>
-
-            <h2>
-              Datos Personales
-            </h2>
-
+            <h2>Datos Personales</h2>
           </div>
-
         </div>
 
-
         <div class="editar-grid">
-
-
           <!-- NOMBRE -->
 
           <div class="editar-field">
-
-            <label for="nombre">
-              NOMBRE
-            </label>
+            <label for="nombre"> NOMBRE </label>
 
             <input
               id="nombre"
@@ -165,18 +109,13 @@
               type="text"
               value="{{ usuario.nombre if usuario else '' }}"
               required
-            >
-
+            />
           </div>
-
 
           <!-- APELLIDO -->
 
           <div class="editar-field">
-
-            <label for="apellido">
-              APELLIDO
-            </label>
+            <label for="apellido"> APELLIDO </label>
 
             <input
               id="apellido"
@@ -184,24 +123,16 @@
               type="text"
               value="{{ usuario.apellido if usuario and usuario.apellido else '' }}"
               required
-            >
-
+            />
           </div>
-
 
           <!-- USUARIO -->
 
           <div class="editar-field">
-
-            <label for="usuario">
-              USUARIO
-            </label>
+            <label for="usuario"> USUARIO </label>
 
             <div class="editar-input-icon">
-
-              <span class="material-symbols-outlined">
-                alternate_email
-              </span>
+              <span class="material-symbols-outlined"> alternate_email </span>
 
               <input
                 id="usuario"
@@ -209,26 +140,17 @@
                 type="text"
                 value="{{ usuario.usuario if usuario else '' }}"
                 required
-              >
-
+              />
             </div>
-
           </div>
-
 
           <!-- EMAIL -->
 
           <div class="editar-field">
-
-            <label for="email">
-              EMAIL
-            </label>
+            <label for="email"> EMAIL </label>
 
             <div class="editar-input-icon">
-
-              <span class="material-symbols-outlined">
-                mail
-              </span>
+              <span class="material-symbols-outlined"> mail </span>
 
               <input
                 id="email"
@@ -236,231 +158,152 @@
                 type="email"
                 value="{{ usuario.email if usuario else '' }}"
                 required
-              >
-
+              />
             </div>
-
           </div>
-
-
         </div>
-
       </section>
 
+      <!-- =========================
+     SEGURIDAD
+========================= -->
 
-      <!-- SEGURIDAD -->
       <section class="editar-card">
-
         <div class="editar-card-head">
-
-          <span class="material-symbols-outlined">
-            lock
-          </span>
+          <span class="material-symbols-outlined"> lock </span>
 
           <div>
+            <span class="editar-card-label"> SEGURIDAD </span>
 
-            <span class="editar-card-label">
-              SEGURIDAD
-            </span>
-
-            <h2>
-              Cambiar Contraseña
-            </h2>
-
+            <h2>Cambiar Contraseña</h2>
           </div>
-
         </div>
 
+        {% if usuario.tipo_login == "normal" %}
+
+        <!-- =========================
+       USUARIO NORMAL
+  ========================== -->
 
         <div class="editar-security">
-
-
           <div class="editar-field">
-
-            <label for="pass-actual">
-              CONTRASEÑA ACTUAL
-            </label>
+            <label for="pass-actual"> CONTRASEÑA ACTUAL </label>
 
             <div class="editar-input-icon">
-
-              <span class="material-symbols-outlined">
-                lock
-              </span>
+              <span class="material-symbols-outlined"> lock </span>
 
               <input
                 id="pass-actual"
                 name="pass_actual"
                 type="password"
                 placeholder="••••••••"
-              >
-
+              />
             </div>
-
           </div>
 
-
           <div class="editar-grid">
-
-
             <div class="editar-field">
-
-              <label for="pass-nueva">
-                NUEVA CONTRASEÑA
-              </label>
+              <label for="pass-nueva"> NUEVA CONTRASEÑA </label>
 
               <div class="editar-input-icon">
-
-                <span class="material-symbols-outlined">
-                  password
-                </span>
+                <span class="material-symbols-outlined"> password </span>
 
                 <input
                   id="pass-nueva"
                   name="pass_nueva"
                   type="password"
                   placeholder="••••••••"
-                >
-
+                />
               </div>
-
             </div>
 
-
             <div class="editar-field">
-
-              <label for="pass-confirm">
-                CONFIRMAR CONTRASEÑA
-              </label>
+              <label for="pass-confirm"> CONFIRMAR CONTRASEÑA </label>
 
               <div class="editar-input-icon">
-
-                <span class="material-symbols-outlined">
-                  verified_user
-                </span>
+                <span class="material-symbols-outlined"> verified_user </span>
 
                 <input
                   id="pass-confirm"
                   name="pass_confirm"
                   type="password"
                   placeholder="••••••••"
-                >
-
+                />
               </div>
-
             </div>
-
-
           </div>
-
         </div>
 
-      </section>
+        {% else %}
 
+        <!-- =========================
+       USUARIO GOOGLE
+  ========================== -->
+
+        <div class="editar-security">
+          <div class="editar-field">
+            <p>
+              Iniciaste sesión con Google. La contraseña de esta cuenta se
+              administra desde Google.
+            </p>
+          </div>
+        </div>
+
+        {% endif %}
+      </section>
 
       <!-- BOTONES -->
       <div class="editar-actions">
-
-        <a
-        href="{{ url_for('perfil.perfil') }}"
-          class="editar-btn-cancelar"
-        >
+        <a href="{{ url_for('perfil.perfil') }}" class="editar-btn-cancelar">
           CANCELAR
         </a>
 
-
-        <button
-          type="submit"
-          class="editar-btn-guardar"
-        >
-
-          <span class="material-symbols-outlined">
-            save
-          </span>
+        <button type="submit" class="editar-btn-guardar">
+          <span class="material-symbols-outlined"> save </span>
 
           GUARDAR CAMBIOS
-
         </button>
-
       </div>
-
     </form>
-
   </div>
-
 </div>
 
-
 {% include 'base/footer.html' %}
-
-
 
 <!-- =========================
      JAVASCRIPT FOTO
 ========================= -->
 
 <script>
+  const botonCambiarImagen = document.getElementById("btn-cambiar-imagen");
 
-  const botonCambiarImagen =
-    document.getElementById(
-      "btn-cambiar-imagen"
-    );
+  const inputFoto = document.getElementById("foto");
 
-
-  const inputFoto =
-    document.getElementById(
-      "foto"
-    );
-
-
-  const previewFoto =
-    document.getElementById(
-      "preview-foto"
-    );
-
+  const previewFoto = document.getElementById("preview-foto");
 
   /*
       Cuando toco CAMBIAR IMAGEN,
       abro el selector de archivos.
   */
 
-  botonCambiarImagen.addEventListener(
-    "click",
-    function () {
-
-      inputFoto.click();
-
-    }
-  );
-
+  botonCambiarImagen.addEventListener("click", function () {
+    inputFoto.click();
+  });
 
   /*
       Muestro una vista previa
       de la imagen seleccionada.
   */
 
-  inputFoto.addEventListener(
-    "change",
-    function () {
+  inputFoto.addEventListener("change", function () {
+    const archivo = inputFoto.files[0];
 
-      const archivo =
-        inputFoto.files[0];
-
-
-      if (!archivo) {
-        return;
-      }
-
-
-      const urlTemporal =
-        URL.createObjectURL(
-          archivo
-        );
-
-
-      previewFoto.src =
-        urlTemporal;
-
+    if (!archivo) {
+      return;
     }
-  );
 
+    const urlTemporal = URL.createObjectURL(archivo);
+
+    previewFoto.src = urlTemporal;
+  });
 </script>
