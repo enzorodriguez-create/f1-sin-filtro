@@ -77,6 +77,15 @@
 
           <span> Solicitudes de Editor </span>
         </div>
+
+        {% if solicitudes_pendientes > 0 %}
+
+        <span
+          class="admin-notification-dot"
+          title="Hay solicitudes de editor pendientes"
+        ></span>
+
+        {% endif %}
       </a>
 
       <!-- SEPARADOR -->

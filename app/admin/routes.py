@@ -98,6 +98,18 @@ def admin_usuarios():
         seccion_activa="usuarios"
     )
 
+@bp.context_processor
+def notificaciones_admin():
+
+    solicitudes_pendientes = SolicitudEditor.query.filter_by(
+        estado="pendiente"
+    ).count()
+
+
+    return {
+        "solicitudes_pendientes": solicitudes_pendientes
+    }
+
 @bp.route("/admin/solicitudes")
 def admin_solicitudes():
 
