@@ -48,7 +48,7 @@
 
       <a
         class="admin-sidebar-link {% if seccion_activa == 'dashboard' %}active{% endif %}"
-        href="{{ url_for('admin') }}"
+        href="{{ url_for('admin.admin_dashboard') }}"
       >
         <span class="material-symbols-outlined"> dashboard </span>
 
@@ -59,7 +59,7 @@
 
       <a
         class="admin-sidebar-link {% if seccion_activa == 'usuarios' %}active{% endif %}"
-        href="{{ url_for('admin_usuarios') }}"
+        href="{{ url_for('admin.admin_usuarios')}}"
       >
         <span class="material-symbols-outlined"> group </span>
 
@@ -70,7 +70,7 @@
 
       <a
         class="admin-sidebar-link admin-sidebar-between {% if seccion_activa == 'solicitudes' %}active{% endif %}"
-        href="{{ url_for('admin_solicitudes') }}"
+        href="{{ url_for('admin.admin_solicitudes') }}"
       >
         <div>
           <span class="material-symbols-outlined"> assignment_ind </span>
@@ -89,7 +89,7 @@
 
       <a
         class="admin-sidebar-link {% if seccion_activa == 'publicaciones' %}active{% endif %}"
-        href="{{ url_for('admin_publicaciones') }}"
+        href="{{ url_for('admin.admin_publicaciones') }}"
       >
         <span class="material-symbols-outlined"> article </span>
 
@@ -100,7 +100,7 @@
 
       <a
         class="admin-sidebar-link {% if seccion_activa == 'categorias' %}active{% endif %}"
-        href="{{ url_for('admin_categorias') }}"
+        href="{{ url_for('admin.admin_categorias') }}"
       >
         <span class="material-symbols-outlined"> category </span>
 
@@ -111,7 +111,7 @@
 
       <a
         class="admin-sidebar-link {% if seccion_activa == 'etiquetas' %}active{% endif %}"
-        href="{{ url_for('admin_etiquetas') }}"
+        href="{{ url_for('admin.admin_etiquetas') }}"
       >
         <span class="material-symbols-outlined"> label </span>
 
@@ -122,7 +122,7 @@
 
       <a
         class="admin-sidebar-link {% if seccion_activa == 'comentarios' %}active{% endif %}"
-        href="{{ url_for('admin_comentarios') }}"
+        href="{{ url_for('admin.admin_comentarios') }}"
       >
         <span class="material-symbols-outlined"> forum </span>
 
@@ -131,7 +131,7 @@
 
       <a
         class="admin-sidebar-link {% if seccion_activa == 'analiticas' %}active{% endif %}"
-        href="{{ url_for('admin_analiticas') }}"
+        href="{{ url_for('admin.admin_analiticas') }}"
       >
         <span class="material-symbols-outlined"> monitoring </span>
 
@@ -148,19 +148,11 @@
 
       <a
         class="admin-sidebar-link {% if seccion_activa == 'perfil' %}active{% endif %}"
-        href="{{ url_for('admin_perfil') }}"
+        href="{{ url_for('admin.admin_perfil') }}"
       >
         <span class="material-symbols-outlined"> account_circle </span>
 
         <span> Mi Perfil </span>
-      </a>
-
-      <!-- PORTAL -->
-
-      <a class="admin-sidebar-link" href="{{ url_for('inicio') }}">
-        <span class="material-symbols-outlined"> home </span>
-
-        <span> Volver al Portal </span>
       </a>
     </nav>
   </div>
@@ -180,7 +172,7 @@
       </div>
     </div>
 
-    <a class="admin-logout" href="{{ url_for('logout') }}">
+    <a class="admin-logout" href="{{ url_for('auth.logout') }}">
       <span class="material-symbols-outlined"> logout </span>
 
       <span> Cerrar Sesión </span>
