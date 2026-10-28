@@ -8,7 +8,7 @@ from flask import (
 )
 
 from app.extensions import db
-from app.models import Usuario
+from app.models import Usuario, SolicitudEditor
 from almacenamiento import (
     extension_valida,
     subir_imagen
@@ -101,10 +101,10 @@ def admin_usuarios():
 @bp.route("/admin/solicitudes")
 def admin_solicitudes():
 
-    usuario = obtener_usuario_actual()
+    admin = obtener_usuario_actual()
 
 
-    if not usuario:
+    if not admin:
 
         return redirect(
             url_for(
@@ -113,7 +113,7 @@ def admin_solicitudes():
         )
 
 
-    if usuario.rol != "admin":
+    if admin.rol != "admin":
 
         return redirect(
             url_for(
@@ -122,11 +122,128 @@ def admin_solicitudes():
         )
 
 
+    solicitudes = (
+        db.session.query(
+            SolicitudEditor,
+            Usuario
+        )
+        .join(
+            Usuario,
+            SolicitudEditor.usuario_id
+            ==
+            Usuario.id
+        )
+        .all()
+    )
+
+
     return render_template(
         "admin/solicitudes.html",
-        usuario=usuario,
+        usuario=admin,
+        solicitudes=solicitudes,
         seccion_activa="solicitudes"
     )
+
+@bp.route(
+    "/admin/solicitudes/<int:id_solicitud>/aprobar",
+    methods=["POST"]
+)
+def aprobar_solicitud_editor(
+    id_solicitud
+):
+
+    admin = obtener_usuario_actual()
+
+
+    if not admin or admin.rol != "admin":
+
+        return redirect(
+            url_for(
+                "main.inicio"
+            )
+        )
+
+
+    solicitud = db.session.get(
+        SolicitudEditor,
+        id_solicitud
+    )
+
+
+    if not solicitud:
+
+        return redirect(
+            url_for(
+                "admin.admin_solicitudes"
+            )
+        )
+
+
+    usuario = db.session.get(
+        Usuario,
+        solicitud.usuario_id
+    )
+
+
+    if usuario:
+
+        # Cambio el rol del usuario a editor
+        usuario.rol = "editor"
+
+
+        # Marco la solicitud como aprobada
+        solicitud.estado = "aprobada"
+
+
+        db.session.commit()
+
+
+    return redirect(
+        url_for(
+            "admin.admin_solicitudes"
+        )
+    )
+
+@bp.route(
+    "/admin/solicitudes/<int:id_solicitud>/rechazar",
+    methods=["POST"]
+)
+def rechazar_solicitud_editor(
+    id_solicitud
+):
+
+    admin = obtener_usuario_actual()
+
+
+    if not admin or admin.rol != "admin":
+
+        return redirect(
+            url_for(
+                "main.inicio"
+            )
+        )
+
+
+    solicitud = db.session.get(
+        SolicitudEditor,
+        id_solicitud
+    )
+
+
+    if solicitud:
+
+        solicitud.estado = "rechazada"
+
+
+        db.session.commit()
+
+
+    return redirect(
+        url_for(
+            "admin.admin_solicitudes"
+        )
+    )
+
 
 @bp.route("/admin/publicaciones")
 def admin_publicaciones():
