@@ -48,7 +48,10 @@
 
     <link
         rel="stylesheet"
-        href="{{ url_for('static', filename='styles/editor/vista_previa_publicacion.css') }}"
+        href="{{ url_for(
+            'static',
+            filename='styles/editor/vista_previa_publicacion.css'
+        ) }}"
     >
 
 </head>
@@ -57,20 +60,21 @@
 <body>
 
 
+    <!-- VISTA PREVIA -->
+
     <div class="preview-page">
 
 
         <div class="preview-container">
 
 
-            <!-- =========================
-                 BARRA SUPERIOR
-            ========================== -->
+            <!-- BARRA SUPERIOR -->
 
             <div class="preview-editor-bar">
 
 
                 <div class="preview-editor-info">
+
 
                     <span class="material-symbols-outlined">
                         visibility
@@ -84,7 +88,7 @@
                         </strong>
 
                         <span>
-                            Así se verá aproximadamente la publicación.
+                            Así se verá la publicación.
                         </span>
 
                     </div>
@@ -98,12 +102,15 @@
 
 
                     <span
-                        class="preview-state
-                        {% if publicacion.estado == 'publicada' %}
-                            published
-                        {% else %}
-                            draft
-                        {% endif %}"
+                        class="
+                            preview-state
+
+                            {% if publicacion.estado == 'publicada' %}
+                                published
+                            {% else %}
+                                draft
+                            {% endif %}
+                        "
                     >
 
                         {{ publicacion.estado.upper() }}
@@ -113,7 +120,9 @@
 
                     <a
                         class="preview-editor-btn"
-                        href="{{ url_for('editor.editor_publicaciones') }}"
+                        href="{{ url_for(
+                            'editor.editor_publicaciones'
+                        ) }}"
                     >
 
                         <span class="material-symbols-outlined">
@@ -149,64 +158,22 @@
 
 
 
-            <!-- =========================
-                 LAYOUT
-            ========================== -->
+            <!-- LAYOUT -->
 
             <div class="preview-layout">
 
 
-
-                <!-- =========================
-                     ARTÍCULO
-                ========================== -->
+                <!-- PUBLICACIÓN -->
 
                 <article class="preview-article">
 
 
+                    <!-- CABECERA -->
 
-                    <!-- =========================
-                         CABECERA
-                    ========================== -->
-
-                    <section class="preview-card preview-head">
+                    <header class="preview-head">
 
 
-                        <div class="preview-category">
-
-                            <span class="material-symbols-outlined">
-                                news
-                            </span>
-
-                            <span>
-                                NOTICIAS
-                            </span>
-
-                        </div>
-
-
-
-                        <h1>
-                            {{ publicacion.titulo }}
-                        </h1>
-
-
-
-                        {% if publicacion.resumen %}
-
-                            <p class="preview-subtitle">
-                                {{ publicacion.resumen or "Sin resumen." }}
-                            </p>
-
-                        {% else %}
-
-                            <p class="preview-subtitle preview-empty">
-                                Subtítulo / resumen de la publicación.
-                            </p>
-
-                        {% endif %}
-
-
+                        <!-- AUTOR -->
 
                         <div class="preview-meta">
 
@@ -216,34 +183,33 @@
 
                                 {% if usuario and usuario.foto %}
 
-                                    <img
-                                        class="preview-author-avatar preview-author-image"
-                                        src="{{ url_imagen(usuario.foto) }}"
-                                        alt="{{ usuario.nombre }}"
-                                    >
+                                <img
+                                    class="preview-author-avatar preview-author-image"
+                                    src="{{ url_imagen(usuario.foto) }}"
+                                    alt="{{ usuario.nombre }}"
+                                >
 
                                 {% else %}
 
-                                    <div class="preview-author-avatar">
+                                <div class="preview-author-avatar">
 
-                                        {% if usuario %}
+                                    {% if usuario %}
 
-                                            {{ usuario.nombre[0] }}
+                                        {{ usuario.nombre[0] }}
 
-                                            {% if usuario.apellido %}
-                                                {{ usuario.apellido[0] }}
-                                            {% endif %}
-
-                                        {% else %}
-
-                                            ED
-
+                                        {% if usuario.apellido %}
+                                            {{ usuario.apellido[0] }}
                                         {% endif %}
 
-                                    </div>
+                                    {% else %}
+
+                                        FSF
+
+                                    {% endif %}
+
+                                </div>
 
                                 {% endif %}
-
 
 
                                 <div>
@@ -261,7 +227,7 @@
 
                                         {% else %}
 
-                                            Editor
+                                            F1 Sin Filtro
 
                                         {% endif %}
 
@@ -269,7 +235,7 @@
 
 
                                     <p class="preview-author-date">
-                                        VISTA PREVIA • PUBLICACIÓN #{{ publicacion.id }}
+                                        PUBLICACIÓN #{{ publicacion.id }}
                                     </p>
 
 
@@ -279,14 +245,34 @@
                             </div>
 
 
+                            <div class="preview-post-actions">
 
-                            <div class="preview-mode">
 
-                                <span class="material-symbols-outlined">
-                                    edit_note
-                                </span>
+                                <button
+                                    type="button"
+                                    class="preview-icon-btn"
+                                    title="Guardar publicación"
+                                >
 
-                                MODO EDITOR
+                                    <span class="material-symbols-outlined">
+                                        bookmark
+                                    </span>
+
+                                </button>
+
+
+                                <button
+                                    type="button"
+                                    class="preview-icon-btn"
+                                    title="Compartir"
+                                >
+
+                                    <span class="material-symbols-outlined">
+                                        share
+                                    </span>
+
+                                </button>
+
 
                             </div>
 
@@ -294,38 +280,90 @@
                         </div>
 
 
-                    </section>
+
+                        <!-- CATEGORÍA -->
+
+                        <div class="preview-category">
+
+                            <span class="material-symbols-outlined">
+                                news
+                            </span>
+
+                            <span>
+                                NOTICIAS
+                            </span>
+
+                        </div>
 
 
 
-                    <!-- =========================
-                         PORTADA
-                    ========================== -->
+                        <!-- TÍTULO -->
+
+                        <h1>
+                            {{ publicacion.titulo }}
+                        </h1>
+
+
+
+                        <!-- RESUMEN -->
+
+                        {% if publicacion.resumen %}
+
+                        <p class="preview-subtitle">
+                            {{ publicacion.resumen }}
+                        </p>
+
+                        {% endif %}
+
+
+
+                        <!-- ETIQUETAS -->
+
+                        <div class="preview-tags">
+
+
+                            <span class="preview-tags-label">
+                                ETIQUETAS:
+                            </span>
+
+
+                            <span class="preview-tag">
+                                #Formula1
+                            </span>
+
+
+                            <span class="preview-tag">
+                                #Noticias
+                            </span>
+
+
+                        </div>
+
+
+                    </header>
+
+
+
+                    <!-- PORTADA -->
 
                     {% if publicacion.imagen_portada %}
 
-                        <section class="preview-card preview-cover-card">
+                    <div class="preview-cover-card">
 
+                        <img
+                            src="{{ url_imagen(
+                                publicacion.imagen_portada
+                            ) }}"
+                            alt="{{ publicacion.titulo }}"
+                        >
 
-                            <figure class="preview-hero">
-
-                                <img
-                                    src="{{ url_imagen(publicacion.imagen_portada) }}"
-                                    alt="{{ publicacion.titulo }}"
-                                >
-
-                            </figure>
-
-
-                        </section>
+                    </div>
 
                     {% endif %}
 
 
 
-                    <!-- =========================
-                         BLOQUES
-                    ========================== -->
+                    <!-- BLOQUES -->
 
                     <div class="preview-body">
 
@@ -338,26 +376,18 @@
 
                             {% if bloque.tipo == "texto" %}
 
-                                <section class="preview-card preview-text-block">
+                            <div
+                                class="
+                                    preview-content-card
+                                    preview-text-block
+                                "
+                            >
 
+                                <p>
+                                    {{ bloque.contenido }}
+                                </p>
 
-                                    <div class="preview-block-label">
-
-                                        <span class="material-symbols-outlined">
-                                            notes
-                                        </span>
-
-                                        TEXTO
-
-                                    </div>
-
-
-                                    <p>
-                                        {{ bloque.contenido }}
-                                    </p>
-
-
-                                </section>
+                            </div>
 
 
 
@@ -365,31 +395,21 @@
 
                             {% elif bloque.tipo == "imagen" %}
 
-                                <section class="preview-card preview-media-card">
+                            <div
+                                class="
+                                    preview-content-card
+                                    preview-image-block
+                                "
+                            >
 
+                                <img
+                                    src="{{ url_imagen(
+                                        bloque.contenido
+                                    ) }}"
+                                    alt="Imagen de {{ publicacion.titulo }}"
+                                >
 
-                                    <div class="preview-block-label">
-
-                                        <span class="material-symbols-outlined">
-                                            image
-                                        </span>
-
-                                        IMAGEN
-
-                                    </div>
-
-
-                                    <figure class="preview-content-image">
-
-                                        <img
-                                            src="{{ url_imagen(bloque.contenido) }}"
-                                            alt="Imagen de la publicación"
-                                        >
-
-                                    </figure>
-
-
-                                </section>
+                            </div>
 
 
 
@@ -397,91 +417,55 @@
 
                             {% elif bloque.tipo == "carrusel" %}
 
-                                {% set imagenes = carruseles.get(bloque.id, []) %}
+
+                                {% set imagenes =
+                                    carruseles.get(
+                                        bloque.id,
+                                        []
+                                    )
+                                %}
 
 
                                 {% if imagenes %}
 
-                                    <section class="preview-card preview-media-card">
+
+                                <div
+                                    class="
+                                        preview-content-card
+                                        preview-carousel-block
+                                    "
+                                >
 
 
-                                        <div class="preview-block-label">
-
-                                            <span class="material-symbols-outlined">
-                                                collections
-                                            </span>
-
-                                            CARRUSEL
-
-                                        </div>
+                                    <div
+                                        class="preview-carousel"
+                                        data-carousel="{{ bloque.id }}"
+                                    >
 
 
-                                        <div
-                                            class="preview-carousel"
-                                            data-carousel="{{ bloque.id }}"
-                                        >
+                                        <div class="preview-carousel-window">
 
 
-                                            <div class="preview-carousel-window">
+                                            <div
+                                                class="preview-carousel-track"
+                                                id="carousel-track-{{ bloque.id }}"
+                                            >
 
 
-                                                <div
-                                                    class="preview-carousel-track"
-                                                    id="carousel-track-{{ bloque.id }}"
-                                                >
+                                                {% for imagen in imagenes %}
 
+                                                <div class="preview-carousel-slide">
 
-                                                    {% for imagen in imagenes %}
-
-                                                        <div class="preview-carousel-slide">
-
-                                                            <img
-                                                                src="{{ url_imagen(imagen.imagen) }}"
-                                                                alt="Imagen {{ loop.index }} del carrusel"
-                                                            >
-
-                                                        </div>
-
-                                                    {% endfor %}
-
+                                                    <img
+                                                        src="{{ url_imagen(
+                                                            imagen.imagen
+                                                        ) }}"
+                                                        alt="Imagen {{ loop.index }} del carrusel"
+                                                    >
 
                                                 </div>
 
-
-
-                                                {% if imagenes|length > 1 %}
-
-
-                                                    <button
-                                                        class="preview-carousel-arrow previous"
-                                                        type="button"
-                                                        data-action="previous"
-                                                        data-carousel="{{ bloque.id }}"
-                                                    >
-
-                                                        <span class="material-symbols-outlined">
-                                                            chevron_left
-                                                        </span>
-
-                                                    </button>
-
-
-
-                                                    <button
-                                                        class="preview-carousel-arrow next"
-                                                        type="button"
-                                                        data-action="next"
-                                                        data-carousel="{{ bloque.id }}"
-                                                    >
-
-                                                        <span class="material-symbols-outlined">
-                                                            chevron_right
-                                                        </span>
-
-                                                    </button>
-
-
-                                                {% endif %}
+                                                {% endfor %}
 
 
                                             </div>
@@ -491,48 +475,32 @@
                                             {% if imagenes|length > 1 %}
 
 
-                                                <div class="preview-carousel-bottom">
+                                            <button
+                                                class="preview-carousel-arrow previous"
+                                                type="button"
+                                                data-action="previous"
+                                                data-carousel="{{ bloque.id }}"
+                                            >
+
+                                                <span class="material-symbols-outlined">
+                                                    chevron_left
+                                                </span>
+
+                                            </button>
 
 
-                                                    <div
-                                                        class="preview-carousel-dots"
-                                                        id="carousel-dots-{{ bloque.id }}"
-                                                    >
+                                            <button
+                                                class="preview-carousel-arrow next"
+                                                type="button"
+                                                data-action="next"
+                                                data-carousel="{{ bloque.id }}"
+                                            >
 
+                                                <span class="material-symbols-outlined">
+                                                    chevron_right
+                                                </span>
 
-                                                        {% for imagen in imagenes %}
-
-                                                            <button
-                                                                class="
-                                                                    preview-carousel-dot
-
-                                                                    {% if loop.first %}
-                                                                        active
-                                                                    {% endif %}
-                                                                "
-                                                                type="button"
-                                                                data-index="{{ loop.index0 }}"
-                                                                data-carousel="{{ bloque.id }}"
-                                                            ></button>
-
-                                                        {% endfor %}
-
-
-                                                    </div>
-
-
-
-                                                    <span
-                                                        class="preview-carousel-counter"
-                                                        id="carousel-counter-{{ bloque.id }}"
-                                                    >
-
-                                                        1 / {{ imagenes|length }}
-
-                                                    </span>
-
-
-                                                </div>
+                                            </button>
 
 
                                             {% endif %}
@@ -541,7 +509,61 @@
                                         </div>
 
 
-                                    </section>
+
+                                        {% if imagenes|length > 1 %}
+
+
+                                        <div class="preview-carousel-bottom">
+
+
+                                            <div
+                                                class="preview-carousel-dots"
+                                                id="carousel-dots-{{ bloque.id }}"
+                                            >
+
+
+                                                {% for imagen in imagenes %}
+
+                                                <button
+                                                    class="
+                                                        preview-carousel-dot
+
+                                                        {% if loop.first %}
+                                                            active
+                                                        {% endif %}
+                                                    "
+                                                    type="button"
+                                                    data-index="{{ loop.index0 }}"
+                                                    data-carousel="{{ bloque.id }}"
+                                                >
+                                                </button>
+
+                                                {% endfor %}
+
+
+                                            </div>
+
+
+                                            <span
+                                                class="preview-carousel-counter"
+                                                id="carousel-counter-{{ bloque.id }}"
+                                            >
+
+                                                1 / {{ imagenes|length }}
+
+                                            </span>
+
+
+                                        </div>
+
+
+                                        {% endif %}
+
+
+                                    </div>
+
+
+                                </div>
 
 
                                 {% endif %}
@@ -557,31 +579,13 @@
 
 
 
-                    <!-- =========================
-                         FIN
-                    ========================== -->
-
-                    <div class="preview-end">
-
-                        <span class="material-symbols-outlined">
-                            flag
-                        </span>
-
-                        FIN DE LA VISTA PREVIA
-
-                    </div>
-
-
                 </article>
 
 
 
-                <!-- =========================
-                     SIDEBAR
-                ========================== -->
+                <!-- SIDEBAR DEL EDITOR -->
 
                 <aside class="preview-sidebar">
-
 
 
                     <!-- ESTADO -->
@@ -599,7 +603,6 @@
                         </h3>
 
 
-
                         <div class="preview-info-row">
 
                             <span>
@@ -613,7 +616,6 @@
                         </div>
 
 
-
                         <div class="preview-info-row">
 
                             <span>
@@ -625,7 +627,6 @@
                             </strong>
 
                         </div>
-
 
 
                         <div class="preview-info-row">
@@ -666,12 +667,12 @@
                         </h3>
 
 
-
                         <div class="preview-block-count">
 
                             <span class="material-symbols-outlined">
                                 dashboard
                             </span>
+
 
                             <div>
 
@@ -685,8 +686,8 @@
 
                             </div>
 
-                        </div>
 
+                        </div>
 
 
                         <div class="preview-block-list">
@@ -695,46 +696,46 @@
                             {% for bloque in bloques %}
 
 
-                                <div class="preview-block-item">
+                            <div class="preview-block-item">
 
 
-                                    {% if bloque.tipo == "texto" %}
+                                {% if bloque.tipo == "texto" %}
 
-                                        <span class="material-symbols-outlined">
-                                            notes
-                                        </span>
+                                <span class="material-symbols-outlined">
+                                    notes
+                                </span>
 
-                                        <span>
-                                            Texto
-                                        </span>
-
-
-                                    {% elif bloque.tipo == "imagen" %}
-
-                                        <span class="material-symbols-outlined">
-                                            image
-                                        </span>
-
-                                        <span>
-                                            Imagen
-                                        </span>
+                                <span>
+                                    Texto
+                                </span>
 
 
-                                    {% elif bloque.tipo == "carrusel" %}
+                                {% elif bloque.tipo == "imagen" %}
 
-                                        <span class="material-symbols-outlined">
-                                            collections
-                                        </span>
+                                <span class="material-symbols-outlined">
+                                    image
+                                </span>
 
-                                        <span>
-                                            Carrusel
-                                        </span>
-
-
-                                    {% endif %}
+                                <span>
+                                    Imagen
+                                </span>
 
 
-                                </div>
+                                {% elif bloque.tipo == "carrusel" %}
+
+                                <span class="material-symbols-outlined">
+                                    collections
+                                </span>
+
+                                <span>
+                                    Carrusel
+                                </span>
+
+
+                                {% endif %}
+
+
+                            </div>
 
 
                             {% endfor %}
@@ -762,7 +763,6 @@
                         </h3>
 
 
-
                         <a
                             class="preview-side-button primary"
                             href="{{ url_for(
@@ -780,10 +780,11 @@
                         </a>
 
 
-
                         <a
                             class="preview-side-button"
-                            href="{{ url_for('editor.editor_publicaciones') }}"
+                            href="{{ url_for(
+                                'editor.editor_publicaciones'
+                            ) }}"
                         >
 
                             <span class="material-symbols-outlined">
@@ -811,9 +812,7 @@
 
 
 
-    <!-- =========================
-         JAVASCRIPT CARRUSEL
-    ========================== -->
+    <!-- CARRUSEL -->
 
     <script>
 
@@ -858,7 +857,6 @@
                         0;
 
 
-
                     function mostrarSlide() {
 
 
@@ -892,9 +890,7 @@
                             }
                         );
 
-
                     }
-
 
 
                     carousel
@@ -920,6 +916,7 @@
 
                                             actual++;
 
+
                                             if (
                                                 actual >= slides.length
                                             ) {
@@ -938,6 +935,7 @@
 
                                             actual--;
 
+
                                             if (
                                                 actual < 0
                                             ) {
@@ -952,14 +950,12 @@
 
                                         mostrarSlide();
 
-
                                     }
                                 );
 
 
                             }
                         );
-
 
 
                     dots.forEach(
@@ -978,7 +974,6 @@
 
 
                                     mostrarSlide();
-
 
                                 }
                             );
