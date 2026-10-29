@@ -67,9 +67,7 @@
 <body>
 
 
-    <!-- =========================
-         LAYOUT EDITOR
-    ========================== -->
+    <!-- LAYOUT EDITOR -->
 
     <div class="editor-page">
 
@@ -80,9 +78,7 @@
         <div class="editor-content">
 
 
-            <!-- =========================
-                 TOPBAR
-            ========================== -->
+            <!-- TOPBAR -->
 
             <header class="editor-topbar">
 
@@ -169,10 +165,7 @@
             </header>
 
 
-
-            <!-- =========================
-                 MAIN
-            ========================== -->
+            <!-- MAIN -->
 
             <main class="editor-main">
 
@@ -187,8 +180,6 @@
                     >
 
 
-                        <!-- GUARDO EL ORDEN DE LOS BLOQUES NUEVOS -->
-
                         <input
                             type="hidden"
                             name="bloques_nuevos_orden"
@@ -196,10 +187,7 @@
                         >
 
 
-
-                        <!-- =========================
-                             ENCABEZADO
-                        ========================== -->
+                        <!-- ENCABEZADO -->
 
                         <header class="action-bar">
 
@@ -237,26 +225,17 @@
                         </header>
 
 
-
-                        <!-- =========================
-                             GRID
-                        ========================== -->
+                        <!-- GRID -->
 
                         <div class="grid">
 
 
-
-                            <!-- =========================
-                                 COLUMNA IZQUIERDA
-                            ========================== -->
+                            <!-- COLUMNA IZQUIERDA -->
 
                             <div class="col-left">
 
 
-
-                                <!-- =========================
-                                     TÍTULO
-                                ========================== -->
+                                <!-- TÍTULO -->
 
                                 <div class="card gap8">
 
@@ -302,10 +281,7 @@
                                 </div>
 
 
-
-                                <!-- =========================
-                                     SUBTÍTULO / RESUMEN
-                                ========================== -->
+                                <!-- SUBTÍTULO -->
 
                                 <div class="card gap8">
 
@@ -330,10 +306,7 @@
                                 </div>
 
 
-
-                                <!-- =========================
-                                     IMAGEN DE PORTADA
-                                ========================== -->
+                                <!-- PORTADA -->
 
                                 <div class="card gap12">
 
@@ -428,16 +401,10 @@
                                 </div>
 
 
-
-                                <!-- =========================
-                                     CONTENIDO POR BLOQUES
-                                ========================== -->
+                                <!-- CONTENIDO -->
 
                                 <div class="editor-card">
 
-
-
-                                    <!-- BOTONES -->
 
                                     <div class="toolbar">
 
@@ -512,11 +479,6 @@
                                     </div>
 
 
-
-                                    <!-- =========================
-                                         BLOQUES
-                                    ========================== -->
-
                                     <div
                                         class="bloques-contenido"
                                         id="bloques-contenido"
@@ -525,10 +487,6 @@
 
                                         {% for bloque in bloques %}
 
-
-                                            <!-- =========================
-                                                 TEXTO EXISTENTE
-                                            ========================== -->
 
                                             {% if bloque.tipo == "texto" %}
 
@@ -556,11 +514,6 @@
 
                                                 </div>
 
-
-
-                                            <!-- =========================
-                                                 IMAGEN EXISTENTE
-                                            ========================== -->
 
                                             {% elif bloque.tipo == "imagen" %}
 
@@ -607,11 +560,6 @@
                                                 </div>
 
 
-
-                                            <!-- =========================
-                                                 CARRUSEL EXISTENTE
-                                            ========================== -->
-
                                             {% elif bloque.tipo == "carrusel" %}
 
                                                 <div
@@ -638,6 +586,7 @@
                                                         "
                                                     >
 
+
                                                         {% for imagen in carruseles.get(bloque.id, []) %}
 
                                                             <img
@@ -652,6 +601,7 @@
                                                             >
 
                                                         {% endfor %}
+
 
                                                     </div>
 
@@ -669,11 +619,7 @@
                                         {% endfor %}
 
 
-                                        <!-- LOS BLOQUES NUEVOS SE AGREGAN ACÁ -->
-
-
                                     </div>
-
 
 
                                     <div class="editor-foot">
@@ -691,18 +637,12 @@
                             </div>
 
 
-
-                            <!-- =========================
-                                 COLUMNA DERECHA
-                            ========================== -->
+                            <!-- COLUMNA DERECHA -->
 
                             <div class="col-right">
 
 
-
-                                <!-- =========================
-                                     ESTADO
-                                ========================== -->
+                                <!-- ESTADO -->
 
                                 <div class="card card-side gap16">
 
@@ -760,10 +700,92 @@
                                 </div>
 
 
+                                <!-- CATEGORÍA -->
 
-                                <!-- =========================
-                                     INFORMACIÓN
-                                ========================== -->
+                                <div class="card card-side gap12">
+
+
+                                    <div class="row-between">
+
+
+                                        <label
+                                            class="card-h2"
+                                            for="post-category"
+                                        >
+
+                                            <span class="material-symbols-outlined i20 c-primary">
+                                                category
+                                            </span>
+
+                                            <span>
+                                                Categoría
+                                            </span>
+
+                                        </label>
+
+
+                                    </div>
+
+
+                                    <p class="lbl fw600 c-variant">
+                                        Seleccioná la categoría correspondiente.
+                                    </p>
+
+
+                                    <div class="col gap8">
+
+
+                                        <select
+                                            class="select"
+                                            id="post-category"
+                                            name="categoria_id"
+                                            required
+                                        >
+
+
+                                            <option
+                                                value=""
+                                                disabled
+                                                {% if not publicacion.categoria_id %}selected{% endif %}
+                                            >
+                                                Seleccionar categoría
+                                            </option>
+
+
+                                            {% for categoria in categorias %}
+
+
+                                                {% if publicacion.categoria_id == categoria.id %}
+
+                                                    <option
+                                                        value="{{ categoria.id }}"
+                                                        selected
+                                                    >
+                                                        {{ categoria.nombre }}
+                                                    </option>
+
+                                                {% else %}
+
+                                                    <option value="{{ categoria.id }}">
+                                                        {{ categoria.nombre }}
+                                                    </option>
+
+                                                {% endif %}
+
+
+                                            {% endfor %}
+
+
+                                        </select>
+
+
+                                    </div>
+
+
+                                </div>
+
+
+                                <!-- INFORMACIÓN -->
 
                                 <div class="card card-side gap16">
 
@@ -781,6 +803,7 @@
 
                                     <div class="col gap8">
 
+
                                         <span class="lbl fw600 c-variant">
 
                                             ID:
@@ -796,16 +819,14 @@
 
                                         </span>
 
+
                                     </div>
 
 
                                 </div>
 
 
-
-                                <!-- =========================
-                                     ACCIONES
-                                ========================== -->
+                                <!-- ACCIONES -->
 
                                 <div class="card card-side gap12">
 
@@ -858,16 +879,12 @@
     </div>
 
 
-
     <!-- FOOTER -->
 
     {% include "base/footer.html" %}
 
 
-
-    <!-- =========================
-         JAVASCRIPT
-    ========================== -->
+    <!-- JAVASCRIPT -->
 
     <script>
 
@@ -875,9 +892,7 @@
         (function editarPublicacion() {
 
 
-            /* =========================
-               TÍTULO
-            ========================= */
+            /* TÍTULO */
 
             const titleInput =
                 document.getElementById(
@@ -911,10 +926,7 @@
             }
 
 
-
-            /* =========================
-               BLOQUES
-            ========================= */
+            /* BLOQUES */
 
             const bloquesContenido =
                 document.getElementById(
@@ -946,11 +958,6 @@
                 );
 
 
-
-            /* =========================
-               ACTUALIZO ORDEN
-            ========================= */
-
             function actualizarOrdenBloquesNuevos() {
 
 
@@ -979,11 +986,6 @@
 
             }
 
-
-
-            /* =========================
-               CREAR TEXTO
-            ========================= */
 
             function crearBloqueTexto() {
 
@@ -1044,11 +1046,6 @@
             }
 
 
-
-            /* =========================
-               CREAR IMAGEN
-            ========================= */
-
             function crearBloqueImagen() {
 
 
@@ -1107,11 +1104,6 @@
 
             }
 
-
-
-            /* =========================
-               CREAR CARRUSEL
-            ========================= */
 
             function crearBloqueCarrusel() {
 
@@ -1178,11 +1170,6 @@
             }
 
 
-
-            /* =========================
-               BOTONES
-            ========================= */
-
             if (btnAgregarTexto) {
 
                 btnAgregarTexto.addEventListener(
@@ -1212,11 +1199,6 @@
 
             }
 
-
-
-            /* =========================
-               ELIMINAR BLOQUE NUEVO
-            ========================= */
 
             if (bloquesContenido) {
 
@@ -1259,11 +1241,7 @@
             }
 
 
-
-            /* =========================
-               PREPARO BLOQUES NUEVOS
-               ANTES DE GUARDAR
-            ========================= */
+            /* FORMULARIO */
 
             const formulario =
                 document.getElementById(
@@ -1296,9 +1274,6 @@
                                     bloque.dataset.tipo;
 
 
-
-                                /* TEXTO */
-
                                 if (
                                     tipo === "texto"
                                 ) {
@@ -1319,9 +1294,6 @@
                                 }
 
 
-
-                                /* IMAGEN */
-
                                 if (
                                     tipo === "imagen"
                                 ) {
@@ -1341,9 +1313,6 @@
 
                                 }
 
-
-
-                                /* CARRUSEL */
 
                                 if (
                                     tipo === "carrusel"
@@ -1378,10 +1347,7 @@
             }
 
 
-
-            /* =========================
-               PREVIEW PORTADA
-            ========================= */
+            /* PORTADA */
 
             const coverInput =
                 document.getElementById(
