@@ -70,23 +70,17 @@
 <div class="editor-page">
 
 
-    <!-- =========================
-         SIDEBAR
-    ========================== -->
+    <!-- SIDEBAR -->
 
     {% include "editor/sidebar.html" %}
 
 
-    <!-- =========================
-         CONTENIDO
-    ========================== -->
+    <!-- CONTENIDO -->
 
     <div class="editor-content">
 
 
-        <!-- =========================
-             TOPBAR
-        ========================== -->
+        <!-- TOPBAR -->
 
         <header class="editor-topbar">
 
@@ -126,45 +120,45 @@
 
                 </div>
 
+
                 <div class="editor-user">
 
+
                     <div class="editor-user-data">
-                
+
                         <strong>
                             {{ usuario.nombre if usuario else "Editor" }}
                         </strong>
-                
+
                         <span>
                             {{ usuario.email if usuario else "editor@f1sinfiltro.com" }}
                         </span>
-                
+
                     </div>
-                
-                
+
+
                     {% if usuario and usuario.foto %}
-                
+
                         <img
                             class="editor-avatar editor-avatar-img"
                             src="{{ url_imagen(usuario.foto) }}"
                             alt="{{ usuario.nombre }}"
                         >
-                
+
                     {% else %}
-                
+
                         <div class="editor-avatar">
-                
+
                             <span class="material-symbols-outlined">
                                 person
                             </span>
-                
+
                         </div>
-                
+
                     {% endif %}
-                
+
+
                 </div>
-
-
-            
 
 
             </div>
@@ -173,9 +167,7 @@
         </header>
 
 
-        <!-- =========================
-             MAIN
-        ========================== -->
+        <!-- MAIN -->
 
         <main class="editor-main">
 
@@ -183,14 +175,13 @@
             <div class="editor-container">
 
 
-                <!-- =========================
-                     CABECERA
-                ========================== -->
+                <!-- CABECERA -->
 
                 <div class="categories-head">
 
 
                     <div>
+
 
                         <div class="categories-path">
 
@@ -218,6 +209,7 @@
                             Creá y administrá las categorías utilizadas en las publicaciones.
                         </p>
 
+
                     </div>
 
 
@@ -239,9 +231,7 @@
                 </div>
 
 
-                <!-- =========================
-                     FORMULARIO
-                ========================== -->
+                <!-- FORMULARIO -->
 
                 <div
                     class="category-form-card hidden"
@@ -249,108 +239,144 @@
                 >
 
 
-                    <div class="category-form-head">
-
-                        <div>
-
-                            <span class="form-kicker">
-                                CATEGORÍA
-                            </span>
-
-                            <h2 id="category-form-title">
-                                Crear Nueva Categoría
-                            </h2>
-
-                        </div>
+                    <form
+                        method="POST"
+                        enctype="multipart/form-data"
+                    >
 
 
-                        <button
-                            class="close-category-form"
-                            type="button"
-                            id="btn-close-category"
-                        >
-
-                            <span class="material-symbols-outlined">
-                                close
-                            </span>
-
-                        </button>
-
-                    </div>
+                        <div class="category-form-head">
 
 
-                    <div class="category-form">
+                            <div>
+
+                                <span class="form-kicker">
+                                    CATEGORÍA
+                                </span>
+
+                                <h2>
+                                    Crear Nueva Categoría
+                                </h2>
+
+                            </div>
 
 
-                        <div class="category-field">
-
-                            <label for="category-name">
-                                NOMBRE
-                            </label>
-
-                            <input
-                                type="text"
-                                id="category-name"
-                                placeholder="Ej: Técnica"
+                            <button
+                                class="close-category-form"
+                                type="button"
+                                id="btn-close-category"
                             >
 
-                        </div>
+                                <span class="material-symbols-outlined">
+                                    close
+                                </span>
 
+                            </button>
 
-                        <div class="category-field">
-
-                            <label for="category-description">
-                                DESCRIPCIÓN
-                            </label>
-
-                            <textarea
-                                id="category-description"
-                                rows="3"
-                                placeholder="Descripción breve de la categoría..."
-                            ></textarea>
 
                         </div>
 
 
-                    </div>
+                        <div class="category-form">
 
 
-                    <div class="category-form-actions">
+                            <!-- NOMBRE -->
 
-                        <button
-                            class="cancel-category-btn"
-                            type="button"
-                            id="btn-cancel-category"
-                        >
-                            Cancelar
-                        </button>
+                            <div class="category-field">
+
+                                <label for="category-name">
+                                    NOMBRE
+                                </label>
+
+                                <input
+                                    type="text"
+                                    id="category-name"
+                                    name="nombre"
+                                    placeholder="Ej: Pilotos"
+                                    required
+                                >
+
+                            </div>
 
 
-                        <button
-                            class="save-category-btn"
-                            type="button"
-                            id="btn-save-category"
-                        >
+                            <!-- DESCRIPCIÓN -->
 
-                            <span class="material-symbols-outlined">
-                                save
-                            </span>
+                            <div class="category-field">
 
-                            Guardar Categoría
+                                <label for="category-description">
+                                    DESCRIPCIÓN
+                                </label>
 
-                        </button>
+                                <textarea
+                                    id="category-description"
+                                    name="descripcion"
+                                    rows="3"
+                                    placeholder="Descripción breve de la categoría..."
+                                ></textarea>
 
-                    </div>
+                            </div>
+
+
+                            <!-- IMAGEN -->
+
+                            <div class="category-field">
+
+                                <label for="category-image">
+                                    IMAGEN
+                                </label>
+
+                                <input
+                                    type="file"
+                                    id="category-image"
+                                    name="imagen"
+                                    accept=".jpg,.jpeg,.png,.webp,.gif"
+                                >
+
+                            </div>
+
+
+                        </div>
+
+
+                        <div class="category-form-actions">
+
+
+                            <button
+                                class="cancel-category-btn"
+                                type="button"
+                                id="btn-cancel-category"
+                            >
+                                Cancelar
+                            </button>
+
+
+                            <button
+                                class="save-category-btn"
+                                type="submit"
+                            >
+
+                                <span class="material-symbols-outlined">
+                                    save
+                                </span>
+
+                                Guardar Categoría
+
+                            </button>
+
+
+                        </div>
+
+
+                    </form>
 
 
                 </div>
 
 
-                <!-- =========================
-                     RESUMEN
-                ========================== -->
+                <!-- RESUMEN -->
 
                 <div class="category-summary">
+
 
                     <div class="summary-card">
 
@@ -364,8 +390,8 @@
                                 TOTAL CATEGORÍAS
                             </span>
 
-                            <strong id="category-count">
-                                5
+                            <strong>
+                                {{ categorias|length }}
                             </strong>
 
                         </div>
@@ -386,414 +412,153 @@
                             </span>
 
                             <strong>
-                                Técnica
+                                -
                             </strong>
 
                         </div>
 
                     </div>
 
+
                 </div>
 
 
-                <!-- =========================
-                     LISTADO
-                ========================== -->
+                <!-- LISTADO -->
 
-                <div
-                    class="categories-grid"
-                    id="categories-grid"
-                >
+                <div class="categories-grid">
 
 
-                    <!-- CATEGORÍA 1 -->
-
-                    <article
-                        class="category-card"
-                        data-name="Técnica"
-                        data-description="Noticias y análisis relacionados con el desarrollo técnico de los monoplazas."
-                    >
+                    {% for categoria in categorias %}
 
 
-                        <div class="category-card-top">
+                        <article class="category-card">
 
-                            <div class="category-icon">
 
-                                <span class="material-symbols-outlined">
-                                    build
+                            <div class="category-card-top">
+
+
+                                <!-- IMAGEN -->
+
+                                <div class="category-icon">
+
+
+                                    {% if categoria.imagen %}
+
+                                        <img
+                                            src="{{ url_imagen(categoria.imagen) }}"
+                                            alt="{{ categoria.nombre }}"
+                                        >
+
+                                    {% else %}
+
+                                        <span class="material-symbols-outlined">
+                                            category
+                                        </span>
+
+                                    {% endif %}
+
+
+                                </div>
+
+
+                                <!-- ACCIONES -->
+
+                                <div class="category-actions">
+
+
+                                    <button
+                                        class="edit-category-btn"
+                                        type="button"
+                                        title="Editar categoría"
+                                    >
+
+                                        <span class="material-symbols-outlined">
+                                            edit
+                                        </span>
+
+                                    </button>
+
+
+                                    <button
+                                        class="delete-category-btn"
+                                        type="button"
+                                        title="Eliminar categoría"
+                                    >
+
+                                        <span class="material-symbols-outlined">
+                                            delete
+                                        </span>
+
+                                    </button>
+
+
+                                </div>
+
+
+                            </div>
+
+
+                            <!-- NOMBRE -->
+
+                            <h2>
+                                {{ categoria.nombre }}
+                            </h2>
+
+
+                            <!-- DESCRIPCIÓN -->
+
+                            <p>
+
+                                {% if categoria.descripcion %}
+
+                                    {{ categoria.descripcion }}
+
+                                {% else %}
+
+                                    Sin descripción.
+
+                                {% endif %}
+
+                            </p>
+
+
+                            <!-- PUBLICACIONES -->
+
+                            <div class="category-card-footer">
+
+                                <span>
+
+                                    <span class="material-symbols-outlined">
+                                        article
+                                    </span>
+
+                                    0 publicaciones
+
                                 </span>
 
                             </div>
 
 
-                            <div class="category-actions">
-
-                                <button
-                                    class="edit-category-btn"
-                                    type="button"
-                                    title="Editar categoría"
-                                >
-
-                                    <span class="material-symbols-outlined">
-                                        edit
-                                    </span>
-
-                                </button>
+                        </article>
 
 
-                                <button
-                                    class="delete-category-btn"
-                                    type="button"
-                                    title="Eliminar categoría"
-                                >
-
-                                    <span class="material-symbols-outlined">
-                                        delete
-                                    </span>
-
-                                </button>
-
-                            </div>
-
-                        </div>
+                    {% else %}
 
 
-                        <h2>
-                            Técnica
-                        </h2>
+                        <div class="category-empty">
 
-
-                        <p>
-                            Noticias y análisis relacionados con el desarrollo técnico de los monoplazas.
-                        </p>
-
-
-                        <div class="category-card-footer">
-
-                            <span>
-                                <span class="material-symbols-outlined">
-                                    article
-                                </span>
-
-                                8 publicaciones
+                            <span class="material-symbols-outlined">
+                                category
                             </span>
 
-                        </div>
-
-
-                    </article>
-
-
-                    <!-- CATEGORÍA 2 -->
-
-                    <article
-                        class="category-card"
-                        data-name="Equipos"
-                        data-description="Información, novedades y análisis de las escuderías de Fórmula 1."
-                    >
-
-
-                        <div class="category-card-top">
-
-                            <div class="category-icon">
-
-                                <span class="material-symbols-outlined">
-                                    groups
-                                </span>
-
-                            </div>
-
-
-                            <div class="category-actions">
-
-                                <button
-                                    class="edit-category-btn"
-                                    type="button"
-                                    title="Editar categoría"
-                                >
-
-                                    <span class="material-symbols-outlined">
-                                        edit
-                                    </span>
-
-                                </button>
-
-
-                                <button
-                                    class="delete-category-btn"
-                                    type="button"
-                                    title="Eliminar categoría"
-                                >
-
-                                    <span class="material-symbols-outlined">
-                                        delete
-                                    </span>
-
-                                </button>
-
-                            </div>
+                            <p>
+                                Todavía no hay categorías creadas.
+                            </p>
 
                         </div>
 
 
-                        <h2>
-                            Equipos
-                        </h2>
-
-
-                        <p>
-                            Información, novedades y análisis de las escuderías de Fórmula 1.
-                        </p>
-
-
-                        <div class="category-card-footer">
-
-                            <span>
-                                <span class="material-symbols-outlined">
-                                    article
-                                </span>
-
-                                6 publicaciones
-                            </span>
-
-                        </div>
-
-
-                    </article>
-
-
-                    <!-- CATEGORÍA 3 -->
-
-                    <article
-                        class="category-card"
-                        data-name="Pilotos"
-                        data-description="Noticias, entrevistas y novedades relacionadas con los pilotos."
-                    >
-
-
-                        <div class="category-card-top">
-
-                            <div class="category-icon">
-
-                                <span class="material-symbols-outlined">
-                                    sports_motorsports
-                                </span>
-
-                            </div>
-
-
-                            <div class="category-actions">
-
-                                <button
-                                    class="edit-category-btn"
-                                    type="button"
-                                    title="Editar categoría"
-                                >
-
-                                    <span class="material-symbols-outlined">
-                                        edit
-                                    </span>
-
-                                </button>
-
-
-                                <button
-                                    class="delete-category-btn"
-                                    type="button"
-                                    title="Eliminar categoría"
-                                >
-
-                                    <span class="material-symbols-outlined">
-                                        delete
-                                    </span>
-
-                                </button>
-
-                            </div>
-
-                        </div>
-
-
-                        <h2>
-                            Pilotos
-                        </h2>
-
-
-                        <p>
-                            Noticias, entrevistas y novedades relacionadas con los pilotos.
-                        </p>
-
-
-                        <div class="category-card-footer">
-
-                            <span>
-                                <span class="material-symbols-outlined">
-                                    article
-                                </span>
-
-                                5 publicaciones
-                            </span>
-
-                        </div>
-
-
-                    </article>
-
-
-                    <!-- CATEGORÍA 4 -->
-
-                    <article
-                        class="category-card"
-                        data-name="Campeonato"
-                        data-description="Clasificación, puntos y análisis de la lucha por el campeonato."
-                    >
-
-
-                        <div class="category-card-top">
-
-                            <div class="category-icon">
-
-                                <span class="material-symbols-outlined">
-                                    trophy
-                                </span>
-
-                            </div>
-
-
-                            <div class="category-actions">
-
-                                <button
-                                    class="edit-category-btn"
-                                    type="button"
-                                    title="Editar categoría"
-                                >
-
-                                    <span class="material-symbols-outlined">
-                                        edit
-                                    </span>
-
-                                </button>
-
-
-                                <button
-                                    class="delete-category-btn"
-                                    type="button"
-                                    title="Eliminar categoría"
-                                >
-
-                                    <span class="material-symbols-outlined">
-                                        delete
-                                    </span>
-
-                                </button>
-
-                            </div>
-
-                        </div>
-
-
-                        <h2>
-                            Campeonato
-                        </h2>
-
-
-                        <p>
-                            Clasificación, puntos y análisis de la lucha por el campeonato.
-                        </p>
-
-
-                        <div class="category-card-footer">
-
-                            <span>
-                                <span class="material-symbols-outlined">
-                                    article
-                                </span>
-
-                                4 publicaciones
-                            </span>
-
-                        </div>
-
-
-                    </article>
-
-
-                    <!-- CATEGORÍA 5 -->
-
-                    <article
-                        class="category-card"
-                        data-name="Previa"
-                        data-description="Información previa a cada Gran Premio, horarios y claves del fin de semana."
-                    >
-
-
-                        <div class="category-card-top">
-
-                            <div class="category-icon">
-
-                                <span class="material-symbols-outlined">
-                                    schedule
-                                </span>
-
-                            </div>
-
-
-                            <div class="category-actions">
-
-                                <button
-                                    class="edit-category-btn"
-                                    type="button"
-                                    title="Editar categoría"
-                                >
-
-                                    <span class="material-symbols-outlined">
-                                        edit
-                                    </span>
-
-                                </button>
-
-
-                                <button
-                                    class="delete-category-btn"
-                                    type="button"
-                                    title="Eliminar categoría"
-                                >
-
-                                    <span class="material-symbols-outlined">
-                                        delete
-                                    </span>
-
-                                </button>
-
-                            </div>
-
-                        </div>
-
-
-                        <h2>
-                            Previa
-                        </h2>
-
-
-                        <p>
-                            Información previa a cada Gran Premio, horarios y claves del fin de semana.
-                        </p>
-
-
-                        <div class="category-card-footer">
-
-                            <span>
-                                <span class="material-symbols-outlined">
-                                    article
-                                </span>
-
-                                3 publicaciones
-                            </span>
-
-                        </div>
-
-
-                    </article>
+                    {% endfor %}
 
 
                 </div>
@@ -811,109 +576,79 @@
 </div>
 
 
-<!-- =========================
-     FOOTER GLOBAL
-========================= -->
+<!-- FOOTER -->
 
 {% include "base/footer.html" %}
 
 
-<!-- =========================
-     JAVASCRIPT
-========================= -->
+<!-- JAVASCRIPT -->
 
 <script>
 
+
     const formCard =
-        document.getElementById("category-form-card");
+        document.getElementById(
+            "category-form-card"
+        );
+
 
     const openButton =
-        document.getElementById("btn-open-category");
+        document.getElementById(
+            "btn-open-category"
+        );
+
 
     const closeButton =
-        document.getElementById("btn-close-category");
+        document.getElementById(
+            "btn-close-category"
+        );
+
 
     const cancelButton =
-        document.getElementById("btn-cancel-category");
+        document.getElementById(
+            "btn-cancel-category"
+        );
 
-    const saveButton =
-        document.getElementById("btn-save-category");
 
     const nameInput =
-        document.getElementById("category-name");
-
-    const descriptionInput =
-        document.getElementById("category-description");
-
-    const formTitle =
-        document.getElementById("category-form-title");
-
-    const categoriesGrid =
-        document.getElementById("categories-grid");
-
-    const categoryCount =
-        document.getElementById("category-count");
+        document.getElementById(
+            "category-name"
+        );
 
 
-    let categoryEditing = null;
 
+    function abrirFormulario() {
 
-    function abrirFormularioNuevo() {
-
-        categoryEditing = null;
-
-        formTitle.textContent =
-            "Crear Nueva Categoría";
-
-        nameInput.value =
-            "";
-
-        descriptionInput.value =
-            "";
 
         formCard.classList.remove(
             "hidden"
         );
 
+
         nameInput.focus();
+
 
     }
 
 
+
     function cerrarFormulario() {
+
 
         formCard.classList.add(
             "hidden"
         );
 
-        categoryEditing = null;
-
-        nameInput.value =
-            "";
-
-        descriptionInput.value =
-            "";
 
     }
 
-
-    function actualizarCantidad() {
-
-        const categories =
-            document.querySelectorAll(
-                ".category-card"
-            );
-
-        categoryCount.textContent =
-            categories.length;
-
-    }
 
 
     openButton.addEventListener(
         "click",
-        abrirFormularioNuevo
+        abrirFormulario
     );
+
 
 
     closeButton.addEventListener(
@@ -922,247 +657,10 @@
     );
 
 
+
     cancelButton.addEventListener(
         "click",
         cerrarFormulario
-    );
-
-
-    categoriesGrid.addEventListener(
-        "click",
-        function (event) {
-
-
-            const editButton =
-                event.target.closest(
-                    ".edit-category-btn"
-                );
-
-
-            const deleteButton =
-                event.target.closest(
-                    ".delete-category-btn"
-                );
-
-
-            if (editButton) {
-
-                const category =
-                    editButton.closest(
-                        ".category-card"
-                    );
-
-
-                categoryEditing =
-                    category;
-
-
-                formTitle.textContent =
-                    "Editar Categoría";
-
-
-                nameInput.value =
-                    category.dataset.name;
-
-
-                descriptionInput.value =
-                    category.dataset.description;
-
-
-                formCard.classList.remove(
-                    "hidden"
-                );
-
-
-                nameInput.focus();
-
-
-                return;
-
-            }
-
-
-            if (deleteButton) {
-
-                const category =
-                    deleteButton.closest(
-                        ".category-card"
-                    );
-
-
-                const name =
-                    category.dataset.name;
-
-
-                const confirmar =
-                    confirm(
-                        "¿Seguro que querés eliminar la categoría " +
-                        name +
-                        "?"
-                    );
-
-
-                if (!confirmar) {
-                    return;
-                }
-
-
-                category.remove();
-
-
-                actualizarCantidad();
-
-            }
-
-
-        }
-    );
-
-
-    saveButton.addEventListener(
-        "click",
-        function () {
-
-
-            const name =
-                nameInput.value.trim();
-
-
-            const description =
-                descriptionInput.value.trim();
-
-
-            if (!name) {
-
-                alert(
-                    "Ingresá un nombre para la categoría."
-                );
-
-                return;
-
-            }
-
-
-            if (categoryEditing) {
-
-
-                categoryEditing.dataset.name =
-                    name;
-
-
-                categoryEditing.dataset.description =
-                    description;
-
-
-                categoryEditing
-                    .querySelector("h2")
-                    .textContent =
-                    name;
-
-
-                categoryEditing
-                    .querySelector("p")
-                    .textContent =
-                    description;
-
-
-            } else {
-
-
-                const article =
-                    document.createElement(
-                        "article"
-                    );
-
-
-                article.className =
-                    "category-card";
-
-
-                article.dataset.name =
-                    name;
-
-
-                article.dataset.description =
-                    description;
-
-
-                article.innerHTML =
-                    `
-                        <div class="category-card-top">
-
-                            <div class="category-icon">
-
-                                <span class="material-symbols-outlined">
-                                    category
-                                </span>
-
-                            </div>
-
-                            <div class="category-actions">
-
-                                <button
-                                    class="edit-category-btn"
-                                    type="button"
-                                    title="Editar categoría"
-                                >
-                                    <span class="material-symbols-outlined">
-                                        edit
-                                    </span>
-                                </button>
-
-                                <button
-                                    class="delete-category-btn"
-                                    type="button"
-                                    title="Eliminar categoría"
-                                >
-                                    <span class="material-symbols-outlined">
-                                        delete
-                                    </span>
-                                </button>
-
-                            </div>
-
-                        </div>
-
-                        <h2>
-                            ${name}
-                        </h2>
-
-                        <p>
-                            ${description}
-                        </p>
-
-                        <div class="category-card-footer">
-
-                            <span>
-
-                                <span class="material-symbols-outlined">
-                                    article
-                                </span>
-
-                                0 publicaciones
-
-                            </span>
-
-                        </div>
-                    `;
-
-
-                categoriesGrid.appendChild(
-                    article
-                );
-
-
-                actualizarCantidad();
-
-            }
-
-
-            cerrarFormulario();
-
-
-        }
     );
 
 

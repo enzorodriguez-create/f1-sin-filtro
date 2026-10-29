@@ -193,3 +193,28 @@ class ImagenCarrusel(db.Model):
         db.Integer,
         nullable=False
     )
+
+class Categoria(db.Model):
+
+    __tablename__ = "categorias"
+
+    id = db.Column(
+        db.Integer,
+        primary_key=True
+    )
+
+    nombre = db.Column(
+        db.String(100),
+        nullable=False,
+        unique=True
+    )
+
+    descripcion = db.Column(
+        db.String(255),
+        nullable=True
+    )
+
+    imagen = db.Column(
+        db.String(500),
+        nullable=True
+    )

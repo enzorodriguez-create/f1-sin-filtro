@@ -8,7 +8,7 @@ from flask import (
 )
 from almacenamiento import (extension_valida, subir_imagen, borrar_imagen)
 from app.extensions import db
-from app.models import (Usuario, Publicacion, BloquePublicacion, ImagenCarrusel)  
+from app.models import (Usuario, Publicacion, BloquePublicacion, ImagenCarrusel, Categoria)  
 
 
 bp = Blueprint(
@@ -374,14 +374,115 @@ def editor_comentarios():
         seccion_activa="comentarios"
     )
 
-@bp.route("/editor/categorias")
+@bp.route(
+    "/editor/categorias",
+    methods=["GET", "POST"]
+)
 def editor_categorias():
 
     usuario = obtener_usuario_actual()
 
+    if not usuario:
+
+        return redirect(
+            url_for(
+                "auth.login"
+            )
+        )
+
+
+    # =========================
+    # CREAR CATEGORÍA
+    # =========================
+
+    if request.method == "POST":
+
+        nombre = request.form.get(
+            "nombre",
+            ""
+        ).strip()
+
+        descripcion = request.form.get(
+            "descripcion",
+            ""
+        ).strip()
+
+        imagen_archivo = request.files.get(
+            "imagen"
+        )
+
+
+        if not nombre:
+
+            return "Tenés que ingresar un nombre."
+
+
+        categoria_existente = Categoria.query.filter_by(
+            nombre=nombre
+        ).first()
+
+
+        if categoria_existente:
+
+            return "Ya existe una categoría con ese nombre."
+
+
+        imagen = None
+
+
+        if (
+            imagen_archivo
+            and imagen_archivo.filename
+        ):
+
+            if not extension_valida(
+                imagen_archivo.filename
+            ):
+
+                return "Formato de imagen no válido."
+
+
+            imagen = subir_imagen(
+                imagen_archivo,
+                carpeta="categorias"
+            )
+
+
+        nueva_categoria = Categoria(
+            nombre=nombre,
+            descripcion=descripcion,
+            imagen=imagen
+        )
+
+
+        db.session.add(
+            nueva_categoria
+        )
+
+
+        db.session.commit()
+
+
+        return redirect(
+            url_for(
+                "editor.editor_categorias"
+            )
+        )
+
+
+    # =========================
+    # LISTADO
+    # =========================
+
+    categorias = Categoria.query.order_by(
+        Categoria.id.asc()
+    ).all()
+
+
     return render_template(
         "editor/categorias.html",
         usuario=usuario,
+        categorias=categorias,
         seccion_activa="categorias"
     )
 
