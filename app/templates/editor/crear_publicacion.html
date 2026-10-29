@@ -150,21 +150,21 @@
 
                         {% if usuario and usuario.foto %}
 
-                            <img
-                                class="editor-avatar editor-avatar-img"
-                                src="{{ url_imagen(usuario.foto) }}"
-                                alt="{{ usuario.nombre }}"
-                            >
+                        <img
+                            class="editor-avatar editor-avatar-img"
+                            src="{{ url_imagen(usuario.foto) }}"
+                            alt="{{ usuario.nombre }}"
+                        >
 
                         {% else %}
 
-                            <div class="editor-avatar">
+                        <div class="editor-avatar">
 
-                                <span class="material-symbols-outlined">
-                                    person
-                                </span>
+                            <span class="material-symbols-outlined">
+                                person
+                            </span>
 
-                            </div>
+                        </div>
 
                         {% endif %}
 
@@ -203,27 +203,6 @@
                             name="bloques_orden"
                             id="bloques-orden"
                         >
-
-
-
-                        <!-- =========================
-                             MENSAJE BORRADOR
-                        ========================== -->
-
-                        <div
-                            class="toast hidden"
-                            id="save-alert"
-                        >
-
-                            <span class="material-symbols-outlined i20 c-primary">
-                                check_circle
-                            </span>
-
-                            <span>
-                                Borrador guardado
-                            </span>
-
-                        </div>
 
 
 
@@ -275,13 +254,11 @@
                         <div class="grid">
 
 
-
                             <!-- =========================
                                  COLUMNA IZQUIERDA
                             ========================== -->
 
                             <div class="col-left">
-
 
 
                                 <!-- =========================
@@ -400,7 +377,7 @@
                                         <img
                                             id="cover-preview"
                                             class="cover-preview hidden"
-                                            alt="Vista previa de la portada"
+                                            alt="Imagen de portada seleccionada"
                                         >
 
 
@@ -454,7 +431,6 @@
                                 ========================== -->
 
                                 <div class="editor-card">
-
 
 
                                     <!-- BOTONES DE BLOQUES -->
@@ -614,7 +590,6 @@
                             ========================== -->
 
                             <div class="col-right">
-
 
 
                                 <!-- =========================
@@ -1008,49 +983,6 @@
                                 ========================== -->
 
                                 <div class="card card-side gap12">
-
-
-
-                                    <!-- GUARDAR BORRADOR -->
-
-                                    <button
-                                        class="btn-draft"
-                                        id="btn-draft"
-                                        type="submit"
-                                        name="accion"
-                                        value="borrador"
-                                    >
-
-                                        <span class="material-symbols-outlined i18">
-                                            save
-                                        </span>
-
-                                        <span>
-                                            Guardar borrador
-                                        </span>
-
-                                    </button>
-
-
-
-                                    <!-- VISTA PREVIA -->
-
-                                    <button
-                                        class="btn-preview"
-                                        id="btn-preview"
-                                        type="button"
-                                    >
-
-                                        <span class="material-symbols-outlined i18">
-                                            visibility
-                                        </span>
-
-                                        <span>
-                                            Vista Previa
-                                        </span>
-
-                                    </button>
-
 
 
                                     <!-- PUBLICAR -->
@@ -2085,42 +2017,6 @@
 
 
             /* =========================
-               GUARDAR BORRADOR
-            ========================= */
-
-            const draftButton =
-                document.getElementById(
-                    "btn-draft"
-                );
-
-
-            const saveAlert =
-                document.getElementById(
-                    "save-alert"
-                );
-
-
-            if (
-                draftButton &&
-                saveAlert
-            ) {
-
-                draftButton.addEventListener(
-                    "click",
-                    () => {
-
-                        saveAlert.classList.remove(
-                            "hidden"
-                        );
-
-                    }
-                );
-
-            }
-
-
-
-            /* =========================
                DESCARTAR CAMBIOS
             ========================= */
 
@@ -2262,7 +2158,7 @@
 
 
             /* =========================
-               PREVISUALIZACIÓN PORTADA
+               IMAGEN DE PORTADA
             ========================= */
 
             const coverInput =
