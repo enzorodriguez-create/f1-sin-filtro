@@ -1,0 +1,255 @@
+{% include 'base/header.html' %}
+
+<link
+    rel="stylesheet"
+    href="{{ url_for('static', filename='styles/publicaciones_categoria.css') }}"
+>
+
+<div class="categoria-publicaciones-page">
+
+    <div class="categoria-publicaciones-pattern"></div>
+
+    <div class="categoria-publicaciones-container">
+
+        <!-- ENCABEZADO -->
+
+        <section class="categoria-publicaciones-head">
+
+            <div>
+
+                <span class="categoria-publicaciones-label">
+                    // CATEGORÍA
+                </span>
+
+                <h1>
+                    {{ categoria.nombre }}
+                </h1>
+
+                {% if categoria.descripcion %}
+
+                    <p>
+                        {{ categoria.descripcion }}
+                    </p>
+
+                {% endif %}
+
+            </div>
+
+        </section>
+
+
+        <!-- VOLVER -->
+
+        <section class="categoria-publicaciones-toolbar">
+
+            <a
+                href="{{ url_for('main.categorias') }}"
+                class="categoria-volver"
+            >
+
+                <span class="material-symbols-outlined">
+                    arrow_back
+                </span>
+
+                VOLVER A CATEGORÍAS
+
+            </a>
+
+        </section>
+
+
+        <!-- PUBLICACIONES -->
+
+        {% if publicaciones %}
+
+
+            <!-- DESTACADA -->
+
+            {% set destacada = publicaciones[0] %}
+
+            <section class="categoria-destacada">
+
+                <div class="categoria-destacada-img">
+
+                    {% if destacada.imagen_portada %}
+
+                        <img
+                            src="{{ url_imagen(destacada.imagen_portada) }}"
+                            alt="{{ destacada.titulo }}"
+                        >
+
+                    {% endif %}
+
+                    <div class="categoria-destacada-overlay"></div>
+
+                </div>
+
+
+                <div class="categoria-destacada-content">
+
+                    <div>
+
+                        <div class="categoria-meta">
+
+                            <span class="categoria-meta-nombre">
+                                {{ categoria.nombre|upper }}
+                            </span>
+
+                            <span>
+                                F1 SIN FILTRO
+                            </span>
+
+                        </div>
+
+
+                        <h2>
+                            {{ destacada.titulo }}
+                        </h2>
+
+
+                        {% if destacada.resumen %}
+
+                            <p>
+                                {{ destacada.resumen }}
+                            </p>
+
+                        {% endif %}
+
+                    </div>
+
+
+                    <a
+                        href="{{ url_for(
+                            'main.post',
+                            id_publicacion=destacada.id
+                        ) }}"
+                        class="categoria-btn-primary"
+                    >
+
+                        LEER NOTICIA
+
+                        <span class="material-symbols-outlined">
+                            arrow_forward
+                        </span>
+
+                    </a>
+
+                </div>
+
+            </section>
+
+
+            <!-- RESTO DE PUBLICACIONES -->
+
+            <section class="categoria-publicaciones-grid">
+
+                {% for publicacion in publicaciones[1:] %}
+
+                    <article class="categoria-publicacion-card">
+
+                        <div class="categoria-publicacion-img">
+
+                            {% if publicacion.imagen_portada %}
+
+                                <img
+                                    src="{{ url_imagen(publicacion.imagen_portada) }}"
+                                    alt="{{ publicacion.titulo }}"
+                                >
+
+                            {% endif %}
+
+
+                            <span class="categoria-publicacion-tag">
+                                {{ categoria.nombre|upper }}
+                            </span>
+
+                        </div>
+
+
+                        <div class="categoria-publicacion-body">
+
+                            <div class="categoria-meta">
+
+                                <span>
+                                    F1 SIN FILTRO
+                                </span>
+
+                            </div>
+
+
+                            <h3>
+                                {{ publicacion.titulo }}
+                            </h3>
+
+
+                            {% if publicacion.resumen %}
+
+                                <p>
+                                    {{ publicacion.resumen }}
+                                </p>
+
+                            {% endif %}
+
+
+                            <a
+                                href="{{ url_for(
+                                    'main.post',
+                                    id_publicacion=publicacion.id
+                                ) }}"
+                                class="categoria-publicacion-link"
+                            >
+
+                                LEER MÁS
+
+                                <span class="material-symbols-outlined">
+                                    arrow_forward
+                                </span>
+
+                            </a>
+
+                        </div>
+
+                    </article>
+
+                {% endfor %}
+
+            </section>
+
+
+        {% else %}
+
+
+            <!-- SIN PUBLICACIONES -->
+
+            <section class="categoria-publicaciones-vacio">
+
+                <span class="material-symbols-outlined">
+                    article
+                </span>
+
+                <h2>
+                    No hay publicaciones
+                </h2>
+
+                <p>
+                    Todavía no hay publicaciones disponibles
+                    en la categoría {{ categoria.nombre }}.
+                </p>
+
+                <a
+                    href="{{ url_for('main.categorias') }}"
+                    class="categoria-btn-primary"
+                >
+                    VOLVER A CATEGORÍAS
+                </a>
+
+            </section>
+
+
+        {% endif %}
+
+    </div>
+
+</div>
+
+{% include 'base/footer.html' %}

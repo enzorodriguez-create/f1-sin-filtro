@@ -1,0 +1,812 @@
+/* =========================================
+   PUBLICACIONES POR CATEGORIA
+========================================= */
+
+.categoria-publicaciones-page {
+    --categoria-red: #E10600;
+    --categoria-red-dark: #b00500;
+    --categoria-card: #151517;
+    --categoria-card-hover: #1d1d1f;
+    --categoria-border: #353535;
+    --categoria-text: #e5e2e1;
+    --categoria-muted: #999;
+
+    position: relative;
+
+    min-height: 100vh;
+
+    overflow: hidden;
+
+    background:
+        linear-gradient(
+            rgba(0, 0, 0, 0.72),
+            rgba(0, 0, 0, 0.82)
+        ),
+        url("/static/styles/images/fondof1.avif");
+
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+
+    color: var(--categoria-text);
+
+    font-family: "Sora", sans-serif;
+}
+
+
+/* =========================================
+   FONDO
+========================================= */
+
+.categoria-publicaciones-pattern {
+    position: absolute;
+
+    inset: 0;
+
+    pointer-events: none;
+
+    opacity: 0.02;
+
+    background-image:
+        linear-gradient(
+            to right,
+            #353535 1px,
+            transparent 1px
+        ),
+        linear-gradient(
+            to bottom,
+            #353535 1px,
+            transparent 1px
+        );
+
+    background-size: 32px 32px;
+}
+
+
+/* =========================================
+   CONTENEDOR
+========================================= */
+
+.categoria-publicaciones-container {
+    position: relative;
+
+    z-index: 1;
+
+    width: 100%;
+
+    max-width: 1400px;
+
+    margin: 0 auto;
+
+    padding:
+        4rem
+        2rem
+        6rem;
+}
+
+
+/* =========================================
+   ENCABEZADO
+========================================= */
+
+.categoria-publicaciones-head {
+    margin-bottom: 2rem;
+}
+
+
+.categoria-publicaciones-label {
+    display: block;
+
+    margin-bottom: 0.5rem;
+
+    color: var(--categoria-red);
+
+    font-family: "JetBrains Mono", monospace;
+
+    font-size: 10px;
+
+    font-weight: 700;
+
+    letter-spacing: 0.12em;
+}
+
+
+.categoria-publicaciones-head h1 {
+    margin:
+        0
+        0
+        1rem;
+
+    color: #fff;
+
+    font-family: "Anybody", sans-serif;
+
+    font-size: clamp(
+        3rem,
+        5vw,
+        4.5rem
+    );
+
+    font-weight: 900;
+
+    line-height: 1;
+
+    text-transform: uppercase;
+}
+
+
+.categoria-publicaciones-head p {
+    max-width: 700px;
+
+    margin: 0;
+
+    color: var(--categoria-muted);
+
+    font-size: 15px;
+
+    line-height: 1.7;
+}
+
+
+/* =========================================
+   VOLVER
+========================================= */
+
+.categoria-publicaciones-toolbar {
+    margin-bottom: 2rem;
+
+    padding-bottom: 1rem;
+
+    border-bottom:
+        1px solid
+        var(--categoria-border);
+}
+
+
+.categoria-volver {
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 0.5rem;
+
+    padding:
+        0.45rem
+        0.75rem;
+
+    border:
+        1px solid
+        var(--categoria-border);
+
+    background: #111;
+
+    color: #999;
+
+    font-family:
+        "JetBrains Mono",
+        monospace;
+
+    font-size: 9px;
+
+    font-weight: 700;
+
+    letter-spacing: 0.06em;
+
+    text-decoration: none;
+
+    transition:
+        all 0.2s;
+}
+
+
+.categoria-volver:hover {
+    border-color:
+        var(--categoria-red);
+
+    color:
+        var(--categoria-red);
+}
+
+
+.categoria-volver
+.material-symbols-outlined {
+    font-size: 15px;
+}
+
+
+/* =========================================
+   DESTACADA
+========================================= */
+
+.categoria-destacada {
+    display: grid;
+
+    grid-template-columns:
+        1.2fr
+        1fr;
+
+    margin-bottom: 2rem;
+
+    overflow: hidden;
+
+    background:
+        var(--categoria-card);
+
+    border:
+        1px solid
+        var(--categoria-border);
+
+    border-top:
+        3px solid
+        var(--categoria-red);
+}
+
+
+.categoria-destacada-img {
+    position: relative;
+
+    min-height: 420px;
+
+    overflow: hidden;
+
+    background: #090909;
+}
+
+
+.categoria-destacada-img img {
+    width: 100%;
+
+    height: 100%;
+
+    display: block;
+
+    object-fit: cover;
+
+    object-position: center;
+
+    transition:
+        transform 0.5s;
+}
+
+
+.categoria-destacada:hover
+.categoria-destacada-img img {
+    transform:
+        scale(1.03);
+}
+
+
+.categoria-destacada-overlay {
+    position: absolute;
+
+    inset: 0;
+
+    background:
+        linear-gradient(
+            to right,
+            transparent,
+            rgba(0, 0, 0, 0.35)
+        );
+}
+
+
+/* =========================================
+   CONTENIDO DESTACADA
+========================================= */
+
+.categoria-destacada-content {
+    padding: 2rem;
+
+    display: flex;
+
+    flex-direction: column;
+
+    justify-content: space-between;
+}
+
+
+.categoria-destacada-content h2 {
+    margin:
+        0
+        0
+        1rem;
+
+    color: #fff;
+
+    font-family:
+        "Anybody",
+        sans-serif;
+
+    font-size: 2rem;
+
+    font-weight: 900;
+
+    line-height: 1.15;
+
+    text-transform: uppercase;
+}
+
+
+.categoria-destacada-content p {
+    margin:
+        0
+        0
+        1.5rem;
+
+    color: #aaa;
+
+    font-size: 14px;
+
+    line-height: 1.7;
+}
+
+
+/* =========================================
+   META
+========================================= */
+
+.categoria-meta {
+    display: flex;
+
+    align-items: center;
+
+    gap: 0.8rem;
+
+    margin-bottom: 0.8rem;
+
+    color: #888;
+
+    font-family:
+        "JetBrains Mono",
+        monospace;
+
+    font-size: 9px;
+
+    font-weight: 700;
+}
+
+
+.categoria-meta-nombre {
+    color:
+        var(--categoria-red);
+}
+
+
+/* =========================================
+   BOTON PRINCIPAL
+========================================= */
+
+.categoria-btn-primary {
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 0.5rem;
+
+    width: fit-content;
+
+    padding:
+        0.75rem
+        1rem;
+
+    background:
+        var(--categoria-red);
+
+    color: #fff;
+
+    font-family:
+        "JetBrains Mono",
+        monospace;
+
+    font-size: 9px;
+
+    font-weight: 700;
+
+    text-decoration: none;
+
+    transition:
+        background 0.2s;
+}
+
+
+.categoria-btn-primary:hover {
+    background:
+        var(--categoria-red-dark);
+
+    color: #fff;
+}
+
+
+.categoria-btn-primary
+.material-symbols-outlined {
+    font-size: 16px;
+}
+
+
+/* =========================================
+   GRILLA
+========================================= */
+
+.categoria-publicaciones-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, 1fr);
+
+    gap: 1rem;
+}
+
+
+/* =========================================
+   CARD
+========================================= */
+
+.categoria-publicacion-card {
+    display: flex;
+
+    flex-direction: column;
+
+    overflow: hidden;
+
+    background:
+        var(--categoria-card);
+
+    border:
+        1px solid
+        var(--categoria-border);
+
+    border-top:
+        2px solid
+        var(--categoria-red);
+
+    transition:
+        transform 0.2s,
+        background 0.2s,
+        border-color 0.2s;
+}
+
+
+.categoria-publicacion-card:hover {
+    transform:
+        translateY(-3px);
+
+    background:
+        var(--categoria-card-hover);
+
+    border-color:
+        #444;
+}
+
+
+/* =========================================
+   IMAGEN CARD
+========================================= */
+
+.categoria-publicacion-img {
+    position: relative;
+
+    width: 100%;
+
+    aspect-ratio: 16 / 9;
+
+    overflow: hidden;
+
+    background: #090909;
+}
+
+
+.categoria-publicacion-img img {
+    width: 100%;
+
+    height: 100%;
+
+    display: block;
+
+    object-fit: contain;
+
+    object-position: center;
+
+    filter:
+        grayscale(0.4);
+
+    transition:
+        transform 0.4s,
+        filter 0.4s;
+}
+
+
+.categoria-publicacion-card:hover
+.categoria-publicacion-img img {
+    transform:
+        scale(1.02);
+
+    filter:
+        grayscale(0);
+}
+
+
+.categoria-publicacion-tag {
+    position: absolute;
+
+    top: 1rem;
+
+    left: 1rem;
+
+    padding:
+        0.35rem
+        0.55rem;
+
+    background: #000;
+
+    border:
+        1px solid
+        var(--categoria-red);
+
+    color:
+        var(--categoria-red);
+
+    font-family:
+        "JetBrains Mono",
+        monospace;
+
+    font-size: 9px;
+
+    font-weight: 700;
+}
+
+
+/* =========================================
+   CONTENIDO CARD
+========================================= */
+
+.categoria-publicacion-body {
+    flex-grow: 1;
+
+    padding: 1.5rem;
+
+    display: flex;
+
+    flex-direction: column;
+}
+
+
+.categoria-publicacion-card h3 {
+    margin:
+        0
+        0
+        0.8rem;
+
+    color: #fff;
+
+    font-family:
+        "Anybody",
+        sans-serif;
+
+    font-size: 1.35rem;
+
+    font-weight: 800;
+
+    line-height: 1.25;
+
+    text-transform: uppercase;
+}
+
+
+.categoria-publicacion-card p {
+    margin:
+        0
+        0
+        1.5rem;
+
+    color: #aaa;
+
+    font-size: 13px;
+
+    line-height: 1.65;
+}
+
+
+/* =========================================
+   LEER MAS
+========================================= */
+
+.categoria-publicacion-link {
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 0.4rem;
+
+    margin-top: auto;
+
+    color:
+        var(--categoria-red);
+
+    font-family:
+        "JetBrains Mono",
+        monospace;
+
+    font-size: 9px;
+
+    font-weight: 700;
+
+    text-decoration: none;
+}
+
+
+.categoria-publicacion-link:hover {
+    color: #fff;
+}
+
+
+.categoria-publicacion-link
+.material-symbols-outlined {
+    font-size: 15px;
+
+    transition:
+        transform 0.2s;
+}
+
+
+.categoria-publicacion-link:hover
+.material-symbols-outlined {
+    transform:
+        translateX(4px);
+}
+
+
+/* =========================================
+   SIN PUBLICACIONES
+========================================= */
+
+.categoria-publicaciones-vacio {
+    padding:
+        4rem
+        2rem;
+
+    background:
+        var(--categoria-card);
+
+    border:
+        1px solid
+        var(--categoria-border);
+
+    text-align: center;
+}
+
+
+.categoria-publicaciones-vacio
+.material-symbols-outlined {
+    margin-bottom: 1rem;
+
+    color:
+        var(--categoria-red);
+
+    font-size: 48px;
+}
+
+
+.categoria-publicaciones-vacio h2 {
+    margin:
+        0
+        0
+        0.75rem;
+
+    color: #fff;
+
+    font-family:
+        "Anybody",
+        sans-serif;
+
+    font-size: 2rem;
+
+    font-weight: 900;
+
+    text-transform: uppercase;
+}
+
+
+.categoria-publicaciones-vacio p {
+    margin:
+        0
+        0
+        2rem;
+
+    color:
+        var(--categoria-muted);
+
+    font-size: 14px;
+}
+
+
+/* =========================================
+   TABLET
+========================================= */
+
+@media (max-width: 991px) {
+
+    .categoria-destacada {
+        grid-template-columns:
+            1fr;
+    }
+
+
+    .categoria-destacada-img {
+        min-height:
+            340px;
+    }
+
+}
+
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 576px) {
+
+    .categoria-publicaciones-container {
+        padding:
+            2rem
+            0.75rem
+            4rem;
+    }
+
+
+    .categoria-publicaciones-head h1 {
+        font-size:
+            2.5rem;
+    }
+
+
+    .categoria-publicaciones-grid {
+        grid-template-columns:
+            1fr;
+    }
+
+
+    .categoria-destacada-img {
+        min-height:
+            250px;
+    }
+
+
+    .categoria-destacada-content {
+        padding:
+            1.5rem;
+    }
+
+
+    .categoria-destacada-content h2 {
+        font-size:
+            1.6rem;
+    }
+
+}
+
+
+/* =========================================
+   PANTALLAS GRANDES
+========================================= */
+
+@media (min-width: 1600px) {
+
+    .categoria-publicaciones-container {
+        max-width:
+            1650px;
+    }
+
+
+    .categoria-destacada-img {
+        min-height:
+            480px;
+    }
+
+
+    .categoria-publicaciones-grid {
+        grid-template-columns:
+            repeat(3, 1fr);
+    }
+
+}
