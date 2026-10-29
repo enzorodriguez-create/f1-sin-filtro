@@ -177,24 +177,11 @@
                     {% for bloque in bloques %}
 
 
-                        <!-- =========================
-                             BLOQUE DE TEXTO
-                        ========================== -->
+                        <!-- BLOQUE DE TEXTO -->
 
                         {% if bloque.tipo == "texto" %}
 
                         <div class="post-content-card post-text-block">
-
-                            <span class="post-block-label">
-
-                                <span class="material-symbols-outlined">
-                                    subject
-                                </span>
-
-                                TEXTO
-
-                            </span>
-
 
                             <p>
                                 {{ bloque.contenido }}
@@ -204,24 +191,11 @@
 
 
 
-                        <!-- =========================
-                             BLOQUE DE IMAGEN
-                        ========================== -->
+                        <!-- BLOQUE DE IMAGEN -->
 
                         {% elif bloque.tipo == "imagen" %}
 
                         <div class="post-content-card post-image-block">
-
-                            <span class="post-block-label">
-
-                                <span class="material-symbols-outlined">
-                                    image
-                                </span>
-
-                                IMAGEN
-
-                            </span>
-
 
                             <img
                                 src="{{ url_imagen(bloque.contenido) }}"
@@ -232,25 +206,11 @@
 
 
 
-                        <!-- =========================
-                             BLOQUE DE CARRUSEL
-                        ========================== -->
+                        <!-- BLOQUE DE CARRUSEL -->
 
                         {% elif bloque.tipo == "carrusel" %}
 
                         <div class="post-content-card post-carousel-block">
-
-
-                            <span class="post-block-label">
-
-                                <span class="material-symbols-outlined">
-                                    collections
-                                </span>
-
-                                CARRUSEL
-
-                            </span>
-
 
 
                             <div
