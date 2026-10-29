@@ -143,23 +143,30 @@ def editor_crear_publicacion():
 
 
         # =========================
-        # CATEGORÍA
+        # CATEGORÍAS
         # =========================
 
-        categoria_id = request.form.get(
-            "categoria_id"
+        categorias_ids = request.form.getlist(
+            "categorias"
         )
 
 
-        if categoria_id:
+        categorias_seleccionadas = []
 
-            categoria_id = int(
-                categoria_id
+
+        for categoria_id in categorias_ids:
+
+            categoria = db.session.get(
+                Categoria,
+                int(categoria_id)
             )
 
-        else:
 
-            categoria_id = None
+            if categoria:
+
+                categorias_seleccionadas.append(
+                    categoria
+                )
 
 
         # =========================
@@ -217,9 +224,24 @@ def editor_crear_publicacion():
             resumen=resumen,
             imagen_portada=imagen_portada,
             estado=estado,
-            autor_id=usuario.id,
-            categoria_id=categoria_id
+            autor_id=usuario.id
         )
+
+
+        nueva_publicacion.categorias = (
+            categorias_seleccionadas
+        )
+
+
+        if categorias_seleccionadas:
+
+            nueva_publicacion.categoria_id = (
+                categorias_seleccionadas[0].id
+            )
+
+        else:
+
+            nueva_publicacion.categoria_id = None
 
 
         db.session.add(
@@ -1059,18 +1081,41 @@ def editor_editar_publicacion(id_publicacion):
 
 
         # =========================
-        # CATEGORÍA
+        # CATEGORÍAS
         # =========================
 
-        categoria_id = request.form.get(
-            "categoria_id"
+        categorias_ids = request.form.getlist(
+            "categorias"
         )
 
 
-        if categoria_id:
+        categorias_seleccionadas = []
 
-            publicacion.categoria_id = int(
-                categoria_id
+
+        for categoria_id in categorias_ids:
+
+            categoria = db.session.get(
+                Categoria,
+                int(categoria_id)
+            )
+
+
+            if categoria:
+
+                categorias_seleccionadas.append(
+                    categoria
+                )
+
+
+        publicacion.categorias = (
+            categorias_seleccionadas
+        )
+
+
+        if categorias_seleccionadas:
+
+            publicacion.categoria_id = (
+                categorias_seleccionadas[0].id
             )
 
         else:

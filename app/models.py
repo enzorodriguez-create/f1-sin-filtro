@@ -101,6 +101,29 @@ class SolicitudEditor(db.Model):
     )
 
 
+# =========================
+# PUBLICACIÓN - CATEGORÍA
+# =========================
+
+publicacion_categoria = db.Table(
+    "publicacion_categoria",
+
+    db.Column(
+        "publicacion_id",
+        db.Integer,
+        db.ForeignKey("publicaciones.id"),
+        primary_key=True
+    ),
+
+    db.Column(
+        "categoria_id",
+        db.Integer,
+        db.ForeignKey("categorias.id"),
+        primary_key=True
+    )
+)
+
+
 class Publicacion(db.Model):
 
     __tablename__ = "publicaciones"
@@ -145,6 +168,11 @@ class Publicacion(db.Model):
 
     categoria = db.relationship(
         "Categoria"
+    )
+
+    categorias = db.relationship(
+        "Categoria",
+        secondary=publicacion_categoria
     )
 
 

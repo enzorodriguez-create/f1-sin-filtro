@@ -621,66 +621,54 @@
 
 
                                     <div class="row-between">
-
-
-                                        <label
-                                            class="card-h2"
-                                            for="post-category"
-                                        >
-
+                                
+                                
+                                        <label class="card-h2">
+                                
                                             <span class="material-symbols-outlined i20 c-primary">
                                                 category
                                             </span>
-
+                                
                                             <span>
-                                                Categoría
+                                                Categorías
                                             </span>
-
+                                
                                         </label>
-
-
+                                
+                                
                                     </div>
-
-
+                                
+                                
                                     <p class="lbl fw600 c-variant">
-                                        Seleccioná la categoría correspondiente.
+                                        Seleccioná una o más categorías.
                                     </p>
-
-
+                                
+                                
                                     <div class="col gap8">
-
-
-                                        <select
-                                            class="select"
-                                            id="post-category"
-                                            name="categoria_id"
-                                            required
-                                        >
-
-                                            <option
-                                                value=""
-                                                selected
-                                                disabled
-                                            >
-                                                Seleccionar categoría
-                                            </option>
-
-
-                                            {% for categoria in categorias %}
-
-                                                <option value="{{ categoria.id }}">
+                                
+                                
+                                        {% for categoria in categorias %}
+                                
+                                            <label class="category-check">
+                                
+                                                <input
+                                                    type="checkbox"
+                                                    name="categorias"
+                                                    value="{{ categoria.id }}"
+                                                >
+                                
+                                                <span>
                                                     {{ categoria.nombre }}
-                                                </option>
-
-                                            {% endfor %}
-
-
-                                        </select>
-
-
+                                                </span>
+                                
+                                            </label>
+                                
+                                        {% endfor %}
+                                
+                                
                                     </div>
-
-
+                                
+                                
                                 </div>
 
 
