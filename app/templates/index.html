@@ -1,521 +1,218 @@
 {% include 'base/header.html' %}
 
 <link
-    href="https://fonts.googleapis.com/css2?family=Anybody:wght@400;700;800;900&family=JetBrains+Mono:wght@500;700&family=Sora:wght@400&display=swap"
-    rel="stylesheet"
->
+  href="https://fonts.googleapis.com/css2?family=Anybody:wght@400;700;800;900&family=JetBrains+Mono:wght@500;700&family=Sora:wght@400&display=swap"
+  rel="stylesheet"
+/>
 
 <link
-    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0"
-    rel="stylesheet"
->
+  href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0"
+  rel="stylesheet"
+/>
 
 <link
-    rel="stylesheet"
-    href="{{ url_for('static', filename='styles/home.css') }}"
->
-
+  rel="stylesheet"
+  href="{{ url_for('static', filename='styles/home.css') }}"
+/>
 
 <div class="home-page">
+  <div class="home-background"></div>
 
-    <div class="home-background"></div>
-
-
-    <div class="home-main">
-
-
-        <!-- ========================================
+  <div class="home-main">
+    <!-- ========================================
              NOTICIA PRINCIPAL + CLASIFICACIÓN
         ========================================= -->
 
-        <section class="hero">
-
-
-            <!-- =========================
+    <section class="hero">
+      <!-- =========================
                  NOTICIA PRINCIPAL
             ========================== -->
 
-            <div class="hero-main">
+      <div class="hero-main">
+        <!-- IMAGEN DE PORTADA -->
+        {% if publicacion_principal and publicacion_principal.imagen_portada %}
 
+        <div
+          class="hero-bg"
+          style="background-image: url('{{ url_imagen(publicacion_principal.imagen_portada) }}');"
+        ></div>
 
-                <!-- IMAGEN DE PORTADA -->
-                {% if publicacion_principal and publicacion_principal.imagen_portada %}
+        {% else %}
 
-                <div
-                    class="hero-bg"
-                    style="background-image: url('{{ url_imagen(publicacion_principal.imagen_portada) }}');"
-                >
-                </div>
-                
-                {% else %}
-                
-                <div class="hero-bg"></div>
-                
-                {% endif %}
+        <div class="hero-bg"></div>
 
+        {% endif %}
 
-                <!-- OSCURECIDO -->
+        <!-- OSCURECIDO -->
 
-                <div class="hero-overlay"></div>
+        <div class="hero-overlay"></div>
 
+        <!-- CONTENIDO -->
 
-                <!-- CONTENIDO -->
+        <div class="hero-content">
+          <div class="hero-meta">
+            <span class="badge-live">
+              <span class="badge-dot"></span>
 
-                <div class="hero-content">
+              ÚLTIMA HORA
+            </span>
 
+            <span class="hero-round"> F1 SIN FILTRO </span>
+          </div>
 
-                    <div class="hero-meta">
+          <!-- TÍTULO -->
 
-                        <span class="badge-live">
+          <h1>
+            {% if publicacion_principal %} {{ publicacion_principal.titulo }} {%
+            else %} Sin publicaciones disponibles {% endif %}
+          </h1>
 
-                            <span class="badge-dot"></span>
+          <!-- RESUMEN -->
 
-                            ÚLTIMA HORA
+          {% if publicacion_principal and publicacion_principal.resumen %}
 
-                        </span>
+          <p>{{ publicacion_principal.resumen }}</p>
 
+          {% endif %}
 
-                        <span class="hero-round">
+          <!-- BOTÓN -->
 
-                            F1 SIN FILTRO
+          {% if publicacion_principal %}
 
-                        </span>
-
-                    </div>
-
-
-                    <!-- TÍTULO -->
-
-                    <h1>
-
-                        {% if publicacion_principal %}
-
-                            {{ publicacion_principal.titulo }}
-
-                        {% else %}
-
-                            Sin publicaciones disponibles
-
-                        {% endif %}
-
-                    </h1>
-
-
-                    <!-- RESUMEN -->
-
-                    {% if publicacion_principal and publicacion_principal.resumen %}
-
-                    <p>
-
-                        {{ publicacion_principal.resumen }}
-
-                    </p>
-
-                    {% endif %}
-
-
-                    <!-- BOTÓN -->
-
-                    {% if publicacion_principal %}
-
-                    <a
-                        class="hero-btn"
-                        href="{{ url_for(
+          <a
+            class="hero-btn"
+            href="{{ url_for(
                             'main.post',
                             id_publicacion=publicacion_principal.id
                         ) }}"
-                    >
+          >
+            LEER NOTICIA
 
-                        LEER NOTICIA
+            <span class="material-symbols-outlined"> arrow_forward </span>
+          </a>
 
-                        <span class="material-symbols-outlined">
-                            arrow_forward
-                        </span>
+          {% endif %}
+        </div>
+      </div>
 
-                    </a>
-
-                    {% endif %}
-
-
-                </div>
-
-            </div>
-
-
-
-            <!-- =========================
+      <!-- =========================
                  CLASIFICACIÓN
             ========================== -->
 
-            <aside class="ranking">
+      <aside class="ranking">
+        <div class="ranking-bar"></div>
 
-                <div class="ranking-bar"></div>
+        <div class="ranking-head">
+          <div class="ranking-title">
+            <span class="ranking-mark"></span>
 
+            <h2>Clasificación</h2>
+          </div>
 
-                <div class="ranking-head">
+          <span class="ranking-tag"> TOP 5 </span>
+        </div>
 
-                    <div class="ranking-title">
+        <div class="ranking-body">
+          {% for piloto in clasificacion %}
 
-                        <span class="ranking-mark"></span>
+          <div class="rank-row">
+            <div class="rank-info">
+              <span class="rank-pos {% if loop.first %}first{% endif %}">
+                {{ "%02d"|format(piloto.posicion) }}
+              </span>
 
-                        <h2>
-                            Clasificación
-                        </h2>
+              <div>
+                <div class="rank-name">{{ piloto.nombre }}</div>
 
-                    </div>
+                <div class="rank-team">{{ piloto.equipo }}</div>
+              </div>
+            </div>
 
+            <span class="rank-pts">
+              {{ piloto.puntos }}
 
-                    <span class="ranking-tag">
-                        TOP 5
-                    </span>
+              <small> PTS </small>
+            </span>
+          </div>
 
-                </div>
+          {% endfor %}
+        </div>
 
+        <div class="ranking-foot">
+          <a href="{{ url_for('main.calendario') }}">
+            <span> VER CALENDARIO </span>
 
-                <div class="ranking-body">
+            <span class="material-symbols-outlined"> arrow_forward_ios </span>
+          </a>
+        </div>
+      </aside>
+    </section>
 
-
-                    <!-- PILOTO 1 -->
-
-                    <div class="rank-row">
-
-                        <div class="rank-info">
-
-                            <span class="rank-pos first">
-                                01
-                            </span>
-
-                            <div>
-
-                                <div class="rank-name">
-                                    M. VERSTAPPEN
-                                </div>
-
-                                <div class="rank-team">
-                                    Red Bull Racing
-                                </div>
-
-                            </div>
-
-                        </div>
-
-
-                        <span class="rank-pts">
-
-                            161
-
-                            <small>
-                                PTS
-                            </small>
-
-                        </span>
-
-                    </div>
-
-
-
-                    <!-- PILOTO 2 -->
-
-                    <div class="rank-row">
-
-                        <div class="rank-info">
-
-                            <span class="rank-pos">
-                                02
-                            </span>
-
-                            <div>
-
-                                <div class="rank-name">
-                                    C. LECLERC
-                                </div>
-
-                                <div class="rank-team">
-                                    Scuderia Ferrari
-                                </div>
-
-                            </div>
-
-                        </div>
-
-
-                        <span class="rank-pts">
-
-                            113
-
-                            <small>
-                                PTS
-                            </small>
-
-                        </span>
-
-                    </div>
-
-
-
-                    <!-- PILOTO 3 -->
-
-                    <div class="rank-row">
-
-                        <div class="rank-info">
-
-                            <span class="rank-pos">
-                                03
-                            </span>
-
-                            <div>
-
-                                <div class="rank-name">
-                                    S. PÉREZ
-                                </div>
-
-                                <div class="rank-team">
-                                    Red Bull Racing
-                                </div>
-
-                            </div>
-
-                        </div>
-
-
-                        <span class="rank-pts">
-
-                            107
-
-                            <small>
-                                PTS
-                            </small>
-
-                        </span>
-
-                    </div>
-
-
-
-                    <!-- PILOTO 4 -->
-
-                    <div class="rank-row">
-
-                        <div class="rank-info">
-
-                            <span class="rank-pos">
-                                04
-                            </span>
-
-                            <div>
-
-                                <div class="rank-name">
-                                    L. NORRIS
-                                </div>
-
-                                <div class="rank-team">
-                                    McLaren F1 Team
-                                </div>
-
-                            </div>
-
-                        </div>
-
-
-                        <span class="rank-pts">
-
-                            101
-
-                            <small>
-                                PTS
-                            </small>
-
-                        </span>
-
-                    </div>
-
-
-
-                    <!-- PILOTO 5 -->
-
-                    <div class="rank-row">
-
-                        <div class="rank-info">
-
-                            <span class="rank-pos">
-                                05
-                            </span>
-
-                            <div>
-
-                                <div class="rank-name">
-                                    C. SAINZ
-                                </div>
-
-                                <div class="rank-team">
-                                    Scuderia Ferrari
-                                </div>
-
-                            </div>
-
-                        </div>
-
-
-                        <span class="rank-pts">
-
-                            93
-
-                            <small>
-                                PTS
-                            </small>
-
-                        </span>
-
-                    </div>
-
-
-                </div>
-
-
-                <div class="ranking-foot">
-
-                    <a href="{{ url_for('main.calendario') }}">
-
-                        <span>
-                            VER CALENDARIO
-                        </span>
-
-                        <span class="material-symbols-outlined">
-                            arrow_forward_ios
-                        </span>
-
-                    </a>
-
-                </div>
-
-            </aside>
-
-
-        </section>
-
-
-
-        <!-- ========================================
+    <!-- ========================================
              NOTICIAS
         ========================================= -->
 
-        <section class="home-news">
+    <section class="home-news">
+      <div class="section-head">
+        <div class="section-title">
+          <div class="section-mark"></div>
 
+          <h2>Paddock News</h2>
+        </div>
 
-            <div class="section-head">
+        <a class="see-all" href="{{ url_for('main.noticias') }}">
+          <span> VER TODO </span>
 
-                <div class="section-title">
+          <span class="material-symbols-outlined"> arrow_forward </span>
+        </a>
+      </div>
 
-                    <div class="section-mark"></div>
+      <div class="news-grid">
+        {% for publicacion in publicaciones_secundarias %}
 
-                    <h2>
-                        Paddock News
-                    </h2>
-
-                </div>
-
-
-                <a
-                    class="see-all"
-                    href="{{ url_for('main.noticias') }}"
-                >
-
-                    <span>
-                        VER TODO
-                    </span>
-
-                    <span class="material-symbols-outlined">
-                        arrow_forward
-                    </span>
-
-                </a>
-
-            </div>
-
-
-
-            <div class="news-grid">
-
-
-    {% for publicacion in publicaciones_secundarias %}
-
-    <article class="news-card">
-
-        <div class="news-img">
-
+        <article class="news-card">
+          <div class="news-img">
             {% if publicacion.imagen_portada %}
 
             <div
-                class="news-img-bg"
-                style="background-image: url('{{ url_imagen(publicacion.imagen_portada) }}');"
-            >
-            </div>
+              class="news-img-bg"
+              style="background-image: url('{{ url_imagen(publicacion.imagen_portada) }}');"
+            ></div>
 
             {% endif %}
 
             <div class="news-img-fade"></div>
+          </div>
 
-        </div>
+          <div class="news-body">
+            <span class="news-cat"> // NOTICIA </span>
 
+            <h3>{{ publicacion.titulo }}</h3>
 
-        <div class="news-body">
-
-            <span class="news-cat">
-                // NOTICIA
-            </span>
-
-
-            <h3>
-                {{ publicacion.titulo }}
-            </h3>
-
-
-            <p>
-                {{ publicacion.resumen or "" }}
-            </p>
-
+            <p>{{ publicacion.resumen or "" }}</p>
 
             <div class="news-foot">
+              <span class="news-author"> F1 SIN FILTRO </span>
 
-                <span class="news-author">
-                    F1 SIN FILTRO
-                </span>
-
-                <span class="news-time">
-                    PUBLICACIÓN
-                </span>
-
+              <span class="news-time"> PUBLICACIÓN </span>
             </div>
 
-
             <a
-                href="{{ url_for(
+              href="{{ url_for(
                     'main.post',
                     id_publicacion=publicacion.id
                 ) }}"
-                class="news-link"
+              class="news-link"
             >
-                LEER NOTICIA
+              LEER NOTICIA
             </a>
+          </div>
+        </article>
 
-        </div>
-
-    </article>
-
-    {% endfor %}
-
-
-
-
-            </div>
-
-
-        </section>
-
-
-    </div>
-
+        {% endfor %}
+      </div>
+    </section>
+  </div>
 </div>
-
 
 {% include 'base/footer.html' %}
