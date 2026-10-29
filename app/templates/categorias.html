@@ -31,185 +31,98 @@
         <!-- CATEGORÍAS -->
         <section class="categorias-grid">
 
+            {% for categoria in categorias %}
 
-            <!-- PILOTOS -->
-            <a href="#" class="categoria-card">
+                <a
+                    href="{{ url_for('main.publicaciones_categoria', id_categoria=categoria.id) }}"
+                    class="categoria-card"
+                >
 
-                <div class="categoria-number">
-                    01
-                </div>
+                    <div class="categoria-number">
 
-                <div class="categoria-icon">
-                    <span class="material-symbols-outlined">
-                        sports_motorsports
-                    </span>
-                </div>
+                        {% if loop.index < 10 %}
+                            0{{ loop.index }}
+                        {% else %}
+                            {{ loop.index }}
+                        {% endif %}
 
-                <div class="categoria-content">
-
-                    <span class="categoria-code">
-                        CATEGORÍA // DRIVERS
-                    </span>
-
-                    <h2>
-                        Pilotos
-                    </h2>
-
-                    <p>
-                        Noticias, rendimiento, declaraciones,
-                        contratos y actualidad de los pilotos.
-                    </p>
-
-                </div>
-
-                <div class="categoria-footer">
-
-                    <span>
-                        VER PUBLICACIONES
-                    </span>
-
-                    <span class="material-symbols-outlined">
-                        arrow_forward
-                    </span>
-
-                </div>
-
-            </a>
+                    </div>
 
 
-            <!-- ESCUDERÍAS -->
-            <a href="#" class="categoria-card">
+                    <!-- IMAGEN -->
+                    <div class="categoria-imagen">
 
-                <div class="categoria-number">
-                    02
-                </div>
+                        {% if categoria.imagen %}
 
-                <div class="categoria-icon">
-                    <span class="material-symbols-outlined">
-                        garage
-                    </span>
-                </div>
+                            <img
+                                src="{{ url_imagen(categoria.imagen) }}"
+                                alt="{{ categoria.nombre }}"
+                            >
 
-                <div class="categoria-content">
+                        {% else %}
 
-                    <span class="categoria-code">
-                        CATEGORÍA // TEAMS
-                    </span>
+                            <div class="categoria-icon">
 
-                    <h2>
-                        Escuderías
-                    </h2>
+                                <span class="material-symbols-outlined">
 
-                    <p>
-                        Actualizaciones, rendimiento y novedades
-                        de los equipos de Fórmula 1.
-                    </p>
+                                    {% if categoria.nombre == "Pilotos" %}
+                                        sports_motorsports
 
-                </div>
+                                    {% elif categoria.nombre == "Escuderías" %}
+                                        garage
 
-                <div class="categoria-footer">
+                                    {% elif categoria.nombre == "Carreras" %}
+                                        flag
 
-                    <span>
-                        VER PUBLICACIONES
-                    </span>
+                                    {% elif categoria.nombre == "Clasificación" %}
+                                        leaderboard
 
-                    <span class="material-symbols-outlined">
-                        arrow_forward
-                    </span>
+                                    {% else %}
+                                        category
 
-                </div>
+                                    {% endif %}
 
-            </a>
+                                </span>
+
+                            </div>
+
+                        {% endif %}
+
+                    </div>
 
 
-            <!-- CARRERAS -->
-            <a href="#" class="categoria-card">
+                    <div class="categoria-content">
 
-                <div class="categoria-number">
-                    03
-                </div>
+                        <span class="categoria-code">
+                            CATEGORÍA // {{ categoria.nombre|upper }}
+                        </span>
 
-                <div class="categoria-icon">
-                    <span class="material-symbols-outlined">
-                        flag
-                    </span>
-                </div>
+                        <h2>
+                            {{ categoria.nombre }}
+                        </h2>
 
-                <div class="categoria-content">
+                        <p>
+                            {{ categoria.descripcion }}
+                        </p>
 
-                    <span class="categoria-code">
-                        CATEGORÍA // RACES
-                    </span>
-
-                    <h2>
-                        Carreras
-                    </h2>
-
-                    <p>
-                        Previas, resultados, análisis y todo
-                        lo ocurrido durante cada Gran Premio.
-                    </p>
-
-                </div>
-
-                <div class="categoria-footer">
-
-                    <span>
-                        VER PUBLICACIONES
-                    </span>
-
-                    <span class="material-symbols-outlined">
-                        arrow_forward
-                    </span>
-
-                </div>
-
-            </a>
+                    </div>
 
 
-            <!-- CLASIFICACIÓN -->
-            <a href="#" class="categoria-card">
+                    <div class="categoria-footer">
 
-                <div class="categoria-number">
-                    04
-                </div>
+                        <span>
+                            VER PUBLICACIONES
+                        </span>
 
-                <div class="categoria-icon">
-                    <span class="material-symbols-outlined">
-                        leaderboard
-                    </span>
-                </div>
+                        <span class="material-symbols-outlined">
+                            arrow_forward
+                        </span>
 
-                <div class="categoria-content">
+                    </div>
 
-                    <span class="categoria-code">
-                        CATEGORÍA // STANDINGS
-                    </span>
+                </a>
 
-                    <h2>
-                        Clasificación
-                    </h2>
-
-                    <p>
-                        Posiciones del campeonato, puntos
-                        y evolución de pilotos y constructores.
-                    </p>
-
-                </div>
-
-                <div class="categoria-footer">
-
-                    <span>
-                        VER PUBLICACIONES
-                    </span>
-
-                    <span class="material-symbols-outlined">
-                        arrow_forward
-                    </span>
-
-                </div>
-
-            </a>
+            {% endfor %}
 
         </section>
 

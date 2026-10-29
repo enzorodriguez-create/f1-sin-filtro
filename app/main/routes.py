@@ -1,13 +1,14 @@
 import requests
 
 from datetime import datetime, timezone
-
+from app.extensions import db
 from flask import Blueprint, render_template
 
 from app.models import (
     Publicacion,
     BloquePublicacion,
-    ImagenCarrusel
+    ImagenCarrusel,
+    Categoria
 )
 
 
@@ -420,6 +421,49 @@ def suscripcion():
 @bp.route("/categorias")
 def categorias():
 
+    categorias = Categoria.query.order_by(
+        Categoria.id.asc()
+    ).all()
+
+
     return render_template(
-        "categorias.html"
+        "categorias.html",
+        categorias=categorias
+    )
+
+
+# =====================================
+# PUBLICACIONES POR CATEGORÍA
+# =====================================
+
+@bp.route(
+    "/categorias/<int:id_categoria>"
+)
+def publicaciones_categoria(id_categoria):
+
+    categoria = db.session.get(
+        Categoria,
+        id_categoria
+    )
+
+
+    if not categoria:
+
+        return "Categoría no encontrada."
+
+
+    publicaciones = Publicacion.query.filter(
+        Publicacion.estado == "publicada",
+        Publicacion.categorias.any(
+            Categoria.id == id_categoria
+        )
+    ).order_by(
+        Publicacion.id.desc()
+    ).all()
+
+
+    return render_template(
+        "publicaciones_categoria.html",
+        categoria=categoria,
+        publicaciones=publicaciones
     )
