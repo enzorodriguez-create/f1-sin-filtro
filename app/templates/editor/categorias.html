@@ -242,6 +242,8 @@
                     <form
                         method="POST"
                         enctype="multipart/form-data"
+                        id="category-form"
+                        action="{{ url_for('editor.editor_categorias') }}"
                     >
 
 
@@ -254,7 +256,7 @@
                                     CATEGORÍA
                                 </span>
 
-                                <h2>
+                                <h2 id="category-form-title">
                                     Crear Nueva Categoría
                                 </h2>
 
@@ -319,7 +321,7 @@
 
                             <!-- IMAGEN -->
 
-                            <div class="category-field">
+                            <div class="category-field category-image-field">
 
                                 <label for="category-image">
                                     IMAGEN
@@ -431,7 +433,16 @@
                     {% for categoria in categorias %}
 
 
-                        <article class="category-card">
+                        <article
+                            class="category-card"
+                            data-id="{{ categoria.id }}"
+                            data-name="{{ categoria.nombre }}"
+                            data-description="{{ categoria.descripcion or '' }}"
+                            data-edit-url="{{ url_for(
+                                'editor.editor_editar_categoria',
+                                id_categoria=categoria.id
+                            ) }}"
+                        >
 
 
                             <div class="category-card-top">
@@ -479,17 +490,28 @@
                                     </button>
 
 
-                                    <button
-                                        class="delete-category-btn"
-                                        type="button"
-                                        title="Eliminar categoría"
+                                    <form
+                                        method="POST"
+                                        action="{{ url_for(
+                                            'editor.editor_eliminar_categoria',
+                                            id_categoria=categoria.id
+                                        ) }}"
+                                        class="delete-category-form"
                                     >
 
-                                        <span class="material-symbols-outlined">
-                                            delete
-                                        </span>
+                                        <button
+                                            class="delete-category-btn"
+                                            type="submit"
+                                            title="Eliminar categoría"
+                                        >
 
-                                    </button>
+                                            <span class="material-symbols-outlined">
+                                                delete
+                                            </span>
+
+                                        </button>
+
+                                    </form>
 
 
                                 </div>
@@ -592,6 +614,18 @@
         );
 
 
+    const categoryForm =
+        document.getElementById(
+            "category-form"
+        );
+
+
+    const formTitle =
+        document.getElementById(
+            "category-form-title"
+        );
+
+
     const openButton =
         document.getElementById(
             "btn-open-category"
@@ -616,8 +650,44 @@
         );
 
 
+    const descriptionInput =
+        document.getElementById(
+            "category-description"
+        );
 
-    function abrirFormulario() {
+
+    const imageInput =
+        document.getElementById(
+            "category-image"
+        );
+
+
+    const createUrl =
+        "{{ url_for('editor.editor_categorias') }}";
+
+
+
+    function abrirFormularioNuevo() {
+
+
+        formTitle.textContent =
+            "Crear Nueva Categoría";
+
+
+        categoryForm.action =
+            createUrl;
+
+
+        nameInput.value =
+            "";
+
+
+        descriptionInput.value =
+            "";
+
+
+        imageInput.value =
+            "";
 
 
         formCard.classList.remove(
@@ -640,15 +710,34 @@
         );
 
 
+        categoryForm.action =
+            createUrl;
+
+
+        formTitle.textContent =
+            "Crear Nueva Categoría";
+
+
+        nameInput.value =
+            "";
+
+
+        descriptionInput.value =
+            "";
+
+
+        imageInput.value =
+            "";
+
+
     }
 
 
 
     openButton.addEventListener(
         "click",
-        abrirFormulario
+        abrirFormularioNuevo
     );
-
 
 
     closeButton.addEventListener(
@@ -657,11 +746,109 @@
     );
 
 
-
     cancelButton.addEventListener(
         "click",
         cerrarFormulario
     );
+
+
+
+    document
+        .querySelectorAll(
+            ".edit-category-btn"
+        )
+        .forEach(
+            function (button) {
+
+
+                button.addEventListener(
+                    "click",
+                    function () {
+
+
+                        const category =
+                            button.closest(
+                                ".category-card"
+                            );
+
+
+                        formTitle.textContent =
+                            "Editar Categoría";
+
+
+                        nameInput.value =
+                            category.dataset.name;
+
+
+                        descriptionInput.value =
+                            category.dataset.description;
+
+
+                        imageInput.value =
+                            "";
+
+
+                        categoryForm.action =
+                            category.dataset.editUrl;
+
+
+                        formCard.classList.remove(
+                            "hidden"
+                        );
+
+
+                        nameInput.focus();
+
+
+                        formCard.scrollIntoView({
+                            behavior:
+                                "smooth",
+                            block:
+                                "start"
+                        });
+
+
+                    }
+                );
+
+
+            }
+        );
+
+
+
+    document
+        .querySelectorAll(
+            ".delete-category-form"
+        )
+        .forEach(
+            function (form) {
+
+
+                form.addEventListener(
+                    "submit",
+                    function (event) {
+
+
+                        const confirmar =
+                            confirm(
+                                "¿Seguro que querés eliminar esta categoría?"
+                            );
+
+
+                        if (!confirmar) {
+
+                            event.preventDefault();
+
+                        }
+
+
+                    }
+                );
+
+
+            }
+        );
 
 
 </script>

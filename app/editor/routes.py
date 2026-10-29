@@ -486,6 +486,153 @@ def editor_categorias():
         seccion_activa="categorias"
     )
 
+# =========================
+# EDITAR CATEGORÍA
+# =========================
+
+@bp.route(
+    "/editor/categorias/<int:id_categoria>/editar",
+    methods=["POST"]
+)
+def editor_editar_categoria(id_categoria):
+
+    usuario = obtener_usuario_actual()
+
+    if not usuario:
+
+        return redirect(
+            url_for(
+                "auth.login"
+            )
+        )
+
+
+    categoria = db.session.get(
+        Categoria,
+        id_categoria
+    )
+
+
+    if not categoria:
+
+        return "Categoría no encontrada."
+
+
+    nombre = request.form.get(
+        "nombre",
+        ""
+    ).strip()
+
+
+    descripcion = request.form.get(
+        "descripcion",
+        ""
+    ).strip()
+
+
+    if not nombre:
+
+        return "Tenés que ingresar un nombre."
+
+
+    categoria_existente = Categoria.query.filter(
+        Categoria.nombre == nombre,
+        Categoria.id != id_categoria
+    ).first()
+
+
+    if categoria_existente:
+
+        return "Ya existe otra categoría con ese nombre."
+
+
+    categoria.nombre = nombre
+
+    categoria.descripcion = descripcion
+
+
+    # =========================
+    # IMAGEN
+    # =========================
+
+    imagen_archivo = request.files.get(
+        "imagen"
+    )
+
+
+    if (
+        imagen_archivo
+        and imagen_archivo.filename
+    ):
+
+        if not extension_valida(
+            imagen_archivo.filename
+        ):
+
+            return "Formato de imagen no válido."
+
+
+        categoria.imagen = subir_imagen(
+            imagen_archivo,
+            carpeta="categorias"
+        )
+
+
+    db.session.commit()
+
+
+    return redirect(
+        url_for(
+            "editor.editor_categorias"
+        )
+    )
+
+# =========================
+# ELIMINAR CATEGORÍA
+# =========================
+
+@bp.route(
+    "/editor/categorias/<int:id_categoria>/eliminar",
+    methods=["POST"]
+)
+def editor_eliminar_categoria(id_categoria):
+
+    usuario = obtener_usuario_actual()
+
+    if not usuario:
+
+        return redirect(
+            url_for(
+                "auth.login"
+            )
+        )
+
+
+    categoria = db.session.get(
+        Categoria,
+        id_categoria
+    )
+
+
+    if not categoria:
+
+        return "Categoría no encontrada."
+
+
+    db.session.delete(
+        categoria
+    )
+
+
+    db.session.commit()
+
+
+    return redirect(
+        url_for(
+            "editor.editor_categorias"
+        )
+    )
+
 @bp.route("/editor/etiquetas")
 def editor_etiquetas():
 
