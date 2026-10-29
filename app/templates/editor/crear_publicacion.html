@@ -67,31 +67,22 @@
 <body>
 
 
-    <!-- =========================
-         LAYOUT EDITOR
-    ========================== -->
+    <!-- LAYOUT EDITOR -->
 
     <div class="editor-page">
 
 
-        <!-- =========================
-             SIDEBAR
-        ========================== -->
+        <!-- SIDEBAR -->
 
         {% include "editor/sidebar.html" %}
 
 
-
-        <!-- =========================
-             CONTENIDO
-        ========================== -->
+        <!-- CONTENIDO -->
 
         <div class="editor-content">
 
 
-            <!-- =========================
-                 TOPBAR
-            ========================== -->
+            <!-- TOPBAR -->
 
             <header class="editor-topbar">
 
@@ -150,21 +141,21 @@
 
                         {% if usuario and usuario.foto %}
 
-                        <img
-                            class="editor-avatar editor-avatar-img"
-                            src="{{ url_imagen(usuario.foto) }}"
-                            alt="{{ usuario.nombre }}"
-                        >
+                            <img
+                                class="editor-avatar editor-avatar-img"
+                                src="{{ url_imagen(usuario.foto) }}"
+                                alt="{{ usuario.nombre }}"
+                            >
 
                         {% else %}
 
-                        <div class="editor-avatar">
+                            <div class="editor-avatar">
 
-                            <span class="material-symbols-outlined">
-                                person
-                            </span>
+                                <span class="material-symbols-outlined">
+                                    person
+                                </span>
 
-                        </div>
+                            </div>
 
                         {% endif %}
 
@@ -178,10 +169,7 @@
             </header>
 
 
-
-            <!-- =========================
-                 MAIN
-            ========================== -->
+            <!-- MAIN -->
 
             <main class="editor-main">
 
@@ -196,8 +184,6 @@
                     >
 
 
-                        <!-- GUARDO EL ORDEN DE LOS BLOQUES -->
-
                         <input
                             type="hidden"
                             name="bloques_orden"
@@ -205,10 +191,7 @@
                         >
 
 
-
-                        <!-- =========================
-                             ENCABEZADO
-                        ========================== -->
+                        <!-- ENCABEZADO -->
 
                         <header class="action-bar">
 
@@ -246,24 +229,17 @@
                         </header>
 
 
-
-                        <!-- =========================
-                             GRID
-                        ========================== -->
+                        <!-- GRID -->
 
                         <div class="grid">
 
 
-                            <!-- =========================
-                                 COLUMNA IZQUIERDA
-                            ========================== -->
+                            <!-- COLUMNA IZQUIERDA -->
 
                             <div class="col-left">
 
 
-                                <!-- =========================
-                                     TÍTULO
-                                ========================== -->
+                                <!-- TÍTULO -->
 
                                 <div class="card gap8">
 
@@ -309,10 +285,7 @@
                                 </div>
 
 
-
-                                <!-- =========================
-                                     SUBTÍTULO / RESUMEN
-                                ========================== -->
+                                <!-- SUBTÍTULO -->
 
                                 <div class="card gap8">
 
@@ -337,10 +310,7 @@
                                 </div>
 
 
-
-                                <!-- =========================
-                                     IMAGEN DE PORTADA
-                                ========================== -->
+                                <!-- PORTADA -->
 
                                 <div class="card gap12">
 
@@ -359,7 +329,6 @@
 
 
                                     </div>
-
 
 
                                     <div class="dropzone">
@@ -425,15 +394,10 @@
                                 </div>
 
 
-
-                                <!-- =========================
-                                     CONTENIDO POR BLOQUES
-                                ========================== -->
+                                <!-- CONTENIDO -->
 
                                 <div class="editor-card">
 
-
-                                    <!-- BOTONES DE BLOQUES -->
 
                                     <div class="toolbar">
 
@@ -456,7 +420,6 @@
                                             </button>
 
 
-
                                             <button
                                                 class="tb tb-text"
                                                 id="btn-agregar-imagen"
@@ -470,7 +433,6 @@
                                                 IMAGEN
 
                                             </button>
-
 
 
                                             <button
@@ -489,7 +451,6 @@
 
 
                                         </div>
-
 
 
                                         <div class="tb-mode">
@@ -511,18 +472,11 @@
                                     </div>
 
 
-
-                                    <!-- =========================
-                                         BLOQUES
-                                    ========================== -->
-
                                     <div
                                         class="bloques-contenido"
                                         id="bloques-contenido"
                                     >
 
-
-                                        <!-- EMPIEZO CON UN TEXTO -->
 
                                         <div
                                             class="bloque-contenido"
@@ -568,7 +522,6 @@
                                     </div>
 
 
-
                                     <div class="editor-foot">
 
                                         <span class="lbl fw600 c-variant">
@@ -584,17 +537,12 @@
                             </div>
 
 
-
-                            <!-- =========================
-                                 COLUMNA DERECHA
-                            ========================== -->
+                            <!-- COLUMNA DERECHA -->
 
                             <div class="col-right">
 
 
-                                <!-- =========================
-                                     PREMIUM
-                                ========================== -->
+                                <!-- PREMIUM -->
 
                                 <div class="card card-side gap16">
 
@@ -626,7 +574,6 @@
                                     </div>
 
 
-
                                     <div class="paywall">
 
 
@@ -644,7 +591,6 @@
 
 
                                         </div>
-
 
 
                                         <label class="switch">
@@ -669,10 +615,7 @@
                                 </div>
 
 
-
-                                <!-- =========================
-                                     CATEGORÍA
-                                ========================== -->
+                                <!-- CATEGORÍA -->
 
                                 <div class="card card-side gap12">
 
@@ -696,23 +639,6 @@
                                         </label>
 
 
-                                        <button
-                                            class="link-btn"
-                                            id="btn-new-cat"
-                                            type="button"
-                                        >
-
-                                            <span class="material-symbols-outlined i16">
-                                                add
-                                            </span>
-
-                                            <span>
-                                                Nueva
-                                            </span>
-
-                                        </button>
-
-
                                     </div>
 
 
@@ -727,97 +653,29 @@
                                         <select
                                             class="select"
                                             id="post-category"
-                                            name="categoria"
+                                            name="categoria_id"
+                                            required
                                         >
 
                                             <option
-                                                value="tecnica"
+                                                value=""
                                                 selected
+                                                disabled
                                             >
-                                                Técnica
+                                                Seleccionar categoría
                                             </option>
 
-                                            <option value="equipos">
-                                                Equipos
-                                            </option>
 
-                                            <option value="pilotos">
-                                                Pilotos
-                                            </option>
+                                            {% for categoria in categorias %}
 
-                                            <option value="campeonato">
-                                                Campeonato
-                                            </option>
+                                                <option value="{{ categoria.id }}">
+                                                    {{ categoria.nombre }}
+                                                </option>
 
-                                            <option value="previa">
-                                                Previa
-                                            </option>
+                                            {% endfor %}
+
 
                                         </select>
-
-
-
-                                        <div
-                                            class="newcat hidden"
-                                            id="new-cat-box"
-                                        >
-
-
-                                            <span class="lbl up c-primary fw600">
-                                                Crear nueva categoría
-                                            </span>
-
-
-                                            <div class="newcat-row">
-
-
-                                                <input
-                                                    class="field-xs"
-                                                    id="new-category-input"
-                                                    type="text"
-                                                    placeholder="Nombre de la categoría"
-                                                >
-
-
-                                                <button
-                                                    class="btn-save"
-                                                    id="btn-save-cat"
-                                                    type="button"
-                                                >
-
-                                                    <span class="material-symbols-outlined i14">
-                                                        check
-                                                    </span>
-
-                                                    <span>
-                                                        Guardar
-                                                    </span>
-
-                                                </button>
-
-
-                                            </div>
-
-
-                                        </div>
-
-
-
-                                        <button
-                                            class="link-btn link-left"
-                                            id="btn-new-cat-2"
-                                            type="button"
-                                        >
-
-                                            <span class="material-symbols-outlined i16">
-                                                add_circle
-                                            </span>
-
-                                            <span>
-                                                Crear nueva categoría
-                                            </span>
-
-                                        </button>
 
 
                                     </div>
@@ -826,10 +684,7 @@
                                 </div>
 
 
-
-                                <!-- =========================
-                                     ETIQUETAS
-                                ========================== -->
+                                <!-- ETIQUETAS -->
 
                                 <div class="card card-side gap16">
 
@@ -859,7 +714,6 @@
 
 
                                     </div>
-
 
 
                                     <div class="tag-form">
@@ -902,7 +756,6 @@
 
 
                                     </div>
-
 
 
                                     <div class="col gap6">
@@ -958,14 +811,11 @@
                                     </div>
 
 
-
                                     <div
                                         class="tags"
                                         id="tags-container"
                                     ></div>
 
-
-                                    <!-- GUARDO LAS ETIQUETAS -->
 
                                     <input
                                         type="hidden"
@@ -977,15 +827,10 @@
                                 </div>
 
 
-
-                                <!-- =========================
-                                     ACCIONES
-                                ========================== -->
+                                <!-- ACCIONES -->
 
                                 <div class="card card-side gap12">
 
-
-                                    <!-- PUBLICAR -->
 
                                     <button
                                         class="btn-big"
@@ -1004,9 +849,6 @@
 
                                     </button>
 
-
-
-                                    <!-- DESCARTAR -->
 
                                     <button
                                         class="btn-discard"
@@ -1041,18 +883,12 @@
     </div>
 
 
-
-    <!-- =========================
-         FOOTER
-    ========================== -->
+    <!-- FOOTER -->
 
     {% include "base/footer.html" %}
 
 
-
-    <!-- =========================
-         JAVASCRIPT
-    ========================== -->
+    <!-- JAVASCRIPT -->
 
     <script>
 
@@ -1060,10 +896,7 @@
         (function initPostEditor() {
 
 
-
-            /* =========================
-               TÍTULO
-            ========================= */
+            /* TÍTULO */
 
             const titleInput =
                 document.getElementById(
@@ -1097,10 +930,7 @@
             }
 
 
-
-            /* =========================
-               ETIQUETAS
-            ========================= */
+            /* ETIQUETAS */
 
             const tagsContainer =
                 document.getElementById(
@@ -1132,7 +962,6 @@
                 );
 
 
-
             function updateTagCounter() {
 
                 if (
@@ -1151,7 +980,6 @@
                 actualizarEtiquetasHidden();
 
             }
-
 
 
             function actualizarEtiquetasHidden() {
@@ -1196,7 +1024,6 @@
                     etiquetas.join(",");
 
             }
-
 
 
             function addTag() {
@@ -1277,7 +1104,6 @@
             }
 
 
-
             if (addTagBtn) {
 
                 addTagBtn.addEventListener(
@@ -1286,7 +1112,6 @@
                 );
 
             }
-
 
 
             if (tagInput) {
@@ -1309,7 +1134,6 @@
                 );
 
             }
-
 
 
             if (tagsContainer) {
@@ -1351,7 +1175,6 @@
             }
 
 
-
             document
                 .querySelectorAll(
                     ".sug"
@@ -1386,161 +1209,7 @@
             updateTagCounter();
 
 
-
-            /* =========================
-               NUEVA CATEGORÍA
-            ========================= */
-
-            const newCatBox =
-                document.getElementById(
-                    "new-cat-box"
-                );
-
-
-            const newCatButton =
-                document.getElementById(
-                    "btn-new-cat"
-                );
-
-
-            const newCatButton2 =
-                document.getElementById(
-                    "btn-new-cat-2"
-                );
-
-
-            const saveCategoryButton =
-                document.getElementById(
-                    "btn-save-cat"
-                );
-
-
-
-            function toggleCategoryBox() {
-
-                if (newCatBox) {
-
-                    newCatBox.classList.toggle(
-                        "hidden"
-                    );
-
-                }
-
-            }
-
-
-
-            if (newCatButton) {
-
-                newCatButton.addEventListener(
-                    "click",
-                    toggleCategoryBox
-                );
-
-            }
-
-
-
-            if (newCatButton2) {
-
-                newCatButton2.addEventListener(
-                    "click",
-                    toggleCategoryBox
-                );
-
-            }
-
-
-
-            if (saveCategoryButton) {
-
-                saveCategoryButton.addEventListener(
-                    "click",
-                    () => {
-
-                        const categoryInput =
-                            document.getElementById(
-                                "new-category-input"
-                            );
-
-
-                        const categorySelect =
-                            document.getElementById(
-                                "post-category"
-                            );
-
-
-                        if (
-                            !categoryInput ||
-                            !categorySelect
-                        ) {
-
-                            return;
-
-                        }
-
-
-                        const value =
-                            categoryInput.value.trim();
-
-
-                        if (!value) {
-
-                            return;
-
-                        }
-
-
-                        const option =
-                            document.createElement(
-                                "option"
-                            );
-
-
-                        option.value =
-                            value
-                                .toLowerCase()
-                                .replace(
-                                    /\s+/g,
-                                    "-"
-                                );
-
-
-                        option.textContent =
-                            value;
-
-
-                        option.selected =
-                            true;
-
-
-                        categorySelect.appendChild(
-                            option
-                        );
-
-
-                        categoryInput.value =
-                            "";
-
-
-                        if (newCatBox) {
-
-                            newCatBox.classList.add(
-                                "hidden"
-                            );
-
-                        }
-
-                    }
-                );
-
-            }
-
-
-
-            /* =========================
-               BLOQUES DE CONTENIDO
-            ========================= */
+            /* BLOQUES */
 
             const bloquesContenido =
                 document.getElementById(
@@ -1565,11 +1234,6 @@
                     "btn-agregar-carrusel"
                 );
 
-
-
-            /* =========================
-               ORDEN DE LOS BLOQUES
-            ========================= */
 
             function actualizarOrdenBloques() {
 
@@ -1616,11 +1280,6 @@
             }
 
 
-
-            /* =========================
-               PREPARAR BLOQUES AL ENVIAR
-            ========================= */
-
             const formPublicacion =
                 document.getElementById(
                     "form-publicacion"
@@ -1652,9 +1311,6 @@
                                     bloque.dataset.tipo;
 
 
-
-                                /* TEXTO */
-
                                 if (
                                     tipo === "texto"
                                 ) {
@@ -1675,9 +1331,6 @@
                                 }
 
 
-
-                                /* IMAGEN */
-
                                 if (
                                     tipo === "imagen"
                                 ) {
@@ -1697,9 +1350,6 @@
 
                                 }
 
-
-
-                                /* CARRUSEL */
 
                                 if (
                                     tipo === "carrusel"
@@ -1735,11 +1385,6 @@
 
             }
 
-
-
-            /* =========================
-               CREAR BLOQUE TEXTO
-            ========================= */
 
             function crearBloqueTexto() {
 
@@ -1800,11 +1445,6 @@
             }
 
 
-
-            /* =========================
-               CREAR BLOQUE IMAGEN
-            ========================= */
-
             function crearBloqueImagen() {
 
 
@@ -1863,11 +1503,6 @@
 
             }
 
-
-
-            /* =========================
-               CREAR BLOQUE CARRUSEL
-            ========================= */
 
             function crearBloqueCarrusel() {
 
@@ -1934,11 +1569,6 @@
             }
 
 
-
-            /* =========================
-               BOTONES AGREGAR BLOQUES
-            ========================= */
-
             if (btnAgregarTexto) {
 
                 btnAgregarTexto.addEventListener(
@@ -1968,11 +1598,6 @@
 
             }
 
-
-
-            /* =========================
-               ELIMINAR BLOQUES
-            ========================= */
 
             if (bloquesContenido) {
 
@@ -2015,10 +1640,7 @@
             }
 
 
-
-            /* =========================
-               DESCARTAR CAMBIOS
-            ========================= */
+            /* DESCARTAR */
 
             const discardButton =
                 document.getElementById(
@@ -2046,9 +1668,6 @@
                         }
 
 
-
-                        /* LIMPIO TÍTULO */
-
                         if (titleInput) {
 
                             titleInput.value =
@@ -2056,9 +1675,6 @@
 
                         }
 
-
-
-                        /* LIMPIO SUBTÍTULO */
 
                         const excerpt =
                             document.getElementById(
@@ -2074,9 +1690,6 @@
                         }
 
 
-
-                        /* CONTADOR */
-
                         if (titleCounter) {
 
                             titleCounter.textContent =
@@ -2084,9 +1697,6 @@
 
                         }
 
-
-
-                        /* ETIQUETAS */
 
                         if (tagsContainer) {
 
@@ -2098,9 +1708,6 @@
                         }
 
 
-
-                        /* BLOQUES */
-
                         if (bloquesContenido) {
 
                             bloquesContenido.innerHTML =
@@ -2110,9 +1717,6 @@
 
                         }
 
-
-
-                        /* PORTADA */
 
                         const coverInput =
                             document.getElementById(
@@ -2146,7 +1750,6 @@
                         }
 
 
-
                         actualizarOrdenBloques();
 
 
@@ -2156,10 +1759,7 @@
             }
 
 
-
-            /* =========================
-               IMAGEN DE PORTADA
-            ========================= */
+            /* PORTADA */
 
             const coverInput =
                 document.getElementById(
@@ -2217,11 +1817,6 @@
 
             }
 
-
-
-            /* =========================
-               ORDEN INICIAL
-            ========================= */
 
             actualizarOrdenBloques();
 

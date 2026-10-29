@@ -116,9 +116,9 @@ class Publicacion(db.Model):
     )
 
     resumen = db.Column(
-     db.String(255),
-     nullable=True
-     )
+        db.String(255),
+        nullable=True
+    )
 
     imagen_portada = db.Column(
         db.String(500),
@@ -135,6 +135,16 @@ class Publicacion(db.Model):
         db.Integer,
         db.ForeignKey("usuarios.id"),
         nullable=False
+    )
+
+    categoria_id = db.Column(
+        db.Integer,
+        db.ForeignKey("categorias.id"),
+        nullable=True
+    )
+
+    categoria = db.relationship(
+        "Categoria"
     )
 
 
@@ -193,6 +203,7 @@ class ImagenCarrusel(db.Model):
         db.Integer,
         nullable=False
     )
+
 
 class Categoria(db.Model):
 
