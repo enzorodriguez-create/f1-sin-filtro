@@ -26,11 +26,8 @@
         url("/static/styles/images/fondof1.avif");
 
     background-size: cover;
-
     background-position: center;
-
     background-repeat: no-repeat;
-
     background-attachment: fixed;
 
     color: var(--noticias-text);
@@ -343,6 +340,8 @@
     min-height: 420px;
 
     overflow: hidden;
+
+    background: #090909;
 }
 
 
@@ -351,7 +350,11 @@
 
     height: 100%;
 
+    display: block;
+
     object-fit: cover;
+
+    object-position: center;
 
     transition:
         transform 0.5s;
@@ -378,6 +381,10 @@
         );
 }
 
+
+/* =========================================
+   CONTENIDO DESTACADA
+========================================= */
 
 .noticia-destacada-content {
     padding: 2rem;
@@ -561,12 +568,20 @@
 }
 
 
+/* =========================================
+   IMAGEN DE CARD
+========================================= */
+
 .noticia-card-img {
     position: relative;
 
-    height: 240px;
+    width: 100%;
+
+    aspect-ratio: 16 / 9;
 
     overflow: hidden;
+
+    background: #090909;
 }
 
 
@@ -575,7 +590,11 @@
 
     height: 100%;
 
-    object-fit: cover;
+    display: block;
+
+    object-fit: contain;
+
+    object-position: center;
 
     filter:
         grayscale(0.4);
@@ -589,7 +608,7 @@
 .noticia-card:hover
 .noticia-card-img img {
     transform:
-        scale(1.03);
+        scale(1.02);
 
     filter:
         grayscale(0);
@@ -625,6 +644,10 @@
     font-weight: 700;
 }
 
+
+/* =========================================
+   CONTENIDO CARD
+========================================= */
 
 .noticia-card-body {
     flex-grow: 1;
@@ -783,6 +806,56 @@
 
 
 /* =========================================
+   SIN PUBLICACIONES
+========================================= */
+
+.noticias-vacio {
+    padding:
+        4rem
+        2rem;
+
+    background:
+        var(--noticias-card);
+
+    border:
+        1px solid
+        var(--noticias-border);
+
+    text-align: center;
+}
+
+
+.noticias-vacio h2 {
+    margin:
+        0
+        0
+        0.75rem;
+
+    color: #fff;
+
+    font-family:
+        "Anybody",
+        sans-serif;
+
+    font-size: 2rem;
+
+    font-weight: 900;
+
+    text-transform: uppercase;
+}
+
+
+.noticias-vacio p {
+    margin: 0;
+
+    color:
+        var(--noticias-muted);
+
+    font-size: 14px;
+}
+
+
+/* =========================================
    TABLET
 ========================================= */
 
@@ -852,12 +925,6 @@
     .noticia-destacada-content h2 {
         font-size:
             1.6rem;
-    }
-
-
-    .noticia-card-img {
-        height:
-            210px;
     }
 
 }
