@@ -47,10 +47,6 @@ def obtener_usuario_actual():
     )
 
 
-# =====================================
-# PERFIL
-# =====================================
-
 @bp.route("/perfil")
 def perfil():
 
@@ -74,12 +70,13 @@ def perfil():
         usuario_id=usuario.id
     ).count()
 
+
     # =========================
-# PUBLICACIONES GUARDADAS
-# =========================
+    # PUBLICACIONES GUARDADAS
+    # =========================
 
     cantidad_guardados = PublicacionGuardada.query.filter_by(
-    usuario_id=usuario.id
+        usuario_id=usuario.id
     ).count()
 
 
@@ -98,7 +95,7 @@ def perfil():
         "perfil/perfil.html",
         usuario=usuario,
         cantidad_comentarios=cantidad_comentarios,
-         cantidad_guardados=cantidad_guardados,
+        cantidad_guardados=cantidad_guardados,
         comentarios_recientes=comentarios_recientes
     )
 

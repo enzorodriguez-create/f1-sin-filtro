@@ -5,6 +5,7 @@
   href="{{ url_for('static', filename='styles/perfil/perfil_dashboard.css') }}"
 />
 
+
 <div class="perfil-page">
 
   <div class="perfil-container">
@@ -252,68 +253,6 @@
         </div>
 
 
-
-        <!-- ETIQUETAS -->
-
-        <div class="perfil-stat">
-
-          <div class="perfil-stat-icon">
-
-            <span class="material-symbols-outlined">
-              label
-            </span>
-
-          </div>
-
-
-          <span class="perfil-stat-label">
-            Etiquetas Guardadas
-          </span>
-
-
-          <span class="perfil-stat-value">
-            6
-          </span>
-
-
-          <span class="perfil-stat-description">
-            temas seguidos
-          </span>
-
-        </div>
-
-
-
-        <!-- ÚLTIMA ACTIVIDAD -->
-
-        <div class="perfil-stat">
-
-          <div class="perfil-stat-icon">
-
-            <span class="material-symbols-outlined">
-              history
-            </span>
-
-          </div>
-
-
-          <span class="perfil-stat-label">
-            Última Actividad
-          </span>
-
-
-          <span class="perfil-stat-text">
-            2H
-          </span>
-
-
-          <span class="perfil-stat-description">
-            hace 2 horas
-          </span>
-
-        </div>
-
-
       </div>
 
 
@@ -394,39 +333,6 @@
 
             <p>
               Accedé a todas las noticias que guardaste.
-            </p>
-
-          </div>
-
-
-          <span class="material-symbols-outlined perfil-link-arrow">
-            arrow_forward
-          </span>
-
-        </a>
-
-
-
-        <!-- ETIQUETAS GUARDADAS -->
-
-        <a
-          href="{{ url_for('perfil.etiquetas_guardadas') }}"
-          class="perfil-link-card"
-        >
-
-          <span class="material-symbols-outlined">
-            label
-          </span>
-
-
-          <div>
-
-            <h3>
-              Etiquetas Guardadas
-            </h3>
-
-            <p>
-              Consultá los temas y etiquetas que seguís.
             </p>
 
           </div>
@@ -606,31 +512,35 @@
       fechas.forEach(
         function (elemento) {
 
-          const fechaUTC = elemento.dataset.fecha;
+          const fechaUTC =
+            elemento.dataset.fecha;
 
 
-          const fecha = new Date(
-            fechaUTC
-          );
+          const fecha =
+            new Date(
+              fechaUTC
+            );
 
 
-          const fechaLocal = fecha.toLocaleDateString(
-            undefined,
-            {
-              day: "2-digit",
-              month: "2-digit"
-            }
-          );
+          const fechaLocal =
+            fecha.toLocaleDateString(
+              undefined,
+              {
+                day: "2-digit",
+                month: "2-digit"
+              }
+            );
 
 
-          const horaLocal = fecha.toLocaleTimeString(
-            undefined,
-            {
-              hour: "2-digit",
-              minute: "2-digit",
-              second: "2-digit"
-            }
-          );
+          const horaLocal =
+            fecha.toLocaleTimeString(
+              undefined,
+              {
+                hour: "2-digit",
+                minute: "2-digit",
+                second: "2-digit"
+              }
+            );
 
 
           elemento.textContent =
