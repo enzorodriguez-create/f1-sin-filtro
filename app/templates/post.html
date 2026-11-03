@@ -355,7 +355,7 @@
                     <div class="post-panel post-comment-form">
 
                         <form
-                            action="#"
+                            action="{{ url_for('main.post', id_publicacion=publicacion.id) }}"
                             method="POST"
                         >
 
@@ -373,6 +373,7 @@
                                 name="comment"
                                 rows="4"
                                 placeholder="¿Qué opinás sobre esta publicación?"
+                                required
                             ></textarea>
 
 
@@ -400,103 +401,108 @@
 
 
 
-                    <!-- COMENTARIOS DE EJEMPLO -->
+                    <!-- COMENTARIOS -->
 
                     <div class="post-comment-list">
 
 
-                        <div class="post-comment">
-
-                            <div class="post-comment-avatar">
-                                ML
-                            </div>
+                        {% if comentarios %}
 
 
-                            <div class="post-comment-body">
+                            {% for comentario in comentarios %}
 
-                                <div class="post-comment-head">
-
-                                    <span class="post-comment-user">
-                                        MotorLover
-                                    </span>
-
-                                    <span class="post-comment-time">
-                                        Hace 2 horas
-                                    </span>
-
-                                </div>
+                            <div class="post-comment">
 
 
-                                <p>
-                                    Muy buena publicación.
-                                    Interesante información sobre
-                                    la Fórmula 1.
-                                </p>
+                                <!-- AVATAR -->
 
+                                <div class="post-comment-avatar">
 
-                                <button
-                                    type="button"
-                                    class="post-reply"
-                                >
+                                    {% if comentario.usuario.nombre %}
 
-                                    <span class="material-symbols-outlined">
-                                        reply
-                                    </span>
+                                        {{ comentario.usuario.nombre[0]|upper }}
 
-                                    RESPONDER
+                                    {% endif %}
 
-                                </button>
+                                    {% if comentario.usuario.apellido %}
 
-                            </div>
+                                        {{ comentario.usuario.apellido[0]|upper }}
 
-                        </div>
-
-
-
-                        <div class="post-comment">
-
-                            <div class="post-comment-avatar">
-                                F1
-                            </div>
-
-
-                            <div class="post-comment-body">
-
-                                <div class="post-comment-head">
-
-                                    <span class="post-comment-user">
-                                        RacingFan
-                                    </span>
-
-                                    <span class="post-comment-time">
-                                        Hace 5 horas
-                                    </span>
+                                    {% endif %}
 
                                 </div>
 
 
-                                <p>
-                                    Va a ser interesante seguir las
-                                    próximas novedades.
-                                </p>
+                                <!-- CONTENIDO -->
+
+                                <div class="post-comment-body">
 
 
-                                <button
-                                    type="button"
-                                    class="post-reply"
-                                >
+                                    <div class="post-comment-head">
 
-                                    <span class="material-symbols-outlined">
-                                        reply
-                                    </span>
+                                        <span class="post-comment-user">
+                                            {{ comentario.usuario.usuario }}
+                                        </span>
 
-                                    RESPONDER
 
-                                </button>
+                                        <span
+                                            class="post-comment-time comentario-fecha"
+                                            data-fecha="{{ comentario.fecha.isoformat() }}Z"
+                                        >
+                                            {{ comentario.fecha.strftime('%d/%m/%Y %H:%M') }}
+                                        </span>
+
+                                    </div>
+
+
+                                    <p>
+                                        {{ comentario.contenido }}
+                                    </p>
+
+
+                                </div>
+
 
                             </div>
 
-                        </div>
+                            {% endfor %}
+
+
+                        {% else %}
+
+
+                            <div class="post-comment">
+
+                                <div class="post-comment-avatar">
+                                    FSF
+                                </div>
+
+
+                                <div class="post-comment-body">
+
+
+                                    <div class="post-comment-head">
+
+                                        <span class="post-comment-user">
+                                            F1 Sin Filtro
+                                        </span>
+
+                                    </div>
+
+
+                                    <p>
+                                        Todavía no hay comentarios.
+                                        Sé el primero en comentar esta publicación.
+                                    </p>
+
+
+                                </div>
+
+
+                            </div>
+
+
+                        {% endif %}
 
 
                     </div>
@@ -635,6 +641,52 @@
     </div>
 
 </div>
+
+
+<!-- =====================================
+     FECHA LOCAL DE LOS COMENTARIOS
+====================================== -->
+
+<script>
+
+    document.addEventListener(
+        "DOMContentLoaded",
+        function () {
+
+            const fechas = document.querySelectorAll(
+                ".comentario-fecha"
+            );
+
+
+            fechas.forEach(
+                function (elemento) {
+
+                    const fechaUTC = elemento.dataset.fecha;
+
+
+                    const fecha = new Date(
+                        fechaUTC
+                    );
+
+
+                    elemento.textContent = fecha.toLocaleString(
+                        undefined,
+                        {
+                            day: "2-digit",
+                            month: "2-digit",
+                            year: "numeric",
+                            hour: "2-digit",
+                            minute: "2-digit"
+                        }
+                    );
+
+                }
+            );
+
+        }
+    );
+
+</script>
 
 
 {% include 'base/footer.html' %}

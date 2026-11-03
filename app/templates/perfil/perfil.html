@@ -129,7 +129,7 @@
 
 
 
-      <!-- BOTÓN EDITAR PERFIL -->
+      <!-- BOTONES DEL PERFIL -->
 
       <div class="perfil-action">
 
@@ -137,29 +137,33 @@
           class="perfil-btn-edit"
           href="{{ url_for('perfil.editar_perfil') }}"
         >
+
           <span class="material-symbols-outlined">
             edit
           </span>
-      
+
           EDITAR PERFIL
+
         </a>
-      
-      
+
+
         {% if usuario and usuario.rol == "usuario" %}
-      
+
         <a
           class="perfil-btn-editor"
           href="{{ url_for('perfil.solicitar_editor') }}"
         >
+
           <span class="material-symbols-outlined">
             workspace_premium
           </span>
-      
+
           SOLICITAR SER EDITOR
+
         </a>
-      
+
         {% endif %}
-      
+
       </div>
 
 
@@ -206,7 +210,7 @@
 
 
           <span class="perfil-stat-value">
-            142
+            {{ cantidad_comentarios }}
           </span>
 
 
@@ -340,7 +344,7 @@
         <!-- MIS COMENTARIOS -->
 
         <a
-        href="{{ url_for('perfil.mis_comentarios') }}"
+          href="{{ url_for('perfil.comentarios') }}"
           class="perfil-link-card"
         >
 
@@ -373,7 +377,7 @@
         <!-- PUBLICACIONES GUARDADAS -->
 
         <a
-        href="{{ url_for('perfil.guardados') }}"
+          href="{{ url_for('perfil.guardados') }}"
           class="perfil-link-card"
         >
 
@@ -406,7 +410,7 @@
         <!-- ETIQUETAS GUARDADAS -->
 
         <a
-        href="{{ url_for('perfil.etiquetas_guardadas') }}"
+          href="{{ url_for('perfil.etiquetas_guardadas') }}"
           class="perfil-link-card"
         >
 
@@ -462,7 +466,7 @@
 
 
         <a
-          href="#"
+          href="{{ url_for('perfil.comentarios') }}"
           class="perfil-see-all"
         >
           VER TODO_
@@ -476,120 +480,100 @@
       <div class="perfil-log">
 
 
-        <!-- ACTIVIDAD 1 -->
-
-        <div class="perfil-log-row">
+        {% if comentarios_recientes %}
 
 
-          <div class="perfil-log-time">
-            [14:23:05]
-          </div>
+          {% for comentario in comentarios_recientes %}
 
 
-          <div class="perfil-log-action">
-
-            <span class="perfil-dot perfil-dot-red"></span>
-
-            COMENTÓ
-
-          </div>
+          <div class="perfil-log-row">
 
 
-          <div class="perfil-log-detail">
+            <!-- FECHA -->
 
-            En
+            <div
+              class="perfil-log-time comentario-fecha"
+              data-fecha="{{ comentario.fecha.isoformat() }}Z"
+            >
 
-            <a href="{{ url_for('main.post') }}">
-              Ferrari prepara mejoras para la próxima carrera
-            </a>
+              [{{ comentario.fecha.strftime('%H:%M:%S') }}]
 
-          </div>
-
-
-          <span class="material-symbols-outlined">
-            forum
-          </span>
-
-
-        </div>
+            </div>
 
 
 
-        <!-- ACTIVIDAD 2 -->
+            <!-- ACCIÓN -->
 
-        <div class="perfil-log-row">
+            <div class="perfil-log-action">
 
+              <span class="perfil-dot perfil-dot-red"></span>
 
-          <div class="perfil-log-time">
-            [09:12:44]
-          </div>
+              COMENTÓ
 
-
-          <div class="perfil-log-action">
-
-            <span class="perfil-dot perfil-dot-white"></span>
-
-            GUARDÓ
-
-          </div>
+            </div>
 
 
-          <div class="perfil-log-detail">
 
-            Publicación
+            <!-- PUBLICACIÓN -->
 
-            <a href="{{ url_for('main.post') }}">
-              Ferrari prepara mejoras para la próxima carrera
-            </a>
+            <div class="perfil-log-detail">
+
+              En
+
+              <a
+                href="{{ url_for('main.post', id_publicacion=comentario.publicacion_id) }}"
+              >
+                {{ comentario.publicacion.titulo }}
+              </a>
+
+            </div>
+
+
+
+            <span class="material-symbols-outlined">
+              forum
+            </span>
+
 
           </div>
 
 
-          <span class="material-symbols-outlined">
-            bookmark
-          </span>
+          {% endfor %}
 
 
-        </div>
+        {% else %}
 
 
+          <!-- SIN ACTIVIDAD -->
 
-        <!-- ACTIVIDAD 3 -->
-
-        <div class="perfil-log-row">
-
-
-          <div class="perfil-log-time">
-            [AYER]
-          </div>
+          <div class="perfil-log-row">
 
 
-          <div class="perfil-log-action">
+            <div class="perfil-log-action">
 
-            <span class="perfil-dot perfil-dot-grey"></span>
+              <span class="perfil-dot perfil-dot-grey"></span>
 
-            GUARDÓ
+              SIN ACTIVIDAD
 
-          </div>
+            </div>
 
 
-          <div class="perfil-log-detail">
+            <div class="perfil-log-detail">
 
-            Etiqueta
+              Todavía no realizaste comentarios.
 
-            <strong>
-              #Ferrari
-            </strong>
+            </div>
+
+
+            <span class="material-symbols-outlined">
+              forum
+            </span>
+
 
           </div>
 
 
-          <span class="material-symbols-outlined">
-            label
-          </span>
-
-
-        </div>
+        {% endif %}
 
 
       </div>
@@ -601,6 +585,68 @@
   </div>
 
 </div>
+
+
+
+<!-- =========================
+     FECHA LOCAL
+========================== -->
+
+<script>
+
+  document.addEventListener(
+    "DOMContentLoaded",
+    function () {
+
+      const fechas = document.querySelectorAll(
+        ".comentario-fecha"
+      );
+
+
+      fechas.forEach(
+        function (elemento) {
+
+          const fechaUTC = elemento.dataset.fecha;
+
+
+          const fecha = new Date(
+            fechaUTC
+          );
+
+
+          const fechaLocal = fecha.toLocaleDateString(
+            undefined,
+            {
+              day: "2-digit",
+              month: "2-digit"
+            }
+          );
+
+
+          const horaLocal = fecha.toLocaleTimeString(
+            undefined,
+            {
+              hour: "2-digit",
+              minute: "2-digit",
+              second: "2-digit"
+            }
+          );
+
+
+          elemento.textContent =
+            "[" +
+            fechaLocal +
+            " " +
+            horaLocal +
+            "]";
+
+        }
+      );
+
+    }
+  );
+
+</script>
 
 
 {% include 'base/footer.html' %}

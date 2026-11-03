@@ -8,8 +8,18 @@ from flask import (
 )
 
 from app.extensions import db
-from app.models import Usuario, SolicitudEditor
-from almacenamiento import extension_valida, subir_imagen, borrar_imagen
+
+from app.models import (
+    Usuario,
+    SolicitudEditor,
+    Comentario
+)
+
+from almacenamiento import (
+    extension_valida,
+    subir_imagen,
+    borrar_imagen
+)
 
 
 bp = Blueprint(
@@ -24,6 +34,7 @@ def obtener_usuario_actual():
         "usuario"
     )
 
+
     if not datos_usuario:
 
         return None
@@ -34,6 +45,10 @@ def obtener_usuario_actual():
         datos_usuario["id"]
     )
 
+
+# =====================================
+# PERFIL
+# =====================================
 
 @bp.route("/perfil")
 def perfil():
@@ -50,10 +65,37 @@ def perfil():
         )
 
 
+    # =========================
+    # CANTIDAD DE COMENTARIOS
+    # =========================
+
+    cantidad_comentarios = Comentario.query.filter_by(
+        usuario_id=usuario.id
+    ).count()
+
+
+    # =========================
+    # ACTIVIDAD RECIENTE
+    # =========================
+
+    comentarios_recientes = Comentario.query.filter_by(
+        usuario_id=usuario.id
+    ).order_by(
+        Comentario.id.desc()
+    ).limit(3).all()
+
+
     return render_template(
         "perfil/perfil.html",
-        usuario=usuario
+        usuario=usuario,
+        cantidad_comentarios=cantidad_comentarios,
+        comentarios_recientes=comentarios_recientes
     )
+
+
+# =====================================
+# EDITAR PERFIL
+# =====================================
 
 @bp.route(
     "/perfil/editar",
@@ -97,6 +139,11 @@ def editar_perfil():
         usuario=usuario,
         mensaje=mensaje
     )
+
+
+# =====================================
+# SOLICITAR EDITOR
+# =====================================
 
 @bp.route(
     "/perfil/solicitar-editor",
@@ -185,13 +232,43 @@ def solicitar_editor():
         solicitud_pendiente=solicitud_pendiente
     )
 
+
+# =====================================
+# MIS COMENTARIOS
+# =====================================
+
 @bp.route("/perfil/comentarios")
-def mis_comentarios():
+def comentarios():
+
+    usuario = obtener_usuario_actual()
+
+
+    if not usuario:
+
+        return redirect(
+            url_for(
+                "auth.login"
+            )
+        )
+
+
+    comentarios = Comentario.query.filter_by(
+        usuario_id=usuario.id
+    ).order_by(
+        Comentario.id.desc()
+    ).all()
+
 
     return render_template(
-        "perfil/comentarios.html"
+        "perfil/comentarios.html",
+        usuario=usuario,
+        comentarios=comentarios
     )
 
+
+# =====================================
+# GUARDADOS
+# =====================================
 
 @bp.route("/perfil/guardados")
 def guardados():
@@ -201,12 +278,21 @@ def guardados():
     )
 
 
+# =====================================
+# ETIQUETAS
+# =====================================
+
 @bp.route("/perfil/etiquetas")
 def etiquetas_guardadas():
 
     return render_template(
         "perfil/etiquetas.html"
     )
+
+
+# =====================================
+# ACTUALIZAR PERFIL
+# =====================================
 
 def actualizar_perfil_usuario(usuario):
 
@@ -257,14 +343,12 @@ def actualizar_perfil_usuario(usuario):
         )
 
 
-        # Compruebo si quiso cambiar la contraseña
         if (
             password_actual
             or password_nueva
             or password_confirmacion
         ):
 
-            # Compruebo la contraseña actual
             if not usuario.verificar_password(
                 password_actual
             ):
@@ -275,7 +359,6 @@ def actualizar_perfil_usuario(usuario):
                 )
 
 
-            # Compruebo que haya una nueva contraseña
             if not password_nueva:
 
                 return (
@@ -284,7 +367,6 @@ def actualizar_perfil_usuario(usuario):
                 )
 
 
-            # Compruebo que coincidan
             if (
                 password_nueva
                 !=
@@ -297,7 +379,6 @@ def actualizar_perfil_usuario(usuario):
                 )
 
 
-            # Guardo la nueva contraseña
             usuario.guardar_password(
                 password_nueva
             )
@@ -342,8 +423,6 @@ def actualizar_perfil_usuario(usuario):
     db.session.commit()
 
 
-    # Si cambié la foto,
-    # elimino la anterior
     if foto_anterior:
 
         borrar_imagen(

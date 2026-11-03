@@ -257,3 +257,47 @@ class Categoria(db.Model):
         db.String(500),
         nullable=True
     )
+
+    # =========================
+# COMENTARIO
+# =========================
+
+class Comentario(db.Model):
+
+    __tablename__ = "comentarios"
+
+    id = db.Column(
+        db.Integer,
+        primary_key=True
+    )
+
+    contenido = db.Column(
+        db.Text,
+        nullable=False
+    )
+
+    fecha = db.Column(
+        db.DateTime,
+        nullable=False,
+        default=db.func.current_timestamp()
+    )
+
+    usuario_id = db.Column(
+        db.Integer,
+        db.ForeignKey("usuarios.id"),
+        nullable=False
+    )
+
+    publicacion_id = db.Column(
+        db.Integer,
+        db.ForeignKey("publicaciones.id"),
+        nullable=False
+    )
+
+    usuario = db.relationship(
+        "Usuario"
+    )
+
+    publicacion = db.relationship(
+        "Publicacion"
+    )

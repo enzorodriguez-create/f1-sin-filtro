@@ -1,14 +1,24 @@
 import requests
 
 from datetime import datetime, timezone
+
+from flask import (
+    Blueprint,
+    render_template,
+    request,
+    redirect,
+    url_for,
+    session
+)
+
 from app.extensions import db
-from flask import Blueprint, render_template
 
 from app.models import (
     Publicacion,
     BloquePublicacion,
     ImagenCarrusel,
-    Categoria
+    Categoria,
+    Comentario
 )
 
 
@@ -29,8 +39,6 @@ def inicio():
     # PUBLICACIONES
     # =====================================
 
-    # Obtengo las últimas 4
-    # publicaciones publicadas
     publicaciones = Publicacion.query.filter_by(
         estado="publicada"
     ).order_by(
@@ -38,12 +46,8 @@ def inicio():
     ).limit(4).all()
 
 
-    # Guardo la publicación principal
     publicacion_principal = None
 
-
-    # Guardo las publicaciones
-    # que aparecen debajo
     publicaciones_secundarias = []
 
 
@@ -61,12 +65,9 @@ def inicio():
     clasificacion = []
 
 
-    # Obtengo el año actual
     anio_actual = datetime.now().year
 
 
-    # Obtengo todas las carreras
-    # del año actual
     url_carreras = (
         "https://api.openf1.org/v1/"
         f"sessions?year={anio_actual}"
@@ -82,14 +83,11 @@ def inicio():
     carreras = respuesta_carreras.json()
 
 
-    # Obtengo la fecha y hora actual
     ahora = datetime.now(
         timezone.utc
     )
 
 
-    # Guardo solamente las carreras
-    # que ya finalizaron
     carreras_finalizadas = []
 
 
@@ -114,8 +112,6 @@ def inicio():
                 )
 
 
-    # Ordeno las carreras desde
-    # la más reciente
     carreras_finalizadas.sort(
         key=lambda carrera:
             carrera["date_end"],
@@ -123,8 +119,6 @@ def inicio():
     )
 
 
-    # Compruebo que exista al menos
-    # una carrera finalizada
     if carreras_finalizadas:
 
         ultima_carrera = (
@@ -137,9 +131,6 @@ def inicio():
         )
 
 
-        # Obtengo la clasificación
-        # del campeonato después
-        # de la última carrera
         url_clasificacion = (
             "https://api.openf1.org/v1/"
             "championship_drivers"
@@ -157,8 +148,6 @@ def inicio():
         )
 
 
-        # Obtengo los pilotos
-        # de esa misma carrera
         url_pilotos = (
             "https://api.openf1.org/v1/"
             "drivers"
@@ -174,7 +163,6 @@ def inicio():
         pilotos = respuesta_pilotos.json()
 
 
-        # Recorro la clasificación
         for posicion in datos_clasificacion:
 
             numero_piloto = posicion.get(
@@ -182,12 +170,9 @@ def inicio():
             )
 
 
-            # Guardo el piloto encontrado
             piloto_encontrado = None
 
 
-            # Busco los datos
-            # correspondientes al piloto
             for piloto in pilotos:
 
                 if (
@@ -200,8 +185,6 @@ def inicio():
                     piloto_encontrado = piloto
 
 
-            # Compruebo que encontré
-            # los datos del piloto
             if piloto_encontrado:
 
                 clasificacion.append({
@@ -229,16 +212,12 @@ def inicio():
                 })
 
 
-    # Ordeno los pilotos
-    # según su posición
     clasificacion.sort(
         key=lambda piloto:
             piloto["posicion"]
     )
 
 
-    # Muestro solamente
-    # los primeros 5
     clasificacion = clasificacion[:5]
 
 
@@ -257,8 +236,6 @@ def inicio():
 @bp.route("/noticias")
 def noticias():
 
-    # Obtengo todas las
-    # publicaciones publicadas
     publicaciones = Publicacion.query.filter_by(
         estado="publicada"
     ).order_by(
@@ -277,26 +254,81 @@ def noticias():
 # =====================================
 
 @bp.route(
-    "/post/<int:id_publicacion>"
+    "/post/<int:id_publicacion>",
+    methods=["GET", "POST"]
 )
 def post(id_publicacion):
 
-    # Obtengo la publicación
+    # =====================================
+    # PUBLICACIÓN
+    # =====================================
+
     publicacion = Publicacion.query.filter_by(
         id=id_publicacion,
         estado="publicada"
     ).first()
 
 
-    # Compruebo que exista
     if not publicacion:
 
         return "Publicación no encontrada."
 
 
-    # Obtengo todos los bloques
-    # respetando el orden en que
-    # fueron creados por el editor
+    # =====================================
+    # NUEVO COMENTARIO
+    # =====================================
+
+    if request.method == "POST":
+
+        datos_usuario = session.get(
+            "usuario"
+        )
+
+
+        if not datos_usuario:
+
+            return redirect(
+                url_for(
+                    "auth.login"
+                )
+            )
+
+
+        contenido = request.form.get(
+            "comment",
+            ""
+        ).strip()
+
+
+        if contenido:
+
+            nuevo_comentario = Comentario(
+                contenido=contenido,
+                usuario_id=datos_usuario["id"],
+                publicacion_id=publicacion.id
+            )
+
+
+            db.session.add(
+                nuevo_comentario
+            )
+
+
+            db.session.commit()
+
+
+        return redirect(
+            url_for(
+                "main.post",
+                id_publicacion=publicacion.id
+            )
+        )
+
+
+    # =====================================
+    # BLOQUES
+    # =====================================
+
     bloques = BloquePublicacion.query.filter_by(
         publicacion_id=publicacion.id
     ).order_by(
@@ -304,8 +336,10 @@ def post(id_publicacion):
     ).all()
 
 
-    # Guardo las imágenes
-    # de cada carrusel
+    # =====================================
+    # CARRUSELES
+    # =====================================
+
     carruseles = {}
 
 
@@ -320,11 +354,23 @@ def post(id_publicacion):
             ).all()
 
 
+    # =====================================
+    # COMENTARIOS
+    # =====================================
+
+    comentarios = Comentario.query.filter_by(
+        publicacion_id=publicacion.id
+    ).order_by(
+        Comentario.id.desc()
+    ).all()
+
+
     return render_template(
         "post.html",
         publicacion=publicacion,
         bloques=bloques,
-        carruseles=carruseles
+        carruseles=carruseles,
+        comentarios=comentarios
     )
 
 
@@ -349,8 +395,6 @@ def calendario():
     carreras = respuesta.json()
 
 
-    # Traduzco los tipos
-    # de circuito
     tipos_circuito = {
 
         "Permanent":
@@ -368,8 +412,6 @@ def calendario():
     }
 
 
-    # Recorro las carreras
-    # obtenidas de OpenF1
     for carrera in carreras:
 
         tipo_original = carrera.get(
