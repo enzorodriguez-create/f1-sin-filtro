@@ -21,6 +21,8 @@ from app.models import (
     Comentario
 )
 
+from ia.moderacion import clasificar_comentario
+
 
 bp = Blueprint(
     "main",
@@ -302,10 +304,17 @@ def post(id_publicacion):
 
         if contenido:
 
+            moderacion, confianza = clasificar_comentario(
+                contenido
+            )
+
+
             nuevo_comentario = Comentario(
                 contenido=contenido,
                 usuario_id=datos_usuario["id"],
-                publicacion_id=publicacion.id
+                publicacion_id=publicacion.id,
+                moderacion=moderacion,
+                confianza=float(confianza)
             )
 
 

@@ -1,827 +1,464 @@
 <!DOCTYPE html>
 <html lang="es">
+  <head>
+    <meta charset="utf-8" />
 
-<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <meta charset="utf-8">
-
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
-
-    <title>
-        F1 SIN FILTRO - Comentarios
-    </title>
-
+    <title>F1 SIN FILTRO - Comentarios</title>
 
     <!-- =========================
          FUENTES
     ========================== -->
 
-    <link
-        href="https://fonts.googleapis.com"
-        rel="preconnect"
-    >
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+
+    <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin />
 
     <link
-        href="https://fonts.gstatic.com"
-        rel="preconnect"
-        crossorigin
-    >
+      href="https://fonts.googleapis.com/css2?family=Chivo:wght@400;600;700;900&family=Geist:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
 
     <link
-        href="https://fonts.googleapis.com/css2?family=Chivo:wght@400;600;700;900&family=Geist:wght@400;500;600;700&display=swap"
-        rel="stylesheet"
-    >
-
-    <link
-        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
-        rel="stylesheet"
-    >
-
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
+      rel="stylesheet"
+    />
 
     <!-- =========================
          CSS
     ========================== -->
 
     <link
-        rel="stylesheet"
-        href="{{ url_for('static', filename='styles/style.css') }}"
-    >
+      rel="stylesheet"
+      href="{{ url_for('static', filename='styles/style.css') }}"
+    />
 
     <link
-        rel="stylesheet"
-        href="{{ url_for('static', filename='styles/editor/sidebar.css') }}"
-    >
+      rel="stylesheet"
+      href="{{ url_for('static', filename='styles/editor/sidebar.css') }}"
+    />
 
     <link
-        rel="stylesheet"
-        href="{{ url_for('static', filename='styles/editor/dashboard.css') }}"
-    >
+      rel="stylesheet"
+      href="{{ url_for('static', filename='styles/editor/dashboard.css') }}"
+    />
 
     <link
-        rel="stylesheet"
-        href="{{ url_for('static', filename='styles/editor/comentarios.css') }}"
-    >
+      rel="stylesheet"
+      href="{{ url_for('static', filename='styles/editor/comentarios.css') }}"
+    />
+  </head>
 
-</head>
-
-
-<body>
-
-
-<!-- =========================
+  <body>
+    <!-- =========================
      LAYOUT EDITOR
 ========================== -->
 
-<div class="editor-page">
-
-
-    <!-- =========================
+    <div class="editor-page">
+      <!-- =========================
          SIDEBAR
     ========================== -->
 
-    {% include "editor/sidebar.html" %}
+      {% include "editor/sidebar.html" %}
 
-
-
-    <!-- =========================
+      <!-- =========================
          CONTENIDO
     ========================== -->
 
-    <div class="editor-content">
-
-
+      <div class="editor-content">
         <!-- =========================
              TOPBAR
         ========================== -->
 
         <header class="editor-topbar">
+          <div class="topbar-left">
+            <button
+              class="menu-btn"
+              type="button"
+              id="editor-menu-btn"
+              aria-label="Abrir menú"
+            >
+              <span class="material-symbols-outlined"> menu </span>
+            </button>
+          </div>
 
+          <div class="topbar-right">
+            <div class="role-badge">
+              <span class="role-dot"></span>
 
-            <div class="topbar-left">
+              <span> ROL: </span>
 
-                <button
-                    class="menu-btn"
-                    type="button"
-                    id="editor-menu-btn"
-                    aria-label="Abrir menú"
-                >
-
-                    <span class="material-symbols-outlined">
-                        menu
-                    </span>
-
-                </button>
-
+              <strong> EDITOR </strong>
             </div>
 
+            <div class="editor-user">
+              <div class="editor-user-data">
+                <strong> {{ usuario.nombre if usuario else "Editor" }} </strong>
 
-            <div class="topbar-right">
+                <span>
+                  {{ usuario.email if usuario else "editor@f1sinfiltro.com" }}
+                </span>
+              </div>
 
+              {% if usuario and usuario.foto %}
 
-                <div class="role-badge">
+              <img
+                class="editor-avatar editor-avatar-img"
+                src="{{ url_imagen(usuario.foto) }}"
+                alt="{{ usuario.nombre }}"
+              />
 
-                    <span class="role-dot"></span>
+              {% else %}
 
-                    <span>
-                        ROL:
-                    </span>
+              <div class="editor-avatar">
+                <span class="material-symbols-outlined"> person </span>
+              </div>
 
-                    <strong>
-                        EDITOR
-                    </strong>
-
-                </div>
-
-
-                <div class="editor-user">
-
-                    <div class="editor-user-data">
-
-                        <strong>
-                            {{ usuario.nombre if usuario else "Editor" }}
-                        </strong>
-
-                        <span>
-                            {{ usuario.email if usuario else "editor@f1sinfiltro.com" }}
-                        </span>
-
-                    </div>
-
-
-                    {% if usuario and usuario.foto %}
-
-                    <img
-                        class="editor-avatar editor-avatar-img"
-                        src="{{ url_imagen(usuario.foto) }}"
-                        alt="{{ usuario.nombre }}"
-                    >
-
-                    {% else %}
-
-                    <div class="editor-avatar">
-
-                        <span class="material-symbols-outlined">
-                            person
-                        </span>
-
-                    </div>
-
-                    {% endif %}
-
-                </div>
-
-
+              {% endif %}
             </div>
-
-
+          </div>
         </header>
-
-
 
         <!-- =========================
              MAIN
         ========================== -->
 
         <main class="editor-main">
-
-
-            <div class="editor-container">
-
-
-                <!-- =========================
+          <div class="editor-container">
+            <!-- =========================
                      CABECERA
                 ========================== -->
 
-                <div class="comments-head">
+            <div class="comments-head">
+              <div>
+                <div class="comments-path">
+                  <span> PANEL DE CONTROL </span>
 
+                  <span> / </span>
 
-                    <div>
-
-
-                        <div class="comments-path">
-
-                            <span>
-                                PANEL DE CONTROL
-                            </span>
-
-                            <span>
-                                /
-                            </span>
-
-                            <strong>
-                                COMENTARIOS
-                            </strong>
-
-                        </div>
-
-
-                        <h1>
-                            GESTIÓN DE <span>COMENTARIOS</span>
-                        </h1>
-
-
-                        <p>
-                            Revisá y administrá los comentarios realizados
-                            en tus publicaciones.
-                        </p>
-
-
-                    </div>
-
-
+                  <strong> COMENTARIOS </strong>
                 </div>
 
+                <h1>GESTIÓN DE <span>COMENTARIOS</span></h1>
 
+                <p>
+                  Revisá y administrá los comentarios realizados en tus
+                  publicaciones.
+                </p>
+              </div>
+            </div>
 
-                <!-- =========================
+            <!-- =========================
                      RESUMEN
                 ========================== -->
 
-                <div class="comments-stats">
+            <div class="comments-stats">
+              <!-- COMENTARIOS -->
 
-
-                    <!-- COMENTARIOS -->
-
-                    <div class="comment-stat-card">
-
-
-                        <div class="stat-icon">
-
-                            <span class="material-symbols-outlined">
-                                forum
-                            </span>
-
-                        </div>
-
-
-                        <div>
-
-                            <span>
-                                COMENTARIOS
-                            </span>
-
-                            <strong id="total-comments">
-                                {{ cantidad_comentarios }}
-                            </strong>
-
-                        </div>
-
-
-                    </div>
-
-
-
-                    <!-- PUBLICACIONES -->
-
-                    <div class="comment-stat-card">
-
-
-                        <div class="stat-icon">
-
-                            <span class="material-symbols-outlined">
-                                article
-                            </span>
-
-                        </div>
-
-
-                        <div>
-
-                            <span>
-                                PUBLICACIONES
-                            </span>
-
-                            <strong>
-                                {{ cantidad_publicaciones }}
-                            </strong>
-
-                        </div>
-
-
-                    </div>
-
-
-
-                    <!-- MÁS RECIENTE -->
-
-                    <div class="comment-stat-card">
-
-
-                        <div class="stat-icon">
-
-                            <span class="material-symbols-outlined">
-                                schedule
-                            </span>
-
-                        </div>
-
-
-                        <div>
-
-                            <span>
-                                MÁS RECIENTE
-                            </span>
-
-
-                            {% if comentarios %}
-
-                            <strong
-                                class="stat-date comentario-fecha"
-                                data-fecha="{{ comentarios[0].fecha.isoformat() }}Z"
-                            >
-                                {{ comentarios[0].fecha.strftime('%d/%m/%Y %H:%M') }}
-                            </strong>
-
-                            {% else %}
-
-                            <strong class="stat-date">
-                                -
-                            </strong>
-
-                            {% endif %}
-
-                        </div>
-
-
-                    </div>
-
-
+              <div class="comment-stat-card">
+                <div class="stat-icon">
+                  <span class="material-symbols-outlined"> forum </span>
                 </div>
 
+                <div>
+                  <span> COMENTARIOS </span>
 
+                  <strong id="total-comments">
+                    {{ cantidad_comentarios }}
+                  </strong>
+                </div>
+              </div>
 
-                <!-- =========================
+              <!-- PUBLICACIONES -->
+
+              <div class="comment-stat-card">
+                <div class="stat-icon">
+                  <span class="material-symbols-outlined"> article </span>
+                </div>
+
+                <div>
+                  <span> PUBLICACIONES </span>
+
+                  <strong> {{ cantidad_publicaciones }} </strong>
+                </div>
+              </div>
+
+              <!-- MÁS RECIENTE -->
+
+              <div class="comment-stat-card">
+                <div class="stat-icon">
+                  <span class="material-symbols-outlined"> schedule </span>
+                </div>
+
+                <div>
+                  <span> MÁS RECIENTE </span>
+
+                  {% if comentarios %}
+
+                  <strong
+                    class="stat-date comentario-fecha"
+                    data-fecha="{{ comentarios[0].fecha.isoformat() }}Z"
+                  >
+                    {{ comentarios[0].fecha.strftime('%d/%m/%Y %H:%M') }}
+                  </strong>
+
+                  {% else %}
+
+                  <strong class="stat-date"> - </strong>
+
+                  {% endif %}
+                </div>
+              </div>
+            </div>
+
+            <!-- =========================
                      FILTROS
                 ========================== -->
 
-                <div class="comments-tools">
+            <div class="comments-tools">
+              <div class="comments-search">
+                <span class="material-symbols-outlined"> search </span>
 
+                <input
+                  type="text"
+                  id="comment-search"
+                  placeholder="Buscar comentarios..."
+                />
+              </div>
 
-                    <div class="comments-search">
+              <div class="comments-filter">
+                <span class="material-symbols-outlined"> filter_list </span>
 
-                        <span class="material-symbols-outlined">
-                            search
-                        </span>
+                <select id="publication-filter">
+                  <option value="all">Todas las publicaciones</option>
 
-                        <input
-                            type="text"
-                            id="comment-search"
-                            placeholder="Buscar comentarios..."
-                        >
+                  {% for publicacion in publicaciones %}
 
-                    </div>
+                  <option value="{{ publicacion.id }}">
+                    {{ publicacion.titulo }}
+                  </option>
 
+                  {% endfor %}
+                </select>
+              </div>
+            </div>
 
-                    <div class="comments-filter">
-
-                        <span class="material-symbols-outlined">
-                            filter_list
-                        </span>
-
-                        <select id="publication-filter">
-
-                            <option value="all">
-                                Todas las publicaciones
-                            </option>
-
-
-                            {% for publicacion in publicaciones %}
-
-                            <option value="{{ publicacion.id }}">
-                                {{ publicacion.titulo }}
-                            </option>
-
-                            {% endfor %}
-
-                        </select>
-
-                    </div>
-
-
-                </div>
-
-
-
-                <!-- =========================
+            <!-- =========================
                      LISTADO DE COMENTARIOS
                 ========================== -->
 
-                <div
-                    class="comments-list"
-                    id="comments-list"
-                >
+            <div class="comments-list" id="comments-list">
+              {% if comentarios %} {% for comentario in comentarios %}
 
-
-                    {% if comentarios %}
-
-
-                        {% for comentario in comentarios %}
-
-
-                        <article
-                            class="comment-card"
-                            data-publication="{{ comentario.publicacion_id }}"
-                        >
-
-
-                            <!-- =========================
+              <article
+                class="comment-card"
+                data-publication="{{ comentario.publicacion_id }}"
+              >
+                <!-- =========================
                                  USUARIO
                             ========================== -->
 
-                            <div class="comment-user">
+                <div class="comment-user">
+                  <div class="comment-avatar">
+                    {% if comentario.usuario.nombre %} {{
+                    comentario.usuario.nombre[0]|upper }} {% endif %} {% if
+                    comentario.usuario.apellido %} {{
+                    comentario.usuario.apellido[0]|upper }} {% endif %}
+                  </div>
 
+                  <div class="comment-user-info">
+                    <strong>
+                      {{ comentario.usuario.nombre }} {% if
+                      comentario.usuario.apellido %} {{
+                      comentario.usuario.apellido }} {% endif %}
+                    </strong>
 
-                                <div class="comment-avatar">
+                    <span> @{{ comentario.usuario.usuario }} </span>
+                  </div>
 
-                                    {% if comentario.usuario.nombre %}
+                  <span
+                    class="comment-date comentario-fecha"
+                    data-fecha="{{ comentario.fecha.isoformat() }}Z"
+                  >
+                    {{ comentario.fecha.strftime('%d/%m/%Y %H:%M') }}
+                  </span>
+                </div>
 
-                                        {{ comentario.usuario.nombre[0]|upper }}
-
-                                    {% endif %}
-
-                                    {% if comentario.usuario.apellido %}
-
-                                        {{ comentario.usuario.apellido[0]|upper }}
-
-                                    {% endif %}
-
-                                </div>
-
-
-                                <div class="comment-user-info">
-
-                                    <strong>
-
-                                        {{ comentario.usuario.nombre }}
-
-                                        {% if comentario.usuario.apellido %}
-                                            {{ comentario.usuario.apellido }}
-                                        {% endif %}
-
-                                    </strong>
-
-
-                                    <span>
-                                        @{{ comentario.usuario.usuario }}
-                                    </span>
-
-                                </div>
-
-
-                                <span
-                                    class="comment-date comentario-fecha"
-                                    data-fecha="{{ comentario.fecha.isoformat() }}Z"
-                                >
-                                    {{ comentario.fecha.strftime('%d/%m/%Y %H:%M') }}
-                                </span>
-
-
-                            </div>
-
-
-
-                            <!-- =========================
+                <!-- =========================
                                  COMENTARIO
                             ========================== -->
 
-                            <div class="comment-body">
+                <div class="comment-body">
+                  <div class="comment-publication">
+                    <span class="material-symbols-outlined"> article </span>
 
+                    <span> Comentó en: </span>
 
-                                <div class="comment-publication">
+                    <strong> {{ comentario.publicacion.titulo }} </strong>
+                  </div>
 
-                                    <span class="material-symbols-outlined">
-                                        article
-                                    </span>
+                  <p class="comment-text">{{ comentario.contenido }}</p>
 
-                                    <span>
-                                        Comentó en:
-                                    </span>
+                  <!-- =========================
+                                     MODERACIÓN IA
+                                ========================== -->
 
-                                    <strong>
-                                        {{ comentario.publicacion.titulo }}
-                                    </strong>
+                  <div class="comment-moderation">
+                    <span> IA: </span>
 
-                                </div>
+                    <strong
+                      data-moderacion="{{ comentario.moderacion if comentario.moderacion else 'Sin analizar' }}"
+                    >
+                      {{ comentario.moderacion if comentario.moderacion else
+                      "Sin analizar" }}
+                    </strong>
 
+                    {% if comentario.confianza is not none %}
 
-                                <p class="comment-text">
-                                    {{ comentario.contenido }}
-                                </p>
+                    <span>
+                      Confianza: {{ (comentario.confianza * 100)|round(0)|int
+                      }}%
+                    </span>
 
+                    {% endif %}
+                  </div>
+                </div>
 
-                            </div>
-
-
-
-                            <!-- =========================
+                <!-- =========================
                                  ACCIONES
                             ========================== -->
 
-                            <div class="comment-actions">
+                <div class="comment-actions">
+                  <span class="comment-status"> PUBLICADO </span>
 
+                  <form
+                    action="{{ url_for('editor.editor_eliminar_comentario', id_comentario=comentario.id) }}"
+                    method="POST"
+                  >
+                    <button
+                      class="delete-comment-btn"
+                      type="submit"
+                      onclick="return confirm('¿Seguro que querés eliminar este comentario?');"
+                    >
+                      <span class="material-symbols-outlined"> delete </span>
 
-                                <span class="comment-status">
-                                    PUBLICADO
-                                </span>
-
-
-                                <form
-                                    action="{{ url_for('editor.editor_eliminar_comentario', id_comentario=comentario.id) }}"
-                                    method="POST"
-                                >
-
-                                    <button
-                                        class="delete-comment-btn"
-                                        type="submit"
-                                        onclick="return confirm('¿Seguro que querés eliminar este comentario?');"
-                                    >
-
-                                        <span class="material-symbols-outlined">
-                                            delete
-                                        </span>
-
-                                        Eliminar
-
-                                    </button>
-
-                                </form>
-
-
-                            </div>
-
-
-                        </article>
-
-
-                        {% endfor %}
-
-
-                    {% endif %}
-
-
+                      Eliminar
+                    </button>
+                  </form>
                 </div>
+              </article>
 
+              {% endfor %} {% endif %}
+            </div>
 
-
-                <!-- =========================
+            <!-- =========================
                      SIN RESULTADOS
                 ========================== -->
 
-                <div
-                    class="no-comments {% if not comentarios %}show{% endif %}"
-                    id="no-comments"
-                >
+            <div
+              class="no-comments {% if not comentarios %}show{% endif %}"
+              id="no-comments"
+            >
+              <span class="material-symbols-outlined"> forum </span>
 
-                    <span class="material-symbols-outlined">
-                        forum
-                    </span>
+              <strong id="no-comments-title">
+                {% if comentarios %} No se encontraron comentarios {% else %}
+                Todavía no hay comentarios {% endif %}
+              </strong>
 
-
-                    <strong id="no-comments-title">
-
-                        {% if comentarios %}
-
-                            No se encontraron comentarios
-
-                        {% else %}
-
-                            Todavía no hay comentarios
-
-                        {% endif %}
-
-                    </strong>
-
-
-                    <span id="no-comments-text">
-
-                        {% if comentarios %}
-
-                            Probá cambiando la búsqueda o el filtro.
-
-                        {% else %}
-
-                            Cuando alguien comente una de tus publicaciones,
-                            aparecerá acá.
-
-                        {% endif %}
-
-                    </span>
-
-                </div>
-
-
+              <span id="no-comments-text">
+                {% if comentarios %} Probá cambiando la búsqueda o el filtro. {%
+                else %} Cuando alguien comente una de tus publicaciones,
+                aparecerá acá. {% endif %}
+              </span>
             </div>
-
-
+          </div>
         </main>
-
-
+      </div>
     </div>
 
-
-</div>
-
-
-
-<!-- =========================
+    <!-- =========================
      FOOTER GLOBAL
 ========================== -->
 
-{% include "base/footer.html" %}
+    {% include "base/footer.html" %}
 
-
-
-<!-- =========================
+    <!-- =========================
      FECHA LOCAL
 ========================== -->
 
-<script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const fechas = document.querySelectorAll(".comentario-fecha");
 
-    document.addEventListener(
-        "DOMContentLoaded",
-        function () {
+        fechas.forEach(function (elemento) {
+          const fechaUTC = elemento.dataset.fecha;
 
-            const fechas = document.querySelectorAll(
-                ".comentario-fecha"
-            );
+          const fecha = new Date(fechaUTC);
 
+          elemento.textContent = fecha.toLocaleString(undefined, {
+            day: "2-digit",
+            month: "2-digit",
+            year: "numeric",
+            hour: "2-digit",
+            minute: "2-digit",
+          });
+        });
+      });
+    </script>
 
-            fechas.forEach(
-                function (elemento) {
-
-                    const fechaUTC =
-                        elemento.dataset.fecha;
-
-
-                    const fecha =
-                        new Date(
-                            fechaUTC
-                        );
-
-
-                    elemento.textContent =
-                        fecha.toLocaleString(
-                            undefined,
-                            {
-                                day: "2-digit",
-                                month: "2-digit",
-                                year: "numeric",
-                                hour: "2-digit",
-                                minute: "2-digit"
-                            }
-                        );
-
-                }
-            );
-
-        }
-    );
-
-</script>
-
-
-
-<!-- =========================
+    <!-- =========================
      BUSCAR Y FILTRAR
 ========================== -->
 
-<script>
+    <script>
+      const searchInput = document.getElementById("comment-search");
 
-    const searchInput =
-        document.getElementById(
-            "comment-search"
-        );
+      const publicationFilter = document.getElementById("publication-filter");
 
+      const noComments = document.getElementById("no-comments");
 
-    const publicationFilter =
-        document.getElementById(
-            "publication-filter"
-        );
+      const cantidadInicial = Number("{{ cantidad_comentarios }}");
 
+      function filtrarComentarios() {
+        const texto = searchInput.value.toLowerCase().trim();
 
-    const noComments =
-        document.getElementById(
-            "no-comments"
-        );
+        const publicacion = publicationFilter.value;
 
-
-        const cantidadInicial = Number(
-    "{{ cantidad_comentarios }}"
-);
-
-
-
-    function filtrarComentarios() {
-
-
-        const texto =
-            searchInput.value
-                .toLowerCase()
-                .trim();
-
-
-        const publicacion =
-            publicationFilter.value;
-
-
-        const comentarios =
-            document.querySelectorAll(
-                ".comment-card"
-            );
-
+        const comentarios = document.querySelectorAll(".comment-card");
 
         let visibles = 0;
 
+        comentarios.forEach(function (comentario) {
+          const contenido = comentario.innerText.toLowerCase();
 
-        comentarios.forEach(
-            function (comentario) {
+          const publicacionComentario = comentario.dataset.publication;
 
+          const coincideTexto = contenido.includes(texto);
 
-                const contenido =
-                    comentario.innerText
-                        .toLowerCase();
+          const coincidePublicacion =
+            publicacion === "all" || publicacionComentario === publicacion;
 
+          if (coincideTexto && coincidePublicacion) {
+            comentario.style.display = "";
 
-                const publicacionComentario =
-                    comentario.dataset.publication;
+            visibles++;
+          } else {
+            comentario.style.display = "none";
+          }
+        });
 
-
-                const coincideTexto =
-                    contenido.includes(
-                        texto
-                    );
-
-
-                const coincidePublicacion =
-                    publicacion === "all"
-                    ||
-                    publicacionComentario === publicacion;
-
-
-                if (
-                    coincideTexto
-                    &&
-                    coincidePublicacion
-                ) {
-
-                    comentario.style.display =
-                        "";
-
-                    visibles++;
-
-                } else {
-
-                    comentario.style.display =
-                        "none";
-
-                }
-
-
-            }
-        );
-
-
-        if (
-            visibles === 0
-            &&
-            cantidadInicial > 0
-        ) {
-
-            noComments.classList.add(
-                "show"
-            );
-
-        } else if (
-            cantidadInicial > 0
-        ) {
-
-            noComments.classList.remove(
-                "show"
-            );
-
+        if (visibles === 0 && cantidadInicial > 0) {
+          noComments.classList.add("show");
+        } else if (cantidadInicial > 0) {
+          noComments.classList.remove("show");
         }
+      }
 
+      searchInput.addEventListener("input", filtrarComentarios);
 
-    }
-
-
-    searchInput.addEventListener(
-        "input",
-        filtrarComentarios
-    );
-
-
-    publicationFilter.addEventListener(
-        "change",
-        filtrarComentarios
-    );
-
-</script>
-
-
-</body>
-
+      publicationFilter.addEventListener("change", filtrarComentarios);
+    </script>
+  </body>
 </html>
