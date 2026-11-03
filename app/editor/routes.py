@@ -21,6 +21,7 @@ from app.models import (
     BloquePublicacion,
     ImagenCarrusel,
     Categoria,
+    Etiqueta,
     Comentario
 )
 
@@ -116,6 +117,11 @@ def editor_crear_publicacion():
     ).all()
 
 
+    etiquetas = Etiqueta.query.order_by(
+        Etiqueta.nombre.asc()
+    ).all()
+
+
     if request.method == "POST":
 
         # =========================
@@ -167,6 +173,33 @@ def editor_crear_publicacion():
 
                 categorias_seleccionadas.append(
                     categoria
+                )
+
+
+        # =========================
+        # ETIQUETAS
+        # =========================
+
+        etiquetas_ids = request.form.getlist(
+            "etiquetas"
+        )
+
+
+        etiquetas_seleccionadas = []
+
+
+        for etiqueta_id in etiquetas_ids:
+
+            etiqueta = db.session.get(
+                Etiqueta,
+                int(etiqueta_id)
+            )
+
+
+            if etiqueta:
+
+                etiquetas_seleccionadas.append(
+                    etiqueta
                 )
 
 
@@ -231,6 +264,11 @@ def editor_crear_publicacion():
 
         nueva_publicacion.categorias = (
             categorias_seleccionadas
+        )
+
+
+        nueva_publicacion.etiquetas = (
+            etiquetas_seleccionadas
         )
 
 
@@ -423,6 +461,7 @@ def editor_crear_publicacion():
         "editor/crear_publicacion.html",
         usuario=usuario,
         categorias=categorias,
+        etiquetas=etiquetas,
         seccion_activa="crear_publicacion"
     )
 
@@ -557,6 +596,10 @@ def editor_eliminar_comentario(id_comentario):
     )
 
 
+# =====================================
+# CATEGORÍAS
+# =====================================
+
 @bp.route(
     "/editor/categorias",
     methods=["GET", "POST"]
@@ -573,10 +616,6 @@ def editor_categorias():
             )
         )
 
-
-    # =========================
-    # CREAR CATEGORÍA
-    # =========================
 
     if request.method == "POST":
 
@@ -655,10 +694,6 @@ def editor_categorias():
         )
 
 
-    # =========================
-    # LISTADO
-    # =========================
-
     categorias = Categoria.query.order_by(
         Categoria.id.asc()
     ).all()
@@ -672,9 +707,9 @@ def editor_categorias():
     )
 
 
-# =========================
+# =====================================
 # EDITAR CATEGORÍA
-# =========================
+# =====================================
 
 @bp.route(
     "/editor/categorias/<int:id_categoria>/editar",
@@ -737,10 +772,6 @@ def editor_editar_categoria(id_categoria):
     categoria.descripcion = descripcion
 
 
-    # =========================
-    # IMAGEN
-    # =========================
-
     imagen_archivo = request.files.get(
         "imagen"
     )
@@ -774,9 +805,9 @@ def editor_editar_categoria(id_categoria):
     )
 
 
-# =========================
+# =====================================
 # ELIMINAR CATEGORÍA
-# =========================
+# =====================================
 
 @bp.route(
     "/editor/categorias/<int:id_categoria>/eliminar",
@@ -821,15 +852,239 @@ def editor_eliminar_categoria(id_categoria):
     )
 
 
-@bp.route("/editor/etiquetas")
+# =====================================
+# ETIQUETAS
+# =====================================
+
+@bp.route(
+    "/editor/etiquetas",
+    methods=["GET", "POST"]
+)
 def editor_etiquetas():
 
     usuario = obtener_usuario_actual()
 
+
+    if not usuario:
+
+        return redirect(
+            url_for(
+                "auth.login"
+            )
+        )
+
+
+    if request.method == "POST":
+
+        nombre = request.form.get(
+            "nombre",
+            ""
+        ).strip()
+
+
+        descripcion = request.form.get(
+            "descripcion",
+            ""
+        ).strip()
+
+
+        if not nombre:
+
+            return "Tenés que ingresar un nombre."
+
+
+        if nombre.startswith("#"):
+
+            nombre = nombre[1:]
+
+
+        etiqueta_existente = Etiqueta.query.filter_by(
+            nombre=nombre
+        ).first()
+
+
+        if etiqueta_existente:
+
+            return "Ya existe una etiqueta con ese nombre."
+
+
+        nueva_etiqueta = Etiqueta(
+            nombre=nombre,
+            descripcion=descripcion
+        )
+
+
+        db.session.add(
+            nueva_etiqueta
+        )
+
+
+        db.session.commit()
+
+
+        return redirect(
+            url_for(
+                "editor.editor_etiquetas"
+            )
+        )
+
+
+    etiquetas = Etiqueta.query.order_by(
+        Etiqueta.nombre.asc()
+    ).all()
+
+
+    etiqueta_mas_usada = None
+
+
+    if etiquetas:
+
+        etiqueta_mas_usada = max(
+            etiquetas,
+            key=lambda etiqueta: len(
+                etiqueta.publicaciones
+            )
+        )
+
+
     return render_template(
         "editor/etiquetas.html",
         usuario=usuario,
+        etiquetas=etiquetas,
+        etiqueta_mas_usada=etiqueta_mas_usada,
         seccion_activa="etiquetas"
+    )
+
+
+# =====================================
+# EDITAR ETIQUETA
+# =====================================
+
+@bp.route(
+    "/editor/etiquetas/<int:id_etiqueta>/editar",
+    methods=["POST"]
+)
+def editor_editar_etiqueta(id_etiqueta):
+
+    usuario = obtener_usuario_actual()
+
+
+    if not usuario:
+
+        return redirect(
+            url_for(
+                "auth.login"
+            )
+        )
+
+
+    etiqueta = db.session.get(
+        Etiqueta,
+        id_etiqueta
+    )
+
+
+    if not etiqueta:
+
+        return "Etiqueta no encontrada."
+
+
+    nombre = request.form.get(
+        "nombre",
+        ""
+    ).strip()
+
+
+    descripcion = request.form.get(
+        "descripcion",
+        ""
+    ).strip()
+
+
+    if not nombre:
+
+        return "Tenés que ingresar un nombre."
+
+
+    if nombre.startswith("#"):
+
+        nombre = nombre[1:]
+
+
+    etiqueta_existente = Etiqueta.query.filter(
+        Etiqueta.nombre == nombre,
+        Etiqueta.id != id_etiqueta
+    ).first()
+
+
+    if etiqueta_existente:
+
+        return "Ya existe otra etiqueta con ese nombre."
+
+
+    etiqueta.nombre = nombre
+
+    etiqueta.descripcion = descripcion
+
+
+    db.session.commit()
+
+
+    return redirect(
+        url_for(
+            "editor.editor_etiquetas"
+        )
+    )
+
+
+# =====================================
+# ELIMINAR ETIQUETA
+# =====================================
+
+@bp.route(
+    "/editor/etiquetas/<int:id_etiqueta>/eliminar",
+    methods=["POST"]
+)
+def editor_eliminar_etiqueta(id_etiqueta):
+
+    usuario = obtener_usuario_actual()
+
+
+    if not usuario:
+
+        return redirect(
+            url_for(
+                "auth.login"
+            )
+        )
+
+
+    etiqueta = db.session.get(
+        Etiqueta,
+        id_etiqueta
+    )
+
+
+    if not etiqueta:
+
+        return "Etiqueta no encontrada."
+
+
+    etiqueta.publicaciones.clear()
+
+
+    db.session.delete(
+        etiqueta
+    )
+
+
+    db.session.commit()
+
+
+    return redirect(
+        url_for(
+            "editor.editor_etiquetas"
+        )
     )
 
 
@@ -862,19 +1117,11 @@ def editor_perfil():
 
     if request.method == "POST":
 
-        # =========================
-        # NOMBRE
-        # =========================
-
         usuario.nombre = request.form.get(
             "nombre",
             usuario.nombre
         ).strip()
 
-
-        # =========================
-        # APELLIDO
-        # =========================
 
         usuario.apellido = request.form.get(
             "apellido",
@@ -882,29 +1129,17 @@ def editor_perfil():
         ).strip()
 
 
-        # =========================
-        # USUARIO
-        # =========================
-
         usuario.usuario = request.form.get(
             "usuario",
             usuario.usuario
         ).strip()
 
 
-        # =========================
-        # EMAIL
-        # =========================
-
         usuario.email = request.form.get(
             "email",
             usuario.email
         ).strip()
 
-
-        # =========================
-        # FOTO
-        # =========================
 
         foto = request.files.get(
             "foto"
@@ -935,10 +1170,6 @@ def editor_perfil():
             )
 
 
-        # =========================
-        # GUARDO CAMBIOS
-        # =========================
-
         db.session.commit()
 
 
@@ -948,10 +1179,6 @@ def editor_perfil():
                 foto_anterior
             )
 
-
-        # =========================
-        # ACTUALIZO LA SESIÓN
-        # =========================
 
         session["usuario"] = {
             "id": usuario.id,
@@ -1164,16 +1391,12 @@ def editor_editar_publicacion(id_publicacion):
     ).all()
 
 
-    # =========================
-    # GUARDAR CAMBIOS
-    # =========================
+    etiquetas = Etiqueta.query.order_by(
+        Etiqueta.nombre.asc()
+    ).all()
+
 
     if request.method == "POST":
-
-
-        # =========================
-        # TÍTULO
-        # =========================
 
         titulo = request.form.get(
             "titulo",
@@ -1185,10 +1408,6 @@ def editor_editar_publicacion(id_publicacion):
 
             publicacion.titulo = titulo
 
-
-        # =========================
-        # RESUMEN
-        # =========================
 
         resumen = request.form.get(
             "resumen",
@@ -1243,8 +1462,36 @@ def editor_editar_publicacion(id_publicacion):
 
 
         # =========================
-        # ESTADO
+        # ETIQUETAS
         # =========================
+
+        etiquetas_ids = request.form.getlist(
+            "etiquetas"
+        )
+
+
+        etiquetas_seleccionadas = []
+
+
+        for etiqueta_id in etiquetas_ids:
+
+            etiqueta = db.session.get(
+                Etiqueta,
+                int(etiqueta_id)
+            )
+
+
+            if etiqueta:
+
+                etiquetas_seleccionadas.append(
+                    etiqueta
+                )
+
+
+        publicacion.etiquetas = (
+            etiquetas_seleccionadas
+        )
+
 
         accion = request.form.get(
             "accion",
@@ -1260,10 +1507,6 @@ def editor_editar_publicacion(id_publicacion):
 
             publicacion.estado = "borrador"
 
-
-        # =========================
-        # PORTADA
-        # =========================
 
         nueva_portada = request.files.get(
             "imagen_portada"
@@ -1288,16 +1531,7 @@ def editor_editar_publicacion(id_publicacion):
             )
 
 
-        # =========================
-        # BLOQUES EXISTENTES
-        # =========================
-
         for bloque in bloques:
-
-
-            # =========================
-            # TEXTO EXISTENTE
-            # =========================
 
             if bloque.tipo == "texto":
 
@@ -1309,10 +1543,6 @@ def editor_editar_publicacion(id_publicacion):
 
                 bloque.contenido = contenido
 
-
-            # =========================
-            # IMAGEN EXISTENTE
-            # =========================
 
             elif bloque.tipo == "imagen":
 
@@ -1339,10 +1569,6 @@ def editor_editar_publicacion(id_publicacion):
                     )
 
 
-        # =========================
-        # BLOQUES NUEVOS
-        # =========================
-
         bloques_nuevos_orden = request.form.get(
             "bloques_nuevos_orden",
             ""
@@ -1356,10 +1582,6 @@ def editor_editar_publicacion(id_publicacion):
         ]
 
 
-        # =========================
-        # ÚLTIMO ORDEN
-        # =========================
-
         ultimo_orden = 0
 
 
@@ -1367,10 +1589,6 @@ def editor_editar_publicacion(id_publicacion):
 
             ultimo_orden = bloques[-1].orden
 
-
-        # =========================
-        # BLOQUES NUEVOS
-        # =========================
 
         for indice, tipo in enumerate(
             tipos_nuevos,
@@ -1384,10 +1602,6 @@ def editor_editar_publicacion(id_publicacion):
                 indice
             )
 
-
-            # =========================
-            # TEXTO NUEVO
-            # =========================
 
             if tipo == "texto":
 
@@ -1411,10 +1625,6 @@ def editor_editar_publicacion(id_publicacion):
                         nuevo_bloque
                     )
 
-
-            # =========================
-            # IMAGEN NUEVA
-            # =========================
 
             elif tipo == "imagen":
 
@@ -1453,10 +1663,6 @@ def editor_editar_publicacion(id_publicacion):
                         nuevo_bloque
                     )
 
-
-            # =========================
-            # CARRUSEL NUEVO
-            # =========================
 
             elif tipo == "carrusel":
 
@@ -1520,10 +1726,6 @@ def editor_editar_publicacion(id_publicacion):
                             orden_imagen += 1
 
 
-        # =========================
-        # GUARDO CAMBIOS
-        # =========================
-
         db.session.commit()
 
 
@@ -1533,10 +1735,6 @@ def editor_editar_publicacion(id_publicacion):
             )
         )
 
-
-    # =========================
-    # CARRUSELES
-    # =========================
 
     carruseles = {}
 
@@ -1555,10 +1753,6 @@ def editor_editar_publicacion(id_publicacion):
             carruseles[bloque.id] = imagenes
 
 
-    # =========================
-    # PÁGINA
-    # =========================
-
     return render_template(
         "editor/editar_publicacion.html",
         usuario=usuario,
@@ -1566,6 +1760,7 @@ def editor_editar_publicacion(id_publicacion):
         bloques=bloques,
         carruseles=carruseles,
         categorias=categorias,
+        etiquetas=etiquetas,
         seccion_activa="publicaciones"
     )
 

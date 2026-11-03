@@ -615,72 +615,72 @@
                                 </div>
 
 
-                                <!-- CATEGORÍA -->
+                                <!-- CATEGORÍAS -->
 
                                 <div class="card card-side gap12">
 
 
                                     <div class="row-between">
-                                
-                                
+
+
                                         <label class="card-h2">
-                                
+
                                             <span class="material-symbols-outlined i20 c-primary">
                                                 category
                                             </span>
-                                
+
                                             <span>
                                                 Categorías
                                             </span>
-                                
+
                                         </label>
-                                
-                                
+
+
                                     </div>
-                                
-                                
+
+
                                     <p class="lbl fw600 c-variant">
                                         Seleccioná una o más categorías.
                                     </p>
-                                
-                                
+
+
                                     <div class="col gap8">
-                                
-                                
+
+
                                         {% for categoria in categorias %}
-                                
+
                                             <label class="category-check">
-                                
+
                                                 <input
                                                     type="checkbox"
                                                     name="categorias"
                                                     value="{{ categoria.id }}"
                                                 >
-                                
+
                                                 <span>
                                                     {{ categoria.nombre }}
                                                 </span>
-                                
+
                                             </label>
-                                
+
                                         {% endfor %}
-                                
-                                
+
+
                                     </div>
-                                
-                                
+
+
                                 </div>
 
 
                                 <!-- ETIQUETAS -->
 
-                                <div class="card card-side gap16">
+                                <div class="card card-side gap12">
 
 
                                     <div class="row-between">
 
 
-                                        <h2 class="card-h2">
+                                        <label class="card-h2">
 
                                             <span class="material-symbols-outlined i20 c-primary">
                                                 label
@@ -690,126 +690,76 @@
                                                 Etiquetas
                                             </span>
 
-                                        </h2>
-
-
-                                        <span
-                                            class="lbl fw600 c-outline"
-                                            id="tag-counter"
-                                        >
-                                            0 ACTIVAS
-                                        </span>
+                                        </label>
 
 
                                     </div>
 
 
-                                    <div class="tag-form">
+                                    <p class="lbl fw600 c-variant">
+                                        Seleccioná una o más etiquetas.
+                                    </p>
 
 
-                                        <div class="tag-input-wrap">
+                                    <div class="col gap8">
 
 
-                                            <span class="tag-hash">
-                                                #
+                                        {% if etiquetas %}
+
+
+                                            {% for etiqueta in etiquetas %}
+
+
+                                                <label class="category-check">
+
+                                                    <input
+                                                        type="checkbox"
+                                                        name="etiquetas"
+                                                        value="{{ etiqueta.id }}"
+                                                    >
+
+                                                    <span>
+                                                        #{{ etiqueta.nombre }}
+                                                    </span>
+
+                                                </label>
+
+
+                                            {% endfor %}
+
+
+                                        {% else %}
+
+
+                                            <span class="lbl fw600 c-variant">
+                                                Todavía no hay etiquetas creadas.
                                             </span>
 
 
-                                            <input
-                                                class="field-xs tag-input"
-                                                id="tag-input"
-                                                type="text"
-                                                placeholder="Añadir etiqueta..."
-                                            >
+                                        {% endif %}
 
 
-                                        </div>
+                                    </div>
 
 
-                                        <button
+                                    <div style="margin-top: 12px;">
+
+
+                                        <a
+                                            href="{{ url_for('editor.editor_etiquetas') }}"
                                             class="btn-add"
-                                            id="btn-add-tag"
-                                            type="button"
                                         >
 
                                             <span class="material-symbols-outlined i16">
                                                 add
                                             </span>
 
-                                            <span>
-                                                Añadir
-                                            </span>
+                                            Crear nueva etiqueta
 
-                                        </button>
+                                        </a>
 
 
                                     </div>
-
-
-                                    <div class="col gap6">
-
-
-                                        <span class="lbl up c-outline sug-title">
-                                            Sugerencias:
-                                        </span>
-
-
-                                        <div class="sugs">
-
-
-                                            <button
-                                                class="sug"
-                                                data-tag="Ferrari"
-                                                type="button"
-                                            >
-                                                + #Ferrari
-                                            </button>
-
-
-                                            <button
-                                                class="sug"
-                                                data-tag="F1"
-                                                type="button"
-                                            >
-                                                + #F1
-                                            </button>
-
-
-                                            <button
-                                                class="sug"
-                                                data-tag="Verstappen"
-                                                type="button"
-                                            >
-                                                + #Verstappen
-                                            </button>
-
-
-                                            <button
-                                                class="sug"
-                                                data-tag="Pirelli"
-                                                type="button"
-                                            >
-                                                + #Pirelli
-                                            </button>
-
-
-                                        </div>
-
-
-                                    </div>
-
-
-                                    <div
-                                        class="tags"
-                                        id="tags-container"
-                                    ></div>
-
-
-                                    <input
-                                        type="hidden"
-                                        name="etiquetas"
-                                        id="etiquetas-hidden"
-                                    >
 
 
                                 </div>
@@ -916,285 +866,6 @@
                 );
 
             }
-
-
-            /* ETIQUETAS */
-
-            const tagsContainer =
-                document.getElementById(
-                    "tags-container"
-                );
-
-
-            const tagInput =
-                document.getElementById(
-                    "tag-input"
-                );
-
-
-            const addTagBtn =
-                document.getElementById(
-                    "btn-add-tag"
-                );
-
-
-            const tagCounter =
-                document.getElementById(
-                    "tag-counter"
-                );
-
-
-            const etiquetasHidden =
-                document.getElementById(
-                    "etiquetas-hidden"
-                );
-
-
-            function updateTagCounter() {
-
-                if (
-                    tagsContainer &&
-                    tagCounter
-                ) {
-
-                    tagCounter.textContent =
-                        tagsContainer.children.length
-                        +
-                        " ACTIVAS";
-
-                }
-
-
-                actualizarEtiquetasHidden();
-
-            }
-
-
-            function actualizarEtiquetasHidden() {
-
-                if (
-                    !tagsContainer ||
-                    !etiquetasHidden
-                ) {
-
-                    return;
-
-                }
-
-
-                const etiquetas = [];
-
-
-                tagsContainer
-                    .querySelectorAll(
-                        ".tag"
-                    )
-                    .forEach(
-                        (tag) => {
-
-                            const valor =
-                                tag.dataset.valor;
-
-
-                            if (valor) {
-
-                                etiquetas.push(
-                                    valor
-                                );
-
-                            }
-
-                        }
-                    );
-
-
-                etiquetasHidden.value =
-                    etiquetas.join(",");
-
-            }
-
-
-            function addTag() {
-
-                if (
-                    !tagInput ||
-                    !tagsContainer
-                ) {
-
-                    return;
-
-                }
-
-
-                let value =
-                    tagInput.value.trim();
-
-
-                if (!value) {
-
-                    return;
-
-                }
-
-
-                value =
-                    value.replace(
-                        /^#/,
-                        ""
-                    );
-
-
-                const tag =
-                    document.createElement(
-                        "span"
-                    );
-
-
-                tag.className =
-                    "tag";
-
-
-                tag.dataset.valor =
-                    value;
-
-
-                tag.innerHTML = `
-
-                    #${value}
-
-                    <button
-                        class="tag-remove"
-                        type="button"
-                    >
-
-                        <span
-                            class="material-symbols-outlined i14"
-                        >
-                            close
-                        </span>
-
-                    </button>
-
-                `;
-
-
-                tagsContainer.appendChild(
-                    tag
-                );
-
-
-                tagInput.value =
-                    "";
-
-
-                updateTagCounter();
-
-            }
-
-
-            if (addTagBtn) {
-
-                addTagBtn.addEventListener(
-                    "click",
-                    addTag
-                );
-
-            }
-
-
-            if (tagInput) {
-
-                tagInput.addEventListener(
-                    "keydown",
-                    (event) => {
-
-                        if (
-                            event.key === "Enter"
-                        ) {
-
-                            event.preventDefault();
-
-                            addTag();
-
-                        }
-
-                    }
-                );
-
-            }
-
-
-            if (tagsContainer) {
-
-                tagsContainer.addEventListener(
-                    "click",
-                    (event) => {
-
-                        const removeButton =
-                            event.target.closest(
-                                ".tag-remove"
-                            );
-
-
-                        if (!removeButton) {
-
-                            return;
-
-                        }
-
-
-                        const tag =
-                            removeButton.closest(
-                                ".tag"
-                            );
-
-
-                        if (tag) {
-
-                            tag.remove();
-
-                            updateTagCounter();
-
-                        }
-
-                    }
-                );
-
-            }
-
-
-            document
-                .querySelectorAll(
-                    ".sug"
-                )
-                .forEach(
-                    (button) => {
-
-                        button.addEventListener(
-                            "click",
-                            () => {
-
-                                if (!tagInput) {
-
-                                    return;
-
-                                }
-
-
-                                tagInput.value =
-                                    button.dataset.tag;
-
-
-                                addTag();
-
-                            }
-                        );
-
-                    }
-                );
-
-
-            updateTagCounter();
 
 
             /* BLOQUES */
@@ -1364,8 +1035,6 @@
 
 
                         actualizarOrdenBloques();
-
-                        actualizarEtiquetasHidden();
 
 
                     }
@@ -1682,16 +1351,6 @@
 
                             titleCounter.textContent =
                                 "0/120";
-
-                        }
-
-
-                        if (tagsContainer) {
-
-                            tagsContainer.innerHTML =
-                                "";
-
-                            updateTagCounter();
 
                         }
 

@@ -124,6 +124,29 @@ publicacion_categoria = db.Table(
 )
 
 
+# =========================
+# PUBLICACIÓN - ETIQUETA
+# =========================
+
+publicacion_etiqueta = db.Table(
+    "publicacion_etiqueta",
+
+    db.Column(
+        "publicacion_id",
+        db.Integer,
+        db.ForeignKey("publicaciones.id"),
+        primary_key=True
+    ),
+
+    db.Column(
+        "etiqueta_id",
+        db.Integer,
+        db.ForeignKey("etiquetas.id"),
+        primary_key=True
+    )
+)
+
+
 class Publicacion(db.Model):
 
     __tablename__ = "publicaciones"
@@ -173,6 +196,12 @@ class Publicacion(db.Model):
     categorias = db.relationship(
         "Categoria",
         secondary=publicacion_categoria
+    )
+
+    etiquetas = db.relationship(
+        "Etiqueta",
+        secondary=publicacion_etiqueta,
+        backref="publicaciones"
     )
 
 
@@ -258,11 +287,34 @@ class Categoria(db.Model):
         nullable=True
     )
 
-    # =========================
+
+class Etiqueta(db.Model):
+
+    __tablename__ = "etiquetas"
+
+    id = db.Column(
+        db.Integer,
+        primary_key=True
+    )
+
+    nombre = db.Column(
+        db.String(100),
+        nullable=False,
+        unique=True
+    )
+
+    descripcion = db.Column(
+        db.String(255),
+        nullable=True
+    )
+
+
+# =========================
 # COMENTARIO
 # =========================
 
 class Comentario(db.Model):
+
     __tablename__ = "comentarios"
 
     id = db.Column(
@@ -309,7 +361,13 @@ class Comentario(db.Model):
         "Publicacion"
     )
 
+
+# =========================
+# PUBLICACIÓN GUARDADA
+# =========================
+
 class PublicacionGuardada(db.Model):
+
     __tablename__ = "publicaciones_guardadas"
 
     id = db.Column(

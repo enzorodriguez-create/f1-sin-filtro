@@ -1,823 +1,1468 @@
 <!DOCTYPE html>
 <html lang="es">
-  <head>
-    <meta charset="utf-8" />
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<head>
 
-    <title>F1 SIN FILTRO - Editar Publicación</title>
+    <meta charset="utf-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        F1 SIN FILTRO - Editar Publicación
+    </title>
+
 
     <!-- FUENTES -->
 
-    <link href="https://fonts.googleapis.com" rel="preconnect" />
-
-    <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin />
+    <link
+        href="https://fonts.googleapis.com"
+        rel="preconnect"
+    >
 
     <link
-      href="https://fonts.googleapis.com/css2?family=Chivo:ital,wght@0,400;0,600;0,700;0,900;1,700&family=Geist:wght@400;500;600;700&display=swap"
-      rel="stylesheet"
-    />
+        href="https://fonts.gstatic.com"
+        rel="preconnect"
+        crossorigin
+    >
 
     <link
-      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0"
-      rel="stylesheet"
-    />
+        href="https://fonts.googleapis.com/css2?family=Chivo:ital,wght@0,400;0,600;0,700;0,900;1,700&family=Geist:wght@400;500;600;700&display=swap"
+        rel="stylesheet"
+    >
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0"
+        rel="stylesheet"
+    >
+
 
     <!-- CSS -->
 
     <link
-      rel="stylesheet"
-      href="{{ url_for('static', filename='styles/style.css') }}"
-    />
+        rel="stylesheet"
+        href="{{ url_for('static', filename='styles/style.css') }}"
+    >
 
     <link
-      rel="stylesheet"
-      href="{{ url_for('static', filename='styles/editor/sidebar.css') }}"
-    />
+        rel="stylesheet"
+        href="{{ url_for('static', filename='styles/editor/sidebar.css') }}"
+    >
 
     <link
-      rel="stylesheet"
-      href="{{ url_for('static', filename='styles/editor/dashboard.css') }}"
-    />
+        rel="stylesheet"
+        href="{{ url_for('static', filename='styles/editor/dashboard.css') }}"
+    >
 
     <link
-      rel="stylesheet"
-      href="{{ url_for('static', filename='styles/editor/crear_publicacion.css') }}"
-    />
-  </head>
+        rel="stylesheet"
+        href="{{ url_for('static', filename='styles/editor/crear_publicacion.css') }}"
+    >
 
-  <body>
-    <!-- LAYOUT EDITOR -->
+</head>
 
-    <div class="editor-page">
-      {% include "editor/sidebar.html" %}
 
-      <div class="editor-content">
+<body>
+
+
+<div class="editor-page">
+
+
+    {% include "editor/sidebar.html" %}
+
+
+    <div class="editor-content">
+
+
         <!-- TOPBAR -->
 
         <header class="editor-topbar">
-          <div class="topbar-left">
-            <button
-              class="menu-btn"
-              type="button"
-              id="editor-menu-btn"
-              aria-label="Abrir menú"
-            >
-              <span class="material-symbols-outlined"> menu </span>
-            </button>
-          </div>
 
-          <div class="topbar-right">
-            <div class="role-badge">
-              <span class="role-dot"></span>
 
-              <span> ROL: </span>
+            <div class="topbar-left">
 
-              <strong> EDITOR </strong>
+                <button
+                    class="menu-btn"
+                    type="button"
+                    id="editor-menu-btn"
+                    aria-label="Abrir menú"
+                >
+
+                    <span class="material-symbols-outlined">
+                        menu
+                    </span>
+
+                </button>
+
             </div>
 
-            <div class="editor-user">
-              <div class="editor-user-data">
-                <strong> {{ usuario.nombre if usuario else "Editor" }} </strong>
 
-                <span>
-                  {{ usuario.email if usuario else "editor@f1sinfiltro.com" }}
-                </span>
-              </div>
+            <div class="topbar-right">
 
-              {% if usuario and usuario.foto %}
 
-              <img
-                class="editor-avatar editor-avatar-img"
-                src="{{ url_imagen(usuario.foto) }}"
-                alt="{{ usuario.nombre }}"
-              />
+                <div class="role-badge">
 
-              {% else %}
+                    <span class="role-dot"></span>
 
-              <div class="editor-avatar">
-                <span class="material-symbols-outlined"> person </span>
-              </div>
+                    <span>
+                        ROL:
+                    </span>
 
-              {% endif %}
+                    <strong>
+                        EDITOR
+                    </strong>
+
+                </div>
+
+
+                <div class="editor-user">
+
+
+                    <div class="editor-user-data">
+
+                        <strong>
+                            {{ usuario.nombre if usuario else "Editor" }}
+                        </strong>
+
+                        <span>
+                            {{ usuario.email if usuario else "editor@f1sinfiltro.com" }}
+                        </span>
+
+                    </div>
+
+
+                    {% if usuario and usuario.foto %}
+
+                        <img
+                            class="editor-avatar editor-avatar-img"
+                            src="{{ url_imagen(usuario.foto) }}"
+                            alt="{{ usuario.nombre }}"
+                        >
+
+                    {% else %}
+
+                        <div class="editor-avatar">
+
+                            <span class="material-symbols-outlined">
+                                person
+                            </span>
+
+                        </div>
+
+                    {% endif %}
+
+
+                </div>
+
+
             </div>
-          </div>
+
+
         </header>
+
 
         <!-- MAIN -->
 
         <main class="editor-main">
-          <div class="editor-container">
-            <form
-              method="POST"
-              enctype="multipart/form-data"
-              id="form-publicacion"
-            >
-              <input
-                type="hidden"
-                name="bloques_nuevos_orden"
-                id="bloques-nuevos-orden"
-              />
 
-              <!-- ENCABEZADO -->
 
-              <header class="action-bar">
-                <div>
-                  <div class="kicker">
-                    <span class="dot dot-8 bg-primary ping"></span>
+            <div class="editor-container">
 
-                    <span class="lbl up c-primary fw700">
-                      PANEL DE CONTROL // EDITOR
-                    </span>
-                  </div>
 
-                  <h1>
-                    EDITAR PUBLICACIÓN
+                <form
+                    method="POST"
+                    enctype="multipart/form-data"
+                    id="form-publicacion"
+                >
 
-                    <span class="h1-sub"> // CENTRO EDITORIAL </span>
-                  </h1>
-                </div>
-              </header>
-
-              <!-- GRID -->
-
-              <div class="grid">
-                <!-- COLUMNA IZQUIERDA -->
-
-                <div class="col-left">
-                  <!-- TÍTULO -->
-
-                  <div class="card gap8">
-                    <div class="row-between">
-                      <label class="lbl up c-variant" for="post-title">
-                        TÍTULO DE LA PUBLICACIÓN
-
-                        <span class="c-primary"> * </span>
-                      </label>
-
-                      <span class="lbl fw600 c-outline" id="title-char-count">
-                        {{ publicacion.titulo|length }}/120
-                      </span>
-                    </div>
 
                     <input
-                      class="field field-title"
-                      id="post-title"
-                      name="titulo"
-                      type="text"
-                      maxlength="120"
-                      value="{{ publicacion.titulo }}"
-                    />
-                  </div>
-
-                  <!-- SUBTÍTULO -->
-
-                  <div class="card gap8">
-                    <label class="lbl up c-variant" for="post-excerpt">
-                      SUBTÍTULO / RESUMEN DE PORTADA
-                    </label>
-
-                    <textarea
-                      class="field field-text"
-                      id="post-excerpt"
-                      name="resumen"
-                      rows="3"
-                      placeholder="Ingresá un resumen breve para mostrar en la portada..."
+                        type="hidden"
+                        name="bloques_nuevos_orden"
+                        id="bloques-nuevos-orden"
                     >
-{{ publicacion.resumen or "" }}</textarea
-                    >
-                  </div>
 
-                  <!-- PORTADA -->
 
-                  <div class="card gap12">
-                    <div class="row-between wrap gap8">
-                      <span class="lbl up c-variant">
-                        IMAGEN PRINCIPAL / PORTADA
-                      </span>
+                    <!-- ENCABEZADO -->
 
-                      <span class="tag-aspect"> ASPECTO 16:9 </span>
-                    </div>
+                    <header class="action-bar">
 
-                    {% if publicacion.imagen_portada %}
 
-                    <img
-                      id="cover-preview"
-                      src="{{ url_imagen(publicacion.imagen_portada) }}"
-                      alt="{{ publicacion.titulo }}"
-                      style="
-                        width: 100%;
-                        max-height: 420px;
-                        object-fit: cover;
-                        border-radius: 10px;
-                      "
-                    />
+                        <div>
 
-                    {% else %}
 
-                    <img
-                      id="cover-preview"
-                      class="hidden"
-                      alt="Vista previa de la portada"
-                      style="
-                        width: 100%;
-                        max-height: 420px;
-                        object-fit: cover;
-                        border-radius: 10px;
-                      "
-                    />
+                            <div class="kicker">
 
-                    {% endif %}
+                                <span
+                                    class="dot dot-8 bg-primary ping"
+                                ></span>
 
-                    <div class="dropzone">
-                      <input
-                        class="drop-input"
-                        id="cover-file-input"
-                        name="imagen_portada"
-                        type="file"
-                        accept="image/png, image/jpeg, image/webp"
-                      />
+                                <span class="lbl up c-primary fw700">
+                                    PANEL DE CONTROL // EDITOR
+                                </span>
 
-                      <div class="drop-icon">
-                        <span class="material-symbols-outlined">
-                          cloud_upload
-                        </span>
-                      </div>
+                            </div>
 
-                      <p class="drop-title">
-                        Cambiá la imagen de portada o
 
-                        <span> seleccioná un archivo </span>
-                      </p>
+                            <h1>
 
-                      <p class="lbl fw600 c-variant">JPG, PNG o WebP</p>
-                    </div>
-                  </div>
+                                EDITAR PUBLICACIÓN
 
-                  <!-- CONTENIDO -->
+                                <span class="h1-sub">
+                                    // CENTRO EDITORIAL
+                                </span>
 
-                  <div class="editor-card">
-                    <div class="toolbar">
-                      <div class="tb-group">
-                        <button
-                          class="tb tb-text"
-                          id="btn-agregar-texto"
-                          type="button"
-                        >
-                          <span class="material-symbols-outlined i18">
-                            notes
-                          </span>
+                            </h1>
 
-                          TEXTO
-                        </button>
 
-                        <button
-                          class="tb tb-text"
-                          id="btn-agregar-imagen"
-                          type="button"
-                        >
-                          <span class="material-symbols-outlined i18">
-                            add_photo_alternate
-                          </span>
-
-                          IMAGEN
-                        </button>
-
-                        <button
-                          class="tb tb-text"
-                          id="btn-agregar-carrusel"
-                          type="button"
-                        >
-                          <span class="material-symbols-outlined i18">
-                            collections
-                          </span>
-
-                          CARRUSEL
-                        </button>
-                      </div>
-
-                      <div class="tb-mode">
-                        <span class="lbl fw600 c-variant">
-                          CONTENIDO DEL ARTÍCULO
-                        </span>
-
-                        <div class="dot dot-8 bg-primary"></div>
-                      </div>
-                    </div>
-
-                    <div class="bloques-contenido" id="bloques-contenido">
-                      {% for bloque in bloques %} {% if bloque.tipo == "texto"
-                      %}
-
-                      <div
-                        class="bloque-contenido bloque-existente"
-                        data-tipo="texto"
-                      >
-                        <div class="bloque-header">
-                          <span class="lbl up c-primary fw700"> TEXTO </span>
                         </div>
 
-                        <textarea
-                          class="field field-text bloque-texto"
-                          name="bloque_{{ bloque.id }}_texto"
-                          rows="7"
-                        >
-{{ bloque.contenido }}</textarea
-                        >
-                      </div>
 
-                      {% elif bloque.tipo == "imagen" %}
+                    </header>
 
-                      <div
-                        class="bloque-contenido bloque-existente"
-                        data-tipo="imagen"
-                      >
-                        <div class="bloque-header">
-                          <span class="lbl up c-primary fw700"> IMAGEN </span>
+
+                    <!-- GRID -->
+
+                    <div class="grid">
+
+
+                        <!-- COLUMNA IZQUIERDA -->
+
+                        <div class="col-left">
+
+
+                            <!-- TÍTULO -->
+
+                            <div class="card gap8">
+
+
+                                <div class="row-between">
+
+
+                                    <label
+                                        class="lbl up c-variant"
+                                        for="post-title"
+                                    >
+
+                                        TÍTULO DE LA PUBLICACIÓN
+
+                                        <span class="c-primary">
+                                            *
+                                        </span>
+
+                                    </label>
+
+
+                                    <span
+                                        class="lbl fw600 c-outline"
+                                        id="title-char-count"
+                                    >
+                                        {{ publicacion.titulo|length }}/120
+                                    </span>
+
+
+                                </div>
+
+
+                                <input
+                                    class="field field-title"
+                                    id="post-title"
+                                    name="titulo"
+                                    type="text"
+                                    maxlength="120"
+                                    value="{{ publicacion.titulo }}"
+                                >
+
+
+                            </div>
+
+
+                            <!-- SUBTÍTULO -->
+
+                            <div class="card gap8">
+
+
+                                <label
+                                    class="lbl up c-variant"
+                                    for="post-excerpt"
+                                >
+                                    SUBTÍTULO / RESUMEN DE PORTADA
+                                </label>
+
+
+                                <textarea
+                                    class="field field-text"
+                                    id="post-excerpt"
+                                    name="resumen"
+                                    rows="3"
+                                    placeholder="Ingresá un resumen breve para mostrar en la portada..."
+                                >{{ publicacion.resumen or "" }}</textarea>
+
+
+                            </div>
+
+
+                            <!-- PORTADA -->
+
+                            <div class="card gap12">
+
+
+                                <div class="row-between wrap gap8">
+
+                                    <span class="lbl up c-variant">
+                                        IMAGEN PRINCIPAL / PORTADA
+                                    </span>
+
+                                    <span class="tag-aspect">
+                                        ASPECTO 16:9
+                                    </span>
+
+                                </div>
+
+
+                                {% if publicacion.imagen_portada %}
+
+                                    <img
+                                        id="cover-preview"
+                                        src="{{ url_imagen(publicacion.imagen_portada) }}"
+                                        alt="{{ publicacion.titulo }}"
+                                        style="
+                                            width: 100%;
+                                            max-height: 420px;
+                                            object-fit: cover;
+                                            border-radius: 10px;
+                                        "
+                                    >
+
+                                {% else %}
+
+                                    <img
+                                        id="cover-preview"
+                                        class="hidden"
+                                        alt="Vista previa de la portada"
+                                        style="
+                                            width: 100%;
+                                            max-height: 420px;
+                                            object-fit: cover;
+                                            border-radius: 10px;
+                                        "
+                                    >
+
+                                {% endif %}
+
+
+                                <div class="dropzone">
+
+
+                                    <input
+                                        class="drop-input"
+                                        id="cover-file-input"
+                                        name="imagen_portada"
+                                        type="file"
+                                        accept="image/png, image/jpeg, image/webp"
+                                    >
+
+
+                                    <div class="drop-icon">
+
+                                        <span class="material-symbols-outlined">
+                                            cloud_upload
+                                        </span>
+
+                                    </div>
+
+
+                                    <p class="drop-title">
+
+                                        Cambiá la imagen de portada o
+
+                                        <span>
+                                            seleccioná un archivo
+                                        </span>
+
+                                    </p>
+
+
+                                    <p class="lbl fw600 c-variant">
+                                        JPG, PNG o WebP
+                                    </p>
+
+
+                                </div>
+
+
+                            </div>
+
+
+                            <!-- CONTENIDO -->
+
+                            <div class="editor-card">
+
+
+                                <div class="toolbar">
+
+
+                                    <div class="tb-group">
+
+
+                                        <button
+                                            class="tb tb-text"
+                                            id="btn-agregar-texto"
+                                            type="button"
+                                        >
+
+                                            <span class="material-symbols-outlined i18">
+                                                notes
+                                            </span>
+
+                                            TEXTO
+
+                                        </button>
+
+
+                                        <button
+                                            class="tb tb-text"
+                                            id="btn-agregar-imagen"
+                                            type="button"
+                                        >
+
+                                            <span class="material-symbols-outlined i18">
+                                                add_photo_alternate
+                                            </span>
+
+                                            IMAGEN
+
+                                        </button>
+
+
+                                        <button
+                                            class="tb tb-text"
+                                            id="btn-agregar-carrusel"
+                                            type="button"
+                                        >
+
+                                            <span class="material-symbols-outlined i18">
+                                                collections
+                                            </span>
+
+                                            CARRUSEL
+
+                                        </button>
+
+
+                                    </div>
+
+
+                                    <div class="tb-mode">
+
+                                        <span class="lbl fw600 c-variant">
+                                            CONTENIDO DEL ARTÍCULO
+                                        </span>
+
+                                        <div class="dot dot-8 bg-primary"></div>
+
+                                    </div>
+
+
+                                </div>
+
+
+                                <div
+                                    class="bloques-contenido"
+                                    id="bloques-contenido"
+                                >
+
+
+                                    {% for bloque in bloques %}
+
+
+                                        {% if bloque.tipo == "texto" %}
+
+
+                                            <div
+                                                class="bloque-contenido bloque-existente"
+                                                data-tipo="texto"
+                                            >
+
+
+                                                <div class="bloque-header">
+
+                                                    <span class="lbl up c-primary fw700">
+                                                        TEXTO
+                                                    </span>
+
+                                                </div>
+
+
+                                                <textarea
+                                                    class="field field-text bloque-texto"
+                                                    name="bloque_{{ bloque.id }}_texto"
+                                                    rows="7"
+                                                >{{ bloque.contenido }}</textarea>
+
+
+                                            </div>
+
+
+                                        {% elif bloque.tipo == "imagen" %}
+
+
+                                            <div
+                                                class="bloque-contenido bloque-existente"
+                                                data-tipo="imagen"
+                                            >
+
+
+                                                <div class="bloque-header">
+
+                                                    <span class="lbl up c-primary fw700">
+                                                        IMAGEN
+                                                    </span>
+
+                                                </div>
+
+
+                                                {% if bloque.contenido %}
+
+                                                    <img
+                                                        src="{{ url_imagen(bloque.contenido) }}"
+                                                        alt="Imagen de la publicación"
+                                                        style="
+                                                            width: 100%;
+                                                            max-height: 420px;
+                                                            object-fit: cover;
+                                                            border-radius: 8px;
+                                                            margin-bottom: 12px;
+                                                        "
+                                                    >
+
+                                                {% endif %}
+
+
+                                                <input
+                                                    class="field"
+                                                    type="file"
+                                                    name="bloque_{{ bloque.id }}_imagen"
+                                                    accept="image/png, image/jpeg, image/webp"
+                                                >
+
+
+                                            </div>
+
+
+                                        {% elif bloque.tipo == "carrusel" %}
+
+
+                                            <div
+                                                class="bloque-contenido bloque-existente"
+                                                data-tipo="carrusel"
+                                            >
+
+
+                                                <div class="bloque-header">
+
+                                                    <span class="lbl up c-primary fw700">
+                                                        CARRUSEL
+                                                    </span>
+
+                                                </div>
+
+
+                                                <div
+                                                    style="
+                                                        display: grid;
+                                                        grid-template-columns: repeat(
+                                                            auto-fit,
+                                                            minmax(160px, 1fr)
+                                                        );
+                                                        gap: 10px;
+                                                        margin-bottom: 12px;
+                                                    "
+                                                >
+
+
+                                                    {% for imagen in carruseles.get(bloque.id, []) %}
+
+                                                        <img
+                                                            src="{{ url_imagen(imagen.imagen) }}"
+                                                            alt="Imagen del carrusel"
+                                                            style="
+                                                                width: 100%;
+                                                                height: 150px;
+                                                                object-fit: cover;
+                                                                border-radius: 8px;
+                                                            "
+                                                        >
+
+                                                    {% endfor %}
+
+
+                                                </div>
+
+
+                                                <p class="lbl fw600 c-variant">
+                                                    Las imágenes actuales del carrusel se mantienen.
+                                                </p>
+
+
+                                            </div>
+
+
+                                        {% endif %}
+
+
+                                    {% endfor %}
+
+
+                                </div>
+
+
+                                <div class="editor-foot">
+
+                                    <span class="lbl fw600 c-variant">
+                                        Podés modificar los bloques existentes o agregar texto,
+                                        imágenes y carruseles nuevos.
+                                    </span>
+
+                                </div>
+
+
+                            </div>
+
+
                         </div>
 
-                        {% if bloque.contenido %}
 
-                        <img
-                          src="{{ url_imagen(bloque.contenido) }}"
-                          alt="Imagen de la publicación"
-                          style="
-                            width: 100%;
-                            max-height: 420px;
-                            object-fit: cover;
-                            border-radius: 8px;
-                            margin-bottom: 12px;
-                          "
-                        />
+                        <!-- COLUMNA DERECHA -->
 
-                        {% endif %}
+                        <div class="col-right">
 
-                        <input
-                          class="field"
-                          type="file"
-                          name="bloque_{{ bloque.id }}_imagen"
-                          accept="image/png, image/jpeg, image/webp"
-                        />
-                      </div>
 
-                      {% elif bloque.tipo == "carrusel" %}
+                            <!-- ESTADO -->
 
-                      <div
-                        class="bloque-contenido bloque-existente"
-                        data-tipo="carrusel"
-                      >
-                        <div class="bloque-header">
-                          <span class="lbl up c-primary fw700"> CARRUSEL </span>
+                            <div class="card card-side gap16">
+
+
+                                <div class="row-between">
+
+                                    <div class="flex-c gap8">
+
+                                        <span class="material-symbols-outlined i20 c-primary">
+                                            tune
+                                        </span>
+
+                                        <h2 class="card-h2">
+                                            Estado de Publicación
+                                        </h2>
+
+                                    </div>
+
+                                </div>
+
+
+                                <label>
+
+                                    <input
+                                        type="radio"
+                                        name="accion"
+                                        value="publicar"
+                                        {% if publicacion.estado == "publicada" %}
+                                            checked
+                                        {% endif %}
+                                    >
+
+                                    Publicada
+
+                                </label>
+
+
+                                <label>
+
+                                    <input
+                                        type="radio"
+                                        name="accion"
+                                        value="borrador"
+                                        {% if publicacion.estado == "borrador" %}
+                                            checked
+                                        {% endif %}
+                                    >
+
+                                    Borrador
+
+                                </label>
+
+
+                            </div>
+
+
+                            <!-- CATEGORÍAS -->
+
+                            <div class="card card-side gap12">
+
+
+                                <div class="row-between">
+
+                                    <label class="card-h2">
+
+                                        <span class="material-symbols-outlined i20 c-primary">
+                                            category
+                                        </span>
+
+                                        <span>
+                                            Categorías
+                                        </span>
+
+                                    </label>
+
+                                </div>
+
+
+                                <p class="lbl fw600 c-variant">
+                                    Seleccioná una o más categorías.
+                                </p>
+
+
+                                <div class="col gap8">
+
+
+                                    {% for categoria in categorias %}
+
+
+                                        <label class="category-check">
+
+                                            <input
+                                                type="checkbox"
+                                                name="categorias"
+                                                value="{{ categoria.id }}"
+                                                {% if categoria in publicacion.categorias %}
+                                                    checked
+                                                {% endif %}
+                                            >
+
+                                            <span>
+                                                {{ categoria.nombre }}
+                                            </span>
+
+                                        </label>
+
+
+                                    {% endfor %}
+
+
+                                </div>
+
+
+                            </div>
+
+
+                            <!-- ETIQUETAS -->
+
+                            <div class="card card-side gap12">
+
+
+                                <div class="row-between">
+
+                                    <label class="card-h2">
+
+                                        <span class="material-symbols-outlined i20 c-primary">
+                                            label
+                                        </span>
+
+                                        <span>
+                                            Etiquetas
+                                        </span>
+
+                                    </label>
+
+                                </div>
+
+
+                                <p class="lbl fw600 c-variant">
+                                    Seleccioná una o más etiquetas.
+                                </p>
+
+
+                                <div class="col gap8">
+
+
+                                    {% if etiquetas %}
+
+
+                                        {% for etiqueta in etiquetas %}
+
+
+                                            <label class="category-check">
+
+                                                <input
+                                                    type="checkbox"
+                                                    name="etiquetas"
+                                                    value="{{ etiqueta.id }}"
+                                                    {% if etiqueta in publicacion.etiquetas %}
+                                                        checked
+                                                    {% endif %}
+                                                >
+
+                                                <span>
+                                                    #{{ etiqueta.nombre }}
+                                                </span>
+
+                                            </label>
+
+
+                                        {% endfor %}
+
+
+                                    {% else %}
+
+
+                                        <span class="lbl fw600 c-variant">
+                                            Todavía no hay etiquetas creadas.
+                                        </span>
+
+
+                                    {% endif %}
+
+
+                                </div>
+
+
+                                <div style="margin-top: 12px;">
+
+
+                                    <a
+                                        href="{{ url_for('editor.editor_etiquetas') }}"
+                                        class="btn-add"
+                                    >
+
+                                        <span class="material-symbols-outlined i16">
+                                            add
+                                        </span>
+
+                                        Crear nueva etiqueta
+
+                                    </a>
+
+
+                                </div>
+
+
+                            </div>
+
+
+                            <!-- INFORMACIÓN -->
+
+                            <div class="card card-side gap16">
+
+
+                                <h2 class="card-h2">
+
+                                    <span class="material-symbols-outlined i20 c-primary">
+                                        info
+                                    </span>
+
+                                    Información
+
+                                </h2>
+
+
+                                <div class="col gap8">
+
+                                    <span class="lbl fw600 c-variant">
+                                        ID: {{ publicacion.id }}
+                                    </span>
+
+                                    <span class="lbl fw600 c-variant">
+                                        Estado: {{ publicacion.estado }}
+                                    </span>
+
+                                </div>
+
+
+                            </div>
+
+
+                            <!-- ACCIONES -->
+
+                            <div class="card card-side gap12">
+
+
+                                <button
+                                    class="btn-big"
+                                    type="submit"
+                                >
+
+                                    <span class="material-symbols-outlined i20">
+                                        save
+                                    </span>
+
+                                    <span>
+                                        GUARDAR CAMBIOS
+                                    </span>
+
+                                </button>
+
+
+                                <a
+                                    class="btn-discard"
+                                    href="{{ url_for('editor.editor_publicaciones') }}"
+                                >
+                                    Cancelar
+                                </a>
+
+
+                            </div>
+
+
                         </div>
 
-                        <div
-                          style="
-                            display: grid;
-                            grid-template-columns: repeat(
-                              auto-fit,
-                              minmax(160px, 1fr)
-                            );
-                            gap: 10px;
-                            margin-bottom: 12px;
-                          "
-                        >
-                          {% for imagen in carruseles.get(bloque.id, []) %}
 
-                          <img
-                            src="{{ url_imagen(imagen.imagen) }}"
-                            alt="Imagen del carrusel"
-                            style="
-                              width: 100%;
-                              height: 150px;
-                              object-fit: cover;
-                              border-radius: 8px;
-                            "
-                          />
-
-                          {% endfor %}
-                        </div>
-
-                        <p class="lbl fw600 c-variant">
-                          Las imágenes actuales del carrusel se mantienen.
-                        </p>
-                      </div>
-
-                      {% endif %} {% endfor %}
                     </div>
 
-                    <div class="editor-foot">
-                      <span class="lbl fw600 c-variant">
-                        Podés modificar los bloques existentes o agregar texto,
-                        imágenes y carruseles nuevos.
-                      </span>
-                    </div>
-                  </div>
-                </div>
 
-                <!-- COLUMNA DERECHA -->
+                </form>
 
-                <div class="col-right">
-                  <!-- ESTADO -->
 
-                  <div class="card card-side gap16">
-                    <div class="row-between">
-                      <div class="flex-c gap8">
-                        <span class="material-symbols-outlined i20 c-primary">
-                          tune
-                        </span>
+            </div>
 
-                        <h2 class="card-h2">Estado de Publicación</h2>
-                      </div>
-                    </div>
 
-                    <label>
-                      <input type="radio" name="accion" value="publicar" {% if
-                      publicacion.estado == "publicada" %}checked{% endif %} >
-                      Publicada
-                    </label>
-
-                    <label>
-                      <input type="radio" name="accion" value="borrador" {% if
-                      publicacion.estado == "borrador" %}checked{% endif %} >
-                      Borrador
-                    </label>
-                  </div>
-
-                  <!-- CATEGORÍA -->
-
-                  <!-- =========================
-     CATEGORÍAS
-========================== -->
-
-                  <div class="card card-side gap12">
-                    <div class="row-between">
-                      <label class="card-h2">
-                        <span class="material-symbols-outlined i20 c-primary">
-                          category
-                        </span>
-
-                        <span> Categorías </span>
-                      </label>
-                    </div>
-
-                    <p class="lbl fw600 c-variant">
-                      Seleccioná una o más categorías.
-                    </p>
-
-                    <div class="col gap8">
-                      {% for categoria in categorias %} {% if categoria in
-                      publicacion.categorias %}
-
-                      <label class="category-check">
-                        <input
-                          type="checkbox"
-                          name="categorias"
-                          value="{{ categoria.id }}"
-                          checked
-                        />
-
-                        <span> {{ categoria.nombre }} </span>
-                      </label>
-
-                      {% else %}
-
-                      <label class="category-check">
-                        <input
-                          type="checkbox"
-                          name="categorias"
-                          value="{{ categoria.id }}"
-                        />
-
-                        <span> {{ categoria.nombre }} </span>
-                      </label>
-
-                      {% endif %} {% endfor %}
-                    </div>
-                  </div>
-
-                  <!-- INFORMACIÓN -->
-
-                  <div class="card card-side gap16">
-                    <h2 class="card-h2">
-                      <span class="material-symbols-outlined i20 c-primary">
-                        info
-                      </span>
-
-                      Información
-                    </h2>
-
-                    <div class="col gap8">
-                      <span class="lbl fw600 c-variant">
-                        ID: {{ publicacion.id }}
-                      </span>
-
-                      <span class="lbl fw600 c-variant">
-                        Estado: {{ publicacion.estado }}
-                      </span>
-                    </div>
-                  </div>
-
-                  <!-- ACCIONES -->
-
-                  <div class="card card-side gap12">
-                    <button class="btn-big" type="submit">
-                      <span class="material-symbols-outlined i20"> save </span>
-
-                      <span> GUARDAR CAMBIOS </span>
-                    </button>
-
-                    <a
-                      class="btn-discard"
-                      href="{{ url_for('editor.editor_publicaciones') }}"
-                    >
-                      Cancelar
-                    </a>
-                  </div>
-                </div>
-              </div>
-            </form>
-          </div>
         </main>
-      </div>
+
+
     </div>
 
-    <!-- FOOTER -->
 
-    {% include "base/footer.html" %}
+</div>
 
-    <!-- JAVASCRIPT -->
 
-    <script>
-      (function editarPublicacion() {
+<!-- FOOTER -->
+
+{% include "base/footer.html" %}
+
+
+<!-- JAVASCRIPT -->
+
+<script>
+
+
+    (function editarPublicacion() {
+
+
         /* TÍTULO */
 
-        const titleInput = document.getElementById("post-title");
+        const titleInput =
+            document.getElementById(
+                "post-title"
+            );
 
-        const titleCounter = document.getElementById("title-char-count");
 
-        if (titleInput && titleCounter) {
-          titleInput.addEventListener("input", () => {
-            titleCounter.textContent = titleInput.value.length + "/120";
-          });
+        const titleCounter =
+            document.getElementById(
+                "title-char-count"
+            );
+
+
+        if (
+            titleInput &&
+            titleCounter
+        ) {
+
+            titleInput.addEventListener(
+                "input",
+                () => {
+
+                    titleCounter.textContent =
+                        titleInput.value.length
+                        +
+                        "/120";
+
+                }
+            );
+
         }
+
 
         /* BLOQUES */
 
-        const bloquesContenido = document.getElementById("bloques-contenido");
+        const bloquesContenido =
+            document.getElementById(
+                "bloques-contenido"
+            );
 
-        const btnAgregarTexto = document.getElementById("btn-agregar-texto");
 
-        const btnAgregarImagen = document.getElementById("btn-agregar-imagen");
+        const btnAgregarTexto =
+            document.getElementById(
+                "btn-agregar-texto"
+            );
 
-        const btnAgregarCarrusel = document.getElementById(
-          "btn-agregar-carrusel"
-        );
 
-        const inputOrden = document.getElementById("bloques-nuevos-orden");
+        const btnAgregarImagen =
+            document.getElementById(
+                "btn-agregar-imagen"
+            );
+
+
+        const btnAgregarCarrusel =
+            document.getElementById(
+                "btn-agregar-carrusel"
+            );
+
+
+        const inputOrden =
+            document.getElementById(
+                "bloques-nuevos-orden"
+            );
+
 
         function actualizarOrdenBloquesNuevos() {
-          const bloquesNuevos =
-            bloquesContenido.querySelectorAll(".bloque-nuevo");
 
-          const orden = [];
 
-          bloquesNuevos.forEach((bloque) => {
-            orden.push(bloque.dataset.tipo);
-          });
+            const bloquesNuevos =
+                bloquesContenido.querySelectorAll(
+                    ".bloque-nuevo"
+                );
 
-          inputOrden.value = orden.join(",");
+
+            const orden = [];
+
+
+            bloquesNuevos.forEach(
+                (bloque) => {
+
+                    orden.push(
+                        bloque.dataset.tipo
+                    );
+
+                }
+            );
+
+
+            inputOrden.value =
+                orden.join(",");
+
+
         }
+
 
         function crearBloqueTexto() {
-          const bloque = document.createElement("div");
-
-          bloque.className = "bloque-contenido bloque-nuevo";
-
-          bloque.dataset.tipo = "texto";
-
-          bloque.innerHTML = `
-
-                    <div class="bloque-header">
-
-                        <span class="lbl up c-primary fw700">
-                            TEXTO NUEVO
-                        </span>
-
-                        <button
-                            class="btn-eliminar-bloque"
-                            type="button"
-                            title="Eliminar bloque"
-                        >
-
-                            <span class="material-symbols-outlined">
-                                delete
-                            </span>
-
-                        </button>
-
-                    </div>
 
 
-                    <textarea
-                        class="field field-text bloque-texto"
-                        rows="7"
-                        placeholder="Escribí acá el contenido..."
-                    ></textarea>
-
-                `;
-
-          bloquesContenido.appendChild(bloque);
-
-          actualizarOrdenBloquesNuevos();
-        }
-
-        function crearBloqueImagen() {
-          const bloque = document.createElement("div");
-
-          bloque.className = "bloque-contenido bloque-nuevo";
-
-          bloque.dataset.tipo = "imagen";
-
-          bloque.innerHTML = `
-
-                    <div class="bloque-header">
-
-                        <span class="lbl up c-primary fw700">
-                            IMAGEN NUEVA
-                        </span>
-
-                        <button
-                            class="btn-eliminar-bloque"
-                            type="button"
-                            title="Eliminar bloque"
-                        >
-
-                            <span class="material-symbols-outlined">
-                                delete
-                            </span>
-
-                        </button>
-
-                    </div>
+            const bloque =
+                document.createElement(
+                    "div"
+                );
 
 
-                    <input
-                        class="field"
-                        type="file"
-                        accept="image/png, image/jpeg, image/webp"
-                    >
-
-                `;
-
-          bloquesContenido.appendChild(bloque);
-
-          actualizarOrdenBloquesNuevos();
-        }
-
-        function crearBloqueCarrusel() {
-          const bloque = document.createElement("div");
-
-          bloque.className = "bloque-contenido bloque-nuevo";
-
-          bloque.dataset.tipo = "carrusel";
-
-          bloque.innerHTML = `
-
-                    <div class="bloque-header">
-
-                        <span class="lbl up c-primary fw700">
-                            CARRUSEL NUEVO
-                        </span>
-
-                        <button
-                            class="btn-eliminar-bloque"
-                            type="button"
-                            title="Eliminar bloque"
-                        >
-
-                            <span class="material-symbols-outlined">
-                                delete
-                            </span>
-
-                        </button>
-
-                    </div>
+            bloque.className =
+                "bloque-contenido bloque-nuevo";
 
 
-                    <input
-                        class="field"
-                        type="file"
-                        accept="image/png, image/jpeg, image/webp"
-                        multiple
-                    >
+            bloque.dataset.tipo =
+                "texto";
 
 
-                    <span class="lbl fw600 c-variant">
-                        Podés seleccionar varias imágenes juntas.
+            bloque.innerHTML = `
+
+                <div class="bloque-header">
+
+                    <span class="lbl up c-primary fw700">
+                        TEXTO NUEVO
                     </span>
 
-                `;
+                    <button
+                        class="btn-eliminar-bloque"
+                        type="button"
+                        title="Eliminar bloque"
+                    >
 
-          bloquesContenido.appendChild(bloque);
+                        <span class="material-symbols-outlined">
+                            delete
+                        </span>
 
-          actualizarOrdenBloquesNuevos();
+                    </button>
+
+                </div>
+
+
+                <textarea
+                    class="field field-text bloque-texto"
+                    rows="7"
+                    placeholder="Escribí acá el contenido..."
+                ></textarea>
+
+            `;
+
+
+            bloquesContenido.appendChild(
+                bloque
+            );
+
+
+            actualizarOrdenBloquesNuevos();
+
+
         }
+
+
+        function crearBloqueImagen() {
+
+
+            const bloque =
+                document.createElement(
+                    "div"
+                );
+
+
+            bloque.className =
+                "bloque-contenido bloque-nuevo";
+
+
+            bloque.dataset.tipo =
+                "imagen";
+
+
+            bloque.innerHTML = `
+
+                <div class="bloque-header">
+
+                    <span class="lbl up c-primary fw700">
+                        IMAGEN NUEVA
+                    </span>
+
+                    <button
+                        class="btn-eliminar-bloque"
+                        type="button"
+                        title="Eliminar bloque"
+                    >
+
+                        <span class="material-symbols-outlined">
+                            delete
+                        </span>
+
+                    </button>
+
+                </div>
+
+
+                <input
+                    class="field"
+                    type="file"
+                    accept="image/png, image/jpeg, image/webp"
+                >
+
+            `;
+
+
+            bloquesContenido.appendChild(
+                bloque
+            );
+
+
+            actualizarOrdenBloquesNuevos();
+
+
+        }
+
+
+        function crearBloqueCarrusel() {
+
+
+            const bloque =
+                document.createElement(
+                    "div"
+                );
+
+
+            bloque.className =
+                "bloque-contenido bloque-nuevo";
+
+
+            bloque.dataset.tipo =
+                "carrusel";
+
+
+            bloque.innerHTML = `
+
+                <div class="bloque-header">
+
+                    <span class="lbl up c-primary fw700">
+                        CARRUSEL NUEVO
+                    </span>
+
+                    <button
+                        class="btn-eliminar-bloque"
+                        type="button"
+                        title="Eliminar bloque"
+                    >
+
+                        <span class="material-symbols-outlined">
+                            delete
+                        </span>
+
+                    </button>
+
+                </div>
+
+
+                <input
+                    class="field"
+                    type="file"
+                    accept="image/png, image/jpeg, image/webp"
+                    multiple
+                >
+
+
+                <span class="lbl fw600 c-variant">
+                    Podés seleccionar varias imágenes juntas.
+                </span>
+
+            `;
+
+
+            bloquesContenido.appendChild(
+                bloque
+            );
+
+
+            actualizarOrdenBloquesNuevos();
+
+
+        }
+
 
         if (btnAgregarTexto) {
-          btnAgregarTexto.addEventListener("click", crearBloqueTexto);
+
+            btnAgregarTexto.addEventListener(
+                "click",
+                crearBloqueTexto
+            );
+
         }
+
 
         if (btnAgregarImagen) {
-          btnAgregarImagen.addEventListener("click", crearBloqueImagen);
+
+            btnAgregarImagen.addEventListener(
+                "click",
+                crearBloqueImagen
+            );
+
         }
+
 
         if (btnAgregarCarrusel) {
-          btnAgregarCarrusel.addEventListener("click", crearBloqueCarrusel);
+
+            btnAgregarCarrusel.addEventListener(
+                "click",
+                crearBloqueCarrusel
+            );
+
         }
+
 
         if (bloquesContenido) {
-          bloquesContenido.addEventListener("click", (event) => {
-            const boton = event.target.closest(".btn-eliminar-bloque");
 
-            if (!boton) {
-              return;
-            }
+            bloquesContenido.addEventListener(
+                "click",
+                (event) => {
 
-            const bloque = boton.closest(".bloque-nuevo");
 
-            if (bloque) {
-              bloque.remove();
+                    const boton =
+                        event.target.closest(
+                            ".btn-eliminar-bloque"
+                        );
 
-              actualizarOrdenBloquesNuevos();
-            }
-          });
+
+                    if (!boton) {
+
+                        return;
+
+                    }
+
+
+                    const bloque =
+                        boton.closest(
+                            ".bloque-nuevo"
+                        );
+
+
+                    if (bloque) {
+
+                        bloque.remove();
+
+                        actualizarOrdenBloquesNuevos();
+
+                    }
+
+
+                }
+            );
+
         }
+
 
         /* FORMULARIO */
 
-        const formulario = document.getElementById("form-publicacion");
+        const formulario =
+            document.getElementById(
+                "form-publicacion"
+            );
+
 
         if (formulario) {
-          formulario.addEventListener("submit", () => {
-            const bloquesNuevos =
-              bloquesContenido.querySelectorAll(".bloque-nuevo");
 
-            bloquesNuevos.forEach((bloque, indice) => {
-              const numero = indice + 1;
+            formulario.addEventListener(
+                "submit",
+                () => {
 
-              const tipo = bloque.dataset.tipo;
 
-              if (tipo === "texto") {
-                const textarea = bloque.querySelector("textarea");
+                    const bloquesNuevos =
+                        bloquesContenido.querySelectorAll(
+                            ".bloque-nuevo"
+                        );
 
-                if (textarea) {
-                  textarea.name = `nuevo_bloque_${numero}_texto`;
+
+                    bloquesNuevos.forEach(
+                        (bloque, indice) => {
+
+
+                            const numero =
+                                indice + 1;
+
+
+                            const tipo =
+                                bloque.dataset.tipo;
+
+
+                            if (tipo === "texto") {
+
+                                const textarea =
+                                    bloque.querySelector(
+                                        "textarea"
+                                    );
+
+
+                                if (textarea) {
+
+                                    textarea.name =
+                                        `nuevo_bloque_${numero}_texto`;
+
+                                }
+
+                            }
+
+
+                            if (tipo === "imagen") {
+
+                                const input =
+                                    bloque.querySelector(
+                                        'input[type="file"]'
+                                    );
+
+
+                                if (input) {
+
+                                    input.name =
+                                        `nuevo_bloque_${numero}_imagen`;
+
+                                }
+
+                            }
+
+
+                            if (tipo === "carrusel") {
+
+                                const input =
+                                    bloque.querySelector(
+                                        'input[type="file"]'
+                                    );
+
+
+                                if (input) {
+
+                                    input.name =
+                                        `nuevo_bloque_${numero}_carrusel`;
+
+                                }
+
+                            }
+
+
+                        }
+                    );
+
+
+                    actualizarOrdenBloquesNuevos();
+
+
                 }
-              }
+            );
 
-              if (tipo === "imagen") {
-                const input = bloque.querySelector('input[type="file"]');
-
-                if (input) {
-                  input.name = `nuevo_bloque_${numero}_imagen`;
-                }
-              }
-
-              if (tipo === "carrusel") {
-                const input = bloque.querySelector('input[type="file"]');
-
-                if (input) {
-                  input.name = `nuevo_bloque_${numero}_carrusel`;
-                }
-              }
-            });
-
-            actualizarOrdenBloquesNuevos();
-          });
         }
+
 
         /* PORTADA */
 
-        const coverInput = document.getElementById("cover-file-input");
+        const coverInput =
+            document.getElementById(
+                "cover-file-input"
+            );
 
-        const coverPreview = document.getElementById("cover-preview");
 
-        if (coverInput && coverPreview) {
-          coverInput.addEventListener("change", () => {
-            const archivo = coverInput.files[0];
+        const coverPreview =
+            document.getElementById(
+                "cover-preview"
+            );
 
-            if (!archivo) {
-              return;
-            }
 
-            coverPreview.src = URL.createObjectURL(archivo);
+        if (
+            coverInput &&
+            coverPreview
+        ) {
 
-            coverPreview.classList.remove("hidden");
-          });
+            coverInput.addEventListener(
+                "change",
+                () => {
+
+
+                    const archivo =
+                        coverInput.files[0];
+
+
+                    if (!archivo) {
+
+                        return;
+
+                    }
+
+
+                    coverPreview.src =
+                        URL.createObjectURL(
+                            archivo
+                        );
+
+
+                    coverPreview.classList.remove(
+                        "hidden"
+                    );
+
+
+                }
+            );
+
         }
 
+
         actualizarOrdenBloquesNuevos();
-      })();
-    </script>
-  </body>
+
+
+    })();
+
+
+</script>
+
+
+</body>
+
 </html>
