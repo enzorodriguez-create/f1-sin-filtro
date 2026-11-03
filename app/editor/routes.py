@@ -20,7 +20,8 @@ from app.models import (
     Publicacion,
     BloquePublicacion,
     ImagenCarrusel,
-    Categoria
+    Categoria,
+    Comentario
 )
 
 
@@ -426,15 +427,133 @@ def editor_crear_publicacion():
     )
 
 
+# =====================================
+# COMENTARIOS
+# =====================================
+
 @bp.route("/editor/comentarios")
 def editor_comentarios():
 
     usuario = obtener_usuario_actual()
 
+
+    if not usuario:
+
+        return redirect(
+            url_for(
+                "auth.login"
+            )
+        )
+
+
+    if usuario.rol != "editor":
+
+        return redirect(
+            url_for(
+                "main.inicio"
+            )
+        )
+
+
+    publicaciones = Publicacion.query.filter_by(
+        autor_id=usuario.id
+    ).order_by(
+        Publicacion.titulo.asc()
+    ).all()
+
+
+    comentarios = Comentario.query.join(
+        Publicacion,
+        Comentario.publicacion_id
+        ==
+        Publicacion.id
+    ).filter(
+        Publicacion.autor_id
+        ==
+        usuario.id
+    ).order_by(
+        Comentario.id.desc()
+    ).all()
+
+
     return render_template(
         "editor/comentarios.html",
         usuario=usuario,
+        comentarios=comentarios,
+        publicaciones=publicaciones,
+        cantidad_comentarios=len(comentarios),
+        cantidad_publicaciones=len(publicaciones),
         seccion_activa="comentarios"
+    )
+
+
+# =====================================
+# ELIMINAR COMENTARIO
+# =====================================
+
+@bp.route(
+    "/editor/comentarios/<int:id_comentario>/eliminar",
+    methods=["POST"]
+)
+def editor_eliminar_comentario(id_comentario):
+
+    usuario = obtener_usuario_actual()
+
+
+    if not usuario:
+
+        return redirect(
+            url_for(
+                "auth.login"
+            )
+        )
+
+
+    if usuario.rol != "editor":
+
+        return redirect(
+            url_for(
+                "main.inicio"
+            )
+        )
+
+
+    comentario = Comentario.query.join(
+        Publicacion,
+        Comentario.publicacion_id
+        ==
+        Publicacion.id
+    ).filter(
+        Comentario.id
+        ==
+        id_comentario,
+        Publicacion.autor_id
+        ==
+        usuario.id
+    ).first()
+
+
+    if not comentario:
+
+        return redirect(
+            url_for(
+                "editor.editor_comentarios"
+            )
+        )
+
+
+    db.session.delete(
+        comentario
+    )
+
+
+    db.session.commit()
+
+
+    return redirect(
+        url_for(
+            "editor.editor_comentarios"
+        )
     )
 
 
