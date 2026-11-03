@@ -8,7 +8,14 @@ from flask import (
 )
 
 from app.extensions import db
-from app.models import Usuario, SolicitudEditor
+
+from app.models import (
+    Usuario,
+    SolicitudEditor,
+    Publicacion,
+    Comentario
+)
+
 from almacenamiento import (
     extension_valida,
     subir_imagen
@@ -27,6 +34,7 @@ def obtener_usuario_actual():
         "usuario"
     )
 
+
     if not datos_usuario:
 
         return None
@@ -37,6 +45,10 @@ def obtener_usuario_actual():
         datos_usuario["id"]
     )
 
+
+# =====================================
+# DASHBOARD
+# =====================================
 
 @bp.route("/admin")
 def admin_dashboard():
@@ -68,6 +80,11 @@ def admin_dashboard():
         seccion_activa="dashboard"
     )
 
+
+# =====================================
+# USUARIOS
+# =====================================
+
 @bp.route("/admin/usuarios")
 def admin_usuarios():
 
@@ -98,6 +115,11 @@ def admin_usuarios():
         seccion_activa="usuarios"
     )
 
+
+# =====================================
+# NOTIFICACIONES
+# =====================================
+
 @bp.context_processor
 def notificaciones_admin():
 
@@ -109,6 +131,11 @@ def notificaciones_admin():
     return {
         "solicitudes_pendientes": solicitudes_pendientes
     }
+
+
+# =====================================
+# SOLICITUDES
+# =====================================
 
 @bp.route("/admin/solicitudes")
 def admin_solicitudes():
@@ -156,6 +183,11 @@ def admin_solicitudes():
         seccion_activa="solicitudes"
     )
 
+
+# =====================================
+# APROBAR SOLICITUD
+# =====================================
+
 @bp.route(
     "/admin/solicitudes/<int:id_solicitud>/aprobar",
     methods=["POST"]
@@ -199,13 +231,9 @@ def aprobar_solicitud_editor(
 
     if usuario:
 
-        # Cambio el rol del usuario a editor
         usuario.rol = "editor"
 
-
-        # Marco la solicitud como aprobada
         solicitud.estado = "aprobada"
-
 
         db.session.commit()
 
@@ -215,6 +243,11 @@ def aprobar_solicitud_editor(
             "admin.admin_solicitudes"
         )
     )
+
+
+# =====================================
+# RECHAZAR SOLICITUD
+# =====================================
 
 @bp.route(
     "/admin/solicitudes/<int:id_solicitud>/rechazar",
@@ -246,7 +279,6 @@ def rechazar_solicitud_editor(
 
         solicitud.estado = "rechazada"
 
-
         db.session.commit()
 
 
@@ -256,6 +288,10 @@ def rechazar_solicitud_editor(
         )
     )
 
+
+# =====================================
+# PUBLICACIONES
+# =====================================
 
 @bp.route("/admin/publicaciones")
 def admin_publicaciones():
@@ -287,10 +323,16 @@ def admin_publicaciones():
         seccion_activa="publicaciones"
     )
 
+
+# =====================================
+# CATEGORÍAS
+# =====================================
+
 @bp.route("/admin/categorias")
 def admin_categorias():
 
     usuario = obtener_usuario_actual()
+
 
     if not usuario:
 
@@ -300,6 +342,7 @@ def admin_categorias():
             )
         )
 
+
     if usuario.rol != "admin":
 
         return redirect(
@@ -307,6 +350,7 @@ def admin_categorias():
                 "main.inicio"
             )
         )
+
 
     return render_template(
         "admin/categorias.html",
@@ -314,10 +358,16 @@ def admin_categorias():
         seccion_activa="categorias"
     )
 
+
+# =====================================
+# ETIQUETAS
+# =====================================
+
 @bp.route("/admin/etiquetas")
 def admin_etiquetas():
 
     usuario = obtener_usuario_actual()
+
 
     if not usuario:
 
@@ -327,6 +377,7 @@ def admin_etiquetas():
             )
         )
 
+
     if usuario.rol != "admin":
 
         return redirect(
@@ -334,6 +385,7 @@ def admin_etiquetas():
                 "main.inicio"
             )
         )
+
 
     return render_template(
         "admin/etiquetas.html",
@@ -341,10 +393,16 @@ def admin_etiquetas():
         seccion_activa="etiquetas"
     )
 
+
+# =====================================
+# COMENTARIOS
+# =====================================
+
 @bp.route("/admin/comentarios")
 def admin_comentarios():
 
     usuario = obtener_usuario_actual()
+
 
     if not usuario:
 
@@ -354,6 +412,7 @@ def admin_comentarios():
             )
         )
 
+
     if usuario.rol != "admin":
 
         return redirect(
@@ -362,17 +421,109 @@ def admin_comentarios():
             )
         )
 
+
+    # =========================
+    # COMENTARIOS
+    # =========================
+
+    comentarios = Comentario.query.order_by(
+        Comentario.id.desc()
+    ).all()
+
+
+    # =========================
+    # PUBLICACIONES
+    # =========================
+
+    publicaciones = Publicacion.query.order_by(
+        Publicacion.titulo.asc()
+    ).all()
+
+
     return render_template(
         "admin/comentarios.html",
         usuario=usuario,
+        comentarios=comentarios,
+        publicaciones=publicaciones,
+        cantidad_comentarios=len(comentarios),
+        cantidad_publicaciones=len(publicaciones),
         seccion_activa="comentarios"
     )
+
+
+# =====================================
+# ELIMINAR COMENTARIO
+# =====================================
+
+@bp.route(
+    "/admin/comentarios/<int:id_comentario>/eliminar",
+    methods=["POST"]
+)
+def admin_eliminar_comentario(
+    id_comentario
+):
+
+    usuario = obtener_usuario_actual()
+
+
+    if not usuario:
+
+        return redirect(
+            url_for(
+                "auth.login"
+            )
+        )
+
+
+    if usuario.rol != "admin":
+
+        return redirect(
+            url_for(
+                "main.inicio"
+            )
+        )
+
+
+    comentario = db.session.get(
+        Comentario,
+        id_comentario
+    )
+
+
+    if not comentario:
+
+        return redirect(
+            url_for(
+                "admin.admin_comentarios"
+            )
+        )
+
+
+    db.session.delete(
+        comentario
+    )
+
+
+    db.session.commit()
+
+
+    return redirect(
+        url_for(
+            "admin.admin_comentarios"
+        )
+    )
+
+
+# =====================================
+# ANALÍTICAS
+# =====================================
 
 @bp.route("/admin/analiticas")
 def admin_analiticas():
 
     usuario = obtener_usuario_actual()
 
+
     if not usuario:
 
         return redirect(
@@ -380,6 +531,7 @@ def admin_analiticas():
                 "auth.login"
             )
         )
+
 
     if usuario.rol != "admin":
 
@@ -389,11 +541,17 @@ def admin_analiticas():
             )
         )
 
+
     return render_template(
         "admin/analiticas.html",
         usuario=usuario,
         seccion_activa="analiticas"
     )
+
+
+# =====================================
+# PERFIL
+# =====================================
 
 @bp.route(
     "/admin/perfil",
@@ -532,6 +690,11 @@ def admin_perfil():
         seccion_activa="perfil"
     )
 
+
+# =====================================
+# CAMBIAR CONTRASEÑA
+# =====================================
+
 @bp.route(
     "/admin/perfil/cambiar-password",
     methods=["POST"]
@@ -577,7 +740,6 @@ def admin_cambiar_password():
     )
 
 
-    # Compruebo la contraseña actual
     if not usuario.verificar_password(
         password_actual
     ):
@@ -585,7 +747,6 @@ def admin_cambiar_password():
         return "La contraseña actual es incorrecta."
 
 
-    # Compruebo que las nuevas coincidan
     if (
         password_nueva
         !=
@@ -595,7 +756,6 @@ def admin_cambiar_password():
         return "Las contraseñas nuevas no coinciden."
 
 
-    # Guardo la nueva contraseña
     usuario.guardar_password(
         password_nueva
     )

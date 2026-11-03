@@ -161,24 +161,24 @@
 
                     {% if usuario and usuario.foto %}
 
-                        <div class="admin-avatar">
+                    <div class="admin-avatar">
 
-                            <img
-                                src="{{ usuario.foto }}"
-                                alt="{{ usuario.nombre }}"
-                            >
+                        <img
+                            src="{{ url_imagen(usuario.foto) }}"
+                            alt="{{ usuario.nombre }}"
+                        >
 
-                        </div>
+                    </div>
 
                     {% else %}
 
-                        <div class="admin-avatar">
+                    <div class="admin-avatar">
 
-                            <span class="material-symbols-outlined">
-                                person
-                            </span>
+                        <span class="material-symbols-outlined">
+                            person
+                        </span>
 
-                        </div>
+                    </div>
 
                     {% endif %}
 
@@ -234,7 +234,7 @@
 
                     <p>
                         Supervisá los comentarios realizados por los usuarios
-                        en las publicaciones del portal.
+                        en todas las publicaciones del portal.
                     </p>
 
 
@@ -268,7 +268,7 @@
 
 
                         <strong id="comment-total">
-                            6
+                            {{ cantidad_comentarios }}
                         </strong>
 
 
@@ -281,7 +281,7 @@
 
 
 
-                    <!-- VISIBLES -->
+                    <!-- PUBLICACIONES -->
 
                     <div class="comment-stat-card">
 
@@ -289,23 +289,23 @@
                         <div class="comment-stat-top">
 
                             <span>
-                                VISIBLES
+                                PUBLICACIONES
                             </span>
 
                             <span class="material-symbols-outlined">
-                                visibility
+                                article
                             </span>
 
                         </div>
 
 
-                        <strong id="comment-visible">
-                            5
+                        <strong>
+                            {{ cantidad_publicaciones }}
                         </strong>
 
 
                         <span>
-                            Mostrados en el portal
+                            Publicaciones registradas
                         </span>
 
 
@@ -313,31 +313,44 @@
 
 
 
-                    <!-- OCULTOS -->
+                    <!-- MÁS RECIENTE -->
 
-                    <div class="comment-stat-card comment-stat-hidden">
+                    <div class="comment-stat-card">
 
 
                         <div class="comment-stat-top">
 
                             <span>
-                                OCULTOS
+                                MÁS RECIENTE
                             </span>
 
                             <span class="material-symbols-outlined">
-                                visibility_off
+                                schedule
                             </span>
 
                         </div>
 
 
-                        <strong id="comment-hidden">
-                            1
+                        {% if comentarios %}
+
+                        <strong
+                            class="comentario-fecha"
+                            data-fecha="{{ comentarios[0].fecha.isoformat() }}Z"
+                        >
+                            {{ comentarios[0].fecha.strftime('%d/%m/%Y %H:%M') }}
                         </strong>
+
+                        {% else %}
+
+                        <strong>
+                            -
+                        </strong>
+
+                        {% endif %}
 
 
                         <span>
-                            Ocultados por administración
+                            Último comentario
                         </span>
 
 
@@ -354,6 +367,8 @@
 
                 <section class="comments-tools">
 
+
+                    <!-- BUSCADOR -->
 
                     <div class="comments-search">
 
@@ -387,22 +402,27 @@
 
 
 
+                    <!-- PUBLICACIÓN -->
+
                     <div class="comment-status-filter">
 
 
-                        <select id="comment-status-filter">
+                        <select id="comment-publication-filter">
+
 
                             <option value="all">
-                                Todos los estados
+                                Todas las publicaciones
                             </option>
 
-                            <option value="visible">
-                                Visibles
+
+                            {% for publicacion in publicaciones %}
+
+                            <option value="{{ publicacion.id }}">
+                                {{ publicacion.titulo }}
                             </option>
 
-                            <option value="oculto">
-                                Ocultos
-                            </option>
+                            {% endfor %}
+
 
                         </select>
 
@@ -420,7 +440,11 @@
 
 
                         <span id="comments-result-count">
-                            Mostrando 6 comentarios
+
+                            Mostrando
+                            {{ cantidad_comentarios }}
+                            comentario{% if cantidad_comentarios != 1 %}s{% endif %}
+
                         </span>
 
 
@@ -450,931 +474,196 @@
                      LISTADO
                 ========================== -->
 
-                <section class="comments-list" id="comments-list">
+                <section
+                    class="comments-list"
+                    id="comments-list"
+                >
 
 
-                    <!-- =========================
-                         COMENTARIO 1
-                    ========================== -->
-
-                    <article
-                        class="comment-card"
-                        data-user="martin22"
-                        data-comment="Muy buena nota, me gustó mucho el análisis de Ferrari."
-                        data-publication="Ferrari prepara nuevas mejoras para el próximo Gran Premio"
-                        data-status="visible"
-                    >
+                    {% if comentarios %}
 
 
-                        <div class="comment-card-content">
+                        {% for comentario in comentarios %}
 
 
-                            <div class="comment-user">
+                        <article
+                            class="comment-card"
+                            data-user="{{ comentario.usuario.usuario }}"
+                            data-comment="{{ comentario.contenido }}"
+                            data-publication="{{ comentario.publicacion.titulo }}"
+                            data-publication-id="{{ comentario.publicacion_id }}"
+                        >
 
 
-                                <div class="comment-avatar">
-                                    M
-                                </div>
+                            <div class="comment-card-content">
 
 
-                                <div class="comment-user-info">
+                                <!-- USUARIO -->
 
-                                    <div class="comment-user-top">
+                                <div class="comment-user">
 
-                                        <strong>
-                                            Martín López
-                                        </strong>
 
-                                        <span>
-                                            @martin22
-                                        </span>
+                                    <div class="comment-avatar">
+
+                                        {% if comentario.usuario.nombre %}
+
+                                            {{ comentario.usuario.nombre[0]|upper }}
+
+                                        {% endif %}
 
                                     </div>
 
 
-                                    <div class="comment-meta">
 
-                                        <span>
+                                    <div class="comment-user-info">
 
-                                            <span class="material-symbols-outlined">
-                                                calendar_today
+
+                                        <div class="comment-user-top">
+
+                                            <strong>
+
+                                                {{ comentario.usuario.nombre }}
+
+                                                {% if comentario.usuario.apellido %}
+                                                    {{ comentario.usuario.apellido }}
+                                                {% endif %}
+
+                                            </strong>
+
+
+                                            <span>
+                                                @{{ comentario.usuario.usuario }}
                                             </span>
 
-                                            25/10/2026
-
-                                        </span>
+                                        </div>
 
 
-                                        <span>
 
-                                            <span class="material-symbols-outlined">
-                                                schedule
+                                        <!-- FECHA -->
+
+                                        <div class="comment-meta">
+
+
+                                            <span>
+
+                                                <span class="material-symbols-outlined">
+                                                    calendar_today
+                                                </span>
+
+
+                                                <span
+                                                    class="comentario-fecha"
+                                                    data-fecha="{{ comentario.fecha.isoformat() }}Z"
+                                                >
+                                                    {{ comentario.fecha.strftime('%d/%m/%Y %H:%M') }}
+                                                </span>
+
                                             </span>
 
-                                            18:42
 
-                                        </span>
+                                        </div>
+
 
                                     </div>
 
 
-                                </div>
 
+                                    <span class="comment-state visible">
 
-                                <span class="comment-state visible">
+                                        <span></span>
 
-                                    <span></span>
+                                        Publicado
 
-                                    Visible
-
-                                </span>
-
-
-                            </div>
-
-
-
-                            <div class="comment-text">
-
-                                <p>
-                                    Muy buena nota, me gustó mucho el análisis de Ferrari.
-                                </p>
-
-                            </div>
-
-
-
-                            <div class="comment-publication">
-
-                                <span class="material-symbols-outlined">
-                                    article
-                                </span>
-
-                                <div>
-
-                                    <span>
-                                        PUBLICACIÓN
                                     </span>
 
-                                    <strong>
-                                        Ferrari prepara nuevas mejoras para el próximo Gran Premio
-                                    </strong>
-
-                                </div>
-
-                            </div>
-
-
-                        </div>
-
-
-
-                        <div class="comment-actions">
-
-
-                            <button
-                                class="comment-hide-btn"
-                                type="button"
-                                title="Ocultar comentario"
-                            >
-
-                                <span class="material-symbols-outlined">
-                                    visibility_off
-                                </span>
-
-                                Ocultar
-
-                            </button>
-
-
-                            <button
-                                class="comment-delete-btn"
-                                type="button"
-                                title="Eliminar comentario"
-                            >
-
-                                <span class="material-symbols-outlined">
-                                    delete
-                                </span>
-
-                            </button>
-
-
-                        </div>
-
-
-                    </article>
-
-
-
-                    <!-- =========================
-                         COMENTARIO 2
-                    ========================== -->
-
-                    <article
-                        class="comment-card"
-                        data-user="sofif1"
-                        data-comment="Creo que Red Bull todavía puede mejorar mucho para la próxima carrera."
-                        data-publication="Todo lo que hay que saber antes del próximo GP"
-                        data-status="visible"
-                    >
-
-
-                        <div class="comment-card-content">
-
-
-                            <div class="comment-user">
-
-
-                                <div class="comment-avatar">
-                                    S
-                                </div>
-
-
-                                <div class="comment-user-info">
-
-                                    <div class="comment-user-top">
-
-                                        <strong>
-                                            Sofía Gómez
-                                        </strong>
-
-                                        <span>
-                                            @sofif1
-                                        </span>
-
-                                    </div>
-
-
-                                    <div class="comment-meta">
-
-                                        <span>
-
-                                            <span class="material-symbols-outlined">
-                                                calendar_today
-                                            </span>
-
-                                            25/10/2026
-
-                                        </span>
-
-
-                                        <span>
-
-                                            <span class="material-symbols-outlined">
-                                                schedule
-                                            </span>
-
-                                            17:10
-
-                                        </span>
-
-                                    </div>
-
 
                                 </div>
 
 
-                                <span class="comment-state visible">
 
-                                    <span></span>
+                                <!-- COMENTARIO -->
 
-                                    Visible
+                                <div class="comment-text">
 
-                                </span>
+                                    <p>
+                                        {{ comentario.contenido }}
+                                    </p>
 
-
-                            </div>
-
-
-
-                            <div class="comment-text">
-
-                                <p>
-                                    Creo que Red Bull todavía puede mejorar mucho
-                                    para la próxima carrera.
-                                </p>
-
-                            </div>
+                                </div>
 
 
 
-                            <div class="comment-publication">
+                                <!-- PUBLICACIÓN -->
 
-                                <span class="material-symbols-outlined">
-                                    article
-                                </span>
+                                <div class="comment-publication">
 
-                                <div>
-
-                                    <span>
-                                        PUBLICACIÓN
+                                    <span class="material-symbols-outlined">
+                                        article
                                     </span>
 
-                                    <strong>
-                                        Todo lo que hay que saber antes del próximo GP
-                                    </strong>
 
-                                </div>
+                                    <div>
 
-                            </div>
+                                        <span>
+                                            PUBLICACIÓN
+                                        </span>
 
-
-                        </div>
-
-
-
-                        <div class="comment-actions">
-
-
-                            <button
-                                class="comment-hide-btn"
-                                type="button"
-                                title="Ocultar comentario"
-                            >
-
-                                <span class="material-symbols-outlined">
-                                    visibility_off
-                                </span>
-
-                                Ocultar
-
-                            </button>
-
-
-                            <button
-                                class="comment-delete-btn"
-                                type="button"
-                                title="Eliminar comentario"
-                            >
-
-                                <span class="material-symbols-outlined">
-                                    delete
-                                </span>
-
-                            </button>
-
-
-                        </div>
-
-
-                    </article>
-
-
-
-                    <!-- =========================
-                         COMENTARIO 3 OCULTO
-                    ========================== -->
-
-                    <article
-                        class="comment-card hidden-comment-card"
-                        data-user="troll88"
-                        data-comment="Este comentario fue ocultado por administración."
-                        data-publication="Análisis de la lucha por el campeonato"
-                        data-status="oculto"
-                    >
-
-
-                        <div class="comment-card-content">
-
-
-                            <div class="comment-user">
-
-
-                                <div class="comment-avatar hidden">
-                                    T
-                                </div>
-
-
-                                <div class="comment-user-info">
-
-                                    <div class="comment-user-top">
 
                                         <strong>
-                                            Troll88
+                                            {{ comentario.publicacion.titulo }}
                                         </strong>
 
-                                        <span>
-                                            @troll88
-                                        </span>
-
-                                    </div>
-
-
-                                    <div class="comment-meta">
-
-                                        <span>
-
-                                            <span class="material-symbols-outlined">
-                                                calendar_today
-                                            </span>
-
-                                            24/10/2026
-
-                                        </span>
-
-
-                                        <span>
-
-                                            <span class="material-symbols-outlined">
-                                                schedule
-                                            </span>
-
-                                            23:34
-
-                                        </span>
-
                                     </div>
 
 
                                 </div>
 
 
-                                <span class="comment-state hidden">
-
-                                    <span></span>
-
-                                    Oculto
-
-                                </span>
-
-
                             </div>
 
 
 
-                            <div class="comment-text">
+                            <!-- =========================
+                                 ACCIONES
+                            ========================== -->
 
-                                <p>
-                                    Este comentario fue ocultado por administración.
-                                </p>
-
-                            </div>
+                            <div class="comment-actions">
 
 
+                                <form
+                                    action="{{ url_for('admin.admin_eliminar_comentario', id_comentario=comentario.id) }}"
+                                    method="POST"
+                                >
 
-                            <div class="comment-publication">
+                                    <button
+                                        class="comment-delete-btn"
+                                        type="submit"
+                                        title="Eliminar comentario"
+                                        onclick="return confirm('¿Seguro que querés eliminar este comentario?');"
+                                    >
 
-                                <span class="material-symbols-outlined">
-                                    article
-                                </span>
-
-                                <div>
-
-                                    <span>
-                                        PUBLICACIÓN
-                                    </span>
-
-                                    <strong>
-                                        Análisis de la lucha por el campeonato
-                                    </strong>
-
-                                </div>
-
-                            </div>
-
-
-                        </div>
-
-
-
-                        <div class="comment-actions">
-
-
-                            <button
-                                class="comment-show-btn"
-                                type="button"
-                                title="Volver a mostrar comentario"
-                            >
-
-                                <span class="material-symbols-outlined">
-                                    visibility
-                                </span>
-
-                                Mostrar
-
-                            </button>
-
-
-                            <button
-                                class="comment-delete-btn"
-                                type="button"
-                                title="Eliminar comentario"
-                            >
-
-                                <span class="material-symbols-outlined">
-                                    delete
-                                </span>
-
-                            </button>
-
-
-                        </div>
-
-
-                    </article>
-
-
-
-                    <!-- =========================
-                         COMENTARIO 4
-                    ========================== -->
-
-                    <article
-                        class="comment-card"
-                        data-user="franracing"
-                        data-comment="Me gustaría ver más notas técnicas como esta."
-                        data-publication="Mercedes analiza cambios importantes para 2027"
-                        data-status="visible"
-                    >
-
-
-                        <div class="comment-card-content">
-
-
-                            <div class="comment-user">
-
-
-                                <div class="comment-avatar">
-                                    F
-                                </div>
-
-
-                                <div class="comment-user-info">
-
-                                    <div class="comment-user-top">
-
-                                        <strong>
-                                            Francisco Ruiz
-                                        </strong>
-
-                                        <span>
-                                            @franracing
+                                        <span class="material-symbols-outlined">
+                                            delete
                                         </span>
 
-                                    </div>
+                                        Eliminar
+
+                                    </button>
 
 
-                                    <div class="comment-meta">
-
-                                        <span>
-
-                                            <span class="material-symbols-outlined">
-                                                calendar_today
-                                            </span>
-
-                                            24/10/2026
-
-                                        </span>
-
-
-                                        <span>
-
-                                            <span class="material-symbols-outlined">
-                                                schedule
-                                            </span>
-
-                                            19:15
-
-                                        </span>
-
-                                    </div>
-
-
-                                </div>
-
-
-                                <span class="comment-state visible">
-
-                                    <span></span>
-
-                                    Visible
-
-                                </span>
+                                </form>
 
 
                             </div>
 
 
+                        </article>
 
-                            <div class="comment-text">
 
-                                <p>
-                                    Me gustaría ver más notas técnicas como esta.
-                                </p>
+                        {% endfor %}
 
-                            </div>
 
-
-
-                            <div class="comment-publication">
-
-                                <span class="material-symbols-outlined">
-                                    article
-                                </span>
-
-                                <div>
-
-                                    <span>
-                                        PUBLICACIÓN
-                                    </span>
-
-                                    <strong>
-                                        Mercedes analiza cambios importantes para 2027
-                                    </strong>
-
-                                </div>
-
-                            </div>
-
-
-                        </div>
-
-
-
-                        <div class="comment-actions">
-
-
-                            <button
-                                class="comment-hide-btn"
-                                type="button"
-                                title="Ocultar comentario"
-                            >
-
-                                <span class="material-symbols-outlined">
-                                    visibility_off
-                                </span>
-
-                                Ocultar
-
-                            </button>
-
-
-                            <button
-                                class="comment-delete-btn"
-                                type="button"
-                                title="Eliminar comentario"
-                            >
-
-                                <span class="material-symbols-outlined">
-                                    delete
-                                </span>
-
-                            </button>
-
-
-                        </div>
-
-
-                    </article>
-
-
-
-                    <!-- =========================
-                         COMENTARIO 5
-                    ========================== -->
-
-                    <article
-                        class="comment-card"
-                        data-user="lucasgp"
-                        data-comment="Gran carrera, la estrategia fue clave."
-                        data-publication="Ferrari y su evolución durante la temporada"
-                        data-status="visible"
-                    >
-
-
-                        <div class="comment-card-content">
-
-
-                            <div class="comment-user">
-
-
-                                <div class="comment-avatar">
-                                    L
-                                </div>
-
-
-                                <div class="comment-user-info">
-
-                                    <div class="comment-user-top">
-
-                                        <strong>
-                                            Lucas Pérez
-                                        </strong>
-
-                                        <span>
-                                            @lucasgp
-                                        </span>
-
-                                    </div>
-
-
-                                    <div class="comment-meta">
-
-                                        <span>
-
-                                            <span class="material-symbols-outlined">
-                                                calendar_today
-                                            </span>
-
-                                            23/10/2026
-
-                                        </span>
-
-
-                                        <span>
-
-                                            <span class="material-symbols-outlined">
-                                                schedule
-                                            </span>
-
-                                            16:30
-
-                                        </span>
-
-                                    </div>
-
-
-                                </div>
-
-
-                                <span class="comment-state visible">
-
-                                    <span></span>
-
-                                    Visible
-
-                                </span>
-
-
-                            </div>
-
-
-
-                            <div class="comment-text">
-
-                                <p>
-                                    Gran carrera, la estrategia fue clave.
-                                </p>
-
-                            </div>
-
-
-
-                            <div class="comment-publication">
-
-                                <span class="material-symbols-outlined">
-                                    article
-                                </span>
-
-                                <div>
-
-                                    <span>
-                                        PUBLICACIÓN
-                                    </span>
-
-                                    <strong>
-                                        Ferrari y su evolución durante la temporada
-                                    </strong>
-
-                                </div>
-
-                            </div>
-
-
-                        </div>
-
-
-
-                        <div class="comment-actions">
-
-
-                            <button
-                                class="comment-hide-btn"
-                                type="button"
-                                title="Ocultar comentario"
-                            >
-
-                                <span class="material-symbols-outlined">
-                                    visibility_off
-                                </span>
-
-                                Ocultar
-
-                            </button>
-
-
-                            <button
-                                class="comment-delete-btn"
-                                type="button"
-                                title="Eliminar comentario"
-                            >
-
-                                <span class="material-symbols-outlined">
-                                    delete
-                                </span>
-
-                            </button>
-
-
-                        </div>
-
-
-                    </article>
-
-
-
-                    <!-- =========================
-                         COMENTARIO 6
-                    ========================== -->
-
-                    <article
-                        class="comment-card"
-                        data-user="agusf1"
-                        data-comment="Buen análisis. Coincido con la parte de los neumáticos."
-                        data-publication="Todo lo que hay que saber antes del próximo GP"
-                        data-status="visible"
-                    >
-
-
-                        <div class="comment-card-content">
-
-
-                            <div class="comment-user">
-
-
-                                <div class="comment-avatar">
-                                    A
-                                </div>
-
-
-                                <div class="comment-user-info">
-
-                                    <div class="comment-user-top">
-
-                                        <strong>
-                                            Agustín Díaz
-                                        </strong>
-
-                                        <span>
-                                            @agusf1
-                                        </span>
-
-                                    </div>
-
-
-                                    <div class="comment-meta">
-
-                                        <span>
-
-                                            <span class="material-symbols-outlined">
-                                                calendar_today
-                                            </span>
-
-                                            23/10/2026
-
-                                        </span>
-
-
-                                        <span>
-
-                                            <span class="material-symbols-outlined">
-                                                schedule
-                                            </span>
-
-                                            14:12
-
-                                        </span>
-
-                                    </div>
-
-
-                                </div>
-
-
-                                <span class="comment-state visible">
-
-                                    <span></span>
-
-                                    Visible
-
-                                </span>
-
-
-                            </div>
-
-
-
-                            <div class="comment-text">
-
-                                <p>
-                                    Buen análisis. Coincido con la parte de los neumáticos.
-                                </p>
-
-                            </div>
-
-
-
-                            <div class="comment-publication">
-
-                                <span class="material-symbols-outlined">
-                                    article
-                                </span>
-
-                                <div>
-
-                                    <span>
-                                        PUBLICACIÓN
-                                    </span>
-
-                                    <strong>
-                                        Todo lo que hay que saber antes del próximo GP
-                                    </strong>
-
-                                </div>
-
-                            </div>
-
-
-                        </div>
-
-
-
-                        <div class="comment-actions">
-
-
-                            <button
-                                class="comment-hide-btn"
-                                type="button"
-                                title="Ocultar comentario"
-                            >
-
-                                <span class="material-symbols-outlined">
-                                    visibility_off
-                                </span>
-
-                                Ocultar
-
-                            </button>
-
-
-                            <button
-                                class="comment-delete-btn"
-                                type="button"
-                                title="Eliminar comentario"
-                            >
-
-                                <span class="material-symbols-outlined">
-                                    delete
-                                </span>
-
-                            </button>
-
-
-                        </div>
-
-
-                    </article>
+                    {% endif %}
 
 
                 </section>
@@ -1386,21 +675,46 @@
                 ========================== -->
 
                 <div
-                    class="comments-empty"
+                    class="comments-empty {% if not comentarios %}show{% endif %}"
                     id="comments-empty"
                 >
+
 
                     <span class="material-symbols-outlined">
                         forum
                     </span>
 
-                    <strong>
-                        No se encontraron comentarios
+
+                    <strong id="comments-empty-title">
+
+                        {% if comentarios %}
+
+                            No se encontraron comentarios
+
+                        {% else %}
+
+                            Todavía no hay comentarios
+
+                        {% endif %}
+
                     </strong>
 
+
                     <span>
-                        Probá modificando los filtros.
+
+                        {% if comentarios %}
+
+                            Probá modificando los filtros.
+
+                        {% else %}
+
+                            Los comentarios realizados en el portal
+                            aparecerán acá.
+
+                        {% endif %}
+
                     </span>
+
 
                 </div>
 
@@ -1419,104 +733,71 @@
 
 
 <!-- =========================
-     MODAL ELIMINAR
-========================= -->
-
-<div
-    class="comment-modal-overlay"
-    id="comment-delete-modal"
->
-
-
-    <div class="comment-modal">
-
-
-        <div class="comment-modal-icon">
-
-            <span class="material-symbols-outlined">
-                warning
-            </span>
-
-        </div>
-
-
-        <div class="comment-modal-content">
-
-
-            <span class="comment-modal-label">
-                ELIMINAR COMENTARIO
-            </span>
-
-
-            <h2>
-                ¿Eliminar este comentario?
-            </h2>
-
-
-            <p>
-                Esta acción eliminará definitivamente
-                el comentario seleccionado.
-            </p>
-
-
-            <div class="comment-modal-info">
-
-                <span>
-                    COMENTARIO DE
-                </span>
-
-                <strong id="comment-delete-user">
-                    -
-                </strong>
-
-            </div>
-
-
-            <div class="comment-modal-actions">
-
-
-                <button
-                    id="comment-delete-cancel"
-                    class="comment-modal-cancel"
-                    type="button"
-                >
-                    Cancelar
-                </button>
-
-
-                <button
-                    id="comment-delete-confirm"
-                    class="comment-modal-confirm"
-                    type="button"
-                >
-                    Eliminar
-                </button>
-
-
-            </div>
-
-
-        </div>
-
-
-    </div>
-
-
-</div>
-
-
-
-<!-- =========================
      FOOTER GLOBAL
-========================= -->
+========================== -->
 
 {% include "base/footer.html" %}
 
 
 
 <!-- =========================
-     JAVASCRIPT
-========================= -->
+     FECHA LOCAL
+========================== -->
+
+<script>
+
+    document.addEventListener(
+        "DOMContentLoaded",
+        function () {
+
+
+            const fechas =
+                document.querySelectorAll(
+                    ".comentario-fecha"
+                );
+
+
+            fechas.forEach(
+                function (elemento) {
+
+
+                    const fechaUTC =
+                        elemento.dataset.fecha;
+
+
+                    const fecha =
+                        new Date(
+                            fechaUTC
+                        );
+
+
+                    elemento.textContent =
+                        fecha.toLocaleString(
+                            undefined,
+                            {
+                                day: "2-digit",
+                                month: "2-digit",
+                                year: "numeric",
+                                hour: "2-digit",
+                                minute: "2-digit"
+                            }
+                        );
+
+
+                }
+            );
+
+
+        }
+    );
+
+</script>
+
+
+
+<!-- =========================
+     FILTROS
+========================== -->
 
 <script>
 
@@ -1531,9 +812,9 @@ document.addEventListener(
             );
 
 
-        const statusFilter =
+        const publicationFilter =
             document.getElementById(
-                "comment-status-filter"
+                "comment-publication-filter"
             );
 
 
@@ -1562,7 +843,7 @@ document.addEventListener(
 
 
 
-        function getCards() {
+        function obtenerComentarios() {
 
             return document.querySelectorAll(
                 ".comment-card"
@@ -1572,68 +853,70 @@ document.addEventListener(
 
 
 
-        /* =========================
-           FILTROS
-        ========================= */
-
         function filtrarComentarios() {
 
 
-            const search =
+            const busqueda =
                 searchInput.value
                     .toLowerCase()
                     .trim();
 
 
-            const status =
-                statusFilter.value;
+            const publicacion =
+                publicationFilter.value;
 
 
-            let visible =
-                0;
+            let visibles = 0;
 
 
-            getCards().forEach(
-                function (card) {
+
+            obtenerComentarios().forEach(
+                function (comentario) {
 
 
-                    const text =
+                    const texto =
                         (
-                            card.dataset.user +
-                            " " +
-                            card.dataset.comment +
-                            " " +
-                            card.dataset.publication
+                            comentario.dataset.user
+                            +
+                            " "
+                            +
+                            comentario.dataset.comment
+                            +
+                            " "
+                            +
+                            comentario.dataset.publication
                         ).toLowerCase();
 
 
-                    const matchesSearch =
-                        text.includes(
-                            search
+                    const coincideBusqueda =
+                        texto.includes(
+                            busqueda
                         );
 
 
-                    const matchesStatus =
-                        status === "all"
+                    const coincidePublicacion =
+                        publicacion === "all"
                         ||
-                        card.dataset.status === status;
+                        comentario.dataset.publicationId
+                        ===
+                        publicacion;
 
 
-                    const show =
-                        matchesSearch
+                    if (
+                        coincideBusqueda
                         &&
-                        matchesStatus;
+                        coincidePublicacion
+                    ) {
 
+                        comentario.style.display =
+                            "";
 
-                    card.style.display =
-                        show
-                        ? ""
-                        : "none";
+                        visibles++;
 
+                    } else {
 
-                    if (show) {
-
-                        visible++;
+                        comentario.style.display =
+                            "none";
 
                     }
 
@@ -1642,18 +925,23 @@ document.addEventListener(
             );
 
 
+
             resultCount.textContent =
-                "Mostrando " +
-                visible +
-                " comentario" +
+                "Mostrando "
+                +
+                visibles
+                +
+                " comentario"
+                +
                 (
-                    visible === 1
+                    visibles === 1
                     ? ""
                     : "s"
                 );
 
 
-            if (visible === 0) {
+
+            if (visibles === 0) {
 
                 emptyState.classList.add(
                     "show"
@@ -1678,7 +966,8 @@ document.addEventListener(
         );
 
 
-        statusFilter.addEventListener(
+
+        publicationFilter.addEventListener(
             "change",
             filtrarComentarios
         );
@@ -1689,16 +978,12 @@ document.addEventListener(
             "click",
             function () {
 
-
                 searchInput.value =
                     "";
 
-
                 filtrarComentarios();
 
-
                 searchInput.focus();
-
 
             }
         );
@@ -1709,461 +994,16 @@ document.addEventListener(
             "click",
             function () {
 
-
                 searchInput.value =
                     "";
 
-
-                statusFilter.value =
+                publicationFilter.value =
                     "all";
 
-
                 filtrarComentarios();
 
-
             }
         );
-
-
-
-        /* =========================
-           OCULTAR
-        ========================= */
-
-        document.addEventListener(
-            "click",
-            function (event) {
-
-
-                const hideButton =
-                    event.target.closest(
-                        ".comment-hide-btn"
-                    );
-
-
-                if (!hideButton) {
-
-                    return;
-
-                }
-
-
-                const card =
-                    hideButton.closest(
-                        ".comment-card"
-                    );
-
-
-                const user =
-                    card.querySelector(
-                        ".comment-user-top strong"
-                    ).textContent.trim();
-
-
-                const confirmar =
-                    confirm(
-                        "¿Seguro que querés ocultar el comentario de " +
-                        user +
-                        "?"
-                    );
-
-
-                if (!confirmar) {
-
-                    return;
-
-                }
-
-
-                card.dataset.status =
-                    "oculto";
-
-
-                card.classList.add(
-                    "hidden-comment-card"
-                );
-
-
-                const state =
-                    card.querySelector(
-                        ".comment-state"
-                    );
-
-
-                state.className =
-                    "comment-state hidden";
-
-
-                state.innerHTML =
-                    `
-                        <span></span>
-                        Oculto
-                    `;
-
-
-                const avatar =
-                    card.querySelector(
-                        ".comment-avatar"
-                    );
-
-
-                avatar.classList.add(
-                    "hidden"
-                );
-
-
-                hideButton.className =
-                    "comment-show-btn";
-
-
-                hideButton.title =
-                    "Volver a mostrar comentario";
-
-
-                hideButton.innerHTML =
-                    `
-                        <span class="material-symbols-outlined">
-                            visibility
-                        </span>
-
-                        Mostrar
-                    `;
-
-
-                actualizarEstadisticas();
-
-                filtrarComentarios();
-
-
-                alert(
-                    "Por ahora el comentario se oculta solamente de forma visual."
-                );
-
-
-            }
-        );
-
-
-
-        /* =========================
-           MOSTRAR
-        ========================= */
-
-        document.addEventListener(
-            "click",
-            function (event) {
-
-
-                const showButton =
-                    event.target.closest(
-                        ".comment-show-btn"
-                    );
-
-
-                if (!showButton) {
-
-                    return;
-
-                }
-
-
-                const card =
-                    showButton.closest(
-                        ".comment-card"
-                    );
-
-
-                card.dataset.status =
-                    "visible";
-
-
-                card.classList.remove(
-                    "hidden-comment-card"
-                );
-
-
-                const state =
-                    card.querySelector(
-                        ".comment-state"
-                    );
-
-
-                state.className =
-                    "comment-state visible";
-
-
-                state.innerHTML =
-                    `
-                        <span></span>
-                        Visible
-                    `;
-
-
-                const avatar =
-                    card.querySelector(
-                        ".comment-avatar"
-                    );
-
-
-                avatar.classList.remove(
-                    "hidden"
-                );
-
-
-                showButton.className =
-                    "comment-hide-btn";
-
-
-                showButton.title =
-                    "Ocultar comentario";
-
-
-                showButton.innerHTML =
-                    `
-                        <span class="material-symbols-outlined">
-                            visibility_off
-                        </span>
-
-                        Ocultar
-                    `;
-
-
-                actualizarEstadisticas();
-
-                filtrarComentarios();
-
-
-                alert(
-                    "Por ahora el comentario vuelve a mostrarse solamente de forma visual."
-                );
-
-
-            }
-        );
-
-
-
-        /* =========================
-           ELIMINAR
-        ========================= */
-
-        const deleteModal =
-            document.getElementById(
-                "comment-delete-modal"
-            );
-
-
-        const deleteUser =
-            document.getElementById(
-                "comment-delete-user"
-            );
-
-
-        const deleteCancel =
-            document.getElementById(
-                "comment-delete-cancel"
-            );
-
-
-        const deleteConfirm =
-            document.getElementById(
-                "comment-delete-confirm"
-            );
-
-
-        let selectedCard =
-            null;
-
-
-
-        document.addEventListener(
-            "click",
-            function (event) {
-
-
-                const deleteButton =
-                    event.target.closest(
-                        ".comment-delete-btn"
-                    );
-
-
-                if (!deleteButton) {
-
-                    return;
-
-                }
-
-
-                selectedCard =
-                    deleteButton.closest(
-                        ".comment-card"
-                    );
-
-
-                deleteUser.textContent =
-                    selectedCard.querySelector(
-                        ".comment-user-top strong"
-                    ).textContent.trim();
-
-
-                deleteModal.classList.add(
-                    "open"
-                );
-
-
-            }
-        );
-
-
-
-        function cerrarModalEliminar() {
-
-
-            deleteModal.classList.remove(
-                "open"
-            );
-
-
-            selectedCard =
-                null;
-
-
-        }
-
-
-
-        deleteCancel.addEventListener(
-            "click",
-            cerrarModalEliminar
-        );
-
-
-
-        deleteModal.addEventListener(
-            "click",
-            function (event) {
-
-
-                if (
-                    event.target ===
-                    deleteModal
-                ) {
-
-                    cerrarModalEliminar();
-
-                }
-
-
-            }
-        );
-
-
-
-        deleteConfirm.addEventListener(
-            "click",
-            function () {
-
-
-                if (!selectedCard) {
-
-                    return;
-
-                }
-
-
-                selectedCard.remove();
-
-
-                cerrarModalEliminar();
-
-
-                actualizarEstadisticas();
-
-                filtrarComentarios();
-
-
-                alert(
-                    "Por ahora el comentario se elimina solamente de forma visual."
-                );
-
-
-            }
-        );
-
-
-
-        /* =========================
-           ESTADÍSTICAS
-        ========================= */
-
-        function actualizarEstadisticas() {
-
-
-            const cards =
-                getCards();
-
-
-            let visible =
-                0;
-
-
-            let hidden =
-                0;
-
-
-            cards.forEach(
-                function (card) {
-
-
-                    if (
-                        card.dataset.status ===
-                        "visible"
-                    ) {
-
-                        visible++;
-
-                    }
-
-
-                    if (
-                        card.dataset.status ===
-                        "oculto"
-                    ) {
-
-                        hidden++;
-
-                    }
-
-
-                }
-            );
-
-
-            document.getElementById(
-                "comment-total"
-            ).textContent =
-                cards.length;
-
-
-            document.getElementById(
-                "comment-visible"
-            ).textContent =
-                visible;
-
-
-            document.getElementById(
-                "comment-hidden"
-            ).textContent =
-                hidden;
-
-
-        }
-
-
-
-        actualizarEstadisticas();
-
-        filtrarComentarios();
 
 
     }
