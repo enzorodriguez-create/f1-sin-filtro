@@ -1,1017 +1,550 @@
 <!DOCTYPE html>
 <html lang="es">
+  <head>
+    <meta charset="utf-8" />
 
-<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <meta charset="utf-8">
-
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
-
-    <title>
-        F1 SIN FILTRO - Gestión de Comentarios
-    </title>
-
+    <title>F1 SIN FILTRO - Gestión de Comentarios</title>
 
     <!-- FUENTES -->
 
-    <link
-        href="https://fonts.googleapis.com"
-        rel="preconnect"
-    >
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+
+    <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin />
 
     <link
-        href="https://fonts.gstatic.com"
-        rel="preconnect"
-        crossorigin
-    >
+      href="https://fonts.googleapis.com/css2?family=Anybody:wght@100..900&family=Geist:wght@100..900&display=swap"
+      rel="stylesheet"
+    />
 
     <link
-        href="https://fonts.googleapis.com/css2?family=Anybody:wght@100..900&family=Geist:wght@100..900&display=swap"
-        rel="stylesheet"
-    >
-
-    <link
-        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
-        rel="stylesheet"
-    >
-
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
+      rel="stylesheet"
+    />
 
     <!-- CSS GLOBAL -->
 
     <link
-        rel="stylesheet"
-        href="{{ url_for('static', filename='styles/style.css') }}"
-    >
-
+      rel="stylesheet"
+      href="{{ url_for('static', filename='styles/style.css') }}"
+    />
 
     <!-- CSS ADMIN -->
 
     <link
-        rel="stylesheet"
-        href="{{ url_for('static', filename='styles/admin/base.css') }}"
-    >
+      rel="stylesheet"
+      href="{{ url_for('static', filename='styles/admin/base.css') }}"
+    />
 
     <link
-        rel="stylesheet"
-        href="{{ url_for('static', filename='styles/admin/sidebar.css') }}"
-    >
+      rel="stylesheet"
+      href="{{ url_for('static', filename='styles/admin/sidebar.css') }}"
+    />
 
     <link
-        rel="stylesheet"
-        href="{{ url_for('static', filename='styles/admin/dashboard.css') }}"
-    >
+      rel="stylesheet"
+      href="{{ url_for('static', filename='styles/admin/dashboard.css') }}"
+    />
 
     <link
-        rel="stylesheet"
-        href="{{ url_for('static', filename='styles/admin/comentarios.css') }}"
-    >
+      rel="stylesheet"
+      href="{{ url_for('static', filename='styles/admin/comentarios.css') }}"
+    />
+  </head>
 
-</head>
-
-
-<body>
-
-
-<div class="admin-page">
-
-
-    <!-- =========================
+  <body>
+    <div class="admin-page">
+      <!-- =========================
          SIDEBAR
     ========================== -->
 
-    {% include "admin/sidebar.html" %}
+      {% include "admin/sidebar.html" %}
 
-
-
-    <!-- =========================
+      <!-- =========================
          CONTENIDO
     ========================== -->
 
-    <div class="admin-content">
-
-
+      <div class="admin-content">
         <!-- =========================
              TOPBAR
         ========================== -->
 
         <header class="admin-topbar">
+          <div class="admin-topbar-left">
+            <button
+              class="admin-menu-btn"
+              id="admin-menu-btn"
+              type="button"
+              aria-label="Abrir menú"
+            >
+              <span class="material-symbols-outlined"> menu </span>
+            </button>
 
+            <span class="admin-topbar-section"> GESTIÓN DE COMENTARIOS </span>
+          </div>
 
-            <div class="admin-topbar-left">
+          <div class="admin-topbar-right">
+            <div class="admin-role-badge">
+              <span class="admin-role-dot"></span>
 
+              <span> ROL: </span>
 
-                <button
-                    class="admin-menu-btn"
-                    id="admin-menu-btn"
-                    type="button"
-                    aria-label="Abrir menú"
-                >
+              <strong> ADMIN </strong>
+            </div>
 
-                    <span class="material-symbols-outlined">
-                        menu
-                    </span>
+            <div class="admin-user">
+              <div class="admin-user-data">
+                <strong>
+                  {{ usuario.nombre if usuario else "Administrador" }}
+                </strong>
 
-                </button>
-
-
-                <span class="admin-topbar-section">
-                    GESTIÓN DE COMENTARIOS
+                <span>
+                  {{ usuario.email if usuario else "admin@f1sinfiltro.com" }}
                 </span>
+              </div>
 
+              {% if usuario and usuario.foto %}
 
+              <div class="admin-avatar">
+                <img
+                  src="{{ url_imagen(usuario.foto) }}"
+                  alt="{{ usuario.nombre }}"
+                />
+              </div>
+
+              {% else %}
+
+              <div class="admin-avatar">
+                <span class="material-symbols-outlined"> person </span>
+              </div>
+
+              {% endif %}
             </div>
-
-
-            <div class="admin-topbar-right">
-
-
-                <div class="admin-role-badge">
-
-                    <span class="admin-role-dot"></span>
-
-                    <span>
-                        ROL:
-                    </span>
-
-                    <strong>
-                        ADMIN
-                    </strong>
-
-                </div>
-
-
-                <div class="admin-user">
-
-
-                    <div class="admin-user-data">
-
-                        <strong>
-                            {{ usuario.nombre if usuario else "Administrador" }}
-                        </strong>
-
-                        <span>
-                            {{ usuario.email if usuario else "admin@f1sinfiltro.com" }}
-                        </span>
-
-                    </div>
-
-
-                    {% if usuario and usuario.foto %}
-
-                    <div class="admin-avatar">
-
-                        <img
-                            src="{{ url_imagen(usuario.foto) }}"
-                            alt="{{ usuario.nombre }}"
-                        >
-
-                    </div>
-
-                    {% else %}
-
-                    <div class="admin-avatar">
-
-                        <span class="material-symbols-outlined">
-                            person
-                        </span>
-
-                    </div>
-
-                    {% endif %}
-
-
-                </div>
-
-
-            </div>
-
-
+          </div>
         </header>
-
-
 
         <!-- =========================
              MAIN
         ========================== -->
 
         <main class="admin-main">
-
-
-            <div class="admin-container">
-
-
-                <!-- =========================
+          <div class="admin-container">
+            <!-- =========================
                      CABECERA
                 ========================== -->
 
-                <div class="comments-head">
+            <div class="comments-head">
+              <div class="comments-path">
+                <span> ADMINISTRACIÓN </span>
 
+                <span> / </span>
 
-                    <div class="comments-path">
+                <strong> COMENTARIOS </strong>
+              </div>
 
-                        <span>
-                            ADMINISTRACIÓN
-                        </span>
+              <h1>GESTIÓN DE <span>COMENTARIOS</span></h1>
 
-                        <span>
-                            /
-                        </span>
+              <p>
+                Supervisá los comentarios realizados por los usuarios en todas
+                las publicaciones del portal.
+              </p>
+            </div>
 
-                        <strong>
-                            COMENTARIOS
-                        </strong>
-
-                    </div>
-
-
-                    <h1>
-                        GESTIÓN DE <span>COMENTARIOS</span>
-                    </h1>
-
-
-                    <p>
-                        Supervisá los comentarios realizados por los usuarios
-                        en todas las publicaciones del portal.
-                    </p>
-
-
-                </div>
-
-
-
-                <!-- =========================
+            <!-- =========================
                      ESTADÍSTICAS
                 ========================== -->
 
-                <div class="comments-stats">
+            <div class="comments-stats">
+              <!-- TOTAL -->
 
+              <div class="comment-stat-card">
+                <div class="comment-stat-top">
+                  <span> TOTAL COMENTARIOS </span>
 
-                    <!-- TOTAL -->
-
-                    <div class="comment-stat-card">
-
-
-                        <div class="comment-stat-top">
-
-                            <span>
-                                TOTAL COMENTARIOS
-                            </span>
-
-                            <span class="material-symbols-outlined">
-                                forum
-                            </span>
-
-                        </div>
-
-
-                        <strong id="comment-total">
-                            {{ cantidad_comentarios }}
-                        </strong>
-
-
-                        <span>
-                            Comentarios registrados
-                        </span>
-
-
-                    </div>
-
-
-
-                    <!-- PUBLICACIONES -->
-
-                    <div class="comment-stat-card">
-
-
-                        <div class="comment-stat-top">
-
-                            <span>
-                                PUBLICACIONES
-                            </span>
-
-                            <span class="material-symbols-outlined">
-                                article
-                            </span>
-
-                        </div>
-
-
-                        <strong>
-                            {{ cantidad_publicaciones }}
-                        </strong>
-
-
-                        <span>
-                            Publicaciones registradas
-                        </span>
-
-
-                    </div>
-
-
-
-                    <!-- MÁS RECIENTE -->
-
-                    <div class="comment-stat-card">
-
-
-                        <div class="comment-stat-top">
-
-                            <span>
-                                MÁS RECIENTE
-                            </span>
-
-                            <span class="material-symbols-outlined">
-                                schedule
-                            </span>
-
-                        </div>
-
-
-                        {% if comentarios %}
-
-                        <strong
-                            class="comentario-fecha"
-                            data-fecha="{{ comentarios[0].fecha.isoformat() }}Z"
-                        >
-                            {{ comentarios[0].fecha.strftime('%d/%m/%Y %H:%M') }}
-                        </strong>
-
-                        {% else %}
-
-                        <strong>
-                            -
-                        </strong>
-
-                        {% endif %}
-
-
-                        <span>
-                            Último comentario
-                        </span>
-
-
-                    </div>
-
-
+                  <span class="material-symbols-outlined"> forum </span>
                 </div>
 
+                <strong id="comment-total"> {{ cantidad_comentarios }} </strong>
 
+                <span> Comentarios registrados </span>
+              </div>
 
-                <!-- =========================
+              <!-- PUBLICACIONES -->
+
+              <div class="comment-stat-card">
+                <div class="comment-stat-top">
+                  <span> PUBLICACIONES </span>
+
+                  <span class="material-symbols-outlined"> article </span>
+                </div>
+
+                <strong> {{ cantidad_publicaciones }} </strong>
+
+                <span> Publicaciones registradas </span>
+              </div>
+
+              <!-- MÁS RECIENTE -->
+
+              <div class="comment-stat-card">
+                <div class="comment-stat-top">
+                  <span> MÁS RECIENTE </span>
+
+                  <span class="material-symbols-outlined"> schedule </span>
+                </div>
+
+                {% if comentarios %}
+
+                <strong
+                  class="comentario-fecha"
+                  data-fecha="{{ comentarios[0].fecha.isoformat() }}Z"
+                >
+                  {{ comentarios[0].fecha.strftime('%d/%m/%Y %H:%M') }}
+                </strong>
+
+                {% else %}
+
+                <strong> - </strong>
+
+                {% endif %}
+
+                <span> Último comentario </span>
+              </div>
+            </div>
+
+            <!-- =========================
                      FILTROS
                 ========================== -->
 
-                <section class="comments-tools">
+            <section class="comments-tools">
+              <!-- BUSCADOR -->
 
+              <div class="comments-search">
+                <span class="material-symbols-outlined"> search </span>
 
-                    <!-- BUSCADOR -->
+                <input
+                  id="comment-search"
+                  type="text"
+                  placeholder="Buscar por usuario, comentario o publicación..."
+                />
 
-                    <div class="comments-search">
+                <button
+                  id="clear-comment-search"
+                  type="button"
+                  aria-label="Limpiar búsqueda"
+                >
+                  <span class="material-symbols-outlined"> close </span>
+                </button>
+              </div>
 
+              <!-- PUBLICACIÓN -->
 
-                        <span class="material-symbols-outlined">
-                            search
-                        </span>
+              <div class="comment-status-filter">
+                <select id="comment-publication-filter">
+                  <option value="all">Todas las publicaciones</option>
 
+                  {% for publicacion in publicaciones %}
 
-                        <input
-                            id="comment-search"
-                            type="text"
-                            placeholder="Buscar por usuario, comentario o publicación..."
-                        >
+                  <option value="{{ publicacion.id }}">
+                    {{ publicacion.titulo }}
+                  </option>
 
+                  {% endfor %}
+                </select>
 
-                        <button
-                            id="clear-comment-search"
-                            type="button"
-                            aria-label="Limpiar búsqueda"
-                        >
+                <span class="material-symbols-outlined"> expand_more </span>
+              </div>
 
-                            <span class="material-symbols-outlined">
-                                close
-                            </span>
+              <div class="comments-tool-bottom">
+                <span id="comments-result-count">
+                  Mostrando {{ cantidad_comentarios }} comentario{% if
+                  cantidad_comentarios != 1 %}s{% endif %}
+                </span>
 
-                        </button>
+                <button
+                  class="comments-reset"
+                  id="reset-comment-filters"
+                  type="button"
+                >
+                  <span class="material-symbols-outlined"> refresh </span>
 
+                  Restablecer filtros
+                </button>
+              </div>
+            </section>
 
-                    </div>
-
-
-
-                    <!-- PUBLICACIÓN -->
-
-                    <div class="comment-status-filter">
-
-
-                        <select id="comment-publication-filter">
-
-
-                            <option value="all">
-                                Todas las publicaciones
-                            </option>
-
-
-                            {% for publicacion in publicaciones %}
-
-                            <option value="{{ publicacion.id }}">
-                                {{ publicacion.titulo }}
-                            </option>
-
-                            {% endfor %}
-
-
-                        </select>
-
-
-                        <span class="material-symbols-outlined">
-                            expand_more
-                        </span>
-
-
-                    </div>
-
-
-
-                    <div class="comments-tool-bottom">
-
-
-                        <span id="comments-result-count">
-
-                            Mostrando
-                            {{ cantidad_comentarios }}
-                            comentario{% if cantidad_comentarios != 1 %}s{% endif %}
-
-                        </span>
-
-
-                        <button
-                            class="comments-reset"
-                            id="reset-comment-filters"
-                            type="button"
-                        >
-
-                            <span class="material-symbols-outlined">
-                                refresh
-                            </span>
-
-                            Restablecer filtros
-
-                        </button>
-
-
-                    </div>
-
-
-                </section>
-
-
-
-                <!-- =========================
+            <!-- =========================
                      LISTADO
                 ========================== -->
 
-                <section
-                    class="comments-list"
-                    id="comments-list"
-                >
-
-
-                    {% if comentarios %}
-
-
-                        {% for comentario in comentarios %}
-
-
-                        <article
-                            class="comment-card"
-                            data-user="{{ comentario.usuario.usuario }}"
-                            data-comment="{{ comentario.contenido }}"
-                            data-publication="{{ comentario.publicacion.titulo }}"
-                            data-publication-id="{{ comentario.publicacion_id }}"
-                        >
-
-
-                            <div class="comment-card-content">
-
-
-                                <!-- USUARIO -->
-
-                                <div class="comment-user">
-
-
-                                    <div class="comment-avatar">
-
-                                        {% if comentario.usuario.nombre %}
-
-                                            {{ comentario.usuario.nombre[0]|upper }}
-
-                                        {% endif %}
-
-                                    </div>
-
-
-
-                                    <div class="comment-user-info">
-
-
-                                        <div class="comment-user-top">
-
-                                            <strong>
-
-                                                {{ comentario.usuario.nombre }}
-
-                                                {% if comentario.usuario.apellido %}
-                                                    {{ comentario.usuario.apellido }}
-                                                {% endif %}
-
-                                            </strong>
-
-
-                                            <span>
-                                                @{{ comentario.usuario.usuario }}
-                                            </span>
-
-                                        </div>
-
-
-
-                                        <!-- FECHA -->
-
-                                        <div class="comment-meta">
-
-
-                                            <span>
-
-                                                <span class="material-symbols-outlined">
-                                                    calendar_today
-                                                </span>
-
-
-                                                <span
-                                                    class="comentario-fecha"
-                                                    data-fecha="{{ comentario.fecha.isoformat() }}Z"
-                                                >
-                                                    {{ comentario.fecha.strftime('%d/%m/%Y %H:%M') }}
-                                                </span>
-
-                                            </span>
-
-
-                                        </div>
-
-
-                                    </div>
-
-
-
-                                    <span class="comment-state visible">
-
-                                        <span></span>
-
-                                        Publicado
-
-                                    </span>
-
-
-                                </div>
-
-
-
-                                <!-- COMENTARIO -->
-
-                                <div class="comment-text">
-
-                                    <p>
-                                        {{ comentario.contenido }}
-                                    </p>
-
-                                </div>
-
-
-
-                                <!-- PUBLICACIÓN -->
-
-                                <div class="comment-publication">
-
-                                    <span class="material-symbols-outlined">
-                                        article
-                                    </span>
-
-
-                                    <div>
-
-                                        <span>
-                                            PUBLICACIÓN
-                                        </span>
-
-
-                                        <strong>
-                                            {{ comentario.publicacion.titulo }}
-                                        </strong>
-
-                                    </div>
-
-
-                                </div>
-
-
-                            </div>
-
-
-
-                            <!-- =========================
+            <section class="comments-list" id="comments-list">
+              {% if comentarios %} {% for comentario in comentarios %}
+
+              <article
+                class="comment-card"
+                data-user="{{ comentario.usuario.usuario }}"
+                data-comment="{{ comentario.contenido }}"
+                data-publication="{{ comentario.publicacion.titulo }}"
+                data-publication-id="{{ comentario.publicacion_id }}"
+              >
+                <div class="comment-card-content">
+                  <!-- USUARIO -->
+
+                  <div class="comment-user">
+                    <div class="comment-avatar">
+                      {% if comentario.usuario.nombre %} {{
+                      comentario.usuario.nombre[0]|upper }} {% endif %}
+                    </div>
+
+                    <div class="comment-user-info">
+                      <div class="comment-user-top">
+                        <strong>
+                          {{ comentario.usuario.nombre }} {% if
+                          comentario.usuario.apellido %} {{
+                          comentario.usuario.apellido }} {% endif %}
+                        </strong>
+
+                        <span> @{{ comentario.usuario.usuario }} </span>
+                      </div>
+
+                      <!-- FECHA -->
+
+                      <div class="comment-meta">
+                        <span>
+                          <span class="material-symbols-outlined">
+                            calendar_today
+                          </span>
+
+                          <span
+                            class="comentario-fecha"
+                            data-fecha="{{ comentario.fecha.isoformat() }}Z"
+                          >
+                            {{ comentario.fecha.strftime('%d/%m/%Y %H:%M') }}
+                          </span>
+                        </span>
+                      </div>
+                    </div>
+
+                    <span class="comment-state visible">
+                      <span></span>
+
+                      Publicado
+                    </span>
+                  </div>
+
+                  <!-- COMENTARIO -->
+
+                  <div class="comment-text">
+                    <p>{{ comentario.contenido }}</p>
+                  </div>
+
+                  <!-- =========================
+     MODERACIÓN IA
+========================== -->
+
+                  <div class="comment-moderation">
+                    <span> IA: </span>
+
+                    <strong
+                      data-moderacion="{{ comentario.moderacion if comentario.moderacion else 'Sin analizar' }}"
+                    >
+                      {{ comentario.moderacion if comentario.moderacion else
+                      "Sin analizar" }}
+                    </strong>
+
+                    {% if comentario.confianza is not none %}
+
+                    <span>
+                      Confianza: {{ (comentario.confianza * 100)|round(0)|int
+                      }}%
+                    </span>
+
+                    {% endif %}
+                  </div>
+
+                  <!-- PUBLICACIÓN -->
+
+                  <div class="comment-publication">
+                    <span class="material-symbols-outlined"> article </span>
+
+                    <div>
+                      <span> PUBLICACIÓN </span>
+
+                      <strong> {{ comentario.publicacion.titulo }} </strong>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- =========================
                                  ACCIONES
                             ========================== -->
 
-                            <div class="comment-actions">
+                <div class="comment-actions">
+                  <form
+                    action="{{ url_for('admin.admin_eliminar_comentario', id_comentario=comentario.id) }}"
+                    method="POST"
+                  >
+                    <button
+                      class="comment-delete-btn"
+                      type="submit"
+                      title="Eliminar comentario"
+                      onclick="return confirm('¿Seguro que querés eliminar este comentario?');"
+                    >
+                      <span class="material-symbols-outlined"> delete </span>
 
+                      Eliminar
+                    </button>
+                  </form>
+                </div>
+              </article>
 
-                                <form
-                                    action="{{ url_for('admin.admin_eliminar_comentario', id_comentario=comentario.id) }}"
-                                    method="POST"
-                                >
+              {% endfor %} {% endif %}
+            </section>
 
-                                    <button
-                                        class="comment-delete-btn"
-                                        type="submit"
-                                        title="Eliminar comentario"
-                                        onclick="return confirm('¿Seguro que querés eliminar este comentario?');"
-                                    >
-
-                                        <span class="material-symbols-outlined">
-                                            delete
-                                        </span>
-
-                                        Eliminar
-
-                                    </button>
-
-
-                                </form>
-
-
-                            </div>
-
-
-                        </article>
-
-
-                        {% endfor %}
-
-
-                    {% endif %}
-
-
-                </section>
-
-
-
-                <!-- =========================
+            <!-- =========================
                      SIN RESULTADOS
                 ========================== -->
 
-                <div
-                    class="comments-empty {% if not comentarios %}show{% endif %}"
-                    id="comments-empty"
-                >
+            <div
+              class="comments-empty {% if not comentarios %}show{% endif %}"
+              id="comments-empty"
+            >
+              <span class="material-symbols-outlined"> forum </span>
 
+              <strong id="comments-empty-title">
+                {% if comentarios %} No se encontraron comentarios {% else %}
+                Todavía no hay comentarios {% endif %}
+              </strong>
 
-                    <span class="material-symbols-outlined">
-                        forum
-                    </span>
-
-
-                    <strong id="comments-empty-title">
-
-                        {% if comentarios %}
-
-                            No se encontraron comentarios
-
-                        {% else %}
-
-                            Todavía no hay comentarios
-
-                        {% endif %}
-
-                    </strong>
-
-
-                    <span>
-
-                        {% if comentarios %}
-
-                            Probá modificando los filtros.
-
-                        {% else %}
-
-                            Los comentarios realizados en el portal
-                            aparecerán acá.
-
-                        {% endif %}
-
-                    </span>
-
-
-                </div>
-
-
+              <span>
+                {% if comentarios %} Probá modificando los filtros. {% else %}
+                Los comentarios realizados en el portal aparecerán acá. {% endif
+                %}
+              </span>
             </div>
-
-
+          </div>
         </main>
-
-
+      </div>
     </div>
 
-
-</div>
-
-
-
-<!-- =========================
+    <!-- =========================
      FOOTER GLOBAL
 ========================== -->
 
-{% include "base/footer.html" %}
+    {% include "base/footer.html" %}
 
-
-
-<!-- =========================
+    <!-- =========================
      FECHA LOCAL
 ========================== -->
 
-<script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const fechas = document.querySelectorAll(".comentario-fecha");
 
-    document.addEventListener(
-        "DOMContentLoaded",
-        function () {
+        fechas.forEach(function (elemento) {
+          const fechaUTC = elemento.dataset.fecha;
 
+          const fecha = new Date(fechaUTC);
 
-            const fechas =
-                document.querySelectorAll(
-                    ".comentario-fecha"
-                );
+          elemento.textContent = fecha.toLocaleString(undefined, {
+            day: "2-digit",
+            month: "2-digit",
+            year: "numeric",
+            hour: "2-digit",
+            minute: "2-digit",
+          });
+        });
+      });
+    </script>
 
-
-            fechas.forEach(
-                function (elemento) {
-
-
-                    const fechaUTC =
-                        elemento.dataset.fecha;
-
-
-                    const fecha =
-                        new Date(
-                            fechaUTC
-                        );
-
-
-                    elemento.textContent =
-                        fecha.toLocaleString(
-                            undefined,
-                            {
-                                day: "2-digit",
-                                month: "2-digit",
-                                year: "numeric",
-                                hour: "2-digit",
-                                minute: "2-digit"
-                            }
-                        );
-
-
-                }
-            );
-
-
-        }
-    );
-
-</script>
-
-
-
-<!-- =========================
+    <!-- =========================
      FILTROS
 ========================== -->
 
-<script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const searchInput = document.getElementById("comment-search");
 
-document.addEventListener(
-    "DOMContentLoaded",
-    function () {
+        const publicationFilter = document.getElementById(
+          "comment-publication-filter"
+        );
 
+        const clearSearch = document.getElementById("clear-comment-search");
 
-        const searchInput =
-            document.getElementById(
-                "comment-search"
-            );
+        const resetFilters = document.getElementById("reset-comment-filters");
 
+        const emptyState = document.getElementById("comments-empty");
 
-        const publicationFilter =
-            document.getElementById(
-                "comment-publication-filter"
-            );
-
-
-        const clearSearch =
-            document.getElementById(
-                "clear-comment-search"
-            );
-
-
-        const resetFilters =
-            document.getElementById(
-                "reset-comment-filters"
-            );
-
-
-        const emptyState =
-            document.getElementById(
-                "comments-empty"
-            );
-
-
-        const resultCount =
-            document.getElementById(
-                "comments-result-count"
-            );
-
-
+        const resultCount = document.getElementById("comments-result-count");
 
         function obtenerComentarios() {
-
-            return document.querySelectorAll(
-                ".comment-card"
-            );
-
+          return document.querySelectorAll(".comment-card");
         }
-
-
 
         function filtrarComentarios() {
+          const busqueda = searchInput.value.toLowerCase().trim();
 
+          const publicacion = publicationFilter.value;
 
-            const busqueda =
-                searchInput.value
-                    .toLowerCase()
-                    .trim();
+          let visibles = 0;
 
+          obtenerComentarios().forEach(function (comentario) {
+            const texto = (
+              comentario.dataset.user +
+              " " +
+              comentario.dataset.comment +
+              " " +
+              comentario.dataset.publication
+            ).toLowerCase();
 
-            const publicacion =
-                publicationFilter.value;
+            const coincideBusqueda = texto.includes(busqueda);
 
+            const coincidePublicacion =
+              publicacion === "all" ||
+              comentario.dataset.publicationId === publicacion;
 
-            let visibles = 0;
+            if (coincideBusqueda && coincidePublicacion) {
+              comentario.style.display = "";
 
-
-
-            obtenerComentarios().forEach(
-                function (comentario) {
-
-
-                    const texto =
-                        (
-                            comentario.dataset.user
-                            +
-                            " "
-                            +
-                            comentario.dataset.comment
-                            +
-                            " "
-                            +
-                            comentario.dataset.publication
-                        ).toLowerCase();
-
-
-                    const coincideBusqueda =
-                        texto.includes(
-                            busqueda
-                        );
-
-
-                    const coincidePublicacion =
-                        publicacion === "all"
-                        ||
-                        comentario.dataset.publicationId
-                        ===
-                        publicacion;
-
-
-                    if (
-                        coincideBusqueda
-                        &&
-                        coincidePublicacion
-                    ) {
-
-                        comentario.style.display =
-                            "";
-
-                        visibles++;
-
-                    } else {
-
-                        comentario.style.display =
-                            "none";
-
-                    }
-
-
-                }
-            );
-
-
-
-            resultCount.textContent =
-                "Mostrando "
-                +
-                visibles
-                +
-                " comentario"
-                +
-                (
-                    visibles === 1
-                    ? ""
-                    : "s"
-                );
-
-
-
-            if (visibles === 0) {
-
-                emptyState.classList.add(
-                    "show"
-                );
-
+              visibles++;
             } else {
-
-                emptyState.classList.remove(
-                    "show"
-                );
-
+              comentario.style.display = "none";
             }
+          });
 
+          resultCount.textContent =
+            "Mostrando " +
+            visibles +
+            " comentario" +
+            (visibles === 1 ? "" : "s");
 
+          if (visibles === 0) {
+            emptyState.classList.add("show");
+          } else {
+            emptyState.classList.remove("show");
+          }
         }
 
+        searchInput.addEventListener("input", filtrarComentarios);
 
+        publicationFilter.addEventListener("change", filtrarComentarios);
 
-        searchInput.addEventListener(
-            "input",
-            filtrarComentarios
-        );
+        clearSearch.addEventListener("click", function () {
+          searchInput.value = "";
 
+          filtrarComentarios();
 
+          searchInput.focus();
+        });
 
-        publicationFilter.addEventListener(
-            "change",
-            filtrarComentarios
-        );
+        resetFilters.addEventListener("click", function () {
+          searchInput.value = "";
 
+          publicationFilter.value = "all";
 
-
-        clearSearch.addEventListener(
-            "click",
-            function () {
-
-                searchInput.value =
-                    "";
-
-                filtrarComentarios();
-
-                searchInput.focus();
-
-            }
-        );
-
-
-
-        resetFilters.addEventListener(
-            "click",
-            function () {
-
-                searchInput.value =
-                    "";
-
-                publicationFilter.value =
-                    "all";
-
-                filtrarComentarios();
-
-            }
-        );
-
-
-    }
-);
-
-</script>
-
-
-</body>
-
+          filtrarComentarios();
+        });
+      });
+    </script>
+  </body>
 </html>
