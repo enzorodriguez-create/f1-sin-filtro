@@ -179,8 +179,10 @@
                         <div class="comentario-actions">
 
 
-                            <button
-                                type="button"
+                            <!-- EDITAR -->
+
+                            <a
+                                href="{{ url_for('perfil.editar_comentario', id_comentario=comentario.id) }}"
                                 class="comentario-action comentario-edit"
                             >
 
@@ -190,21 +192,32 @@
 
                                 EDITAR
 
-                            </button>
+                            </a>
 
 
-                            <button
-                                type="button"
-                                class="comentario-action comentario-delete"
+
+                            <!-- ELIMINAR -->
+
+                            <form
+                                action="{{ url_for('perfil.eliminar_comentario', id_comentario=comentario.id) }}"
+                                method="POST"
                             >
 
-                                <span class="material-symbols-outlined">
-                                    delete
-                                </span>
+                                <button
+                                    type="submit"
+                                    class="comentario-action comentario-delete"
+                                    onclick="return confirm('¿Querés eliminar este comentario?');"
+                                >
 
-                                ELIMINAR
+                                    <span class="material-symbols-outlined">
+                                        delete
+                                    </span>
 
-                            </button>
+                                    ELIMINAR
+
+                                </button>
+
+                            </form>
 
 
                         </div>
@@ -340,7 +353,8 @@
                 comentarios.forEach(
                     function (comentario) {
 
-                        const textoComentario = comentario.textContent.toLowerCase();
+                        const textoComentario =
+                            comentario.textContent.toLowerCase();
 
 
                         if (

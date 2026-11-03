@@ -267,6 +267,122 @@ def comentarios():
 
 
 # =====================================
+# EDITAR COMENTARIO
+# =====================================
+
+@bp.route(
+    "/perfil/comentarios/<int:id_comentario>/editar",
+    methods=["GET", "POST"]
+)
+def editar_comentario(id_comentario):
+
+    usuario = obtener_usuario_actual()
+
+
+    if not usuario:
+
+        return redirect(
+            url_for(
+                "auth.login"
+            )
+        )
+
+
+    comentario = Comentario.query.filter_by(
+        id=id_comentario,
+        usuario_id=usuario.id
+    ).first()
+
+
+    if not comentario:
+
+        return redirect(
+            url_for(
+                "perfil.comentarios"
+            )
+        )
+
+
+    if request.method == "POST":
+
+        contenido = request.form.get(
+            "contenido",
+            ""
+        ).strip()
+
+
+        if contenido:
+
+            comentario.contenido = contenido
+
+            db.session.commit()
+
+
+            return redirect(
+                url_for(
+                    "perfil.comentarios"
+                )
+            )
+
+
+    return render_template(
+        "perfil/editar_comentario.html",
+        comentario=comentario
+    )
+
+
+# =====================================
+# ELIMINAR COMENTARIO
+# =====================================
+
+@bp.route(
+    "/perfil/comentarios/<int:id_comentario>/eliminar",
+    methods=["POST"]
+)
+def eliminar_comentario(id_comentario):
+
+    usuario = obtener_usuario_actual()
+
+
+    if not usuario:
+
+        return redirect(
+            url_for(
+                "auth.login"
+            )
+        )
+
+
+    comentario = Comentario.query.filter_by(
+        id=id_comentario,
+        usuario_id=usuario.id
+    ).first()
+
+
+    if not comentario:
+
+        return redirect(
+            url_for(
+                "perfil.comentarios"
+            )
+        )
+
+
+    db.session.delete(
+        comentario
+    )
+
+    db.session.commit()
+
+
+    return redirect(
+        url_for(
+            "perfil.comentarios"
+        )
+    )
+
+
+# =====================================
 # GUARDADOS
 # =====================================
 

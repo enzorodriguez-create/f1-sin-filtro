@@ -1,0 +1,236 @@
+{% include 'base/header.html' %}
+
+<link
+    rel="stylesheet"
+    href="{{ url_for('static', filename='styles/perfil/editar_comentario.css') }}"
+>
+
+
+<div class="editar-comentario-page">
+
+    <div class="editar-comentario-container">
+
+
+        <!-- =====================================
+             ENCABEZADO
+        ====================================== -->
+
+        <div class="editar-comentario-head">
+
+
+            <div>
+
+                <span class="editar-comentario-label">
+                    // MI ACTIVIDAD
+                </span>
+
+
+                <h1>
+                    Editar Comentario
+                </h1>
+
+
+                <p>
+                    Modificá el comentario que realizaste
+                    en esta publicación.
+                </p>
+
+            </div>
+
+
+            <a
+                href="{{ url_for('perfil.comentarios') }}"
+                class="editar-comentario-volver"
+            >
+
+                <span class="material-symbols-outlined">
+                    arrow_back
+                </span>
+
+                VOLVER A MIS COMENTARIOS
+
+            </a>
+
+
+        </div>
+
+
+
+        <!-- =====================================
+             INFORMACIÓN DE LA PUBLICACIÓN
+        ====================================== -->
+
+        <div class="editar-comentario-publicacion">
+
+
+            <span class="editar-comentario-publicacion-label">
+                PUBLICACIÓN
+            </span>
+
+
+            <h2>
+                {{ comentario.publicacion.titulo }}
+            </h2>
+
+
+            <a
+                href="{{ url_for('main.post', id_publicacion=comentario.publicacion_id) }}"
+                class="editar-comentario-ver"
+            >
+
+                <span class="material-symbols-outlined">
+                    open_in_new
+                </span>
+
+                VER PUBLICACIÓN
+
+            </a>
+
+
+        </div>
+
+
+
+        <!-- =====================================
+             FORMULARIO
+        ====================================== -->
+
+        <div class="editar-comentario-panel">
+
+
+            <form
+                action="{{ url_for('perfil.editar_comentario', id_comentario=comentario.id) }}"
+                method="POST"
+            >
+
+
+                <div class="editar-comentario-field">
+
+
+                    <label for="contenido">
+                        COMENTARIO
+                    </label>
+
+
+                    <textarea
+                        id="contenido"
+                        name="contenido"
+                        rows="8"
+                        maxlength="1000"
+                        required
+                    >{{ comentario.contenido }}</textarea>
+
+
+                    <div class="editar-comentario-info">
+
+                        <span>
+                            Modificá únicamente el contenido
+                            que quieras cambiar.
+                        </span>
+
+
+                        <span id="contadorCaracteres">
+                            0 / 1000
+                        </span>
+
+                    </div>
+
+
+                </div>
+
+
+
+                <!-- =====================================
+                     ACCIONES
+                ====================================== -->
+
+                <div class="editar-comentario-actions">
+
+
+                    <a
+                        href="{{ url_for('perfil.comentarios') }}"
+                        class="editar-comentario-btn editar-comentario-cancelar"
+                    >
+
+                        <span class="material-symbols-outlined">
+                            close
+                        </span>
+
+                        CANCELAR
+
+                    </a>
+
+
+                    <button
+                        type="submit"
+                        class="editar-comentario-btn editar-comentario-guardar"
+                    >
+
+                        <span class="material-symbols-outlined">
+                            save
+                        </span>
+
+                        GUARDAR CAMBIOS
+
+                    </button>
+
+
+                </div>
+
+
+            </form>
+
+
+        </div>
+
+
+    </div>
+
+</div>
+
+
+
+<!-- =====================================
+     CONTADOR DE CARACTERES
+====================================== -->
+
+<script>
+
+    document.addEventListener(
+        "DOMContentLoaded",
+        function () {
+
+            const contenido = document.getElementById(
+                "contenido"
+            );
+
+
+            const contador = document.getElementById(
+                "contadorCaracteres"
+            );
+
+
+            function actualizarContador() {
+
+                contador.textContent =
+                    contenido.value.length +
+                    " / 1000";
+
+            }
+
+
+            actualizarContador();
+
+
+            contenido.addEventListener(
+                "input",
+                actualizarContador
+            );
+
+        }
+    );
+
+</script>
+
+
+{% include 'base/footer.html' %}
