@@ -1,418 +1,446 @@
 {% include 'base/header.html' %}
 
 <link
-  rel="stylesheet"
-  href="{{ url_for('static', filename='styles/perfil/perfil_guardados.css') }}"
+    rel="stylesheet"
+    href="{{ url_for('static', filename='styles/perfil/perfil_guardados.css') }}"
 >
+
 
 <div class="guardados-page">
 
-  <div class="guardados-container">
 
-    <!-- ENCABEZADO -->
-    <div class="guardados-head">
-
-      <div>
-
-        <span class="guardados-label">
-          // MI ACTIVIDAD
-        </span>
-
-        <h1>Publicaciones Guardadas</h1>
-
-        <p>
-          Accedé rápidamente a las noticias y publicaciones
-          de Fórmula 1 que guardaste.
-        </p>
-
-      </div>
+    <div class="guardados-container">
 
 
-      <a
-      href="{{ url_for('perfil.perfil') }}"
-        class="guardados-volver"
-      >
-        <span class="material-symbols-outlined">
-          arrow_back
-        </span>
+        <!-- =========================
+             ENCABEZADO
+        ========================== -->
 
-        VOLVER AL PERFIL
-      </a>
-
-    </div>
+        <div class="guardados-head">
 
 
-    <!-- FILTROS -->
-    <div class="guardados-toolbar">
-
-      <div class="guardados-chips">
-
-        <button
-          type="button"
-          class="guardados-chip active"
-        >
-          TODAS (12)
-        </button>
-
-        <button
-          type="button"
-          class="guardados-chip"
-        >
-          FERRARI
-        </button>
-
-        <button
-          type="button"
-          class="guardados-chip"
-        >
-          CARRERAS
-        </button>
-
-        <button
-          type="button"
-          class="guardados-chip"
-        >
-          MERCADO
-        </button>
-
-      </div>
+            <div>
 
 
-      <div class="guardados-search">
-
-        <input
-          type="text"
-          placeholder="BUSCAR GUARDADAS..."
-        >
-
-        <span class="material-symbols-outlined">
-          search
-        </span>
-
-      </div>
-
-    </div>
+                <span class="guardados-label">
+                    // MI ACTIVIDAD
+                </span>
 
 
-    <!-- GRILLA -->
-    <div class="guardados-grid">
+                <h1>
+                    Publicaciones Guardadas
+                </h1>
 
 
-      <!-- DESTACADA -->
-      <article class="guardado-card guardado-destacado">
+                <p>
+                    Accedé rápidamente a las noticias y publicaciones
+                    de Fórmula 1 que guardaste.
+                </p>
 
-        <div class="guardado-destacado-img">
-
-          <img
-            src="https://images.unsplash.com/photo-1503736334956-4c8f8e92946d?auto=format&fit=crop&w=1200&q=80"
-            alt="Ferrari prepara mejoras para la próxima carrera"
-          >
-
-          <div class="guardado-img-grid"></div>
-
-        </div>
-
-
-        <div class="guardado-destacado-body">
-
-          <div>
-
-            <div class="guardado-row-between">
-
-              <span class="guardado-category">
-                FERRARI
-              </span>
-
-              <span class="guardado-date">
-                14 OCT 2026
-              </span>
 
             </div>
 
 
-            <h2>
-              Ferrari prepara mejoras para la próxima carrera
-            </h2>
-
-
-            <p>
-              La escudería italiana trabaja en nuevas actualizaciones
-              para mejorar el rendimiento del monoplaza y acercarse
-              a los equipos de adelante.
-            </p>
-
-          </div>
-
-
-          <div class="guardado-card-footer">
 
             <a
-              class="guardado-btn-primary"
-              href="{{ url_for('perfil.perfil') }}"
+                href="{{ url_for('perfil.perfil') }}"
+                class="guardados-volver"
             >
-              VER PUBLICACIÓN
 
-              <span class="material-symbols-outlined">
-                arrow_forward
-              </span>
+                <span class="material-symbols-outlined">
+                    arrow_back
+                </span>
+
+                VOLVER AL PERFIL
+
             </a>
 
 
-            <button
-              type="button"
-              class="guardado-delete"
-              title="Quitar de guardados"
-            >
-              <span class="material-symbols-outlined">
-                bookmark_remove
-              </span>
-            </button>
-
-          </div>
-
-        </div>
-
-      </article>
-
-
-      <!-- CARD 2 -->
-      <article class="guardado-card">
-
-        <div class="guardado-card-img">
-
-          <img
-            src="https://images.unsplash.com/photo-1553440569-bcc63803a83d?auto=format&fit=crop&w=900&q=80"
-            alt="Estrategia de carrera"
-          >
-
-          <span class="guardado-img-tag">
-            ESTRATEGIA
-          </span>
-
         </div>
 
 
-        <div class="guardado-card-body">
 
-          <div class="guardado-row-between">
+        <!-- =========================
+             FILTROS
+        ========================== -->
 
-            <span class="guardado-reference">
-              POST #002
-            </span>
-
-            <span class="guardado-date">
-              12 OCT
-            </span>
-
-          </div>
+        <div class="guardados-toolbar">
 
 
-          <h3>
-            La estrategia vuelve a ser clave en la lucha por el campeonato
-          </h3>
+            <div class="guardados-chips">
 
 
-          <p>
-            Los equipos analizan cada parada y cada compuesto para encontrar
-            la mejor oportunidad durante la carrera.
-          </p>
+                <button
+                    type="button"
+                    class="guardados-chip active"
+                >
+
+                    TODAS ({{ guardados|length }})
+
+                </button>
 
 
-          <div class="guardado-card-footer">
-
-            <a
-            href="{{ url_for('perfil.perfil') }}"
-              class="guardado-btn-outline"
-            >
-              VER NOTICIA
-            </a>
-
-            <button
-              type="button"
-              class="guardado-delete"
-            >
-              <span class="material-symbols-outlined">
-                bookmark_remove
-              </span>
-            </button>
-
-          </div>
-
-        </div>
-
-      </article>
+            </div>
 
 
-      <!-- CARD 3 -->
-      <article class="guardado-card">
 
-        <div class="guardado-card-img">
+            <div class="guardados-search">
 
-          <img
-            src="https://images.unsplash.com/photo-1515569067071-ec3b51335dd0?auto=format&fit=crop&w=900&q=80"
-            alt="Mercado de pilotos"
-          >
 
-          <span class="guardado-img-tag">
-            MERCADO
-          </span>
+                <input
+                    type="text"
+                    id="guardados-search"
+                    placeholder="BUSCAR GUARDADAS..."
+                >
+
+
+                <span class="material-symbols-outlined">
+                    search
+                </span>
+
+
+            </div>
+
 
         </div>
 
 
-        <div class="guardado-card-body">
 
-          <div class="guardado-row-between">
+        <!-- =========================
+             GRILLA
+        ========================== -->
 
-            <span class="guardado-reference">
-              POST #003
-            </span>
-
-            <span class="guardado-date">
-              08 OCT
-            </span>
-
-          </div>
+        <div
+            class="guardados-grid"
+            id="guardados-grid"
+        >
 
 
-          <h3>
-            El mercado de pilotos empieza a definir la próxima temporada
-          </h3>
+            {% if guardados %}
 
 
-          <p>
-            Varias escuderías ya analizan sus alineaciones y los posibles
-            cambios para el próximo campeonato.
-          </p>
+                {% for guardado in guardados %}
 
 
-          <div class="guardado-card-footer">
+                <article
+                    class="guardado-card"
+                    data-titulo="{{ guardado.publicacion.titulo|lower }}"
+                    data-resumen="{{ guardado.publicacion.resumen|default('', true)|lower }}"
+                >
 
-            <a
-            href="{{ url_for('perfil.perfil') }}"
-              class="guardado-btn-outline"
-            >
-              VER NOTICIA
-            </a>
 
-            <button
-              type="button"
-              class="guardado-delete"
-            >
-              <span class="material-symbols-outlined">
-                bookmark_remove
-              </span>
-            </button>
+                    <!-- =========================
+                         IMAGEN
+                    ========================== -->
 
-          </div>
+                    {% if guardado.publicacion.imagen_portada %}
+
+                    <div class="guardado-card-img">
+
+
+                        <img
+                            src="{{ url_imagen(guardado.publicacion.imagen_portada) }}"
+                            alt="{{ guardado.publicacion.titulo }}"
+                        >
+
+
+                        {% if guardado.publicacion.categorias %}
+
+                        <span class="guardado-img-tag">
+                            {{ guardado.publicacion.categorias[0].nombre }}
+                        </span>
+
+                        {% else %}
+
+                        <span class="guardado-img-tag">
+                            F1
+                        </span>
+
+                        {% endif %}
+
+
+                    </div>
+
+                    {% endif %}
+
+
+
+                    <!-- =========================
+                         CONTENIDO
+                    ========================== -->
+
+                    <div class="guardado-card-body">
+
+
+                        <div class="guardado-row-between">
+
+
+                            <span class="guardado-reference">
+                                POST #{{ guardado.publicacion.id }}
+                            </span>
+
+
+                            <span class="guardado-date">
+                                GUARDADA
+                            </span>
+
+
+                        </div>
+
+
+
+                        <h3>
+                            {{ guardado.publicacion.titulo }}
+                        </h3>
+
+
+
+                        {% if guardado.publicacion.resumen %}
+
+                        <p>
+                            {{ guardado.publicacion.resumen }}
+                        </p>
+
+                        {% endif %}
+
+
+
+                        <!-- =========================
+                             ACCIONES
+                        ========================== -->
+
+                        <div class="guardado-card-footer">
+
+
+                            <a
+                                href="{{ url_for('main.post', id_publicacion=guardado.publicacion.id) }}"
+                                class="guardado-btn-outline"
+                            >
+
+                                VER PUBLICACIÓN
+
+                            </a>
+
+
+
+                            <form
+                                action="{{ url_for('perfil.quitar_publicacion_guardada', id_publicacion=guardado.publicacion.id) }}"
+                                method="POST"
+                            >
+
+
+                                <button
+                                    type="submit"
+                                    class="guardado-delete"
+                                    title="Quitar de guardados"
+                                    onclick="return confirm('¿Seguro que querés quitar esta publicación de guardados?');"
+                                >
+
+                                    <span class="material-symbols-outlined">
+                                        bookmark_remove
+                                    </span>
+
+                                </button>
+
+
+                            </form>
+
+
+                        </div>
+
+
+                    </div>
+
+
+                </article>
+
+
+                {% endfor %}
+
+
+            {% endif %}
+
 
         </div>
 
-      </article>
 
 
-      <!-- CARD 4 -->
-      <article class="guardado-card guardado-card-text">
+        <!-- =========================
+             SIN GUARDADOS
+        ========================== -->
 
-        <span class="guardado-category">
-          REGLAMENTO
-        </span>
-
-        <h3>
-          La Fórmula 1 prepara nuevos cambios para las próximas temporadas
-        </h3>
-
-        <p>
-          Los equipos continúan analizando cómo las nuevas reglas pueden
-          modificar el rendimiento y el desarrollo de los monoplazas.
-        </p>
+        <div
+            class="guardados-empty {% if not guardados %}show{% endif %}"
+            id="guardados-empty"
+        >
 
 
-        <div class="guardado-card-footer guardado-push-bottom">
-
-          <a
-          href="{{ url_for('perfil.perfil') }}"
-            class="guardado-btn-text"
-          >
-            VER PUBLICACIÓN
-          </a>
-
-          <button
-            type="button"
-            class="guardado-delete"
-          >
             <span class="material-symbols-outlined">
-              bookmark_remove
+                bookmark
             </span>
-          </button>
+
+
+            <strong id="guardados-empty-title">
+
+                {% if guardados %}
+
+                    No se encontraron publicaciones
+
+                {% else %}
+
+                    Todavía no guardaste publicaciones
+
+                {% endif %}
+
+            </strong>
+
+
+            <span id="guardados-empty-text">
+
+                {% if guardados %}
+
+                    Probá buscando otro título.
+
+                {% else %}
+
+                    Cuando guardes una publicación aparecerá acá.
+
+                {% endif %}
+
+            </span>
+
 
         </div>
 
-      </article>
-
-
-      <!-- CARD 5 -->
-      <article class="guardado-card guardado-card-text">
-
-        <span class="guardado-category">
-          NEUMÁTICOS
-        </span>
-
-        <h3>
-          La gestión de neumáticos vuelve a marcar diferencias
-        </h3>
-
-        <p>
-          La degradación y la temperatura de los compuestos continúan siendo
-          factores fundamentales para definir las estrategias.
-        </p>
-
-
-        <div class="guardado-card-footer guardado-push-bottom">
-
-          <a
-          href="{{ url_for('perfil.perfil') }}"
-            class="guardado-btn-text"
-          >
-            VER PUBLICACIÓN
-          </a>
-
-          <button
-            type="button"
-            class="guardado-delete"
-          >
-            <span class="material-symbols-outlined">
-              bookmark_remove
-            </span>
-          </button>
-
-        </div>
-
-      </article>
 
     </div>
 
-
-    <!-- CARGAR MÁS -->
-    <div class="guardados-more">
-
-      <button
-        type="button"
-        class="guardados-more-btn"
-      >
-        <span>
-          CARGAR MÁS
-        </span>
-
-        <span class="material-symbols-outlined">
-          keyboard_arrow_down
-        </span>
-      </button>
-
-    </div>
-
-  </div>
 
 </div>
+
+
+
+<!-- =========================
+     BUSCADOR
+========================== -->
+
+<script>
+
+    document.addEventListener(
+        "DOMContentLoaded",
+        function () {
+
+
+            const buscador =
+                document.getElementById(
+                    "guardados-search"
+                );
+
+
+            const tarjetas =
+                document.querySelectorAll(
+                    ".guardado-card"
+                );
+
+
+            const empty =
+                document.getElementById(
+                    "guardados-empty"
+                );
+
+
+            const cantidadInicial =
+                tarjetas.length;
+
+
+
+            buscador.addEventListener(
+                "input",
+                function () {
+
+
+                    const texto =
+                        buscador.value
+                            .toLowerCase()
+                            .trim();
+
+
+                    let visibles =
+                        0;
+
+
+
+                    tarjetas.forEach(
+                        function (tarjeta) {
+
+
+                            const titulo =
+                                tarjeta.dataset.titulo;
+
+
+                            const resumen =
+                                tarjeta.dataset.resumen;
+
+
+                            const coincide =
+                                titulo.includes(
+                                    texto
+                                )
+                                ||
+                                resumen.includes(
+                                    texto
+                                );
+
+
+                            if (coincide) {
+
+                                tarjeta.style.display =
+                                    "";
+
+                                visibles++;
+
+                            } else {
+
+                                tarjeta.style.display =
+                                    "none";
+
+                            }
+
+
+                        }
+                    );
+
+
+
+                    if (
+                        visibles === 0
+                        &&
+                        cantidadInicial > 0
+                    ) {
+
+                        empty.classList.add(
+                            "show"
+                        );
+
+                    } else if (
+                        cantidadInicial > 0
+                    ) {
+
+                        empty.classList.remove(
+                            "show"
+                        );
+
+                    }
+
+
+                }
+            );
+
+
+        }
+    );
+
+</script>
+
 
 {% include 'base/footer.html' %}

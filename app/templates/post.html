@@ -58,17 +58,25 @@
 
                         <div class="post-meta-actions">
 
-                            <button
-                                type="button"
-                                class="post-icon-btn"
-                                title="Guardar publicación"
+
+                            <form
+                                action="{{ url_for('perfil.guardar_publicacion', id_publicacion=publicacion.id) }}"
+                                method="POST"
                             >
 
-                                <span class="material-symbols-outlined">
-                                    bookmark
-                                </span>
+                                <button
+                                    type="submit"
+                                    class="post-icon-btn"
+                                    title="Guardar publicación"
+                                >
 
-                            </button>
+                                    <span class="material-symbols-outlined">
+                                        bookmark
+                                    </span>
+
+                                </button>
+
+                            </form>
 
 
                             <button

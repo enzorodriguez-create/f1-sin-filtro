@@ -308,3 +308,38 @@ class Comentario(db.Model):
     publicacion = db.relationship(
         "Publicacion"
     )
+
+class PublicacionGuardada(db.Model):
+    __tablename__ = "publicaciones_guardadas"
+
+    id = db.Column(
+        db.Integer,
+        primary_key=True
+    )
+
+    usuario_id = db.Column(
+        db.Integer,
+        db.ForeignKey("usuarios.id"),
+        nullable=False
+    )
+
+    publicacion_id = db.Column(
+        db.Integer,
+        db.ForeignKey("publicaciones.id"),
+        nullable=False
+    )
+
+    usuario = db.relationship(
+        "Usuario"
+    )
+
+    publicacion = db.relationship(
+        "Publicacion"
+    )
+
+    __table_args__ = (
+        db.UniqueConstraint(
+            "usuario_id",
+            "publicacion_id"
+        ),
+    )

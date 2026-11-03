@@ -12,7 +12,8 @@ from app.extensions import db
 from app.models import (
     Usuario,
     SolicitudEditor,
-    Comentario
+    Comentario,
+    PublicacionGuardada
 )
 
 from almacenamiento import (
@@ -73,6 +74,14 @@ def perfil():
         usuario_id=usuario.id
     ).count()
 
+    # =========================
+# PUBLICACIONES GUARDADAS
+# =========================
+
+    cantidad_guardados = PublicacionGuardada.query.filter_by(
+    usuario_id=usuario.id
+    ).count()
+
 
     # =========================
     # ACTIVIDAD RECIENTE
@@ -89,6 +98,7 @@ def perfil():
         "perfil/perfil.html",
         usuario=usuario,
         cantidad_comentarios=cantidad_comentarios,
+         cantidad_guardados=cantidad_guardados,
         comentarios_recientes=comentarios_recientes
     )
 
@@ -389,10 +399,126 @@ def eliminar_comentario(id_comentario):
 @bp.route("/perfil/guardados")
 def guardados():
 
+    usuario = obtener_usuario_actual()
+
+
+    if not usuario:
+
+        return redirect(
+            url_for(
+                "auth.login"
+            )
+        )
+
+
+    guardados = PublicacionGuardada.query.filter_by(
+        usuario_id=usuario.id
+    ).order_by(
+        PublicacionGuardada.id.desc()
+    ).all()
+
+
     return render_template(
-        "perfil/guardados.html"
+        "perfil/guardados.html",
+        usuario=usuario,
+        guardados=guardados
     )
 
+# =====================================
+# GUARDAR PUBLICACIÓN
+# =====================================
+
+@bp.route(
+    "/perfil/guardados/<int:id_publicacion>/guardar",
+    methods=["POST"]
+)
+def guardar_publicacion(id_publicacion):
+
+    usuario = obtener_usuario_actual()
+
+
+    if not usuario:
+
+        return redirect(
+            url_for(
+                "auth.login"
+            )
+        )
+
+
+    guardado_existente = PublicacionGuardada.query.filter_by(
+        usuario_id=usuario.id,
+        publicacion_id=id_publicacion
+    ).first()
+
+
+    if not guardado_existente:
+
+        nuevo_guardado = PublicacionGuardada(
+            usuario_id=usuario.id,
+            publicacion_id=id_publicacion
+        )
+
+
+        db.session.add(
+            nuevo_guardado
+        )
+
+
+        db.session.commit()
+
+
+    return redirect(
+        url_for(
+            "main.post",
+            id_publicacion=id_publicacion
+        )
+    )
+
+
+# =====================================
+# QUITAR PUBLICACIÓN GUARDADA
+# =====================================
+
+@bp.route(
+    "/perfil/guardados/<int:id_publicacion>/quitar",
+    methods=["POST"]
+)
+def quitar_publicacion_guardada(id_publicacion):
+
+    usuario = obtener_usuario_actual()
+
+
+    if not usuario:
+
+        return redirect(
+            url_for(
+                "auth.login"
+            )
+        )
+
+
+    guardado = PublicacionGuardada.query.filter_by(
+        usuario_id=usuario.id,
+        publicacion_id=id_publicacion
+    ).first()
+
+
+    if guardado:
+
+        db.session.delete(
+            guardado
+        )
+
+
+        db.session.commit()
+
+
+    return redirect(
+        url_for(
+            "perfil.guardados"
+        )
+    )
 
 # =====================================
 # ETIQUETAS

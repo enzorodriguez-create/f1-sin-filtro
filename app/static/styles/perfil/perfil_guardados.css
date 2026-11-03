@@ -861,3 +861,25 @@
     }
 
 }
+
+/* =========================
+   SIN GUARDADOS
+========================= */
+
+.guardados-empty {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+
+    gap: 8px;
+
+    margin-top: 30px;
+
+    color: #ffffff;
+}
+
+
+.guardados-empty.show {
+    display: flex;
+}
