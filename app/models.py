@@ -263,7 +263,6 @@ class Categoria(db.Model):
 # =========================
 
 class Comentario(db.Model):
-
     __tablename__ = "comentarios"
 
     id = db.Column(
@@ -292,6 +291,14 @@ class Comentario(db.Model):
         db.Integer,
         db.ForeignKey("publicaciones.id"),
         nullable=False
+    )
+
+    moderacion = db.Column(
+        db.Text
+    )
+
+    confianza = db.Column(
+        db.Float
     )
 
     usuario = db.relationship(
