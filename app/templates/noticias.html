@@ -11,6 +11,7 @@
 
     <div class="noticias-container">
 
+
         <!-- ENCABEZADO -->
 
         <section class="noticias-head">
@@ -35,202 +36,184 @@
         </section>
 
 
-        <!-- FILTROS VISUALES -->
+        <!-- FILTROS -->
 
         <section class="noticias-toolbar">
 
+
             <div class="noticias-filtros">
 
-                <button class="noticias-filtro active">
+
+                <a
+                    href="{{ url_for('main.noticias') }}"
+                    class="noticias-filtro {% if not categoria_seleccionada %}active{% endif %}"
+                >
                     TODAS
-                </button>
+                </a>
 
-                <button class="noticias-filtro">
-                    PILOTOS
-                </button>
 
-                <button class="noticias-filtro">
-                    ESCUDERÍAS
-                </button>
+                {% for categoria in categorias %}
 
-                <button class="noticias-filtro">
-                    CARRERAS
-                </button>
+                    <a
+                        href="{{ url_for(
+                            'main.noticias',
+                            categoria=categoria.id
+                        ) }}"
+                        class="
+                            noticias-filtro
 
-                <button class="noticias-filtro">
-                    CLASIFICACIÓN
-                </button>
+                            {% if categoria_seleccionada == categoria.id %}
+                                active
+                            {% endif %}
+                        "
+                    >
+                        {{ categoria.nombre.upper() }}
+                    </a>
+
+                {% endfor %}
+
 
             </div>
 
 
-            <div class="noticias-search">
-
-                <input
-                    type="text"
-                    placeholder="BUSCAR NOTICIAS..."
-                >
-
-                <span class="material-symbols-outlined">
-                    search
-                </span>
-
-            </div>
-
-        </section>
+            <form
+                class="noticias-search"
+                method="GET"
+                action="{{ url_for('main.noticias') }}"
+            >
 
 
-        <!-- =====================================
-             COMPRUEBO SI HAY PUBLICACIONES
-        ====================================== -->
+                {% if categoria_seleccionada %}
 
-        {% if publicaciones %}
-
-
-        <!-- =====================================
-             NOTICIA DESTACADA
-        ====================================== -->
-
-        {% set destacada = publicaciones[0] %}
-
-
-        <section class="noticia-destacada">
-
-            <div class="noticia-destacada-img">
-
-                {% if destacada.imagen_portada %}
-
-                <img
-                    src="{{ url_imagen(destacada.imagen_portada) }}"
-                    alt="{{ destacada.titulo }}"
-                >
+                    <input
+                        type="hidden"
+                        name="categoria"
+                        value="{{ categoria_seleccionada }}"
+                    >
 
                 {% endif %}
 
 
-                <div class="noticia-img-overlay"></div>
-
-            </div>
-
-
-            <div class="noticia-destacada-content">
-
-                <div>
-
-                    <div class="noticia-meta">
-
-                        <span class="noticia-categoria">
-                            NOTICIA
-                        </span>
-
-                        <span class="noticia-fecha">
-                            F1 SIN FILTRO
-                        </span>
-
-                    </div>
-
-
-                    <h2>
-                        {{ destacada.titulo }}
-                    </h2>
-
-
-                    {% if destacada.resumen %}
-
-                    <p>
-                        {{ destacada.resumen }}
-                    </p>
-
-                    {% endif %}
-
-                </div>
-
-
-                <a
-                    href="{{ url_for(
-                        'main.post',
-                        id_publicacion=destacada.id
-                    ) }}"
-                    class="noticia-btn-primary"
+                <input
+                    type="text"
+                    name="buscar"
+                    value="{{ busqueda }}"
+                    placeholder="BUSCAR NOTICIAS..."
                 >
 
-                    LEER NOTICIA
+
+                <button
+                    type="submit"
+                    aria-label="Buscar"
+                >
 
                     <span class="material-symbols-outlined">
-                        arrow_forward
+                        search
                     </span>
 
-                </a>
+                </button>
 
-            </div>
+
+            </form>
+
 
         </section>
 
 
-        <!-- =====================================
-             RESTO DE NOTICIAS
-        ====================================== -->
+        <!-- PUBLICACIONES -->
 
-        <section class="noticias-grid">
-
-            {% for publicacion in publicaciones[1:] %}
-
-            <article class="noticia-card">
+        {% if publicaciones %}
 
 
-                <div class="noticia-card-img">
+            <!-- NOTICIA DESTACADA -->
 
-                    {% if publicacion.imagen_portada %}
+            {% set destacada = publicaciones[0] %}
 
-                    <img
-                        src="{{ url_imagen(publicacion.imagen_portada) }}"
-                        alt="{{ publicacion.titulo }}"
-                    >
+
+            <section class="noticia-destacada">
+
+
+                <div class="noticia-destacada-img">
+
+
+                    {% if destacada.imagen_portada %}
+
+                        <img
+                            src="{{ url_imagen(destacada.imagen_portada) }}"
+                            alt="{{ destacada.titulo }}"
+                        >
 
                     {% endif %}
 
 
-                    <span class="noticia-card-tag">
-                        NOTICIA
-                    </span>
+                    <div class="noticia-img-overlay"></div>
+
 
                 </div>
 
 
-                <div class="noticia-card-body">
+                <div class="noticia-destacada-content">
 
-                    <div class="noticia-meta">
 
-                        <span>
-                            F1 SIN FILTRO
-                        </span>
+                    <div>
+
+
+                        <div class="noticia-meta">
+
+
+                            {% if destacada.categorias %}
+
+                                <span class="noticia-categoria">
+
+                                    {% for categoria in destacada.categorias %}
+
+                                        {{ categoria.nombre }}
+
+                                        {% if not loop.last %}
+                                            ·
+                                        {% endif %}
+
+                                    {% endfor %}
+
+                                </span>
+
+                            {% endif %}
+
+
+                            <span class="noticia-fecha">
+                                F1 SIN FILTRO
+                            </span>
+
+
+                        </div>
+
+
+                        <h2>
+                            {{ destacada.titulo }}
+                        </h2>
+
+
+                        {% if destacada.resumen %}
+
+                            <p>
+                                {{ destacada.resumen }}
+                            </p>
+
+                        {% endif %}
+
 
                     </div>
-
-
-                    <h3>
-                        {{ publicacion.titulo }}
-                    </h3>
-
-
-                    {% if publicacion.resumen %}
-
-                    <p>
-                        {{ publicacion.resumen }}
-                    </p>
-
-                    {% endif %}
 
 
                     <a
                         href="{{ url_for(
                             'main.post',
-                            id_publicacion=publicacion.id
+                            id_publicacion=destacada.id
                         ) }}"
-                        class="noticia-link"
+                        class="noticia-btn-primary"
                     >
 
-                        LEER MÁS
+                        LEER NOTICIA
 
                         <span class="material-symbols-outlined">
                             arrow_forward
@@ -238,33 +221,162 @@
 
                     </a>
 
+
                 </div>
 
-            </article>
 
-            {% endfor %}
+            </section>
 
-        </section>
+
+            <!-- RESTO DE NOTICIAS -->
+
+            {% if publicaciones|length > 1 %}
+
+                <section class="noticias-grid">
+
+
+                    {% for publicacion in publicaciones[1:] %}
+
+
+                        <article class="noticia-card">
+
+
+                            <div class="noticia-card-img">
+
+
+                                {% if publicacion.imagen_portada %}
+
+                                    <img
+                                        src="{{ url_imagen(publicacion.imagen_portada) }}"
+                                        alt="{{ publicacion.titulo }}"
+                                    >
+
+                                {% endif %}
+
+
+                                {% if publicacion.categorias %}
+
+                                    <span class="noticia-card-tag">
+
+                                        {% for categoria in publicacion.categorias %}
+
+                                            {{ categoria.nombre }}
+
+                                            {% if not loop.last %}
+                                                ·
+                                            {% endif %}
+
+                                        {% endfor %}
+
+                                    </span>
+
+                                {% endif %}
+
+
+                            </div>
+
+
+                            <div class="noticia-card-body">
+
+
+                                <div class="noticia-meta">
+
+                                    <span>
+                                        F1 SIN FILTRO
+                                    </span>
+
+                                </div>
+
+
+                                <h3>
+                                    {{ publicacion.titulo }}
+                                </h3>
+
+
+                                {% if publicacion.resumen %}
+
+                                    <p>
+                                        {{ publicacion.resumen }}
+                                    </p>
+
+                                {% endif %}
+
+
+                                <a
+                                    href="{{ url_for(
+                                        'main.post',
+                                        id_publicacion=publicacion.id
+                                    ) }}"
+                                    class="noticia-link"
+                                >
+
+                                    LEER MÁS
+
+                                    <span class="material-symbols-outlined">
+                                        arrow_forward
+                                    </span>
+
+                                </a>
+
+
+                            </div>
+
+
+                        </article>
+
+
+                    {% endfor %}
+
+
+                </section>
+
+            {% endif %}
 
 
         {% else %}
 
 
-        <!-- =====================================
-             SIN PUBLICACIONES
-        ====================================== -->
+            <!-- SIN RESULTADOS -->
 
-        <section class="noticias-vacio">
+            <section class="noticias-vacio">
 
-            <h2>
-                No hay noticias publicadas
-            </h2>
 
-            <p>
-                Todavía no hay publicaciones disponibles.
-            </p>
+                <h2>
+                    No se encontraron noticias
+                </h2>
 
-        </section>
+
+                {% if busqueda %}
+
+                    <p>
+                        No hay publicaciones que coincidan con
+                        "{{ busqueda }}".
+                    </p>
+
+                {% elif categoria_seleccionada %}
+
+                    <p>
+                        No hay publicaciones disponibles en esta categoría.
+                    </p>
+
+                {% else %}
+
+                    <p>
+                        Todavía no hay publicaciones disponibles.
+                    </p>
+
+                {% endif %}
+
+
+                <a
+                    href="{{ url_for('main.noticias') }}"
+                    class="noticia-link"
+                >
+                    VER TODAS LAS NOTICIAS
+                </a>
+
+
+            </section>
 
 
         {% endif %}

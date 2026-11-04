@@ -246,9 +246,83 @@ def noticias():
     ).all()
 
 
+    categorias = Categoria.query.order_by(
+        Categoria.nombre.asc()
+    ).all()
+
+
+    categoria_seleccionada = request.args.get(
+        "categoria",
+        type=int
+    )
+
+
+    busqueda = request.args.get(
+        "buscar",
+        ""
+    ).strip()
+
+
+    if categoria_seleccionada:
+
+        publicaciones_filtradas = []
+
+
+        for publicacion in publicaciones:
+
+            for categoria in publicacion.categorias:
+
+                if categoria.id == categoria_seleccionada:
+
+                    publicaciones_filtradas.append(
+                        publicacion
+                    )
+
+
+        publicaciones = publicaciones_filtradas
+
+
+    if busqueda:
+
+        texto_busqueda = busqueda.lower()
+
+        publicaciones_filtradas = []
+
+
+        for publicacion in publicaciones:
+
+            titulo = (
+                publicacion.titulo
+                or ""
+            ).lower()
+
+
+            resumen = (
+                publicacion.resumen
+                or ""
+            ).lower()
+
+
+            if (
+                texto_busqueda in titulo
+                or
+                texto_busqueda in resumen
+            ):
+
+                publicaciones_filtradas.append(
+                    publicacion
+                )
+
+
+        publicaciones = publicaciones_filtradas
+
+
     return render_template(
         "noticias.html",
-        publicaciones=publicaciones
+        publicaciones=publicaciones,
+        categorias=categorias,
+        categoria_seleccionada=categoria_seleccionada,
+        busqueda=busqueda
     )
 
 
