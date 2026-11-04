@@ -644,26 +644,85 @@
                                     </p>
 
 
-                                    <div class="col gap8">
+                                    <div class="selector-box">
 
 
-                                        {% for categoria in categorias %}
+                                        <div
+                                            class="selector-selected"
+                                            id="categorias-seleccionadas"
+                                        ></div>
 
-                                            <label class="category-check">
 
-                                                <input
-                                                    type="checkbox"
-                                                    name="categorias"
-                                                    value="{{ categoria.id }}"
-                                                >
+                                        <div class="selector-search">
 
-                                                <span>
-                                                    {{ categoria.nombre }}
+                                            <span class="material-symbols-outlined">
+                                                search
+                                            </span>
+
+                                            <input
+                                                type="text"
+                                                id="buscar-categoria"
+                                                placeholder="Buscar categoría..."
+                                                autocomplete="off"
+                                            >
+
+                                        </div>
+
+
+                                        <div
+                                            class="selector-list"
+                                            id="lista-categorias"
+                                        >
+
+
+                                            {% if categorias %}
+
+
+                                                {% for categoria in categorias %}
+
+
+                                                    <label
+                                                        class="category-check selector-item"
+                                                        data-nombre="{{ categoria.nombre|lower }}"
+                                                    >
+
+                                                        <input
+                                                            type="checkbox"
+                                                            name="categorias"
+                                                            value="{{ categoria.id }}"
+                                                            data-texto="{{ categoria.nombre }}"
+                                                        >
+
+                                                        <span>
+                                                            {{ categoria.nombre }}
+                                                        </span>
+
+                                                    </label>
+
+
+                                                {% endfor %}
+
+
+                                            {% else %}
+
+
+                                                <span class="lbl fw600 c-variant">
+                                                    Todavía no hay categorías creadas.
                                                 </span>
 
-                                            </label>
 
-                                        {% endfor %}
+                                            {% endif %}
+
+
+                                        </div>
+
+
+                                        <span
+                                            class="selector-empty-search"
+                                            id="categorias-sin-resultados"
+                                        >
+                                            No se encontraron categorías.
+                                        </span>
 
 
                                     </div>
@@ -701,53 +760,90 @@
                                     </p>
 
 
-                                    <div class="col gap8">
+                                    <div class="selector-box">
 
 
-                                        {% if etiquetas %}
+                                        <div
+                                            class="selector-selected"
+                                            id="etiquetas-seleccionadas"
+                                        ></div>
 
 
-                                            {% for etiqueta in etiquetas %}
+                                        <div class="selector-search">
 
-
-                                                <label class="category-check">
-
-                                                    <input
-                                                        type="checkbox"
-                                                        name="etiquetas"
-                                                        value="{{ etiqueta.id }}"
-                                                    >
-
-                                                    <span>
-                                                        #{{ etiqueta.nombre }}
-                                                    </span>
-
-                                                </label>
-
-
-                                            {% endfor %}
-
-
-                                        {% else %}
-
-
-                                            <span class="lbl fw600 c-variant">
-                                                Todavía no hay etiquetas creadas.
+                                            <span class="material-symbols-outlined">
+                                                search
                                             </span>
 
+                                            <input
+                                                type="text"
+                                                id="buscar-etiqueta"
+                                                placeholder="Buscar etiqueta..."
+                                                autocomplete="off"
+                                            >
 
-                                        {% endif %}
+                                        </div>
 
 
-                                    </div>
+                                        <div
+                                            class="selector-list"
+                                            id="lista-etiquetas"
+                                        >
 
 
-                                    <div style="margin-top: 12px;">
+                                            {% if etiquetas %}
+
+
+                                                {% for etiqueta in etiquetas %}
+
+
+                                                    <label
+                                                        class="category-check selector-item"
+                                                        data-nombre="{{ etiqueta.nombre|lower }}"
+                                                    >
+
+                                                        <input
+                                                            type="checkbox"
+                                                            name="etiquetas"
+                                                            value="{{ etiqueta.id }}"
+                                                            data-texto="#{{ etiqueta.nombre }}"
+                                                        >
+
+                                                        <span>
+                                                            #{{ etiqueta.nombre }}
+                                                        </span>
+
+                                                    </label>
+
+
+                                                {% endfor %}
+
+
+                                            {% else %}
+
+
+                                                <span class="lbl fw600 c-variant">
+                                                    Todavía no hay etiquetas creadas.
+                                                </span>
+
+
+                                            {% endif %}
+
+
+                                        </div>
+
+
+                                        <span
+                                            class="selector-empty-search"
+                                            id="etiquetas-sin-resultados"
+                                        >
+                                            No se encontraron etiquetas.
+                                        </span>
 
 
                                         <a
                                             href="{{ url_for('editor.editor_etiquetas') }}"
-                                            class="btn-add"
+                                            class="btn-add create-tag-link"
                                         >
 
                                             <span class="material-symbols-outlined i16">
@@ -896,6 +992,7 @@
 
             function actualizarOrdenBloques() {
 
+
                 if (!bloquesContenido) {
 
                     return;
@@ -935,6 +1032,7 @@
                         orden.join(",");
 
                 }
+
 
             }
 
@@ -1099,6 +1197,7 @@
 
                 actualizarOrdenBloques();
 
+
             }
 
 
@@ -1157,6 +1256,7 @@
 
 
                 actualizarOrdenBloques();
+
 
             }
 
@@ -1222,6 +1322,7 @@
 
 
                 actualizarOrdenBloques();
+
 
             }
 
@@ -1463,6 +1564,226 @@
                 );
 
             }
+
+
+            /* SELECTORES */
+
+            function configurarSelector(
+                inputBusquedaId,
+                listaId,
+                seleccionadosId,
+                sinResultadosId
+            ) {
+
+
+                const buscador =
+                    document.getElementById(
+                        inputBusquedaId
+                    );
+
+
+                const lista =
+                    document.getElementById(
+                        listaId
+                    );
+
+
+                const seleccionados =
+                    document.getElementById(
+                        seleccionadosId
+                    );
+
+
+                const sinResultados =
+                    document.getElementById(
+                        sinResultadosId
+                    );
+
+
+                if (
+                    !buscador ||
+                    !lista ||
+                    !seleccionados
+                ) {
+
+                    return;
+
+                }
+
+
+                const items =
+                    lista.querySelectorAll(
+                        ".selector-item"
+                    );
+
+
+                function actualizarSeleccionados() {
+
+
+                    seleccionados.innerHTML =
+                        "";
+
+
+                    items.forEach(
+                        (item) => {
+
+
+                            const checkbox =
+                                item.querySelector(
+                                    'input[type="checkbox"]'
+                                );
+
+
+                            if (
+                                checkbox &&
+                                checkbox.checked
+                            ) {
+
+
+                                const chip =
+                                    document.createElement(
+                                        "span"
+                                    );
+
+
+                                chip.className =
+                                    "selector-chip";
+
+
+                                chip.textContent =
+                                    checkbox.dataset.texto;
+
+
+                                seleccionados.appendChild(
+                                    chip
+                                );
+
+
+                            }
+
+
+                        }
+                    );
+
+
+                }
+
+
+                buscador.addEventListener(
+                    "input",
+                    function () {
+
+
+                        const texto =
+                            buscador.value
+                                .trim()
+                                .toLowerCase();
+
+
+                        let cantidadVisible =
+                            0;
+
+
+                        items.forEach(
+                            (item) => {
+
+
+                                const nombre =
+                                    item.dataset.nombre;
+
+
+                                if (
+                                    nombre.includes(
+                                        texto
+                                    )
+                                ) {
+
+                                    item.style.display =
+                                        "";
+
+                                    cantidadVisible += 1;
+
+                                } else {
+
+                                    item.style.display =
+                                        "none";
+
+                                }
+
+
+                            }
+                        );
+
+
+                        if (sinResultados) {
+
+                            if (
+                                cantidadVisible === 0
+                                &&
+                                items.length > 0
+                            ) {
+
+                                sinResultados.style.display =
+                                    "block";
+
+                            } else {
+
+                                sinResultados.style.display =
+                                    "none";
+
+                            }
+
+                        }
+
+
+                    }
+                );
+
+
+                items.forEach(
+                    (item) => {
+
+
+                        const checkbox =
+                            item.querySelector(
+                                'input[type="checkbox"]'
+                            );
+
+
+                        if (checkbox) {
+
+                            checkbox.addEventListener(
+                                "change",
+                                actualizarSeleccionados
+                            );
+
+                        }
+
+
+                    }
+                );
+
+
+                actualizarSeleccionados();
+
+
+            }
+
+
+            configurarSelector(
+                "buscar-categoria",
+                "lista-categorias",
+                "categorias-seleccionadas",
+                "categorias-sin-resultados"
+            );
+
+
+            configurarSelector(
+                "buscar-etiqueta",
+                "lista-etiquetas",
+                "etiquetas-seleccionadas",
+                "etiquetas-sin-resultados"
+            );
 
 
             actualizarOrdenBloques();
