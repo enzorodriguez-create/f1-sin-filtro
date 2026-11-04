@@ -97,7 +97,6 @@
                 </div>
 
 
-
                 <div class="preview-editor-actions">
 
 
@@ -157,7 +156,6 @@
             </div>
 
 
-
             <!-- LAYOUT -->
 
             <div class="preview-layout">
@@ -183,31 +181,31 @@
 
                                 {% if usuario and usuario.foto %}
 
-                                <img
-                                    class="preview-author-avatar preview-author-image"
-                                    src="{{ url_imagen(usuario.foto) }}"
-                                    alt="{{ usuario.nombre }}"
-                                >
+                                    <img
+                                        class="preview-author-avatar preview-author-image"
+                                        src="{{ url_imagen(usuario.foto) }}"
+                                        alt="{{ usuario.nombre }}"
+                                    >
 
                                 {% else %}
 
-                                <div class="preview-author-avatar">
+                                    <div class="preview-author-avatar">
 
-                                    {% if usuario %}
+                                        {% if usuario %}
 
-                                        {{ usuario.nombre[0] }}
+                                            {{ usuario.nombre[0] }}
 
-                                        {% if usuario.apellido %}
-                                            {{ usuario.apellido[0] }}
+                                            {% if usuario.apellido %}
+                                                {{ usuario.apellido[0] }}
+                                            {% endif %}
+
+                                        {% else %}
+
+                                            FSF
+
                                         {% endif %}
 
-                                    {% else %}
-
-                                        FSF
-
-                                    {% endif %}
-
-                                </div>
+                                    </div>
 
                                 {% endif %}
 
@@ -280,7 +278,6 @@
                         </div>
 
 
-
                         <!-- CATEGORÍA -->
 
                         <div class="preview-category">
@@ -296,7 +293,6 @@
                         </div>
 
 
-
                         <!-- TÍTULO -->
 
                         <h1>
@@ -304,63 +300,62 @@
                         </h1>
 
 
-
                         <!-- RESUMEN -->
 
                         {% if publicacion.resumen %}
 
-                        <p class="preview-subtitle">
-                            {{ publicacion.resumen }}
-                        </p>
+                            <p class="preview-subtitle">
+                                {{ publicacion.resumen }}
+                            </p>
 
                         {% endif %}
 
 
-
                         <!-- ETIQUETAS -->
 
-                        <div class="preview-tags">
+                        {% if publicacion.etiquetas %}
+
+                            <div class="preview-tags">
 
 
-                            <span class="preview-tags-label">
-                                ETIQUETAS:
-                            </span>
+                                <span class="preview-tags-label">
+                                    ETIQUETAS:
+                                </span>
 
 
-                            <span class="preview-tag">
-                                #Formula1
-                            </span>
+                                {% for etiqueta in publicacion.etiquetas %}
+
+                                    <span class="preview-tag">
+                                        #{{ etiqueta.nombre }}
+                                    </span>
+
+                                {% endfor %}
 
 
-                            <span class="preview-tag">
-                                #Noticias
-                            </span>
+                            </div>
 
-
-                        </div>
+                        {% endif %}
 
 
                     </header>
-
 
 
                     <!-- PORTADA -->
 
                     {% if publicacion.imagen_portada %}
 
-                    <div class="preview-cover-card">
+                        <div class="preview-cover-card">
 
-                        <img
-                            src="{{ url_imagen(
-                                publicacion.imagen_portada
-                            ) }}"
-                            alt="{{ publicacion.titulo }}"
-                        >
+                            <img
+                                src="{{ url_imagen(
+                                    publicacion.imagen_portada
+                                ) }}"
+                                alt="{{ publicacion.titulo }}"
+                            >
 
-                    </div>
+                        </div>
 
                     {% endif %}
-
 
 
                     <!-- BLOQUES -->
@@ -371,46 +366,43 @@
                         {% for bloque in bloques %}
 
 
-
                             <!-- TEXTO -->
 
                             {% if bloque.tipo == "texto" %}
 
-                            <div
-                                class="
-                                    preview-content-card
-                                    preview-text-block
-                                "
-                            >
+                                <div
+                                    class="
+                                        preview-content-card
+                                        preview-text-block
+                                    "
+                                >
 
-                                <p>
-                                    {{ bloque.contenido }}
-                                </p>
+                                    <p>
+                                        {{ bloque.contenido }}
+                                    </p>
 
-                            </div>
-
+                                </div>
 
 
                             <!-- IMAGEN -->
 
                             {% elif bloque.tipo == "imagen" %}
 
-                            <div
-                                class="
-                                    preview-content-card
-                                    preview-image-block
-                                "
-                            >
-
-                                <img
-                                    src="{{ url_imagen(
-                                        bloque.contenido
-                                    ) }}"
-                                    alt="Imagen de {{ publicacion.titulo }}"
+                                <div
+                                    class="
+                                        preview-content-card
+                                        preview-image-block
+                                    "
                                 >
 
-                            </div>
+                                    <img
+                                        src="{{ url_imagen(
+                                            bloque.contenido
+                                        ) }}"
+                                        alt="Imagen de {{ publicacion.titulo }}"
+                                    >
 
+                                </div>
 
 
                             <!-- CARRUSEL -->
@@ -429,78 +421,130 @@
                                 {% if imagenes %}
 
 
-                                <div
-                                    class="
-                                        preview-content-card
-                                        preview-carousel-block
-                                    "
-                                >
-
-
                                     <div
-                                        class="preview-carousel"
-                                        data-carousel="{{ bloque.id }}"
+                                        class="
+                                            preview-content-card
+                                            preview-carousel-block
+                                        "
                                     >
 
 
-                                        <div class="preview-carousel-window">
+                                        <div
+                                            class="preview-carousel"
+                                            data-carousel="{{ bloque.id }}"
+                                        >
 
 
-                                            <div
-                                                class="preview-carousel-track"
-                                                id="carousel-track-{{ bloque.id }}"
-                                            >
+                                            <div class="preview-carousel-window">
 
 
-                                                {% for imagen in imagenes %}
+                                                <div
+                                                    class="preview-carousel-track"
+                                                    id="carousel-track-{{ bloque.id }}"
+                                                >
 
-                                                <div class="preview-carousel-slide">
 
-                                                    <img
-                                                        src="{{ url_imagen(
-                                                            imagen.imagen
-                                                        ) }}"
-                                                        alt="Imagen {{ loop.index }} del carrusel"
-                                                    >
+                                                    {% for imagen in imagenes %}
+
+                                                        <div class="preview-carousel-slide">
+
+                                                            <img
+                                                                src="{{ url_imagen(
+                                                                    imagen.imagen
+                                                                ) }}"
+                                                                alt="Imagen {{ loop.index }} del carrusel"
+                                                            >
+
+                                                        </div>
+
+                                                    {% endfor %}
+
 
                                                 </div>
 
-                                                {% endfor %}
+
+                                                {% if imagenes|length > 1 %}
+
+
+                                                    <button
+                                                        class="preview-carousel-arrow previous"
+                                                        type="button"
+                                                        data-action="previous"
+                                                        data-carousel="{{ bloque.id }}"
+                                                    >
+
+                                                        <span class="material-symbols-outlined">
+                                                            chevron_left
+                                                        </span>
+
+                                                    </button>
+
+
+                                                    <button
+                                                        class="preview-carousel-arrow next"
+                                                        type="button"
+                                                        data-action="next"
+                                                        data-carousel="{{ bloque.id }}"
+                                                    >
+
+                                                        <span class="material-symbols-outlined">
+                                                            chevron_right
+                                                        </span>
+
+                                                    </button>
+
+
+                                                {% endif %}
 
 
                                             </div>
 
 
-
                                             {% if imagenes|length > 1 %}
 
 
-                                            <button
-                                                class="preview-carousel-arrow previous"
-                                                type="button"
-                                                data-action="previous"
-                                                data-carousel="{{ bloque.id }}"
-                                            >
-
-                                                <span class="material-symbols-outlined">
-                                                    chevron_left
-                                                </span>
-
-                                            </button>
+                                                <div class="preview-carousel-bottom">
 
 
-                                            <button
-                                                class="preview-carousel-arrow next"
-                                                type="button"
-                                                data-action="next"
-                                                data-carousel="{{ bloque.id }}"
-                                            >
+                                                    <div
+                                                        class="preview-carousel-dots"
+                                                        id="carousel-dots-{{ bloque.id }}"
+                                                    >
 
-                                                <span class="material-symbols-outlined">
-                                                    chevron_right
-                                                </span>
 
-                                            </button>
+                                                        {% for imagen in imagenes %}
+
+                                                            <button
+                                                                class="
+                                                                    preview-carousel-dot
+
+                                                                    {% if loop.first %}
+                                                                        active
+                                                                    {% endif %}
+                                                                "
+                                                                type="button"
+                                                                data-index="{{ loop.index0 }}"
+                                                                data-carousel="{{ bloque.id }}"
+                                                            >
+                                                            </button>
+
+                                                        {% endfor %}
+
+
+                                                    </div>
+
+
+                                                    <span
+                                                        class="preview-carousel-counter"
+                                                        id="carousel-counter-{{ bloque.id }}"
+                                                    >
+
+                                                        1 / {{ imagenes|length }}
+
+                                                    </span>
+
+
+                                                </div>
 
 
                                             {% endif %}
@@ -509,61 +553,7 @@
                                         </div>
 
 
-
-                                        {% if imagenes|length > 1 %}
-
-
-                                        <div class="preview-carousel-bottom">
-
-
-                                            <div
-                                                class="preview-carousel-dots"
-                                                id="carousel-dots-{{ bloque.id }}"
-                                            >
-
-
-                                                {% for imagen in imagenes %}
-
-                                                <button
-                                                    class="
-                                                        preview-carousel-dot
-
-                                                        {% if loop.first %}
-                                                            active
-                                                        {% endif %}
-                                                    "
-                                                    type="button"
-                                                    data-index="{{ loop.index0 }}"
-                                                    data-carousel="{{ bloque.id }}"
-                                                >
-                                                </button>
-
-                                                {% endfor %}
-
-
-                                            </div>
-
-
-                                            <span
-                                                class="preview-carousel-counter"
-                                                id="carousel-counter-{{ bloque.id }}"
-                                            >
-
-                                                1 / {{ imagenes|length }}
-
-                                            </span>
-
-
-                                        </div>
-
-
-                                        {% endif %}
-
-
                                     </div>
-
-
-                                </div>
 
 
                                 {% endif %}
@@ -578,9 +568,7 @@
                     </div>
 
 
-
                 </article>
-
 
 
                 <!-- SIDEBAR DEL EDITOR -->
@@ -651,7 +639,6 @@
                     </section>
 
 
-
                     <!-- BLOQUES -->
 
                     <section class="preview-panel">
@@ -696,46 +683,46 @@
                             {% for bloque in bloques %}
 
 
-                            <div class="preview-block-item">
+                                <div class="preview-block-item">
 
 
-                                {% if bloque.tipo == "texto" %}
+                                    {% if bloque.tipo == "texto" %}
 
-                                <span class="material-symbols-outlined">
-                                    notes
-                                </span>
+                                        <span class="material-symbols-outlined">
+                                            notes
+                                        </span>
 
-                                <span>
-                                    Texto
-                                </span>
-
-
-                                {% elif bloque.tipo == "imagen" %}
-
-                                <span class="material-symbols-outlined">
-                                    image
-                                </span>
-
-                                <span>
-                                    Imagen
-                                </span>
+                                        <span>
+                                            Texto
+                                        </span>
 
 
-                                {% elif bloque.tipo == "carrusel" %}
+                                    {% elif bloque.tipo == "imagen" %}
 
-                                <span class="material-symbols-outlined">
-                                    collections
-                                </span>
+                                        <span class="material-symbols-outlined">
+                                            image
+                                        </span>
 
-                                <span>
-                                    Carrusel
-                                </span>
-
-
-                                {% endif %}
+                                        <span>
+                                            Imagen
+                                        </span>
 
 
-                            </div>
+                                    {% elif bloque.tipo == "carrusel" %}
+
+                                        <span class="material-symbols-outlined">
+                                            collections
+                                        </span>
+
+                                        <span>
+                                            Carrusel
+                                        </span>
+
+
+                                    {% endif %}
+
+
+                                </div>
 
 
                             {% endfor %}
@@ -745,7 +732,6 @@
 
 
                     </section>
-
 
 
                     <!-- ACCIONES -->
@@ -809,7 +795,6 @@
 
 
     </div>
-
 
 
     <!-- CARRUSEL -->
@@ -890,6 +875,7 @@
                             }
                         );
 
+
                     }
 
 
@@ -950,6 +936,7 @@
 
                                         mostrarSlide();
 
+
                                     }
                                 );
 
@@ -974,6 +961,7 @@
 
 
                                     mostrarSlide();
+
 
                                 }
                             );

@@ -96,7 +96,6 @@
                     </div>
 
 
-
                     <!-- CATEGORÍA -->
 
                     <div class="post-category">
@@ -112,7 +111,6 @@
                     </div>
 
 
-
                     <!-- TÍTULO -->
 
                     <h1>
@@ -120,40 +118,46 @@
                     </h1>
 
 
-
                     <!-- RESUMEN -->
 
                     {% if publicacion.resumen %}
 
-                    <p class="post-subtitle">
-                        {{ publicacion.resumen }}
-                    </p>
+                        <p class="post-subtitle">
+                            {{ publicacion.resumen }}
+                        </p>
 
                     {% endif %}
 
 
-
                     <!-- ETIQUETAS -->
 
-                    <div class="post-tags">
+                    {% if publicacion.etiquetas %}
 
-                        <span class="post-tags-label">
-                            ETIQUETAS:
-                        </span>
+                        <div class="post-tags">
 
-                        <a href="#" class="post-tag">
-                            #Formula1
-                        </a>
+                            <span class="post-tags-label">
+                                ETIQUETAS:
+                            </span>
 
-                        <a href="#" class="post-tag">
-                            #Noticias
-                        </a>
 
-                    </div>
+                            {% for etiqueta in publicacion.etiquetas %}
+
+                                <a
+                                    href="#"
+                                    class="post-tag"
+                                >
+                                    #{{ etiqueta.nombre }}
+                                </a>
+
+                            {% endfor %}
+
+
+                        </div>
+
+                    {% endif %}
 
 
                 </header>
-
 
 
                 <!-- =====================================
@@ -162,17 +166,16 @@
 
                 {% if publicacion.imagen_portada %}
 
-                <div class="post-cover-card">
+                    <div class="post-cover-card">
 
-                    <img
-                        src="{{ url_imagen(publicacion.imagen_portada) }}"
-                        alt="{{ publicacion.titulo }}"
-                    >
+                        <img
+                            src="{{ url_imagen(publicacion.imagen_portada) }}"
+                            alt="{{ publicacion.titulo }}"
+                        >
 
-                </div>
+                    </div>
 
                 {% endif %}
-
 
 
                 <!-- =====================================
@@ -189,145 +192,141 @@
 
                         {% if bloque.tipo == "texto" %}
 
-                        <div class="post-content-card post-text-block">
+                            <div class="post-content-card post-text-block">
 
-                            <p>
-                                {{ bloque.contenido }}
-                            </p>
+                                <p>
+                                    {{ bloque.contenido }}
+                                </p>
 
-                        </div>
-
+                            </div>
 
 
                         <!-- BLOQUE DE IMAGEN -->
 
                         {% elif bloque.tipo == "imagen" %}
 
-                        <div class="post-content-card post-image-block">
+                            <div class="post-content-card post-image-block">
 
-                            <img
-                                src="{{ url_imagen(bloque.contenido) }}"
-                                alt="Imagen de {{ publicacion.titulo }}"
-                            >
+                                <img
+                                    src="{{ url_imagen(bloque.contenido) }}"
+                                    alt="Imagen de {{ publicacion.titulo }}"
+                                >
 
-                        </div>
-
+                            </div>
 
 
                         <!-- BLOQUE DE CARRUSEL -->
 
                         {% elif bloque.tipo == "carrusel" %}
 
-                        <div class="post-content-card post-carousel-block">
+                            <div class="post-content-card post-carousel-block">
 
 
-                            <div
-                                id="carouselPost{{ bloque.id }}"
-                                class="carousel slide post-carousel-custom"
-                                data-bs-ride="false"
-                            >
+                                <div
+                                    id="carouselPost{{ bloque.id }}"
+                                    class="carousel slide post-carousel-custom"
+                                    data-bs-ride="false"
+                                >
 
 
-                                <!-- INDICADORES -->
+                                    <!-- INDICADORES -->
 
-                                {% if carruseles.get(bloque.id, [])|length > 1 %}
+                                    {% if carruseles.get(bloque.id, [])|length > 1 %}
 
-                                <div class="carousel-indicators">
+                                        <div class="carousel-indicators">
 
-                                    {% for imagen in carruseles.get(bloque.id, []) %}
+                                            {% for imagen in carruseles.get(bloque.id, []) %}
 
-                                    <button
-                                        type="button"
-                                        data-bs-target="#carouselPost{{ bloque.id }}"
-                                        data-bs-slide-to="{{ loop.index0 }}"
-                                        class="{% if loop.first %}active{% endif %}"
-                                        aria-current="{% if loop.first %}true{% endif %}"
-                                        aria-label="Imagen {{ loop.index }}"
-                                    >
-                                    </button>
+                                                <button
+                                                    type="button"
+                                                    data-bs-target="#carouselPost{{ bloque.id }}"
+                                                    data-bs-slide-to="{{ loop.index0 }}"
+                                                    class="{% if loop.first %}active{% endif %}"
+                                                    aria-current="{% if loop.first %}true{% endif %}"
+                                                    aria-label="Imagen {{ loop.index }}"
+                                                >
+                                                </button>
 
-                                    {% endfor %}
+                                            {% endfor %}
 
-                                </div>
+                                        </div>
 
-                                {% endif %}
+                                    {% endif %}
 
 
+                                    <!-- IMÁGENES -->
 
-                                <!-- IMÁGENES -->
+                                    <div class="carousel-inner">
 
-                                <div class="carousel-inner">
+                                        {% for imagen in carruseles.get(bloque.id, []) %}
 
-                                    {% for imagen in carruseles.get(bloque.id, []) %}
+                                            <div
+                                                class="carousel-item {% if loop.first %}active{% endif %}"
+                                            >
 
-                                    <div
-                                        class="carousel-item {% if loop.first %}active{% endif %}"
-                                    >
+                                                <img
+                                                    src="{{ url_imagen(imagen.imagen) }}"
+                                                    class="d-block w-100"
+                                                    alt="Imagen {{ loop.index }} del carrusel"
+                                                >
 
-                                        <img
-                                            src="{{ url_imagen(imagen.imagen) }}"
-                                            class="d-block w-100"
-                                            alt="Imagen {{ loop.index }} del carrusel"
-                                        >
+                                            </div>
+
+                                        {% endfor %}
 
                                     </div>
 
-                                    {% endfor %}
+
+                                    <!-- FLECHAS -->
+
+                                    {% if carruseles.get(bloque.id, [])|length > 1 %}
+
+                                        <button
+                                            class="carousel-control-prev"
+                                            type="button"
+                                            data-bs-target="#carouselPost{{ bloque.id }}"
+                                            data-bs-slide="prev"
+                                        >
+
+                                            <span
+                                                class="carousel-control-prev-icon"
+                                                aria-hidden="true"
+                                            >
+                                            </span>
+
+                                            <span class="visually-hidden">
+                                                Anterior
+                                            </span>
+
+                                        </button>
+
+
+                                        <button
+                                            class="carousel-control-next"
+                                            type="button"
+                                            data-bs-target="#carouselPost{{ bloque.id }}"
+                                            data-bs-slide="next"
+                                        >
+
+                                            <span
+                                                class="carousel-control-next-icon"
+                                                aria-hidden="true"
+                                            >
+                                            </span>
+
+                                            <span class="visually-hidden">
+                                                Siguiente
+                                            </span>
+
+                                        </button>
+
+                                    {% endif %}
+
 
                                 </div>
 
 
-
-                                <!-- FLECHAS -->
-
-                                {% if carruseles.get(bloque.id, [])|length > 1 %}
-
-                                <button
-                                    class="carousel-control-prev"
-                                    type="button"
-                                    data-bs-target="#carouselPost{{ bloque.id }}"
-                                    data-bs-slide="prev"
-                                >
-
-                                    <span
-                                        class="carousel-control-prev-icon"
-                                        aria-hidden="true"
-                                    >
-                                    </span>
-
-                                    <span class="visually-hidden">
-                                        Anterior
-                                    </span>
-
-                                </button>
-
-
-                                <button
-                                    class="carousel-control-next"
-                                    type="button"
-                                    data-bs-target="#carouselPost{{ bloque.id }}"
-                                    data-bs-slide="next"
-                                >
-
-                                    <span
-                                        class="carousel-control-next-icon"
-                                        aria-hidden="true"
-                                    >
-                                    </span>
-
-                                    <span class="visually-hidden">
-                                        Siguiente
-                                    </span>
-
-                                </button>
-
-                                {% endif %}
-
-
                             </div>
-
-
-                        </div>
 
                         {% endif %}
 
@@ -336,7 +335,6 @@
 
 
                 </div>
-
 
 
                 <!-- =====================================
@@ -355,7 +353,6 @@
                         COMENTARIOS
 
                     </h3>
-
 
 
                     <!-- FORMULARIO -->
@@ -408,7 +405,6 @@
                     </div>
 
 
-
                     <!-- COMENTARIOS -->
 
                     <div class="post-comment-list">
@@ -419,59 +415,59 @@
 
                             {% for comentario in comentarios %}
 
-                            <div class="post-comment">
+                                <div class="post-comment">
 
 
-                                <!-- AVATAR -->
+                                    <!-- AVATAR -->
 
-                                <div class="post-comment-avatar">
+                                    <div class="post-comment-avatar">
 
-                                    {% if comentario.usuario.nombre %}
+                                        {% if comentario.usuario.nombre %}
 
-                                        {{ comentario.usuario.nombre[0]|upper }}
+                                            {{ comentario.usuario.nombre[0]|upper }}
 
-                                    {% endif %}
+                                        {% endif %}
 
-                                    {% if comentario.usuario.apellido %}
+                                        {% if comentario.usuario.apellido %}
 
-                                        {{ comentario.usuario.apellido[0]|upper }}
+                                            {{ comentario.usuario.apellido[0]|upper }}
 
-                                    {% endif %}
-
-                                </div>
-
-
-                                <!-- CONTENIDO -->
-
-                                <div class="post-comment-body">
-
-
-                                    <div class="post-comment-head">
-
-                                        <span class="post-comment-user">
-                                            {{ comentario.usuario.usuario }}
-                                        </span>
-
-
-                                        <span
-                                            class="post-comment-time comentario-fecha"
-                                            data-fecha="{{ comentario.fecha.isoformat() }}Z"
-                                        >
-                                            {{ comentario.fecha.strftime('%d/%m/%Y %H:%M') }}
-                                        </span>
+                                        {% endif %}
 
                                     </div>
 
 
-                                    <p>
-                                        {{ comentario.contenido }}
-                                    </p>
+                                    <!-- CONTENIDO -->
+
+                                    <div class="post-comment-body">
+
+
+                                        <div class="post-comment-head">
+
+                                            <span class="post-comment-user">
+                                                {{ comentario.usuario.usuario }}
+                                            </span>
+
+
+                                            <span
+                                                class="post-comment-time comentario-fecha"
+                                                data-fecha="{{ comentario.fecha.isoformat() }}Z"
+                                            >
+                                                {{ comentario.fecha.strftime('%d/%m/%Y %H:%M') }}
+                                            </span>
+
+                                        </div>
+
+
+                                        <p>
+                                            {{ comentario.contenido }}
+                                        </p>
+
+
+                                    </div>
 
 
                                 </div>
-
-
-                            </div>
 
                             {% endfor %}
 
@@ -522,7 +518,6 @@
             </article>
 
 
-
             <!-- =====================================
                  BARRA LATERAL
             ====================================== -->
@@ -559,7 +554,6 @@
                     </a>
 
                 </div>
-
 
 
                 <!-- MÁS NOTICIAS -->
@@ -624,7 +618,6 @@
                 </div>
 
 
-
                 <!-- VOLVER -->
 
                 <a
@@ -661,32 +654,36 @@
         "DOMContentLoaded",
         function () {
 
-            const fechas = document.querySelectorAll(
-                ".comentario-fecha"
-            );
+            const fechas =
+                document.querySelectorAll(
+                    ".comentario-fecha"
+                );
 
 
             fechas.forEach(
                 function (elemento) {
 
-                    const fechaUTC = elemento.dataset.fecha;
+                    const fechaUTC =
+                        elemento.dataset.fecha;
 
 
-                    const fecha = new Date(
-                        fechaUTC
-                    );
+                    const fecha =
+                        new Date(
+                            fechaUTC
+                        );
 
 
-                    elemento.textContent = fecha.toLocaleString(
-                        undefined,
-                        {
-                            day: "2-digit",
-                            month: "2-digit",
-                            year: "numeric",
-                            hour: "2-digit",
-                            minute: "2-digit"
-                        }
-                    );
+                    elemento.textContent =
+                        fecha.toLocaleString(
+                            undefined,
+                            {
+                                day: "2-digit",
+                                month: "2-digit",
+                                year: "numeric",
+                                hour: "2-digit",
+                                minute: "2-digit"
+                            }
+                        );
 
                 }
             );
