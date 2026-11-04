@@ -175,6 +175,10 @@
 }
 
 
+/* =========================================
+   FILTROS
+========================================= */
+
 .noticias-filtros {
     display: flex;
 
@@ -193,36 +197,36 @@
         1px solid
         var(--noticias-border);
 
-    background:
-        #111;
+    background: #111;
 
-    color:
-        #999;
+    color: #999;
 
     font-family:
         "JetBrains Mono",
         monospace;
 
-    font-size:
-        9px;
+    font-size: 9px;
 
-    font-weight:
-        700;
+    font-weight: 700;
 
-    letter-spacing:
-        0.06em;
+    letter-spacing: 0.06em;
+
+    text-decoration: none;
 
     transition:
         all 0.2s;
 }
 
 
-.noticias-filtro:hover {
+.noticias-filtro:hover,
+.noticias-filtro:focus,
+.noticias-filtro:active {
     border-color:
         var(--noticias-red);
 
-    color:
-        var(--noticias-red);
+    color: #fff;
+
+    text-decoration: none;
 }
 
 
@@ -235,6 +239,8 @@
 
     color:
         var(--noticias-red);
+
+    text-decoration: none;
 }
 
 
@@ -254,7 +260,7 @@
 
     padding:
         0.7rem
-        2.5rem
+        46px
         0.7rem
         0.8rem;
 
@@ -289,20 +295,49 @@
 }
 
 
-.noticias-search
-.material-symbols-outlined {
+.noticias-search button {
     position: absolute;
 
-    right: 12px;
+    top: 0;
+    right: 0;
 
-    top: 50%;
+    width: 46px;
+    height: 100%;
 
-    transform:
-        translateY(-50%);
+    padding: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: transparent;
+
+    border: none;
 
     color: #777;
 
-    font-size: 17px;
+    cursor: pointer;
+}
+
+
+.noticias-search button:hover {
+    color:
+        var(--noticias-red);
+}
+
+
+.noticias-search button .material-symbols-outlined {
+    position: static;
+
+    margin: 0;
+    padding: 0;
+
+    transform: none;
+
+    color: inherit;
+
+    font-size: 20px;
+    line-height: 1;
 }
 
 
@@ -953,56 +988,4 @@
             repeat(3, 1fr);
     }
 
-}
-
-/* =========================
-   BOTÓN BUSCADOR
-========================= */
-
-.noticias-search {
-    position: relative;
-}
-
-.noticias-search input {
-    padding-right: 46px;
-}
-
-.noticias-search button {
-    position: absolute;
-
-    top: 0;
-    right: 0;
-
-    width: 46px;
-    height: 100%;
-
-    padding: 0;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    background: transparent;
-
-    border: none;
-
-    color: #777;
-
-    cursor: pointer;
-}
-
-.noticias-search button:hover {
-    color: #e10600;
-}
-
-.noticias-search button .material-symbols-outlined {
-    position: static;
-
-    margin: 0;
-    padding: 0;
-
-    transform: none;
-
-    font-size: 20px;
-    line-height: 1;
 }
