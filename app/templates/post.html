@@ -11,13 +11,13 @@
   <div class="post-container">
     <div class="post-layout">
       <!-- =====================================
-                 ARTÍCULO
-            ====================================== -->
+           ARTÍCULO
+      ====================================== -->
 
       <article class="post-article">
         <!-- =====================================
-                     CABECERA
-                ====================================== -->
+             CABECERA
+        ====================================== -->
 
         <header class="post-head">
           <!-- AUTOR + ACCIONES -->
@@ -53,13 +53,20 @@
             </div>
           </div>
 
-          <!-- CATEGORÍA -->
+          <!-- CATEGORÍAS -->
+
+          {% if publicacion.categorias %}
 
           <div class="post-category">
             <span class="material-symbols-outlined"> news </span>
 
-            <span> NOTICIAS </span>
+            <span>
+              {% for categoria in publicacion.categorias %} {{ categoria.nombre
+              }} {% if not loop.last %} · {% endif %} {% endfor %}
+            </span>
           </div>
+
+          {% endif %}
 
           <!-- TÍTULO -->
 
@@ -84,9 +91,9 @@
 
             <a
               href="{{ url_for(
-                                'main.publicaciones_etiqueta',
-                                id_etiqueta=etiqueta.id
-                            ) }}"
+                    'main.publicaciones_etiqueta',
+                    id_etiqueta=etiqueta.id
+                  ) }}"
               class="post-tag"
             >
               #{{ etiqueta.nombre }}
@@ -99,8 +106,8 @@
         </header>
 
         <!-- =====================================
-                     PORTADA
-                ====================================== -->
+             PORTADA
+        ====================================== -->
 
         {% if publicacion.imagen_portada %}
 
@@ -114,8 +121,8 @@
         {% endif %}
 
         <!-- =====================================
-                     BLOQUES DE LA PUBLICACIÓN
-                ====================================== -->
+             BLOQUES DE LA PUBLICACIÓN
+        ====================================== -->
 
         <div class="post-body">
           {% for bloque in bloques %}
@@ -196,8 +203,10 @@
                 data-bs-target="#carouselPost{{ bloque.id }}"
                 data-bs-slide="prev"
               >
-                <span class="carousel-control-prev-icon" aria-hidden="true">
-                </span>
+                <span
+                  class="carousel-control-prev-icon"
+                  aria-hidden="true"
+                ></span>
 
                 <span class="visually-hidden"> Anterior </span>
               </button>
@@ -208,8 +217,10 @@
                 data-bs-target="#carouselPost{{ bloque.id }}"
                 data-bs-slide="next"
               >
-                <span class="carousel-control-next-icon" aria-hidden="true">
-                </span>
+                <span
+                  class="carousel-control-next-icon"
+                  aria-hidden="true"
+                ></span>
 
                 <span class="visually-hidden"> Siguiente </span>
               </button>
@@ -222,8 +233,8 @@
         </div>
 
         <!-- =====================================
-                     COMENTARIOS
-                ====================================== -->
+             COMENTARIOS
+        ====================================== -->
 
         <section class="post-comments">
           <h3 class="post-comments-title">
@@ -317,8 +328,8 @@
       </article>
 
       <!-- =====================================
-                 BARRA LATERAL
-            ====================================== -->
+           BARRA LATERAL
+      ====================================== -->
 
       <aside class="post-sidebar">
         <!-- PREMIUM -->
