@@ -18,6 +18,7 @@ from app.models import (
     BloquePublicacion,
     ImagenCarrusel,
     Categoria,
+    Etiqueta,
     Comentario
 )
 
@@ -516,5 +517,42 @@ def publicaciones_categoria(id_categoria):
     return render_template(
         "publicaciones_categoria.html",
         categoria=categoria,
+        publicaciones=publicaciones
+    )
+
+
+# =====================================
+# PUBLICACIONES POR ETIQUETA
+# =====================================
+
+@bp.route(
+    "/etiquetas/<int:id_etiqueta>"
+)
+def publicaciones_etiqueta(id_etiqueta):
+
+    etiqueta = db.session.get(
+        Etiqueta,
+        id_etiqueta
+    )
+
+
+    if not etiqueta:
+
+        return "Etiqueta no encontrada."
+
+
+    publicaciones = Publicacion.query.filter(
+        Publicacion.estado == "publicada",
+        Publicacion.etiquetas.any(
+            Etiqueta.id == id_etiqueta
+        )
+    ).order_by(
+        Publicacion.id.desc()
+    ).all()
+
+
+    return render_template(
+        "publicaciones_etiqueta.html",
+        etiqueta=etiqueta,
         publicaciones=publicaciones
     )

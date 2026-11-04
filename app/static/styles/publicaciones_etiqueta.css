@@ -1,0 +1,438 @@
+/* =========================
+   PÁGINA
+========================= */
+
+.tag-page {
+    min-height: 100vh;
+
+    padding: 48px 20px 70px;
+
+    background:
+        linear-gradient(
+            rgba(0, 0, 0, 0.72),
+            rgba(0, 0, 0, 0.92)
+        ),
+        url("/static/styles/images/fondof1.avif");
+
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+
+    color: #ffffff;
+}
+
+
+/* =========================
+   CONTENEDOR
+========================= */
+
+.tag-container {
+    width: 100%;
+    max-width: 1200px;
+
+    margin: 0 auto;
+}
+
+
+/* =========================
+   CABECERA
+========================= */
+
+.tag-head {
+    margin-bottom: 36px;
+
+    padding-bottom: 24px;
+
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+
+.tag-kicker {
+    margin-bottom: 8px;
+
+    color: #e10600;
+
+    font-size: 12px;
+    font-weight: 800;
+
+    letter-spacing: 0.08em;
+
+    text-transform: uppercase;
+}
+
+
+.tag-head h1 {
+    margin: 0;
+
+    font-family: "Chivo", sans-serif;
+
+    font-size: clamp(34px, 5vw, 54px);
+    font-weight: 900;
+
+    line-height: 1;
+
+    letter-spacing: -0.04em;
+}
+
+
+.tag-head h1 span {
+    color: #ffffff;
+}
+
+
+.tag-description {
+    max-width: 720px;
+
+    margin-top: 14px;
+
+    color: #c5c5c5;
+
+    font-size: 15px;
+    line-height: 1.6;
+}
+
+
+/* =========================
+   CONTADOR
+========================= */
+
+.tag-count {
+    margin-top: 18px;
+
+    display: inline-flex;
+    align-items: center;
+
+    gap: 7px;
+
+    padding: 7px 11px;
+
+    background: rgba(225, 6, 0, 0.12);
+
+    color: #ff5a55;
+
+    border: 1px solid rgba(225, 6, 0, 0.3);
+    border-radius: 6px;
+
+    font-size: 12px;
+    font-weight: 700;
+}
+
+
+.tag-count .material-symbols-outlined {
+    font-size: 17px;
+}
+
+
+/* =========================
+   GRID
+========================= */
+
+.tag-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(
+            3,
+            minmax(0, 1fr)
+        );
+
+    gap: 24px;
+}
+
+
+/* =========================
+   CARD
+========================= */
+
+.tag-card {
+    overflow: hidden;
+
+    display: flex;
+    flex-direction: column;
+
+    background: rgba(16, 16, 16, 0.94);
+
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 8px;
+
+    transition:
+        transform 0.2s ease,
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+
+.tag-card:hover {
+    transform: translateY(-4px);
+
+    border-color: rgba(225, 6, 0, 0.35);
+
+    box-shadow:
+        0
+        12px
+        30px
+        rgba(0, 0, 0, 0.35);
+}
+
+
+/* =========================
+   IMAGEN
+========================= */
+
+.tag-card-image {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+
+    overflow: hidden;
+
+    background: #111;
+}
+
+
+.tag-card-image img {
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+
+    display: block;
+
+    transition: transform 0.3s ease;
+}
+
+
+.tag-card:hover .tag-card-image img {
+    transform: scale(1.04);
+}
+
+
+/* =========================
+   CONTENIDO
+========================= */
+
+.tag-card-body {
+    flex: 1;
+
+    padding: 18px;
+
+    display: flex;
+    flex-direction: column;
+}
+
+
+.tag-card-tags {
+    margin-bottom: 12px;
+
+    display: flex;
+    flex-wrap: wrap;
+
+    gap: 6px;
+}
+
+
+.tag-card-tag {
+    padding: 4px 8px;
+
+    background: rgba(225, 6, 0, 0.12);
+
+    color: #ff5a55;
+
+    border: 1px solid rgba(225, 6, 0, 0.28);
+    border-radius: 4px;
+
+    font-size: 11px;
+    font-weight: 800;
+}
+
+
+.tag-card h2 {
+    margin: 0 0 10px;
+
+    font-family: "Chivo", sans-serif;
+
+    font-size: 20px;
+    font-weight: 800;
+
+    line-height: 1.2;
+
+    text-transform: uppercase;
+}
+
+
+.tag-card h2 a {
+    color: #ffffff;
+
+    text-decoration: none;
+}
+
+
+.tag-card h2 a:hover {
+    color: #e10600;
+}
+
+
+.tag-card-summary {
+    margin: 0 0 18px;
+
+    color: #b8b8b8;
+
+    font-size: 14px;
+    line-height: 1.55;
+}
+
+
+/* =========================
+   FOOTER CARD
+========================= */
+
+.tag-card-footer {
+    margin-top: auto;
+
+    padding-top: 14px;
+
+    border-top: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+
+.tag-read-link {
+    display: inline-flex;
+    align-items: center;
+
+    gap: 5px;
+
+    color: #e10600;
+
+    font-size: 12px;
+    font-weight: 800;
+
+    text-decoration: none;
+
+    text-transform: uppercase;
+}
+
+
+.tag-read-link:hover {
+    color: #ffffff;
+}
+
+
+.tag-read-link .material-symbols-outlined {
+    font-size: 17px;
+}
+
+
+/* =========================
+   VACÍO
+========================= */
+
+.tag-empty {
+    padding: 50px 24px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    gap: 12px;
+
+    text-align: center;
+
+    background: rgba(16, 16, 16, 0.94);
+
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 8px;
+}
+
+
+.tag-empty .material-symbols-outlined {
+    color: #e10600;
+
+    font-size: 46px;
+}
+
+
+.tag-empty h2 {
+    margin: 0;
+
+    font-family: "Chivo", sans-serif;
+
+    font-size: 22px;
+}
+
+
+.tag-empty p {
+    margin: 0;
+
+    color: #a3a3a3;
+}
+
+
+/* =========================
+   VOLVER
+========================= */
+
+.tag-back {
+    margin-top: 34px;
+
+    display: inline-flex;
+    align-items: center;
+
+    gap: 6px;
+
+    color: #ffffff;
+
+    font-size: 12px;
+    font-weight: 800;
+
+    text-decoration: none;
+
+    text-transform: uppercase;
+}
+
+
+.tag-back:hover {
+    color: #e10600;
+}
+
+
+.tag-back .material-symbols-outlined {
+    font-size: 18px;
+}
+
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 1000px) {
+
+    .tag-grid {
+        grid-template-columns:
+            repeat(
+                2,
+                minmax(0, 1fr)
+            );
+    }
+
+}
+
+
+@media (max-width: 650px) {
+
+    .tag-page {
+        padding:
+            32px
+            14px
+            50px;
+    }
+
+
+    .tag-grid {
+        grid-template-columns: 1fr;
+    }
+
+
+    .tag-head h1 {
+        font-size: 34px;
+    }
+
+}

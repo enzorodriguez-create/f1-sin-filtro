@@ -1,0 +1,241 @@
+{% include 'base/header.html' %}
+
+<link
+    rel="stylesheet"
+    href="{{ url_for('static', filename='styles/publicaciones_etiqueta.css') }}"
+>
+
+
+<main class="tag-page">
+
+
+    <div class="tag-container">
+
+
+        <!-- CABECERA -->
+
+        <header class="tag-head">
+
+
+            <p class="tag-kicker">
+                PUBLICACIONES POR ETIQUETA
+            </p>
+
+
+            <h1>
+                #<span>{{ etiqueta.nombre }}</span>
+            </h1>
+
+
+            {% if etiqueta.descripcion %}
+
+                <p class="tag-description">
+                    {{ etiqueta.descripcion }}
+                </p>
+
+            {% endif %}
+
+
+            <div class="tag-count">
+
+                <span class="material-symbols-outlined">
+                    article
+                </span>
+
+                <span>
+
+                    {{ publicaciones|length }}
+
+                    {% if publicaciones|length == 1 %}
+
+                        publicación
+
+                    {% else %}
+
+                        publicaciones
+
+                    {% endif %}
+
+                </span>
+
+            </div>
+
+
+        </header>
+
+
+        <!-- PUBLICACIONES -->
+
+        {% if publicaciones %}
+
+
+            <section class="tag-grid">
+
+
+                {% for publicacion in publicaciones %}
+
+
+                    <article class="tag-card">
+
+
+                        {% if publicacion.imagen_portada %}
+
+                            <a
+                                class="tag-card-image"
+                                href="{{ url_for(
+                                    'main.post',
+                                    id_publicacion=publicacion.id
+                                ) }}"
+                            >
+
+                                <img
+                                    src="{{ url_imagen(
+                                        publicacion.imagen_portada
+                                    ) }}"
+                                    alt="{{ publicacion.titulo }}"
+                                >
+
+                            </a>
+
+                        {% endif %}
+
+
+                        <div class="tag-card-body">
+
+
+                            <!-- ETIQUETAS -->
+
+                            {% if publicacion.etiquetas %}
+
+                                <div class="tag-card-tags">
+
+
+                                    {% for etiqueta_publicacion in publicacion.etiquetas %}
+
+                                        <span class="tag-card-tag">
+                                            #{{ etiqueta_publicacion.nombre }}
+                                        </span>
+
+                                    {% endfor %}
+
+
+                                </div>
+
+                            {% endif %}
+
+
+                            <!-- TÍTULO -->
+
+                            <h2>
+
+                                <a
+                                    href="{{ url_for(
+                                        'main.post',
+                                        id_publicacion=publicacion.id
+                                    ) }}"
+                                >
+                                    {{ publicacion.titulo }}
+                                </a>
+
+                            </h2>
+
+
+                            <!-- RESUMEN -->
+
+                            {% if publicacion.resumen %}
+
+                                <p class="tag-card-summary">
+                                    {{ publicacion.resumen }}
+                                </p>
+
+                            {% endif %}
+
+
+                            <!-- FOOTER -->
+
+                            <div class="tag-card-footer">
+
+
+                                <a
+                                    class="tag-read-link"
+                                    href="{{ url_for(
+                                        'main.post',
+                                        id_publicacion=publicacion.id
+                                    ) }}"
+                                >
+
+                                    Leer publicación
+
+                                    <span class="material-symbols-outlined">
+                                        arrow_forward
+                                    </span>
+
+                                </a>
+
+
+                            </div>
+
+
+                        </div>
+
+
+                    </article>
+
+
+                {% endfor %}
+
+
+            </section>
+
+
+        {% else %}
+
+
+            <div class="tag-empty">
+
+
+                <span class="material-symbols-outlined">
+                    label
+                </span>
+
+
+                <h2>
+                    Todavía no hay publicaciones
+                </h2>
+
+
+                <p>
+                    No hay publicaciones publicadas con la etiqueta
+                    #{{ etiqueta.nombre }}.
+                </p>
+
+
+            </div>
+
+
+        {% endif %}
+
+
+        <!-- VOLVER -->
+
+        <a
+            class="tag-back"
+            href="{{ url_for('main.noticias') }}"
+        >
+
+            <span class="material-symbols-outlined">
+                arrow_back
+            </span>
+
+            Volver a noticias
+
+        </a>
+
+
+    </div>
+
+
+</main>
+
+
+{% include 'base/footer.html' %}
