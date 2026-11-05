@@ -250,7 +250,8 @@ def login_google():
         url_for(
             "auth.callback_google",
             _external=True
-        )
+        ),
+        prompt="select_account"
     )
 
 
