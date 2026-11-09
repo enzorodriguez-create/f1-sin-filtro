@@ -1016,6 +1016,8 @@ textarea:focus {
 
     height: 42px;
 
+    min-width: 42px;
+
     flex-shrink: 0;
 
     display: flex;
@@ -1023,6 +1025,8 @@ textarea:focus {
     align-items: center;
 
     justify-content: center;
+
+    overflow: hidden;
 
     background:
         #171719;
@@ -1042,6 +1046,22 @@ textarea:focus {
     font-size: 11px;
 
     font-weight: 900;
+}
+
+
+.post-comment-avatar img {
+
+    width: 100%;
+
+    height: 100%;
+
+    display: block;
+
+    object-fit: cover;
+
+    object-position: center;
+
+    border-radius: 50%;
 }
 
 

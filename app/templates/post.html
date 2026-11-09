@@ -289,12 +289,27 @@
               <!-- AVATAR -->
 
               <div class="post-comment-avatar">
-                {% if comentario.usuario.nombre %} {{
-                comentario.usuario.nombre[0]|upper }} {% endif %} {% if
-                comentario.usuario.apellido %} {{
-                comentario.usuario.apellido[0]|upper }} {% endif %}
-              </div>
 
+                {% if comentario.usuario and comentario.usuario.foto %}
+              
+                  <img
+                    src="{{ url_imagen(comentario.usuario.foto) }}"
+                    alt="{{ comentario.usuario.nombre }}"
+                  >
+              
+                {% else %}
+              
+                  {% if comentario.usuario and comentario.usuario.nombre %}
+                    {{ comentario.usuario.nombre[0]|upper }}
+                  {% endif %}
+              
+                  {% if comentario.usuario and comentario.usuario.apellido %}
+                    {{ comentario.usuario.apellido[0]|upper }}
+                  {% endif %}
+              
+                {% endif %}
+              
+              </div>
               <!-- CONTENIDO -->
 
               <div class="post-comment-body">
