@@ -1592,3 +1592,25 @@ textarea:focus {
     }
 
 }
+
+.post-category-list {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+}
+
+.post-category-link {
+    color: inherit;
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.post-category-link:hover {
+    color: #e10600;
+    text-decoration: none;
+}
+
+.post-category-separator {
+    color: #666;
+}

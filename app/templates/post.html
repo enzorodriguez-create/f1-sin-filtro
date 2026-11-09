@@ -60,10 +60,20 @@
           <div class="post-category">
             <span class="material-symbols-outlined"> news </span>
 
-            <span>
-              {% for categoria in publicacion.categorias %} {{ categoria.nombre
-              }} {% if not loop.last %} · {% endif %} {% endfor %}
-            </span>
+            <div class="post-category-list">
+              {% for categoria in publicacion.categorias %}
+
+              <a
+                href="{{ url_for('main.publicaciones_categoria', id_categoria=categoria.id) }}"
+                class="post-category-link"
+              >
+                {{ categoria.nombre }}
+              </a>
+
+              {% if not loop.last %}
+              <span class="post-category-separator">·</span>
+              {% endif %} {% endfor %}
+            </div>
           </div>
 
           {% endif %}
