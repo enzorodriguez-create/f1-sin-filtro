@@ -69,6 +69,405 @@
         href="{{ url_for('static', filename='styles/admin/etiquetas.css') }}"
     >
 
+
+    <style>
+
+        /* =========================
+           AVATAR
+        ========================== */
+
+        .admin-avatar {
+            width: 38px;
+            height: 38px;
+
+            min-width: 38px;
+
+            overflow: hidden;
+
+            border-radius: 50%;
+        }
+
+
+        .admin-avatar img {
+            width: 100%;
+            height: 100%;
+
+            display: block;
+
+            object-fit: cover;
+            object-position: center;
+        }
+
+
+        /* =========================
+           NUEVA ETIQUETA
+        ========================== */
+
+        .new-tag-btn {
+            margin-top: 1rem;
+
+            min-height: 40px;
+
+            padding:
+                0.55rem
+                0.85rem;
+
+            display: inline-flex;
+            align-items: center;
+
+            gap: 0.4rem;
+
+            background:
+                var(--admin-yellow);
+
+            color: #111111;
+
+            border: none;
+
+            border-radius: 0.35rem;
+
+            font-weight: 800;
+
+            cursor: pointer;
+        }
+
+
+        .new-tag-btn
+        .material-symbols-outlined {
+            font-size: 19px;
+        }
+
+
+        /* =========================
+           EDITAR
+        ========================== */
+
+        .tag-edit-btn {
+            width: 32px;
+            height: 32px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            background:
+                var(--admin-container);
+
+            color:
+                var(--admin-yellow);
+
+            border:
+                1px solid
+                rgba(
+                    255,
+                    255,
+                    255,
+                    0.06
+                );
+
+            border-radius: 0.3rem;
+
+            cursor: pointer;
+        }
+
+
+        .tag-edit-btn:hover {
+            background:
+                rgba(
+                    249,
+                    229,
+                    0,
+                    0.1
+                );
+        }
+
+
+        .tag-edit-btn
+        .material-symbols-outlined {
+            font-size: 16px;
+        }
+
+
+        .tag-delete-form {
+            margin: 0;
+        }
+
+
+        /* =========================
+           FORMULARIO
+        ========================== */
+
+        .tag-form-overlay {
+            position: fixed;
+
+            inset: 0;
+
+            z-index: 2000;
+
+            padding: 1rem;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            background:
+                rgba(
+                    0,
+                    0,
+                    0,
+                    0.75
+                );
+
+            backdrop-filter:
+                blur(4px);
+
+            opacity: 0;
+
+            pointer-events: none;
+
+            transition:
+                opacity 0.2s;
+        }
+
+
+        .tag-form-overlay.open {
+            opacity: 1;
+
+            pointer-events: auto;
+        }
+
+
+        .tag-form-modal {
+            width: 100%;
+            max-width: 520px;
+
+            padding: 1.4rem;
+
+            background: #111111;
+
+            border:
+                1px solid
+                rgba(
+                    255,
+                    255,
+                    255,
+                    0.08
+                );
+
+            border-radius: 0.45rem;
+        }
+
+
+        .tag-form-head {
+            margin-bottom: 1.2rem;
+
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+
+            gap: 1rem;
+        }
+
+
+        .tag-form-head > div > span {
+            color:
+                var(--admin-yellow);
+
+            font-size: 0.58rem;
+            font-weight: 800;
+
+            letter-spacing: 0.08em;
+        }
+
+
+        .tag-form-head h2 {
+            margin:
+                0.2rem
+                0
+                0;
+
+            color: #ffffff;
+
+            font-family:
+                var(--admin-head-font);
+
+            font-size: 1.35rem;
+        }
+
+
+        .tag-form-close {
+            width: 34px;
+            height: 34px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            background:
+                var(--admin-container);
+
+            color:
+                var(--admin-muted);
+
+            border:
+                1px solid
+                rgba(
+                    255,
+                    255,
+                    255,
+                    0.06
+                );
+
+            border-radius: 0.3rem;
+
+            cursor: pointer;
+        }
+
+
+        .tag-form-field {
+            margin-bottom: 1rem;
+
+            display: flex;
+            flex-direction: column;
+
+            gap: 0.4rem;
+        }
+
+
+        .tag-form-field label {
+            color:
+                var(--admin-muted);
+
+            font-size: 0.6rem;
+            font-weight: 800;
+
+            letter-spacing: 0.07em;
+        }
+
+
+        .tag-form-field input,
+        .tag-form-field textarea {
+            width: 100%;
+
+            padding: 0.75rem;
+
+            background:
+                var(--admin-container);
+
+            color: #ffffff;
+
+            border:
+                1px solid
+                rgba(
+                    255,
+                    255,
+                    255,
+                    0.07
+                );
+
+            border-radius: 0.35rem;
+
+            outline: none;
+
+            font-family:
+                var(--admin-body-font);
+        }
+
+
+        .tag-form-field textarea {
+            min-height: 100px;
+
+            resize: vertical;
+        }
+
+
+        .tag-form-field input:focus,
+        .tag-form-field textarea:focus {
+            border-color:
+                rgba(
+                    249,
+                    229,
+                    0,
+                    0.4
+                );
+        }
+
+
+        .tag-form-actions {
+            margin-top: 1.25rem;
+
+            display: flex;
+            justify-content: flex-end;
+
+            gap: 0.6rem;
+        }
+
+
+        .tag-form-cancel,
+        .tag-form-save {
+            min-height: 38px;
+
+            padding:
+                0.5rem
+                0.85rem;
+
+            border-radius: 0.3rem;
+
+            font-size: 0.67rem;
+            font-weight: 800;
+
+            cursor: pointer;
+        }
+
+
+        .tag-form-cancel {
+            background:
+                var(--admin-container);
+
+            color:
+                var(--admin-secondary);
+
+            border:
+                1px solid
+                rgba(
+                    255,
+                    255,
+                    255,
+                    0.06
+                );
+        }
+
+
+        .tag-form-save {
+            background:
+                var(--admin-yellow);
+
+            color: #111111;
+
+            border: none;
+        }
+
+
+        @media (min-width: 700px) {
+
+            .tags-head {
+                display: flex;
+
+                align-items: flex-end;
+                justify-content: space-between;
+
+                gap: 1rem;
+            }
+
+
+            .new-tag-btn {
+                margin-top: 0;
+            }
+
+        }
+
+    </style>
+
 </head>
 
 
@@ -149,22 +548,22 @@
                     <div class="admin-user-data">
 
                         <strong>
-                            {{ usuario.nombre if usuario else "Administrador" }}
+                            {{ usuario.nombre }}
                         </strong>
 
                         <span>
-                            {{ usuario.email if usuario else "admin@f1sinfiltro.com" }}
+                            {{ usuario.email }}
                         </span>
 
                     </div>
 
 
-                    {% if usuario and usuario.foto %}
+                    {% if usuario.foto %}
 
                         <div class="admin-avatar">
 
                             <img
-                                src="{{ usuario.foto }}"
+                                src="{{ url_imagen(usuario.foto) }}"
                                 alt="{{ usuario.nombre }}"
                             >
 
@@ -210,32 +609,53 @@
                 <div class="tags-head">
 
 
-                    <div class="tags-path">
+                    <div>
 
-                        <span>
-                            ADMINISTRACIÓN
-                        </span>
 
-                        <span>
-                            /
-                        </span>
+                        <div class="tags-path">
 
-                        <strong>
-                            ETIQUETAS
-                        </strong>
+                            <span>
+                                ADMINISTRACIÓN
+                            </span>
+
+                            <span>
+                                /
+                            </span>
+
+                            <strong>
+                                ETIQUETAS
+                            </strong>
+
+                        </div>
+
+
+                        <h1>
+                            GESTIÓN DE <span>ETIQUETAS</span>
+                        </h1>
+
+
+                        <p>
+                            Creá, editá y administrá las etiquetas utilizadas
+                            para relacionar el contenido del portal.
+                        </p>
+
 
                     </div>
 
 
-                    <h1>
-                        GESTIÓN DE <span>ETIQUETAS</span>
-                    </h1>
+                    <button
+                        class="new-tag-btn"
+                        id="new-tag-btn"
+                        type="button"
+                    >
 
+                        <span class="material-symbols-outlined">
+                            add
+                        </span>
 
-                    <p>
-                        Supervisá las etiquetas utilizadas para organizar
-                        y relacionar el contenido del portal.
-                    </p>
+                        Nueva Etiqueta
+
+                    </button>
 
 
                 </div>
@@ -248,8 +668,6 @@
 
                 <div class="tags-stats">
 
-
-                    <!-- TOTAL -->
 
                     <div class="tag-stat-card">
 
@@ -267,8 +685,8 @@
                         </div>
 
 
-                        <strong id="tag-total">
-                            6
+                        <strong>
+                            {{ cantidad_etiquetas }}
                         </strong>
 
 
@@ -281,31 +699,43 @@
 
 
 
-                    <!-- ACTIVAS -->
-
                     <div class="tag-stat-card">
 
 
                         <div class="tag-stat-top">
 
                             <span>
-                                ACTIVAS
+                                MÁS UTILIZADA
                             </span>
 
                             <span class="material-symbols-outlined">
-                                check_circle
+                                trending_up
                             </span>
 
                         </div>
 
 
-                        <strong id="tag-active">
-                            5
+                        <strong>
+
+                            {% if etiqueta_mas_usada %}
+
+                                #{{ etiqueta_mas_usada.nombre }}
+
+                            {% else %}
+
+                                -
+
+                            {% endif %}
+
                         </strong>
 
 
                         <span>
-                            Disponibles para las publicaciones
+
+                            {{ mayor_cantidad_etiqueta }}
+
+                            publicación{% if mayor_cantidad_etiqueta != 1 %}es{% endif %}
+
                         </span>
 
 
@@ -313,31 +743,29 @@
 
 
 
-                    <!-- BLOQUEADAS -->
-
-                    <div class="tag-stat-card tag-stat-blocked">
+                    <div class="tag-stat-card">
 
 
                         <div class="tag-stat-top">
 
                             <span>
-                                BLOQUEADAS
+                                EN USO
                             </span>
 
                             <span class="material-symbols-outlined">
-                                block
+                                article
                             </span>
 
                         </div>
 
 
-                        <strong id="tag-blocked">
-                            1
+                        <strong id="tags-used-count">
+                            0
                         </strong>
 
 
                         <span>
-                            Ocultas por administración
+                            Etiquetas con publicaciones
                         </span>
 
 
@@ -366,7 +794,7 @@
                         <input
                             id="tag-search"
                             type="text"
-                            placeholder="Buscar por nombre o slug..."
+                            placeholder="Buscar por nombre o descripción..."
                         >
 
 
@@ -390,18 +818,18 @@
                     <div class="tag-status-filter">
 
 
-                        <select id="tag-status-filter">
+                        <select id="tag-publications-filter">
 
                             <option value="all">
-                                Todos los estados
+                                Todas las etiquetas
                             </option>
 
-                            <option value="activa">
-                                Activas
+                            <option value="with">
+                                Con publicaciones
                             </option>
 
-                            <option value="bloqueada">
-                                Bloqueadas
+                            <option value="without">
+                                Sin publicaciones
                             </option>
 
                         </select>
@@ -420,7 +848,11 @@
 
 
                         <span id="tags-result-count">
-                            Mostrando 6 etiquetas
+
+                            Mostrando
+                            {{ cantidad_etiquetas }}
+                            etiqueta{% if cantidad_etiquetas != 1 %}s{% endif %}
+
                         </span>
 
 
@@ -468,15 +900,7 @@
                                     </th>
 
                                     <th>
-                                        Slug
-                                    </th>
-
-                                    <th>
                                         Publicaciones
-                                    </th>
-
-                                    <th>
-                                        Estado
                                     </th>
 
                                     <th class="tags-actions-title">
@@ -491,699 +915,149 @@
                             <tbody id="tags-table-body">
 
 
-                                <!-- =========================
-                                     ETIQUETA 1
-                                ========================== -->
-
-                                <tr
-                                    class="tag-row"
-                                    data-name="Ferrari"
-                                    data-slug="/ferrari"
-                                    data-status="activa"
-                                    data-count="286"
-                                >
+                                {% for etiqueta in etiquetas %}
 
 
-                                    <td>
+                                    <tr
+                                        class="tag-row"
 
-                                        <div class="tag-info">
+                                        data-name="{{ etiqueta.nombre }}"
 
-                                            <div class="tag-icon">
+                                        data-description="{{ etiqueta.descripcion or '' }}"
 
-                                                <span class="material-symbols-outlined">
-                                                    sell
-                                                </span>
+                                        data-count="{{ usos_etiquetas[etiqueta.id] }}"
+                                    >
+
+
+                                        <!-- ETIQUETA -->
+
+                                        <td>
+
+
+                                            <div class="tag-info">
+
+
+                                                <div class="tag-icon">
+
+                                                    <span class="material-symbols-outlined">
+                                                        sell
+                                                    </span>
+
+                                                </div>
+
+
+                                                <div>
+
+
+                                                    <strong>
+                                                        #{{ etiqueta.nombre }}
+                                                    </strong>
+
+
+                                                    <span>
+
+                                                        {% if etiqueta.descripcion %}
+
+                                                            {{ etiqueta.descripcion }}
+
+                                                        {% else %}
+
+                                                            Sin descripción.
+
+                                                        {% endif %}
+
+                                                    </span>
+
+
+                                                </div>
+
 
                                             </div>
 
 
-                                            <div>
-
-                                                <strong>
-                                                    Ferrari
-                                                </strong>
-
-                                                <span>
-                                                    Contenido relacionado con Ferrari.
-                                                </span>
-
-                                            </div>
-
-                                        </div>
-
-                                    </td>
-
-
-                                    <td>
-
-                                        <span class="tag-slug">
-                                            /ferrari
-                                        </span>
-
-                                    </td>
-
-
-                                    <td>
-
-                                        <span class="tag-count">
-                                            286
-                                        </span>
-
-                                    </td>
-
-
-                                    <td>
-
-                                        <span class="tag-state active">
-
-                                            <span></span>
-
-                                            Activa
-
-                                        </span>
-
-                                    </td>
-
-
-                                    <td>
-
-                                        <div class="tag-actions">
-
-
-                                            <button
-                                                class="tag-block-btn"
-                                                type="button"
-                                                title="Bloquear etiqueta"
-                                            >
-
-                                                <span class="material-symbols-outlined">
-                                                    block
-                                                </span>
-
-                                                Bloquear
-
-                                            </button>
-
-
-                                            <button
-                                                class="tag-delete-btn"
-                                                type="button"
-                                                title="Eliminar etiqueta"
-                                            >
-
-                                                <span class="material-symbols-outlined">
-                                                    delete
-                                                </span>
-
-                                            </button>
-
-
-                                        </div>
-
-                                    </td>
-
-
-                                </tr>
+                                        </td>
 
 
 
-                                <!-- =========================
-                                     ETIQUETA 2
-                                ========================== -->
+                                        <!-- PUBLICACIONES -->
 
-                                <tr
-                                    class="tag-row"
-                                    data-name="Red Bull"
-                                    data-slug="/red-bull"
-                                    data-status="activa"
-                                    data-count="241"
-                                >
+                                        <td>
+
+                                            <span class="tag-count">
+                                                {{ usos_etiquetas[etiqueta.id] }}
+                                            </span>
+
+                                        </td>
 
 
-                                    <td>
 
-                                        <div class="tag-info">
+                                        <!-- ACCIONES -->
 
-                                            <div class="tag-icon">
+                                        <td>
 
-                                                <span class="material-symbols-outlined">
-                                                    sell
-                                                </span>
+
+                                            <div class="tag-actions">
+
+
+                                                <button
+                                                    class="tag-edit-btn"
+                                                    type="button"
+
+                                                    title="Editar etiqueta"
+
+                                                    data-id="{{ etiqueta.id }}"
+
+                                                    data-name="{{ etiqueta.nombre }}"
+
+                                                    data-description="{{ etiqueta.descripcion or '' }}"
+                                                >
+
+                                                    <span class="material-symbols-outlined">
+                                                        edit
+                                                    </span>
+
+                                                </button>
+
+
+
+                                                <form
+                                                    class="tag-delete-form"
+
+                                                    action="{{ url_for('admin.admin_eliminar_etiqueta', id_etiqueta=etiqueta.id) }}"
+
+                                                    method="POST"
+                                                >
+
+
+                                                    <button
+                                                        class="tag-delete-btn"
+                                                        type="button"
+
+                                                        title="Eliminar etiqueta"
+
+                                                        data-name="{{ etiqueta.nombre }}"
+                                                    >
+
+                                                        <span class="material-symbols-outlined">
+                                                            delete
+                                                        </span>
+
+                                                    </button>
+
+
+                                                </form>
+
 
                                             </div>
 
 
-                                            <div>
+                                        </td>
 
-                                                <strong>
-                                                    Red Bull
-                                                </strong>
 
-                                                <span>
-                                                    Noticias y análisis sobre Red Bull.
-                                                </span>
+                                    </tr>
 
-                                            </div>
 
-                                        </div>
-
-                                    </td>
-
-
-                                    <td>
-
-                                        <span class="tag-slug">
-                                            /red-bull
-                                        </span>
-
-                                    </td>
-
-
-                                    <td>
-
-                                        <span class="tag-count">
-                                            241
-                                        </span>
-
-                                    </td>
-
-
-                                    <td>
-
-                                        <span class="tag-state active">
-
-                                            <span></span>
-
-                                            Activa
-
-                                        </span>
-
-                                    </td>
-
-
-                                    <td>
-
-                                        <div class="tag-actions">
-
-
-                                            <button
-                                                class="tag-block-btn"
-                                                type="button"
-                                                title="Bloquear etiqueta"
-                                            >
-
-                                                <span class="material-symbols-outlined">
-                                                    block
-                                                </span>
-
-                                                Bloquear
-
-                                            </button>
-
-
-                                            <button
-                                                class="tag-delete-btn"
-                                                type="button"
-                                                title="Eliminar etiqueta"
-                                            >
-
-                                                <span class="material-symbols-outlined">
-                                                    delete
-                                                </span>
-
-                                            </button>
-
-
-                                        </div>
-
-                                    </td>
-
-
-                                </tr>
-
-
-
-                                <!-- =========================
-                                     ETIQUETA 3
-                                ========================== -->
-
-                                <tr
-                                    class="tag-row"
-                                    data-name="Verstappen"
-                                    data-slug="/verstappen"
-                                    data-status="activa"
-                                    data-count="198"
-                                >
-
-
-                                    <td>
-
-                                        <div class="tag-info">
-
-                                            <div class="tag-icon">
-
-                                                <span class="material-symbols-outlined">
-                                                    sell
-                                                </span>
-
-                                            </div>
-
-
-                                            <div>
-
-                                                <strong>
-                                                    Verstappen
-                                                </strong>
-
-                                                <span>
-                                                    Publicaciones relacionadas con Max Verstappen.
-                                                </span>
-
-                                            </div>
-
-                                        </div>
-
-                                    </td>
-
-
-                                    <td>
-
-                                        <span class="tag-slug">
-                                            /verstappen
-                                        </span>
-
-                                    </td>
-
-
-                                    <td>
-
-                                        <span class="tag-count">
-                                            198
-                                        </span>
-
-                                    </td>
-
-
-                                    <td>
-
-                                        <span class="tag-state active">
-
-                                            <span></span>
-
-                                            Activa
-
-                                        </span>
-
-                                    </td>
-
-
-                                    <td>
-
-                                        <div class="tag-actions">
-
-
-                                            <button
-                                                class="tag-block-btn"
-                                                type="button"
-                                                title="Bloquear etiqueta"
-                                            >
-
-                                                <span class="material-symbols-outlined">
-                                                    block
-                                                </span>
-
-                                                Bloquear
-
-                                            </button>
-
-
-                                            <button
-                                                class="tag-delete-btn"
-                                                type="button"
-                                                title="Eliminar etiqueta"
-                                            >
-
-                                                <span class="material-symbols-outlined">
-                                                    delete
-                                                </span>
-
-                                            </button>
-
-
-                                        </div>
-
-                                    </td>
-
-
-                                </tr>
-
-
-
-                                <!-- =========================
-                                     ETIQUETA 4
-                                ========================== -->
-
-                                <tr
-                                    class="tag-row"
-                                    data-name="Clasificación"
-                                    data-slug="/clasificacion"
-                                    data-status="activa"
-                                    data-count="143"
-                                >
-
-
-                                    <td>
-
-                                        <div class="tag-info">
-
-                                            <div class="tag-icon">
-
-                                                <span class="material-symbols-outlined">
-                                                    sell
-                                                </span>
-
-                                            </div>
-
-
-                                            <div>
-
-                                                <strong>
-                                                    Clasificación
-                                                </strong>
-
-                                                <span>
-                                                    Contenido relacionado con sesiones de clasificación.
-                                                </span>
-
-                                            </div>
-
-                                        </div>
-
-                                    </td>
-
-
-                                    <td>
-
-                                        <span class="tag-slug">
-                                            /clasificacion
-                                        </span>
-
-                                    </td>
-
-
-                                    <td>
-
-                                        <span class="tag-count">
-                                            143
-                                        </span>
-
-                                    </td>
-
-
-                                    <td>
-
-                                        <span class="tag-state active">
-
-                                            <span></span>
-
-                                            Activa
-
-                                        </span>
-
-                                    </td>
-
-
-                                    <td>
-
-                                        <div class="tag-actions">
-
-
-                                            <button
-                                                class="tag-block-btn"
-                                                type="button"
-                                                title="Bloquear etiqueta"
-                                            >
-
-                                                <span class="material-symbols-outlined">
-                                                    block
-                                                </span>
-
-                                                Bloquear
-
-                                            </button>
-
-
-                                            <button
-                                                class="tag-delete-btn"
-                                                type="button"
-                                                title="Eliminar etiqueta"
-                                            >
-
-                                                <span class="material-symbols-outlined">
-                                                    delete
-                                                </span>
-
-                                            </button>
-
-
-                                        </div>
-
-                                    </td>
-
-
-                                </tr>
-
-
-
-                                <!-- =========================
-                                     ETIQUETA 5
-                                ========================== -->
-
-                                <tr
-                                    class="tag-row"
-                                    data-name="Neumáticos"
-                                    data-slug="/neumaticos"
-                                    data-status="activa"
-                                    data-count="121"
-                                >
-
-
-                                    <td>
-
-                                        <div class="tag-info">
-
-                                            <div class="tag-icon">
-
-                                                <span class="material-symbols-outlined">
-                                                    sell
-                                                </span>
-
-                                            </div>
-
-
-                                            <div>
-
-                                                <strong>
-                                                    Neumáticos
-                                                </strong>
-
-                                                <span>
-                                                    Estrategias y noticias sobre neumáticos.
-                                                </span>
-
-                                            </div>
-
-                                        </div>
-
-                                    </td>
-
-
-                                    <td>
-
-                                        <span class="tag-slug">
-                                            /neumaticos
-                                        </span>
-
-                                    </td>
-
-
-                                    <td>
-
-                                        <span class="tag-count">
-                                            121
-                                        </span>
-
-                                    </td>
-
-
-                                    <td>
-
-                                        <span class="tag-state active">
-
-                                            <span></span>
-
-                                            Activa
-
-                                        </span>
-
-                                    </td>
-
-
-                                    <td>
-
-                                        <div class="tag-actions">
-
-
-                                            <button
-                                                class="tag-block-btn"
-                                                type="button"
-                                                title="Bloquear etiqueta"
-                                            >
-
-                                                <span class="material-symbols-outlined">
-                                                    block
-                                                </span>
-
-                                                Bloquear
-
-                                            </button>
-
-
-                                            <button
-                                                class="tag-delete-btn"
-                                                type="button"
-                                                title="Eliminar etiqueta"
-                                            >
-
-                                                <span class="material-symbols-outlined">
-                                                    delete
-                                                </span>
-
-                                            </button>
-
-
-                                        </div>
-
-                                    </td>
-
-
-                                </tr>
-
-
-
-                                <!-- =========================
-                                     ETIQUETA 6 BLOQUEADA
-                                ========================== -->
-
-                                <tr
-                                    class="tag-row blocked-tag-row"
-                                    data-name="Rumores"
-                                    data-slug="/rumores"
-                                    data-status="bloqueada"
-                                    data-count="54"
-                                >
-
-
-                                    <td>
-
-                                        <div class="tag-info">
-
-                                            <div class="tag-icon blocked">
-
-                                                <span class="material-symbols-outlined">
-                                                    block
-                                                </span>
-
-                                            </div>
-
-
-                                            <div>
-
-                                                <strong>
-                                                    Rumores
-                                                </strong>
-
-                                                <span>
-                                                    Contenido relacionado con rumores del paddock.
-                                                </span>
-
-                                            </div>
-
-                                        </div>
-
-                                    </td>
-
-
-                                    <td>
-
-                                        <span class="tag-slug">
-                                            /rumores
-                                        </span>
-
-                                    </td>
-
-
-                                    <td>
-
-                                        <span class="tag-count">
-                                            54
-                                        </span>
-
-                                    </td>
-
-
-                                    <td>
-
-                                        <span class="tag-state blocked">
-
-                                            <span></span>
-
-                                            Bloqueada
-
-                                        </span>
-
-                                    </td>
-
-
-                                    <td>
-
-                                        <div class="tag-actions">
-
-
-                                            <button
-                                                class="tag-unblock-btn"
-                                                type="button"
-                                                title="Desbloquear etiqueta"
-                                            >
-
-                                                <span class="material-symbols-outlined">
-                                                    lock_open
-                                                </span>
-
-                                                Desbloquear
-
-                                            </button>
-
-
-                                            <button
-                                                class="tag-delete-btn"
-                                                type="button"
-                                                title="Eliminar etiqueta"
-                                            >
-
-                                                <span class="material-symbols-outlined">
-                                                    delete
-                                                </span>
-
-                                            </button>
-
-
-                                        </div>
-
-                                    </td>
-
-
-                                </tr>
+                                {% endfor %}
 
 
                             </tbody>
@@ -1209,13 +1083,16 @@
                             sell
                         </span>
 
+
                         <strong>
                             No se encontraron etiquetas
                         </strong>
 
+
                         <span>
                             Probá modificando los filtros.
                         </span>
+
 
                     </div>
 
@@ -1227,6 +1104,135 @@
 
 
         </main>
+
+
+    </div>
+
+
+</div>
+
+
+
+<!-- =========================
+     CREAR / EDITAR
+========================= -->
+
+<div
+    class="tag-form-overlay"
+    id="tag-form-overlay"
+>
+
+
+    <div class="tag-form-modal">
+
+
+        <div class="tag-form-head">
+
+
+            <div>
+
+                <span>
+                    ETIQUETA
+                </span>
+
+                <h2 id="tag-form-title">
+                    Nueva Etiqueta
+                </h2>
+
+            </div>
+
+
+            <button
+                class="tag-form-close"
+                id="tag-form-close"
+                type="button"
+            >
+
+                <span class="material-symbols-outlined">
+                    close
+                </span>
+
+            </button>
+
+
+        </div>
+
+
+
+        <form
+            id="tag-form"
+
+            action="{{ url_for('admin.admin_etiquetas') }}"
+
+            method="POST"
+        >
+
+
+            <div class="tag-form-field">
+
+
+                <label for="tag-name">
+                    NOMBRE
+                </label>
+
+
+                <input
+                    id="tag-name"
+                    name="nombre"
+                    type="text"
+                    placeholder="Ej: Ferrari"
+                    required
+                >
+
+
+            </div>
+
+
+
+            <div class="tag-form-field">
+
+
+                <label for="tag-description">
+                    DESCRIPCIÓN
+                </label>
+
+
+                <textarea
+                    id="tag-description"
+                    name="descripcion"
+                    placeholder="Descripción breve de la etiqueta..."
+                ></textarea>
+
+
+            </div>
+
+
+
+            <div class="tag-form-actions">
+
+
+                <button
+                    class="tag-form-cancel"
+                    id="tag-form-cancel"
+                    type="button"
+                >
+                    Cancelar
+                </button>
+
+
+                <button
+                    class="tag-form-save"
+                    id="tag-form-save"
+                    type="submit"
+                >
+                    Guardar Etiqueta
+                </button>
+
+
+            </div>
+
+
+        </form>
 
 
     </div>
@@ -1272,20 +1278,23 @@
 
 
             <p>
-                Esta acción eliminará definitivamente
-                la etiqueta seleccionada.
+                La etiqueta se eliminará definitivamente.
+                Las publicaciones asociadas no se eliminarán.
             </p>
 
 
             <div class="tag-modal-info">
 
+
                 <span>
                     ETIQUETA
                 </span>
 
+
                 <strong id="tag-delete-name">
                     -
                 </strong>
+
 
             </div>
 
@@ -1325,7 +1334,7 @@
 
 
 <!-- =========================
-     FOOTER GLOBAL
+     FOOTER
 ========================= -->
 
 {% include "base/footer.html" %}
@@ -1343,15 +1352,20 @@ document.addEventListener(
     function () {
 
 
+        /* =========================
+           FILTROS
+        ========================= */
+
+
         const searchInput =
             document.getElementById(
                 "tag-search"
             );
 
 
-        const statusFilter =
+        const publicationsFilter =
             document.getElementById(
-                "tag-status-filter"
+                "tag-publications-filter"
             );
 
 
@@ -1390,10 +1404,6 @@ document.addEventListener(
 
 
 
-        /* =========================
-           FILTROS
-        ========================= */
-
         function filtrarEtiquetas() {
 
 
@@ -1403,8 +1413,8 @@ document.addEventListener(
                     .trim();
 
 
-            const status =
-                statusFilter.value;
+            const publicationOption =
+                publicationsFilter.value;
 
 
             let visible =
@@ -1415,30 +1425,56 @@ document.addEventListener(
                 function (row) {
 
 
-                    const text =
+                    const texto =
                         (
                             row.dataset.name +
                             " " +
-                            row.dataset.slug
+                            row.dataset.description
                         ).toLowerCase();
 
 
+                    const cantidad =
+                        Number(
+                            row.dataset.count
+                        );
+
+
                     const matchesSearch =
-                        text.includes(
+                        texto.includes(
                             search
                         );
 
 
-                    const matchesStatus =
-                        status === "all"
-                        ||
-                        row.dataset.status === status;
+                    let matchesPublications =
+                        true;
+
+
+                    if (
+                        publicationOption ===
+                        "with"
+                    ) {
+
+                        matchesPublications =
+                            cantidad > 0;
+
+                    }
+
+
+                    if (
+                        publicationOption ===
+                        "without"
+                    ) {
+
+                        matchesPublications =
+                            cantidad === 0;
+
+                    }
 
 
                     const show =
                         matchesSearch
                         &&
-                        matchesStatus;
+                        matchesPublications;
 
 
                     row.style.display =
@@ -1494,48 +1530,38 @@ document.addEventListener(
         );
 
 
-        statusFilter.addEventListener(
+        publicationsFilter.addEventListener(
             "change",
             filtrarEtiquetas
         );
-
 
 
         clearSearch.addEventListener(
             "click",
             function () {
 
-
                 searchInput.value =
                     "";
 
-
                 filtrarEtiquetas();
-
 
                 searchInput.focus();
 
-
             }
         );
-
 
 
         resetFilters.addEventListener(
             "click",
             function () {
 
-
                 searchInput.value =
                     "";
 
-
-                statusFilter.value =
+                publicationsFilter.value =
                     "all";
 
-
                 filtrarEtiquetas();
-
 
             }
         );
@@ -1543,116 +1569,172 @@ document.addEventListener(
 
 
         /* =========================
-           BLOQUEAR
+           ETIQUETAS EN USO
         ========================= */
 
-        document.addEventListener(
+        let etiquetasEnUso =
+            0;
+
+
+        getRows().forEach(
+            function (row) {
+
+                if (
+                    Number(
+                        row.dataset.count
+                    ) > 0
+                ) {
+
+                    etiquetasEnUso++;
+
+                }
+
+            }
+        );
+
+
+        document.getElementById(
+            "tags-used-count"
+        ).textContent =
+            etiquetasEnUso;
+
+
+
+        /* =========================
+           CREAR / EDITAR
+        ========================= */
+
+
+        const formOverlay =
+            document.getElementById(
+                "tag-form-overlay"
+            );
+
+
+        const newButton =
+            document.getElementById(
+                "new-tag-btn"
+            );
+
+
+        const formClose =
+            document.getElementById(
+                "tag-form-close"
+            );
+
+
+        const formCancel =
+            document.getElementById(
+                "tag-form-cancel"
+            );
+
+
+        const form =
+            document.getElementById(
+                "tag-form"
+            );
+
+
+        const formTitle =
+            document.getElementById(
+                "tag-form-title"
+            );
+
+
+        const formSave =
+            document.getElementById(
+                "tag-form-save"
+            );
+
+
+        const nameInput =
+            document.getElementById(
+                "tag-name"
+            );
+
+
+        const descriptionInput =
+            document.getElementById(
+                "tag-description"
+            );
+
+
+
+        function cerrarFormulario() {
+
+            formOverlay.classList.remove(
+                "open"
+            );
+
+        }
+
+
+
+        function abrirNuevaEtiqueta() {
+
+
+            form.action =
+                "{{ url_for('admin.admin_etiquetas') }}";
+
+
+            formTitle.textContent =
+                "Nueva Etiqueta";
+
+
+            formSave.textContent =
+                "Guardar Etiqueta";
+
+
+            nameInput.value =
+                "";
+
+
+            descriptionInput.value =
+                "";
+
+
+            formOverlay.classList.add(
+                "open"
+            );
+
+
+            nameInput.focus();
+
+
+        }
+
+
+
+        newButton.addEventListener(
+            "click",
+            abrirNuevaEtiqueta
+        );
+
+
+        formClose.addEventListener(
+            "click",
+            cerrarFormulario
+        );
+
+
+        formCancel.addEventListener(
+            "click",
+            cerrarFormulario
+        );
+
+
+        formOverlay.addEventListener(
             "click",
             function (event) {
 
+                if (
+                    event.target ===
+                    formOverlay
+                ) {
 
-                const blockButton =
-                    event.target.closest(
-                        ".tag-block-btn"
-                    );
-
-
-                if (!blockButton) {
-
-                    return;
+                    cerrarFormulario();
 
                 }
-
-
-                const row =
-                    blockButton.closest(
-                        ".tag-row"
-                    );
-
-
-                const name =
-                    row.dataset.name;
-
-
-                const confirmar =
-                    confirm(
-                        "¿Seguro que querés bloquear la etiqueta \"" +
-                        name +
-                        "\"?"
-                    );
-
-
-                if (!confirmar) {
-
-                    return;
-
-                }
-
-
-                row.dataset.status =
-                    "bloqueada";
-
-
-                row.classList.add(
-                    "blocked-tag-row"
-                );
-
-
-                const state =
-                    row.querySelector(
-                        ".tag-state"
-                    );
-
-
-                state.className =
-                    "tag-state blocked";
-
-
-                state.innerHTML =
-                    `
-                        <span></span>
-                        Bloqueada
-                    `;
-
-
-                const icon =
-                    row.querySelector(
-                        ".tag-icon"
-                    );
-
-
-                icon.classList.add(
-                    "blocked"
-                );
-
-
-                blockButton.className =
-                    "tag-unblock-btn";
-
-
-                blockButton.title =
-                    "Desbloquear etiqueta";
-
-
-                blockButton.innerHTML =
-                    `
-                        <span class="material-symbols-outlined">
-                            lock_open
-                        </span>
-
-                        Desbloquear
-                    `;
-
-
-                actualizarEstadisticas();
-
-                filtrarEtiquetas();
-
-
-                alert(
-                    "Por ahora el bloqueo se actualiza solamente de forma visual."
-                );
-
 
             }
         );
@@ -1660,7 +1742,7 @@ document.addEventListener(
 
 
         /* =========================
-           DESBLOQUEAR
+           EDITAR
         ========================= */
 
         document.addEventListener(
@@ -1668,88 +1750,51 @@ document.addEventListener(
             function (event) {
 
 
-                const unblockButton =
+                const editButton =
                     event.target.closest(
-                        ".tag-unblock-btn"
+                        ".tag-edit-btn"
                     );
 
 
-                if (!unblockButton) {
+                if (!editButton) {
 
                     return;
 
                 }
 
 
-                const row =
-                    unblockButton.closest(
-                        ".tag-row"
-                    );
+                const id =
+                    editButton.dataset.id;
 
 
-                row.dataset.status =
-                    "activa";
+                form.action =
+                    "/admin/etiquetas/" +
+                    id +
+                    "/editar";
 
 
-                row.classList.remove(
-                    "blocked-tag-row"
+                formTitle.textContent =
+                    "Editar Etiqueta";
+
+
+                formSave.textContent =
+                    "Guardar Cambios";
+
+
+                nameInput.value =
+                    editButton.dataset.name;
+
+
+                descriptionInput.value =
+                    editButton.dataset.description;
+
+
+                formOverlay.classList.add(
+                    "open"
                 );
 
 
-                const state =
-                    row.querySelector(
-                        ".tag-state"
-                    );
-
-
-                state.className =
-                    "tag-state active";
-
-
-                state.innerHTML =
-                    `
-                        <span></span>
-                        Activa
-                    `;
-
-
-                const icon =
-                    row.querySelector(
-                        ".tag-icon"
-                    );
-
-
-                icon.classList.remove(
-                    "blocked"
-                );
-
-
-                unblockButton.className =
-                    "tag-block-btn";
-
-
-                unblockButton.title =
-                    "Bloquear etiqueta";
-
-
-                unblockButton.innerHTML =
-                    `
-                        <span class="material-symbols-outlined">
-                            block
-                        </span>
-
-                        Bloquear
-                    `;
-
-
-                actualizarEstadisticas();
-
-                filtrarEtiquetas();
-
-
-                alert(
-                    "Por ahora el desbloqueo se actualiza solamente de forma visual."
-                );
+                nameInput.focus();
 
 
             }
@@ -1760,6 +1805,7 @@ document.addEventListener(
         /* =========================
            ELIMINAR
         ========================= */
+
 
         const deleteModal =
             document.getElementById(
@@ -1785,7 +1831,7 @@ document.addEventListener(
             );
 
 
-        let selectedRow =
+        let selectedDeleteForm =
             null;
 
 
@@ -1808,14 +1854,15 @@ document.addEventListener(
                 }
 
 
-                selectedRow =
+                selectedDeleteForm =
                     deleteButton.closest(
-                        ".tag-row"
+                        ".tag-delete-form"
                     );
 
 
                 deleteName.textContent =
-                    selectedRow.dataset.name;
+                    "#" +
+                    deleteButton.dataset.name;
 
 
                 deleteModal.classList.add(
@@ -1836,7 +1883,7 @@ document.addEventListener(
             );
 
 
-            selectedRow =
+            selectedDeleteForm =
                 null;
 
 
@@ -1850,11 +1897,9 @@ document.addEventListener(
         );
 
 
-
         deleteModal.addEventListener(
             "click",
             function (event) {
-
 
                 if (
                     event.target ===
@@ -1865,10 +1910,8 @@ document.addEventListener(
 
                 }
 
-
             }
         );
-
 
 
         deleteConfirm.addEventListener(
@@ -1876,104 +1919,20 @@ document.addEventListener(
             function () {
 
 
-                if (!selectedRow) {
+                if (!selectedDeleteForm) {
 
                     return;
 
                 }
 
 
-                selectedRow.remove();
-
-
-                cerrarModalEliminar();
-
-
-                actualizarEstadisticas();
-
-                filtrarEtiquetas();
-
-
-                alert(
-                    "Por ahora la etiqueta se elimina solamente de forma visual."
-                );
+                selectedDeleteForm.submit();
 
 
             }
         );
 
 
-
-        /* =========================
-           ESTADÍSTICAS
-        ========================= */
-
-        function actualizarEstadisticas() {
-
-
-            const rows =
-                getRows();
-
-
-            let active =
-                0;
-
-
-            let blocked =
-                0;
-
-
-            rows.forEach(
-                function (row) {
-
-
-                    if (
-                        row.dataset.status ===
-                        "activa"
-                    ) {
-
-                        active++;
-
-                    }
-
-
-                    if (
-                        row.dataset.status ===
-                        "bloqueada"
-                    ) {
-
-                        blocked++;
-
-                    }
-
-
-                }
-            );
-
-
-            document.getElementById(
-                "tag-total"
-            ).textContent =
-                rows.length;
-
-
-            document.getElementById(
-                "tag-active"
-            ).textContent =
-                active;
-
-
-            document.getElementById(
-                "tag-blocked"
-            ).textContent =
-                blocked;
-
-
-        }
-
-
-
-        actualizarEstadisticas();
 
         filtrarEtiquetas();
 

@@ -69,6 +69,442 @@
         href="{{ url_for('static', filename='styles/admin/categorias.css') }}"
     >
 
+
+    <style>
+
+        /* =========================
+           AVATAR ADMIN
+        ========================== */
+
+        .admin-avatar {
+            width: 38px;
+            height: 38px;
+
+            min-width: 38px;
+
+            overflow: hidden;
+
+            border-radius: 50%;
+        }
+
+
+        .admin-avatar img {
+            width: 100%;
+            height: 100%;
+
+            display: block;
+
+            object-fit: cover;
+            object-position: center;
+        }
+
+
+        /* =========================
+           BOTÓN NUEVA CATEGORÍA
+        ========================== */
+
+        .new-category-btn {
+            margin-top: 1rem;
+
+            min-height: 40px;
+
+            padding:
+                0.55rem
+                0.85rem;
+
+            display: inline-flex;
+            align-items: center;
+
+            gap: 0.4rem;
+
+            background:
+                var(--admin-yellow);
+
+            color: #111111;
+
+            border: none;
+
+            border-radius: 0.35rem;
+
+            font-weight: 800;
+
+            cursor: pointer;
+        }
+
+
+        .new-category-btn
+        .material-symbols-outlined {
+            font-size: 19px;
+        }
+
+
+        /* =========================
+           IMAGEN CATEGORÍA
+        ========================== */
+
+        .category-image {
+            width: 38px;
+            height: 38px;
+
+            flex-shrink: 0;
+
+            overflow: hidden;
+
+            border-radius: 0.35rem;
+
+            background:
+                rgba(
+                    249,
+                    229,
+                    0,
+                    0.08
+                );
+        }
+
+
+        .category-image img {
+            width: 100%;
+            height: 100%;
+
+            display: block;
+
+            object-fit: cover;
+            object-position: center;
+        }
+
+
+        /* =========================
+           EDITAR
+        ========================== */
+
+        .category-edit-btn {
+            width: 32px;
+            height: 32px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            background:
+                var(--admin-container);
+
+            color:
+                var(--admin-yellow);
+
+            border:
+                1px solid
+                rgba(
+                    255,
+                    255,
+                    255,
+                    0.06
+                );
+
+            border-radius: 0.3rem;
+
+            cursor: pointer;
+        }
+
+
+        .category-edit-btn:hover {
+            background:
+                rgba(
+                    249,
+                    229,
+                    0,
+                    0.1
+                );
+        }
+
+
+        .category-edit-btn
+        .material-symbols-outlined {
+            font-size: 16px;
+        }
+
+
+        /* =========================
+           FORMULARIO MODAL
+        ========================== */
+
+        .category-form-overlay {
+            position: fixed;
+
+            inset: 0;
+
+            z-index: 2000;
+
+            padding: 1rem;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            background:
+                rgba(
+                    0,
+                    0,
+                    0,
+                    0.75
+                );
+
+            backdrop-filter:
+                blur(4px);
+
+            opacity: 0;
+
+            pointer-events: none;
+
+            transition:
+                opacity 0.2s;
+        }
+
+
+        .category-form-overlay.open {
+            opacity: 1;
+
+            pointer-events: auto;
+        }
+
+
+        .category-form-modal {
+            width: 100%;
+            max-width: 520px;
+
+            padding: 1.4rem;
+
+            background:
+                #111111;
+
+            border:
+                1px solid
+                rgba(
+                    255,
+                    255,
+                    255,
+                    0.08
+                );
+
+            border-radius: 0.45rem;
+        }
+
+
+        .category-form-head {
+            margin-bottom: 1.2rem;
+
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+
+            gap: 1rem;
+        }
+
+
+        .category-form-head span {
+            color:
+                var(--admin-yellow);
+
+            font-size: 0.58rem;
+            font-weight: 800;
+
+            letter-spacing: 0.08em;
+        }
+
+
+        .category-form-head h2 {
+            margin:
+                0.2rem
+                0
+                0;
+
+            color: #ffffff;
+
+            font-family:
+                var(--admin-head-font);
+
+            font-size: 1.35rem;
+        }
+
+
+        .category-form-close {
+            width: 34px;
+            height: 34px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            background:
+                var(--admin-container);
+
+            color:
+                var(--admin-muted);
+
+            border:
+                1px solid
+                rgba(
+                    255,
+                    255,
+                    255,
+                    0.06
+                );
+
+            border-radius: 0.3rem;
+
+            cursor: pointer;
+        }
+
+
+        .category-form-field {
+            margin-bottom: 1rem;
+
+            display: flex;
+            flex-direction: column;
+
+            gap: 0.4rem;
+        }
+
+
+        .category-form-field label {
+            color:
+                var(--admin-muted);
+
+            font-size: 0.6rem;
+            font-weight: 800;
+
+            letter-spacing: 0.07em;
+        }
+
+
+        .category-form-field input,
+        .category-form-field textarea {
+            width: 100%;
+
+            padding: 0.75rem;
+
+            background:
+                var(--admin-container);
+
+            color: #ffffff;
+
+            border:
+                1px solid
+                rgba(
+                    255,
+                    255,
+                    255,
+                    0.07
+                );
+
+            border-radius: 0.35rem;
+
+            outline: none;
+
+            font-family:
+                var(--admin-body-font);
+        }
+
+
+        .category-form-field textarea {
+            min-height: 100px;
+
+            resize: vertical;
+        }
+
+
+        .category-form-field input:focus,
+        .category-form-field textarea:focus {
+            border-color:
+                rgba(
+                    249,
+                    229,
+                    0,
+                    0.4
+                );
+        }
+
+
+        .category-form-actions {
+            margin-top: 1.25rem;
+
+            display: flex;
+            justify-content: flex-end;
+
+            gap: 0.6rem;
+        }
+
+
+        .category-form-cancel,
+        .category-form-save {
+            min-height: 38px;
+
+            padding:
+                0.5rem
+                0.85rem;
+
+            border-radius: 0.3rem;
+
+            font-size: 0.67rem;
+            font-weight: 800;
+
+            cursor: pointer;
+        }
+
+
+        .category-form-cancel {
+            background:
+                var(--admin-container);
+
+            color:
+                var(--admin-secondary);
+
+            border:
+                1px solid
+                rgba(
+                    255,
+                    255,
+                    255,
+                    0.06
+                );
+        }
+
+
+        .category-form-save {
+            background:
+                var(--admin-yellow);
+
+            color:
+                #111111;
+
+            border: none;
+        }
+
+
+        .category-delete-form {
+            margin: 0;
+        }
+
+
+        @media (min-width: 700px) {
+
+            .categories-head {
+                display: flex;
+
+                align-items: flex-end;
+                justify-content: space-between;
+
+                gap: 1rem;
+            }
+
+
+            .new-category-btn {
+                margin-top: 0;
+            }
+
+        }
+
+    </style>
+
 </head>
 
 
@@ -149,22 +585,22 @@
                     <div class="admin-user-data">
 
                         <strong>
-                            {{ usuario.nombre if usuario else "Administrador" }}
+                            {{ usuario.nombre }}
                         </strong>
 
                         <span>
-                            {{ usuario.email if usuario else "admin@f1sinfiltro.com" }}
+                            {{ usuario.email }}
                         </span>
 
                     </div>
 
 
-                    {% if usuario and usuario.foto %}
+                    {% if usuario.foto %}
 
                         <div class="admin-avatar">
 
                             <img
-                                src="{{ usuario.foto }}"
+                                src="{{ url_imagen(usuario.foto) }}"
                                 alt="{{ usuario.nombre }}"
                             >
 
@@ -210,32 +646,53 @@
                 <div class="categories-head">
 
 
-                    <div class="categories-path">
+                    <div>
 
-                        <span>
-                            ADMINISTRACIÓN
-                        </span>
 
-                        <span>
-                            /
-                        </span>
+                        <div class="categories-path">
 
-                        <strong>
-                            CATEGORÍAS
-                        </strong>
+                            <span>
+                                ADMINISTRACIÓN
+                            </span>
+
+                            <span>
+                                /
+                            </span>
+
+                            <strong>
+                                CATEGORÍAS
+                            </strong>
+
+                        </div>
+
+
+                        <h1>
+                            GESTIÓN DE <span>CATEGORÍAS</span>
+                        </h1>
+
+
+                        <p>
+                            Creá, editá y administrá las categorías
+                            utilizadas para organizar las publicaciones.
+                        </p>
+
 
                     </div>
 
 
-                    <h1>
-                        GESTIÓN DE <span>CATEGORÍAS</span>
-                    </h1>
+                    <button
+                        class="new-category-btn"
+                        id="new-category-btn"
+                        type="button"
+                    >
 
+                        <span class="material-symbols-outlined">
+                            add
+                        </span>
 
-                    <p>
-                        Supervisá las categorías utilizadas para organizar
-                        las publicaciones del portal.
-                    </p>
+                        Nueva Categoría
+
+                    </button>
 
 
                 </div>
@@ -267,8 +724,8 @@
                         </div>
 
 
-                        <strong id="category-total">
-                            5
+                        <strong>
+                            {{ cantidad_categorias }}
                         </strong>
 
 
@@ -281,7 +738,7 @@
 
 
 
-                    <!-- ACTIVAS -->
+                    <!-- PUBLICACIONES -->
 
                     <div class="category-stat-card">
 
@@ -289,23 +746,23 @@
                         <div class="category-stat-top">
 
                             <span>
-                                ACTIVAS
+                                PUBLICACIONES
                             </span>
 
                             <span class="material-symbols-outlined">
-                                check_circle
+                                article
                             </span>
 
                         </div>
 
 
-                        <strong id="category-active">
-                            4
+                        <strong>
+                            {{ cantidad_publicaciones }}
                         </strong>
 
 
                         <span>
-                            Disponibles en el portal
+                            Publicaciones registradas
                         </span>
 
 
@@ -313,31 +770,45 @@
 
 
 
-                    <!-- BLOQUEADAS -->
+                    <!-- MÁS UTILIZADA -->
 
-                    <div class="category-stat-card category-stat-blocked">
+                    <div class="category-stat-card">
 
 
                         <div class="category-stat-top">
 
                             <span>
-                                BLOQUEADAS
+                                MÁS UTILIZADA
                             </span>
 
                             <span class="material-symbols-outlined">
-                                block
+                                trending_up
                             </span>
 
                         </div>
 
 
-                        <strong id="category-blocked">
-                            1
+                        <strong>
+
+                            {% if categoria_mas_usada %}
+
+                                {{ categoria_mas_usada.nombre }}
+
+                            {% else %}
+
+                                -
+
+                            {% endif %}
+
                         </strong>
 
 
                         <span>
-                            Ocultas por administración
+
+                            {{ mayor_cantidad }}
+
+                            publicación{% if mayor_cantidad != 1 %}es{% endif %}
+
                         </span>
 
 
@@ -355,6 +826,8 @@
                 <section class="categories-tools">
 
 
+                    <!-- BUSCADOR -->
+
                     <div class="categories-search">
 
 
@@ -366,7 +839,7 @@
                         <input
                             id="category-search"
                             type="text"
-                            placeholder="Buscar por nombre o slug..."
+                            placeholder="Buscar por nombre o descripción..."
                         >
 
 
@@ -387,21 +860,23 @@
 
 
 
+                    <!-- FILTRO PUBLICACIONES -->
+
                     <div class="category-status-filter">
 
 
-                        <select id="category-status-filter">
+                        <select id="category-publications-filter">
 
                             <option value="all">
-                                Todos los estados
+                                Todas las categorías
                             </option>
 
-                            <option value="activa">
-                                Activas
+                            <option value="with">
+                                Con publicaciones
                             </option>
 
-                            <option value="bloqueada">
-                                Bloqueadas
+                            <option value="without">
+                                Sin publicaciones
                             </option>
 
                         </select>
@@ -420,7 +895,11 @@
 
 
                         <span id="categories-result-count">
-                            Mostrando 5 categorías
+
+                            Mostrando
+                            {{ cantidad_categorias }}
+                            categoría{% if cantidad_categorias != 1 %}s{% endif %}
+
                         </span>
 
 
@@ -468,15 +947,7 @@
                                     </th>
 
                                     <th>
-                                        Slug
-                                    </th>
-
-                                    <th>
                                         Publicaciones
-                                    </th>
-
-                                    <th>
-                                        Estado
                                     </th>
 
                                     <th class="categories-actions-title">
@@ -491,588 +962,165 @@
                             <tbody id="categories-table-body">
 
 
-                                <!-- =========================
-                                     CATEGORÍA 1
-                                ========================== -->
-
-                                <tr
-                                    class="category-row"
-                                    data-name="Equipos"
-                                    data-slug="/equipos"
-                                    data-status="activa"
-                                    data-previous-status="activa"
-                                    data-count="420"
-                                >
+                                {% for categoria in categorias %}
 
 
-                                    <td>
+                                    <tr
+                                        class="category-row"
 
-                                        <div class="category-info">
+                                        data-name="{{ categoria.nombre }}"
 
-                                            <div class="category-icon">
+                                        data-description="{{ categoria.descripcion or '' }}"
 
-                                                <span class="material-symbols-outlined">
-                                                    groups
-                                                </span>
+                                        data-count="{{ usos_categorias[categoria.id] }}"
+                                    >
+
+
+                                        <!-- CATEGORÍA -->
+
+                                        <td>
+
+
+                                            <div class="category-info">
+
+
+                                                {% if categoria.imagen %}
+
+                                                    <div class="category-image">
+
+                                                        <img
+                                                            src="{{ url_imagen(categoria.imagen) }}"
+                                                            alt="{{ categoria.nombre }}"
+                                                        >
+
+                                                    </div>
+
+                                                {% else %}
+
+                                                    <div class="category-icon">
+
+                                                        <span class="material-symbols-outlined">
+                                                            category
+                                                        </span>
+
+                                                    </div>
+
+                                                {% endif %}
+
+
+                                                <div>
+
+
+                                                    <strong>
+                                                        {{ categoria.nombre }}
+                                                    </strong>
+
+
+                                                    <span>
+
+                                                        {% if categoria.descripcion %}
+
+                                                            {{ categoria.descripcion }}
+
+                                                        {% else %}
+
+                                                            Sin descripción.
+
+                                                        {% endif %}
+
+                                                    </span>
+
+
+                                                </div>
+
 
                                             </div>
 
 
-                                            <div>
-
-                                                <strong>
-                                                    Equipos
-                                                </strong>
-
-                                                <span>
-                                                    Noticias y contenido sobre las escuderías.
-                                                </span>
-
-                                            </div>
-
-                                        </div>
-
-                                    </td>
-
-
-                                    <td>
-
-                                        <span class="category-slug">
-                                            /equipos
-                                        </span>
-
-                                    </td>
-
-
-                                    <td>
-
-                                        <span class="category-count">
-                                            420
-                                        </span>
-
-                                    </td>
-
-
-                                    <td>
-
-                                        <span class="category-state active">
-
-                                            <span></span>
-
-                                            Activa
-
-                                        </span>
-
-                                    </td>
-
-
-                                    <td>
-
-                                        <div class="category-actions">
-
-
-                                            <button
-                                                class="category-block-btn"
-                                                type="button"
-                                                title="Bloquear categoría"
-                                            >
-
-                                                <span class="material-symbols-outlined">
-                                                    block
-                                                </span>
-
-                                                Bloquear
-
-                                            </button>
-
-
-                                            <button
-                                                class="category-delete-btn"
-                                                type="button"
-                                                title="Eliminar categoría"
-                                            >
-
-                                                <span class="material-symbols-outlined">
-                                                    delete
-                                                </span>
-
-                                            </button>
-
-
-                                        </div>
-
-                                    </td>
-
-
-                                </tr>
+                                        </td>
 
 
 
-                                <!-- =========================
-                                     CATEGORÍA 2
-                                ========================== -->
+                                        <!-- PUBLICACIONES -->
 
-                                <tr
-                                    class="category-row"
-                                    data-name="Pilotos"
-                                    data-slug="/pilotos"
-                                    data-status="activa"
-                                    data-previous-status="activa"
-                                    data-count="360"
-                                >
+                                        <td>
 
 
-                                    <td>
+                                            <span class="category-count">
+                                                {{ usos_categorias[categoria.id] }}
+                                            </span>
 
-                                        <div class="category-info">
 
-                                            <div class="category-icon">
+                                        </td>
 
-                                                <span class="material-symbols-outlined">
-                                                    sports_motorsports
-                                                </span>
+
+
+                                        <!-- ACCIONES -->
+
+                                        <td>
+
+
+                                            <div class="category-actions">
+
+
+                                                <button
+                                                    class="category-edit-btn"
+                                                    type="button"
+                                                    title="Editar categoría"
+
+                                                    data-id="{{ categoria.id }}"
+
+                                                    data-name="{{ categoria.nombre }}"
+
+                                                    data-description="{{ categoria.descripcion or '' }}"
+                                                >
+
+                                                    <span class="material-symbols-outlined">
+                                                        edit
+                                                    </span>
+
+                                                </button>
+
+
+
+                                                <form
+                                                    class="category-delete-form"
+
+                                                    action="{{ url_for('admin.admin_eliminar_categoria', id_categoria=categoria.id) }}"
+
+                                                    method="POST"
+                                                >
+
+
+                                                    <button
+                                                        class="category-delete-btn"
+                                                        type="button"
+
+                                                        title="Eliminar categoría"
+
+                                                        data-name="{{ categoria.nombre }}"
+                                                    >
+
+                                                        <span class="material-symbols-outlined">
+                                                            delete
+                                                        </span>
+
+                                                    </button>
+
+
+                                                </form>
+
 
                                             </div>
 
 
-                                            <div>
+                                        </td>
 
-                                                <strong>
-                                                    Pilotos
-                                                </strong>
 
-                                                <span>
-                                                    Información y noticias de los pilotos.
-                                                </span>
+                                    </tr>
 
-                                            </div>
 
-                                        </div>
-
-                                    </td>
-
-
-                                    <td>
-
-                                        <span class="category-slug">
-                                            /pilotos
-                                        </span>
-
-                                    </td>
-
-
-                                    <td>
-
-                                        <span class="category-count">
-                                            360
-                                        </span>
-
-                                    </td>
-
-
-                                    <td>
-
-                                        <span class="category-state active">
-
-                                            <span></span>
-
-                                            Activa
-
-                                        </span>
-
-                                    </td>
-
-
-                                    <td>
-
-                                        <div class="category-actions">
-
-
-                                            <button
-                                                class="category-block-btn"
-                                                type="button"
-                                                title="Bloquear categoría"
-                                            >
-
-                                                <span class="material-symbols-outlined">
-                                                    block
-                                                </span>
-
-                                                Bloquear
-
-                                            </button>
-
-
-                                            <button
-                                                class="category-delete-btn"
-                                                type="button"
-                                                title="Eliminar categoría"
-                                            >
-
-                                                <span class="material-symbols-outlined">
-                                                    delete
-                                                </span>
-
-                                            </button>
-
-
-                                        </div>
-
-                                    </td>
-
-
-                                </tr>
-
-
-
-                                <!-- =========================
-                                     CATEGORÍA 3
-                                ========================== -->
-
-                                <tr
-                                    class="category-row"
-                                    data-name="Carreras"
-                                    data-slug="/carreras"
-                                    data-status="activa"
-                                    data-previous-status="activa"
-                                    data-count="312"
-                                >
-
-
-                                    <td>
-
-                                        <div class="category-info">
-
-                                            <div class="category-icon">
-
-                                                <span class="material-symbols-outlined">
-                                                    flag
-                                                </span>
-
-                                            </div>
-
-
-                                            <div>
-
-                                                <strong>
-                                                    Carreras
-                                                </strong>
-
-                                                <span>
-                                                    Previas, resultados y análisis.
-                                                </span>
-
-                                            </div>
-
-                                        </div>
-
-                                    </td>
-
-
-                                    <td>
-
-                                        <span class="category-slug">
-                                            /carreras
-                                        </span>
-
-                                    </td>
-
-
-                                    <td>
-
-                                        <span class="category-count">
-                                            312
-                                        </span>
-
-                                    </td>
-
-
-                                    <td>
-
-                                        <span class="category-state active">
-
-                                            <span></span>
-
-                                            Activa
-
-                                        </span>
-
-                                    </td>
-
-
-                                    <td>
-
-                                        <div class="category-actions">
-
-
-                                            <button
-                                                class="category-block-btn"
-                                                type="button"
-                                                title="Bloquear categoría"
-                                            >
-
-                                                <span class="material-symbols-outlined">
-                                                    block
-                                                </span>
-
-                                                Bloquear
-
-                                            </button>
-
-
-                                            <button
-                                                class="category-delete-btn"
-                                                type="button"
-                                                title="Eliminar categoría"
-                                            >
-
-                                                <span class="material-symbols-outlined">
-                                                    delete
-                                                </span>
-
-                                            </button>
-
-
-                                        </div>
-
-                                    </td>
-
-
-                                </tr>
-
-
-
-                                <!-- =========================
-                                     CATEGORÍA 4
-                                ========================== -->
-
-                                <tr
-                                    class="category-row"
-                                    data-name="Técnica"
-                                    data-slug="/tecnica"
-                                    data-status="activa"
-                                    data-previous-status="activa"
-                                    data-count="275"
-                                >
-
-
-                                    <td>
-
-                                        <div class="category-info">
-
-                                            <div class="category-icon">
-
-                                                <span class="material-symbols-outlined">
-                                                    build
-                                                </span>
-
-                                            </div>
-
-
-                                            <div>
-
-                                                <strong>
-                                                    Técnica
-                                                </strong>
-
-                                                <span>
-                                                    Motores, monoplazas y reglamento.
-                                                </span>
-
-                                            </div>
-
-                                        </div>
-
-                                    </td>
-
-
-                                    <td>
-
-                                        <span class="category-slug">
-                                            /tecnica
-                                        </span>
-
-                                    </td>
-
-
-                                    <td>
-
-                                        <span class="category-count">
-                                            275
-                                        </span>
-
-                                    </td>
-
-
-                                    <td>
-
-                                        <span class="category-state active">
-
-                                            <span></span>
-
-                                            Activa
-
-                                        </span>
-
-                                    </td>
-
-
-                                    <td>
-
-                                        <div class="category-actions">
-
-
-                                            <button
-                                                class="category-block-btn"
-                                                type="button"
-                                                title="Bloquear categoría"
-                                            >
-
-                                                <span class="material-symbols-outlined">
-                                                    block
-                                                </span>
-
-                                                Bloquear
-
-                                            </button>
-
-
-                                            <button
-                                                class="category-delete-btn"
-                                                type="button"
-                                                title="Eliminar categoría"
-                                            >
-
-                                                <span class="material-symbols-outlined">
-                                                    delete
-                                                </span>
-
-                                            </button>
-
-
-                                        </div>
-
-                                    </td>
-
-
-                                </tr>
-
-
-
-                                <!-- =========================
-                                     CATEGORÍA 5 BLOQUEADA
-                                ========================== -->
-
-                                <tr
-                                    class="category-row blocked-category-row"
-                                    data-name="Mercado"
-                                    data-slug="/mercado"
-                                    data-status="bloqueada"
-                                    data-previous-status="activa"
-                                    data-count="175"
-                                >
-
-
-                                    <td>
-
-                                        <div class="category-info">
-
-                                            <div class="category-icon blocked">
-
-                                                <span class="material-symbols-outlined">
-                                                    block
-                                                </span>
-
-                                            </div>
-
-
-                                            <div>
-
-                                                <strong>
-                                                    Mercado
-                                                </strong>
-
-                                                <span>
-                                                    Fichajes y movimientos del paddock.
-                                                </span>
-
-                                            </div>
-
-                                        </div>
-
-                                    </td>
-
-
-                                    <td>
-
-                                        <span class="category-slug">
-                                            /mercado
-                                        </span>
-
-                                    </td>
-
-
-                                    <td>
-
-                                        <span class="category-count">
-                                            175
-                                        </span>
-
-                                    </td>
-
-
-                                    <td>
-
-                                        <span class="category-state blocked">
-
-                                            <span></span>
-
-                                            Bloqueada
-
-                                        </span>
-
-                                    </td>
-
-
-                                    <td>
-
-                                        <div class="category-actions">
-
-
-                                            <button
-                                                class="category-unblock-btn"
-                                                type="button"
-                                                title="Desbloquear categoría"
-                                            >
-
-                                                <span class="material-symbols-outlined">
-                                                    lock_open
-                                                </span>
-
-                                                Desbloquear
-
-                                            </button>
-
-
-                                            <button
-                                                class="category-delete-btn"
-                                                type="button"
-                                                title="Eliminar categoría"
-                                            >
-
-                                                <span class="material-symbols-outlined">
-                                                    delete
-                                                </span>
-
-                                            </button>
-
-
-                                        </div>
-
-                                    </td>
-
-
-                                </tr>
+                                {% endfor %}
 
 
                             </tbody>
@@ -1126,6 +1174,164 @@
 
 
 <!-- =========================
+     MODAL CREAR / EDITAR
+========================= -->
+
+<div
+    class="category-form-overlay"
+    id="category-form-overlay"
+>
+
+
+    <div class="category-form-modal">
+
+
+        <div class="category-form-head">
+
+
+            <div>
+
+                <span>
+                    CATEGORÍA
+                </span>
+
+                <h2 id="category-form-title">
+                    Nueva Categoría
+                </h2>
+
+            </div>
+
+
+            <button
+                class="category-form-close"
+                id="category-form-close"
+                type="button"
+            >
+
+                <span class="material-symbols-outlined">
+                    close
+                </span>
+
+            </button>
+
+
+        </div>
+
+
+
+        <form
+            id="category-form"
+
+            action="{{ url_for('admin.admin_categorias') }}"
+
+            method="POST"
+
+            enctype="multipart/form-data"
+        >
+
+
+            <!-- NOMBRE -->
+
+            <div class="category-form-field">
+
+
+                <label for="category-name">
+                    NOMBRE
+                </label>
+
+
+                <input
+                    id="category-name"
+                    name="nombre"
+                    type="text"
+                    placeholder="Ej: Pilotos"
+                    required
+                >
+
+
+            </div>
+
+
+
+            <!-- DESCRIPCIÓN -->
+
+            <div class="category-form-field">
+
+
+                <label for="category-description">
+                    DESCRIPCIÓN
+                </label>
+
+
+                <textarea
+                    id="category-description"
+                    name="descripcion"
+                    placeholder="Descripción breve de la categoría..."
+                ></textarea>
+
+
+            </div>
+
+
+
+            <!-- IMAGEN -->
+
+            <div class="category-form-field">
+
+
+                <label for="category-image">
+                    IMAGEN
+                </label>
+
+
+                <input
+                    id="category-image"
+                    name="imagen"
+                    type="file"
+
+                    accept=".jpg,.jpeg,.png,.webp,.gif"
+                >
+
+
+            </div>
+
+
+
+            <div class="category-form-actions">
+
+
+                <button
+                    class="category-form-cancel"
+                    id="category-form-cancel"
+                    type="button"
+                >
+                    Cancelar
+                </button>
+
+
+                <button
+                    class="category-form-save"
+                    type="submit"
+                    id="category-form-save"
+                >
+                    Guardar Categoría
+                </button>
+
+
+            </div>
+
+
+        </form>
+
+
+    </div>
+
+
+</div>
+
+
+
+<!-- =========================
      MODAL ELIMINAR
 ========================= -->
 
@@ -1161,8 +1367,8 @@
 
 
             <p>
-                Esta acción eliminará definitivamente
-                la categoría seleccionada.
+                La categoría se eliminará definitivamente.
+                Las publicaciones asociadas no se eliminarán.
             </p>
 
 
@@ -1214,7 +1420,7 @@
 
 
 <!-- =========================
-     FOOTER GLOBAL
+     FOOTER
 ========================= -->
 
 {% include "base/footer.html" %}
@@ -1232,15 +1438,20 @@ document.addEventListener(
     function () {
 
 
+        /* =========================
+           ELEMENTOS FILTROS
+        ========================= */
+
+
         const searchInput =
             document.getElementById(
                 "category-search"
             );
 
 
-        const statusFilter =
+        const publicationsFilter =
             document.getElementById(
-                "category-status-filter"
+                "category-publications-filter"
             );
 
 
@@ -1280,7 +1491,7 @@ document.addEventListener(
 
 
         /* =========================
-           FILTROS
+           FILTRAR
         ========================= */
 
         function filtrarCategorias() {
@@ -1292,8 +1503,8 @@ document.addEventListener(
                     .trim();
 
 
-            const status =
-                statusFilter.value;
+            const publicationOption =
+                publicationsFilter.value;
 
 
             let visible =
@@ -1304,30 +1515,56 @@ document.addEventListener(
                 function (row) {
 
 
-                    const text =
+                    const texto =
                         (
                             row.dataset.name +
                             " " +
-                            row.dataset.slug
+                            row.dataset.description
                         ).toLowerCase();
 
 
+                    const cantidad =
+                        Number(
+                            row.dataset.count
+                        );
+
+
                     const matchesSearch =
-                        text.includes(
+                        texto.includes(
                             search
                         );
 
 
-                    const matchesStatus =
-                        status === "all"
-                        ||
-                        row.dataset.status === status;
+                    let matchesPublications =
+                        true;
+
+
+                    if (
+                        publicationOption ===
+                        "with"
+                    ) {
+
+                        matchesPublications =
+                            cantidad > 0;
+
+                    }
+
+
+                    if (
+                        publicationOption ===
+                        "without"
+                    ) {
+
+                        matchesPublications =
+                            cantidad === 0;
+
+                    }
 
 
                     const show =
                         matchesSearch
                         &&
-                        matchesStatus;
+                        matchesPublications;
 
 
                     row.style.display =
@@ -1383,48 +1620,38 @@ document.addEventListener(
         );
 
 
-        statusFilter.addEventListener(
+        publicationsFilter.addEventListener(
             "change",
             filtrarCategorias
         );
-
 
 
         clearSearch.addEventListener(
             "click",
             function () {
 
-
                 searchInput.value =
                     "";
 
-
                 filtrarCategorias();
-
 
                 searchInput.focus();
 
-
             }
         );
-
 
 
         resetFilters.addEventListener(
             "click",
             function () {
 
-
                 searchInput.value =
                     "";
 
-
-                statusFilter.value =
+                publicationsFilter.value =
                     "all";
 
-
                 filtrarCategorias();
-
 
             }
         );
@@ -1432,120 +1659,150 @@ document.addEventListener(
 
 
         /* =========================
-           BLOQUEAR
+           MODAL CREAR / EDITAR
         ========================= */
 
-        document.addEventListener(
+
+        const formOverlay =
+            document.getElementById(
+                "category-form-overlay"
+            );
+
+
+        const newButton =
+            document.getElementById(
+                "new-category-btn"
+            );
+
+
+        const formClose =
+            document.getElementById(
+                "category-form-close"
+            );
+
+
+        const formCancel =
+            document.getElementById(
+                "category-form-cancel"
+            );
+
+
+        const form =
+            document.getElementById(
+                "category-form"
+            );
+
+
+        const formTitle =
+            document.getElementById(
+                "category-form-title"
+            );
+
+
+        const formSave =
+            document.getElementById(
+                "category-form-save"
+            );
+
+
+        const nameInput =
+            document.getElementById(
+                "category-name"
+            );
+
+
+        const descriptionInput =
+            document.getElementById(
+                "category-description"
+            );
+
+
+        const imageInput =
+            document.getElementById(
+                "category-image"
+            );
+
+
+
+        function cerrarFormulario() {
+
+            formOverlay.classList.remove(
+                "open"
+            );
+
+        }
+
+
+
+        function abrirNuevaCategoria() {
+
+
+            form.action =
+                "{{ url_for('admin.admin_categorias') }}";
+
+
+            formTitle.textContent =
+                "Nueva Categoría";
+
+
+            formSave.textContent =
+                "Guardar Categoría";
+
+
+            nameInput.value =
+                "";
+
+
+            descriptionInput.value =
+                "";
+
+
+            imageInput.value =
+                "";
+
+
+            formOverlay.classList.add(
+                "open"
+            );
+
+
+            nameInput.focus();
+
+
+        }
+
+
+
+        newButton.addEventListener(
+            "click",
+            abrirNuevaCategoria
+        );
+
+
+        formClose.addEventListener(
+            "click",
+            cerrarFormulario
+        );
+
+
+        formCancel.addEventListener(
+            "click",
+            cerrarFormulario
+        );
+
+
+        formOverlay.addEventListener(
             "click",
             function (event) {
 
+                if (
+                    event.target ===
+                    formOverlay
+                ) {
 
-                const blockButton =
-                    event.target.closest(
-                        ".category-block-btn"
-                    );
-
-
-                if (!blockButton) {
-
-                    return;
+                    cerrarFormulario();
 
                 }
-
-
-                const row =
-                    blockButton.closest(
-                        ".category-row"
-                    );
-
-
-                const name =
-                    row.dataset.name;
-
-
-                const confirmar =
-                    confirm(
-                        "¿Seguro que querés bloquear la categoría \"" +
-                        name +
-                        "\"?"
-                    );
-
-
-                if (!confirmar) {
-
-                    return;
-
-                }
-
-
-                row.dataset.previousStatus =
-                    row.dataset.status;
-
-
-                row.dataset.status =
-                    "bloqueada";
-
-
-                row.classList.add(
-                    "blocked-category-row"
-                );
-
-
-                const state =
-                    row.querySelector(
-                        ".category-state"
-                    );
-
-
-                state.className =
-                    "category-state blocked";
-
-
-                state.innerHTML =
-                    `
-                        <span></span>
-                        Bloqueada
-                    `;
-
-
-                const icon =
-                    row.querySelector(
-                        ".category-icon"
-                    );
-
-
-                icon.classList.add(
-                    "blocked"
-                );
-
-
-                blockButton.className =
-                    "category-unblock-btn";
-
-
-                blockButton.title =
-                    "Desbloquear categoría";
-
-
-                blockButton.innerHTML =
-                    `
-                        <span class="material-symbols-outlined">
-                            lock_open
-                        </span>
-
-                        Desbloquear
-                    `;
-
-
-                actualizarEstadisticas();
-
-                filtrarCategorias();
-
-
-                alert(
-                    "Por ahora el bloqueo se actualiza solamente de forma visual."
-                );
-
 
             }
         );
@@ -1553,7 +1810,7 @@ document.addEventListener(
 
 
         /* =========================
-           DESBLOQUEAR
+           EDITAR
         ========================= */
 
         document.addEventListener(
@@ -1561,88 +1818,55 @@ document.addEventListener(
             function (event) {
 
 
-                const unblockButton =
+                const editButton =
                     event.target.closest(
-                        ".category-unblock-btn"
+                        ".category-edit-btn"
                     );
 
 
-                if (!unblockButton) {
+                if (!editButton) {
 
                     return;
 
                 }
 
 
-                const row =
-                    unblockButton.closest(
-                        ".category-row"
-                    );
+                const id =
+                    editButton.dataset.id;
 
 
-                row.dataset.status =
-                    "activa";
+                form.action =
+                    "/admin/categorias/" +
+                    id +
+                    "/editar";
 
 
-                row.classList.remove(
-                    "blocked-category-row"
+                formTitle.textContent =
+                    "Editar Categoría";
+
+
+                formSave.textContent =
+                    "Guardar Cambios";
+
+
+                nameInput.value =
+                    editButton.dataset.name;
+
+
+                descriptionInput.value =
+                    editButton.dataset.description;
+
+
+                imageInput.value =
+                    "";
+
+
+                formOverlay.classList.add(
+                    "open"
                 );
 
 
-                const state =
-                    row.querySelector(
-                        ".category-state"
-                    );
-
-
-                state.className =
-                    "category-state active";
-
-
-                state.innerHTML =
-                    `
-                        <span></span>
-                        Activa
-                    `;
-
-
-                const icon =
-                    row.querySelector(
-                        ".category-icon"
-                    );
-
-
-                icon.classList.remove(
-                    "blocked"
-                );
-
-
-                unblockButton.className =
-                    "category-block-btn";
-
-
-                unblockButton.title =
-                    "Bloquear categoría";
-
-
-                unblockButton.innerHTML =
-                    `
-                        <span class="material-symbols-outlined">
-                            block
-                        </span>
-
-                        Bloquear
-                    `;
-
-
-                actualizarEstadisticas();
-
-                filtrarCategorias();
-
-
-                alert(
-                    "Por ahora el desbloqueo se actualiza solamente de forma visual."
-                );
+                nameInput.focus();
 
 
             }
@@ -1653,6 +1877,7 @@ document.addEventListener(
         /* =========================
            ELIMINAR
         ========================= */
+
 
         const deleteModal =
             document.getElementById(
@@ -1678,7 +1903,7 @@ document.addEventListener(
             );
 
 
-        let selectedRow =
+        let selectedDeleteForm =
             null;
 
 
@@ -1701,14 +1926,14 @@ document.addEventListener(
                 }
 
 
-                selectedRow =
+                selectedDeleteForm =
                     deleteButton.closest(
-                        ".category-row"
+                        ".category-delete-form"
                     );
 
 
                 deleteName.textContent =
-                    selectedRow.dataset.name;
+                    deleteButton.dataset.name;
 
 
                 deleteModal.classList.add(
@@ -1729,7 +1954,7 @@ document.addEventListener(
             );
 
 
-            selectedRow =
+            selectedDeleteForm =
                 null;
 
 
@@ -1743,11 +1968,9 @@ document.addEventListener(
         );
 
 
-
         deleteModal.addEventListener(
             "click",
             function (event) {
-
 
                 if (
                     event.target ===
@@ -1758,10 +1981,8 @@ document.addEventListener(
 
                 }
 
-
             }
         );
-
 
 
         deleteConfirm.addEventListener(
@@ -1769,27 +1990,14 @@ document.addEventListener(
             function () {
 
 
-                if (!selectedRow) {
+                if (!selectedDeleteForm) {
 
                     return;
 
                 }
 
 
-                selectedRow.remove();
-
-
-                cerrarModalEliminar();
-
-
-                actualizarEstadisticas();
-
-                filtrarCategorias();
-
-
-                alert(
-                    "Por ahora la categoría se elimina solamente de forma visual."
-                );
+                selectedDeleteForm.submit();
 
 
             }
@@ -1798,75 +2006,8 @@ document.addEventListener(
 
 
         /* =========================
-           ESTADÍSTICAS
+           INICIAL
         ========================= */
-
-        function actualizarEstadisticas() {
-
-
-            const rows =
-                getRows();
-
-
-            let active =
-                0;
-
-
-            let blocked =
-                0;
-
-
-            rows.forEach(
-                function (row) {
-
-
-                    if (
-                        row.dataset.status ===
-                        "activa"
-                    ) {
-
-                        active++;
-
-                    }
-
-
-                    if (
-                        row.dataset.status ===
-                        "bloqueada"
-                    ) {
-
-                        blocked++;
-
-                    }
-
-
-                }
-            );
-
-
-            document.getElementById(
-                "category-total"
-            ).textContent =
-                rows.length;
-
-
-            document.getElementById(
-                "category-active"
-            ).textContent =
-                active;
-
-
-            document.getElementById(
-                "category-blocked"
-            ).textContent =
-                blocked;
-
-
-        }
-
-
-
-        actualizarEstadisticas();
 
         filtrarCategorias();
 

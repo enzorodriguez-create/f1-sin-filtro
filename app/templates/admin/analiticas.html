@@ -69,6 +69,49 @@
         href="{{ url_for('static', filename='styles/admin/analiticas.css') }}"
     >
 
+
+    <style>
+
+        .admin-avatar {
+            width: 38px;
+            height: 38px;
+
+            min-width: 38px;
+
+            overflow: hidden;
+
+            border-radius: 50%;
+        }
+
+
+        .admin-avatar img {
+            width: 100%;
+            height: 100%;
+
+            display: block;
+
+            object-fit: cover;
+            object-position: center;
+        }
+
+
+        .analytics-editor-avatar {
+            overflow: hidden;
+        }
+
+
+        .analytics-editor-avatar img {
+            width: 100%;
+            height: 100%;
+
+            display: block;
+
+            object-fit: cover;
+            object-position: center;
+        }
+
+    </style>
+
 </head>
 
 
@@ -149,22 +192,22 @@
                     <div class="admin-user-data">
 
                         <strong>
-                            {{ usuario.nombre if usuario else "Administrador" }}
+                            {{ usuario.nombre }}
                         </strong>
 
                         <span>
-                            {{ usuario.email if usuario else "admin@f1sinfiltro.com" }}
+                            {{ usuario.email }}
                         </span>
 
                     </div>
 
 
-                    {% if usuario and usuario.foto %}
+                    {% if usuario.foto %}
 
                         <div class="admin-avatar">
 
                             <img
-                                src="{{ usuario.foto }}"
+                                src="{{ url_imagen(usuario.foto) }}"
                                 alt="{{ usuario.nombre }}"
                             >
 
@@ -243,7 +286,7 @@
 
 
                 <!-- =========================
-                     ESTADÍSTICAS PRINCIPALES
+                     ESTADÍSTICAS
                 ========================== -->
 
                 <div class="analytics-stats">
@@ -268,7 +311,7 @@
 
 
                         <strong>
-                            128
+                            {{ cantidad_usuarios }}
                         </strong>
 
 
@@ -300,12 +343,12 @@
 
 
                         <strong>
-                            24
+                            {{ cantidad_premium }}
                         </strong>
 
 
                         <span>
-                            Usuarios con suscripción activa
+                            Usuarios Premium
                         </span>
 
 
@@ -332,7 +375,7 @@
 
 
                         <strong>
-                            54
+                            {{ cantidad_publicaciones }}
                         </strong>
 
 
@@ -364,7 +407,7 @@
 
 
                         <strong>
-                            312
+                            {{ cantidad_comentarios }}
                         </strong>
 
 
@@ -388,7 +431,7 @@
 
 
                     <!-- =========================
-                         PUBLICACIONES MÁS VISTAS
+                         ESTADO PUBLICACIONES
                     ========================== -->
 
                     <section class="analytics-panel">
@@ -404,14 +447,14 @@
                                 </span>
 
                                 <h2>
-                                    Publicaciones más vistas
+                                    Estado de publicaciones
                                 </h2>
 
                             </div>
 
 
                             <span class="material-symbols-outlined">
-                                visibility
+                                article
                             </span>
 
 
@@ -422,7 +465,7 @@
                         <div class="analytics-ranking">
 
 
-                            <!-- 1 -->
+                            <!-- PUBLICADAS -->
 
                             <div class="analytics-ranking-item">
 
@@ -435,11 +478,11 @@
                                 <div class="analytics-ranking-info">
 
                                     <strong>
-                                        Ferrari prepara nuevas mejoras para el próximo Gran Premio
+                                        Publicadas
                                     </strong>
 
                                     <span>
-                                        Carlos Sainz
+                                        Visibles en el portal
                                     </span>
 
                                 </div>
@@ -448,11 +491,11 @@
                                 <div class="analytics-value">
 
                                     <strong>
-                                        34.200
+                                        {{ cantidad_publicadas }}
                                     </strong>
 
                                     <span>
-                                        vistas
+                                        publicaciones
                                     </span>
 
                                 </div>
@@ -462,7 +505,7 @@
 
 
 
-                            <!-- 2 -->
+                            <!-- BORRADORES -->
 
                             <div class="analytics-ranking-item">
 
@@ -475,11 +518,11 @@
                                 <div class="analytics-ranking-info">
 
                                     <strong>
-                                        Todo lo que hay que saber antes del próximo GP
+                                        Borradores
                                     </strong>
 
                                     <span>
-                                        Laura Méndez
+                                        Todavía sin publicar
                                     </span>
 
                                 </div>
@@ -488,91 +531,11 @@
                                 <div class="analytics-value">
 
                                     <strong>
-                                        28.640
+                                        {{ cantidad_borradores }}
                                     </strong>
 
                                     <span>
-                                        vistas
-                                    </span>
-
-                                </div>
-
-
-                            </div>
-
-
-
-                            <!-- 3 -->
-
-                            <div class="analytics-ranking-item">
-
-
-                                <span class="analytics-position">
-                                    03
-                                </span>
-
-
-                                <div class="analytics-ranking-info">
-
-                                    <strong>
-                                        Mercedes analiza cambios importantes para 2027
-                                    </strong>
-
-                                    <span>
-                                        Lucía Martínez
-                                    </span>
-
-                                </div>
-
-
-                                <div class="analytics-value">
-
-                                    <strong>
-                                        26.110
-                                    </strong>
-
-                                    <span>
-                                        vistas
-                                    </span>
-
-                                </div>
-
-
-                            </div>
-
-
-
-                            <!-- 4 -->
-
-                            <div class="analytics-ranking-item">
-
-
-                                <span class="analytics-position">
-                                    04
-                                </span>
-
-
-                                <div class="analytics-ranking-info">
-
-                                    <strong>
-                                        Ferrari y su evolución durante la temporada
-                                    </strong>
-
-                                    <span>
-                                        Carlos Sainz
-                                    </span>
-
-                                </div>
-
-
-                                <div class="analytics-value">
-
-                                    <strong>
-                                        19.820
-                                    </strong>
-
-                                    <span>
-                                        vistas
+                                        publicaciones
                                     </span>
 
                                 </div>
@@ -623,131 +586,75 @@
                         <div class="analytics-categories">
 
 
-                            <!-- EQUIPOS -->
-
-                            <div class="analytics-category">
+                            {% if categorias_uso %}
 
 
-                                <div class="analytics-category-top">
-
-                                    <strong>
-                                        Equipos
-                                    </strong>
-
-                                    <span>
-                                        420 publicaciones
-                                    </span>
-
-                                </div>
+                                {% for item in categorias_uso %}
 
 
-                                <div class="analytics-progress">
-
-                                    <div
-                                        class="analytics-progress-fill"
-                                        style="width: 100%;"
-                                    ></div>
-
-                                </div>
+                                    <div class="analytics-category">
 
 
-                            </div>
+                                        <div class="analytics-category-top">
 
 
-
-                            <!-- PILOTOS -->
-
-                            <div class="analytics-category">
-
-
-                                <div class="analytics-category-top">
-
-                                    <strong>
-                                        Pilotos
-                                    </strong>
-
-                                    <span>
-                                        360 publicaciones
-                                    </span>
-
-                                </div>
+                                            <strong>
+                                                {{ item.categoria.nombre }}
+                                            </strong>
 
 
-                                <div class="analytics-progress">
+                                            <span>
 
-                                    <div
-                                        class="analytics-progress-fill"
-                                        style="width: 86%;"
-                                    ></div>
+                                                {{ item.cantidad }}
 
-                                </div>
+                                                publicación{% if item.cantidad != 1 %}es{% endif %}
 
-
-                            </div>
+                                            </span>
 
 
-
-                            <!-- CARRERAS -->
-
-                            <div class="analytics-category">
+                                        </div>
 
 
-                                <div class="analytics-category-top">
+                                        <!-- BARRA -->
 
-                                    <strong>
-                                        Carreras
-                                    </strong>
-
-                                    <span>
-                                        312 publicaciones
-                                    </span>
-
-                                </div>
+                                        <div class="analytics-progress">
 
 
-                                <div class="analytics-progress">
+                                            {% if maximo_categoria > 0 %}
 
-                                    <div
-                                        class="analytics-progress-fill"
-                                        style="width: 74%;"
-                                    ></div>
+                                                {% set porcentaje = (item.cantidad * 100 / maximo_categoria) %}
 
-                                </div>
+                                            {% else %}
 
+                                                {% set porcentaje = 0 %}
 
-                            </div>
+                                            {% endif %}
 
 
-
-                            <!-- TÉCNICA -->
-
-                            <div class="analytics-category">
-
-
-                                <div class="analytics-category-top">
-
-                                    <strong>
-                                        Técnica
-                                    </strong>
-
-                                    <span>
-                                        275 publicaciones
-                                    </span>
-
-                                </div>
+                                            <div
+                                                class="analytics-progress-fill"
+                                                data-porcentaje="{{ porcentaje }}"
+                                            ></div>
 
 
-                                <div class="analytics-progress">
-
-                                    <div
-                                        class="analytics-progress-fill"
-                                        style="width: 65%;"
-                                    ></div>
-
-                                </div>
+                                        </div>
 
 
-                            </div>
+                                    </div>
+
+
+                                {% endfor %}
+
+
+                            {% else %}
+
+
+                                <p>
+                                    Todavía no hay categorías.
+                                </p>
+
+
+                            {% endif %}
 
 
                         </div>
@@ -757,6 +664,115 @@
 
 
                 </div>
+
+
+
+                <!-- =========================
+                     ETIQUETAS MÁS USADAS
+                ========================== -->
+
+                <section class="analytics-panel">
+
+
+                    <div class="analytics-panel-head">
+
+
+                        <div>
+
+                            <span class="analytics-panel-label">
+                                ETIQUETAS
+                            </span>
+
+                            <h2>
+                                Etiquetas más utilizadas
+                            </h2>
+
+                        </div>
+
+
+                        <span class="material-symbols-outlined">
+                            sell
+                        </span>
+
+
+                    </div>
+
+
+
+                    <div class="analytics-ranking">
+
+
+                        {% if etiquetas_uso %}
+
+
+                            {% for item in etiquetas_uso %}
+
+
+                                <div class="analytics-ranking-item">
+
+
+                                    <span class="analytics-position">
+
+                                        {% if loop.index < 10 %}
+
+                                            0{{ loop.index }}
+
+                                        {% else %}
+
+                                            {{ loop.index }}
+
+                                        {% endif %}
+
+                                    </span>
+
+
+                                    <div class="analytics-ranking-info">
+
+                                        <strong>
+                                            #{{ item.etiqueta.nombre }}
+                                        </strong>
+
+                                        <span>
+                                            Etiqueta del portal
+                                        </span>
+
+                                    </div>
+
+
+                                    <div class="analytics-value">
+
+                                        <strong>
+                                            {{ item.cantidad }}
+                                        </strong>
+
+                                        <span>
+                                            publicaciones
+                                        </span>
+
+                                    </div>
+
+
+                                </div>
+
+
+                            {% endfor %}
+
+
+                        {% else %}
+
+
+                            <p>
+                                Todavía no hay etiquetas.
+                            </p>
+
+
+                        {% endif %}
+
+
+                    </div>
+
+
+                </section>
 
 
 
@@ -811,11 +827,11 @@
                                     </th>
 
                                     <th>
-                                        Lecturas
+                                        Publicadas
                                     </th>
 
                                     <th>
-                                        Promedio por publicación
+                                        Borradores
                                     </th>
 
                                 </tr>
@@ -826,150 +842,122 @@
                             <tbody>
 
 
-                                <!-- EDITOR 1 -->
-
-                                <tr>
+                                {% if rendimiento_editores %}
 
 
-                                    <td>
-
-                                        <div class="analytics-editor">
-
-                                            <div class="analytics-editor-avatar">
-                                                CS
-                                            </div>
-
-                                            <div>
-
-                                                <strong>
-                                                    Carlos Sainz
-                                                </strong>
-
-                                                <span>
-                                                    Editor
-                                                </span>
-
-                                            </div>
-
-                                        </div>
-
-                                    </td>
+                                    {% for item in rendimiento_editores %}
 
 
-                                    <td>
-                                        48
-                                    </td>
+                                        <tr>
 
 
-                                    <td class="analytics-highlight">
-                                        342.800
-                                    </td>
+                                            <!-- EDITOR -->
+
+                                            <td>
 
 
-                                    <td>
-                                        7.142
-                                    </td>
+                                                <div class="analytics-editor">
 
 
-                                </tr>
+                                                    <div class="analytics-editor-avatar">
 
 
+                                                        {% if item.editor.foto %}
 
-                                <!-- EDITOR 2 -->
+                                                            <img
+                                                                src="{{ url_imagen(item.editor.foto) }}"
+                                                                alt="{{ item.editor.nombre }}"
+                                                            >
 
-                                <tr>
+                                                        {% else %}
 
+                                                            {{ item.editor.nombre[0]|upper }}
 
-                                    <td>
+                                                            {% if item.editor.apellido %}
 
-                                        <div class="analytics-editor">
+                                                                {{ item.editor.apellido[0]|upper }}
 
-                                            <div class="analytics-editor-avatar">
-                                                LM
-                                            </div>
+                                                            {% endif %}
 
-                                            <div>
-
-                                                <strong>
-                                                    Lucía Martínez
-                                                </strong>
-
-                                                <span>
-                                                    Editor
-                                                </span>
-
-                                            </div>
-
-                                        </div>
-
-                                    </td>
+                                                        {% endif %}
 
 
-                                    <td>
-                                        42
-                                    </td>
+                                                    </div>
 
 
-                                    <td class="analytics-highlight">
-                                        310.500
-                                    </td>
+                                                    <div>
 
 
-                                    <td>
-                                        7.393
-                                    </td>
+                                                        <strong>
+
+                                                            {{ item.editor.nombre }}
+
+                                                            {% if item.editor.apellido %}
+
+                                                                {{ item.editor.apellido }}
+
+                                                            {% endif %}
+
+                                                        </strong>
 
 
-                                </tr>
+                                                        <span>
+                                                            Editor
+                                                        </span>
+
+
+                                                    </div>
+
+
+                                                </div>
+
+
+                                            </td>
 
 
 
-                                <!-- EDITOR 3 -->
+                                            <!-- TOTAL -->
 
-                                <tr>
-
-
-                                    <td>
-
-                                        <div class="analytics-editor">
-
-                                            <div class="analytics-editor-avatar">
-                                                LM
-                                            </div>
-
-                                            <div>
-
-                                                <strong>
-                                                    Laura Méndez
-                                                </strong>
-
-                                                <span>
-                                                    Editor
-                                                </span>
-
-                                            </div>
-
-                                        </div>
-
-                                    </td>
+                                            <td>
+                                                {{ item.total }}
+                                            </td>
 
 
-                                    <td>
-                                        36
-                                    </td>
+
+                                            <!-- PUBLICADAS -->
+
+                                            <td class="analytics-highlight">
+                                                {{ item.publicadas }}
+                                            </td>
 
 
-                                    <td class="analytics-highlight">
-                                        289.100
-                                    </td>
+
+                                            <!-- BORRADORES -->
+
+                                            <td>
+                                                {{ item.borradores }}
+                                            </td>
 
 
-                                    <td>
-                                        8.030
-                                    </td>
+                                        </tr>
 
 
-                                </tr>
+                                    {% endfor %}
+
+
+                                {% else %}
+
+
+                                    <tr>
+
+                                        <td colspan="4">
+                                            No hay editores registrados.
+                                        </td>
+
+                                    </tr>
+
+
+                                {% endif %}
 
 
                             </tbody>
@@ -998,10 +986,51 @@
 
 
 <!-- =========================
-     FOOTER GLOBAL
+     FOOTER
 ========================= -->
 
 {% include "base/footer.html" %}
+
+
+
+<!-- =========================
+     BARRAS DE CATEGORÍAS
+========================= -->
+
+<script>
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function () {
+
+
+        const barras =
+            document.querySelectorAll(
+                ".analytics-progress-fill"
+            );
+
+
+        barras.forEach(
+            function (barra) {
+
+
+                const porcentaje =
+                    barra.dataset.porcentaje;
+
+
+                barra.style.width =
+                    porcentaje +
+                    "%";
+
+
+            }
+        );
+
+
+    }
+);
+
+</script>
 
 
 </body>
