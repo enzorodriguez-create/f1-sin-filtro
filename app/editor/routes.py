@@ -32,15 +32,21 @@ bp = Blueprint(
 )
 
 
+# =====================================
+# USUARIO ACTUAL
+# =====================================
+
 def obtener_usuario_actual():
 
     datos_usuario = session.get(
         "usuario"
     )
 
+
     if not datos_usuario:
 
         return None
+
 
     return db.session.get(
         Usuario,
@@ -48,10 +54,15 @@ def obtener_usuario_actual():
     )
 
 
-@bp.route("/editor")
-def editor():
+# =====================================
+# SEGURIDAD EDITOR
+# =====================================
+
+@bp.before_request
+def proteger_rutas_editor():
 
     usuario = obtener_usuario_actual()
+
 
     if not usuario:
 
@@ -60,6 +71,25 @@ def editor():
                 "auth.login"
             )
         )
+
+
+    if usuario.rol == "admin":
+
+        return redirect(
+            url_for(
+                "admin.admin_dashboard"
+            )
+        )
+
+
+    if usuario.rol == "usuario":
+
+        return redirect(
+            url_for(
+                "perfil.perfil"
+            )
+        )
+
 
     if usuario.rol != "editor":
 
@@ -69,23 +99,188 @@ def editor():
             )
         )
 
-    return render_template(
-        "editor/dashboard.html",
-        usuario=usuario,
-        seccion_activa="dashboard"
-    )
 
+# =====================================
+# DASHBOARD
+# =====================================
 
-@bp.route("/editor/publicaciones")
-def editor_publicaciones():
+@bp.route("/editor")
+def editor():
 
     usuario = obtener_usuario_actual()
+
 
     publicaciones = Publicacion.query.filter_by(
         autor_id=usuario.id
     ).order_by(
         Publicacion.id.desc()
     ).all()
+
+
+    cantidad_publicaciones = len(
+        publicaciones
+    )
+
+
+    cantidad_publicadas = Publicacion.query.filter_by(
+        autor_id=usuario.id,
+        estado="publicada"
+    ).count()
+
+
+    cantidad_borradores = Publicacion.query.filter_by(
+        autor_id=usuario.id,
+        estado="borrador"
+    ).count()
+
+
+    ultimas_publicaciones = publicaciones[:3]
+
+
+    comentarios = Comentario.query.join(
+        Publicacion,
+        Comentario.publicacion_id
+        ==
+        Publicacion.id
+    ).filter(
+        Publicacion.autor_id
+        ==
+        usuario.id
+    ).order_by(
+        Comentario.id.desc()
+    ).all()
+
+
+    cantidad_comentarios = len(
+        comentarios
+    )
+
+
+    ultimos_comentarios = comentarios[:2]
+
+
+    comentarios_por_publicacion = {}
+
+
+    for publicacion in ultimas_publicaciones:
+
+        cantidad = Comentario.query.filter_by(
+            publicacion_id=publicacion.id
+        ).count()
+
+
+        comentarios_por_publicacion[
+            publicacion.id
+        ] = cantidad
+
+
+    categorias_usadas = []
+
+
+    for publicacion in publicaciones:
+
+        for categoria in publicacion.categorias:
+
+            if categoria not in categorias_usadas:
+
+                categorias_usadas.append(
+                    categoria
+                )
+
+
+    cantidad_categorias = len(
+        categorias_usadas
+    )
+
+
+    etiquetas_usadas = []
+
+
+    for publicacion in publicaciones:
+
+        for etiqueta in publicacion.etiquetas:
+
+            if etiqueta not in etiquetas_usadas:
+
+                etiquetas_usadas.append(
+                    etiqueta
+                )
+
+
+    cantidad_etiquetas = len(
+        etiquetas_usadas
+    )
+
+
+    ultimo_borrador = Publicacion.query.filter_by(
+        autor_id=usuario.id,
+        estado="borrador"
+    ).order_by(
+        Publicacion.id.desc()
+    ).first()
+
+
+    return render_template(
+        "editor/dashboard.html",
+
+        usuario=usuario,
+
+        cantidad_publicaciones=
+            cantidad_publicaciones,
+
+        cantidad_publicadas=
+            cantidad_publicadas,
+
+        cantidad_borradores=
+            cantidad_borradores,
+
+        cantidad_comentarios=
+            cantidad_comentarios,
+
+        cantidad_categorias=
+            cantidad_categorias,
+
+        cantidad_etiquetas=
+            cantidad_etiquetas,
+
+        categorias_usadas=
+            categorias_usadas,
+
+        etiquetas_usadas=
+            etiquetas_usadas,
+
+        ultimas_publicaciones=
+            ultimas_publicaciones,
+
+        comentarios_por_publicacion=
+            comentarios_por_publicacion,
+
+        ultimos_comentarios=
+            ultimos_comentarios,
+
+        ultimo_borrador=
+            ultimo_borrador,
+
+        seccion_activa="dashboard"
+    )
+
+
+# =====================================
+# MIS PUBLICACIONES
+# =====================================
+
+@bp.route("/editor/publicaciones")
+def editor_publicaciones():
+
+    usuario = obtener_usuario_actual()
+
+
+    publicaciones = Publicacion.query.filter_by(
+        autor_id=usuario.id
+    ).order_by(
+        Publicacion.id.desc()
+    ).all()
+
 
     return render_template(
         "editor/mis_publicaciones.html",
@@ -95,6 +290,10 @@ def editor_publicaciones():
     )
 
 
+# =====================================
+# CREAR PUBLICACIÓN
+# =====================================
+
 @bp.route(
     "/editor/crear-publicacion",
     methods=["GET", "POST"]
@@ -102,14 +301,6 @@ def editor_publicaciones():
 def editor_crear_publicacion():
 
     usuario = obtener_usuario_actual()
-
-    if not usuario:
-
-        return redirect(
-            url_for(
-                "auth.login"
-            )
-        )
 
 
     categorias = Categoria.query.order_by(
@@ -124,10 +315,6 @@ def editor_crear_publicacion():
 
     if request.method == "POST":
 
-        # =========================
-        # TÍTULO
-        # =========================
-
         titulo = request.form.get(
             "titulo",
             ""
@@ -139,19 +326,11 @@ def editor_crear_publicacion():
             return "Tenés que ingresar un título."
 
 
-        # =========================
-        # RESUMEN
-        # =========================
-
         resumen = request.form.get(
             "resumen",
             ""
         ).strip()
 
-
-        # =========================
-        # CATEGORÍAS
-        # =========================
 
         categorias_ids = request.form.getlist(
             "categorias"
@@ -176,10 +355,6 @@ def editor_crear_publicacion():
                 )
 
 
-        # =========================
-        # ETIQUETAS
-        # =========================
-
         etiquetas_ids = request.form.getlist(
             "etiquetas"
         )
@@ -202,10 +377,6 @@ def editor_crear_publicacion():
                     etiqueta
                 )
 
-
-        # =========================
-        # PORTADA
-        # =========================
 
         portada = request.files.get(
             "imagen_portada"
@@ -230,10 +401,6 @@ def editor_crear_publicacion():
             )
 
 
-        # =========================
-        # ESTADO
-        # =========================
-
         accion = request.form.get(
             "accion",
             "borrador"
@@ -248,10 +415,6 @@ def editor_crear_publicacion():
 
             estado = "borrador"
 
-
-        # =========================
-        # CREO PUBLICACIÓN
-        # =========================
 
         nueva_publicacion = Publicacion(
             titulo=titulo,
@@ -291,10 +454,6 @@ def editor_crear_publicacion():
         db.session.commit()
 
 
-        # =========================
-        # ORDEN DE BLOQUES
-        # =========================
-
         bloques_orden = request.form.get(
             "bloques_orden",
             ""
@@ -308,19 +467,10 @@ def editor_crear_publicacion():
         ]
 
 
-        # =========================
-        # GUARDO BLOQUES
-        # =========================
-
         for indice, tipo in enumerate(
             tipos_bloques,
             start=1
         ):
-
-
-            # =========================
-            # TEXTO
-            # =========================
 
             if tipo == "texto":
 
@@ -344,10 +494,6 @@ def editor_crear_publicacion():
                         nuevo_bloque
                     )
 
-
-            # =========================
-            # IMAGEN
-            # =========================
 
             elif tipo == "imagen":
 
@@ -380,10 +526,6 @@ def editor_crear_publicacion():
                             nuevo_bloque
                         )
 
-
-            # =========================
-            # CARRUSEL
-            # =========================
 
             elif tipo == "carrusel":
 
@@ -476,24 +618,6 @@ def editor_comentarios():
     usuario = obtener_usuario_actual()
 
 
-    if not usuario:
-
-        return redirect(
-            url_for(
-                "auth.login"
-            )
-        )
-
-
-    if usuario.rol != "editor":
-
-        return redirect(
-            url_for(
-                "main.inicio"
-            )
-        )
-
-
     publicaciones = Publicacion.query.filter_by(
         autor_id=usuario.id
     ).order_by(
@@ -534,27 +658,11 @@ def editor_comentarios():
     "/editor/comentarios/<int:id_comentario>/eliminar",
     methods=["POST"]
 )
-def editor_eliminar_comentario(id_comentario):
+def editor_eliminar_comentario(
+    id_comentario
+):
 
     usuario = obtener_usuario_actual()
-
-
-    if not usuario:
-
-        return redirect(
-            url_for(
-                "auth.login"
-            )
-        )
-
-
-    if usuario.rol != "editor":
-
-        return redirect(
-            url_for(
-                "main.inicio"
-            )
-        )
 
 
     comentario = Comentario.query.join(
@@ -566,6 +674,7 @@ def editor_eliminar_comentario(id_comentario):
         Comentario.id
         ==
         id_comentario,
+
         Publicacion.autor_id
         ==
         usuario.id
@@ -607,14 +716,6 @@ def editor_eliminar_comentario(id_comentario):
 def editor_categorias():
 
     usuario = obtener_usuario_actual()
-
-    if not usuario:
-
-        return redirect(
-            url_for(
-                "auth.login"
-            )
-        )
 
 
     if request.method == "POST":
@@ -715,17 +816,11 @@ def editor_categorias():
     "/editor/categorias/<int:id_categoria>/editar",
     methods=["POST"]
 )
-def editor_editar_categoria(id_categoria):
+def editor_editar_categoria(
+    id_categoria
+):
 
     usuario = obtener_usuario_actual()
-
-    if not usuario:
-
-        return redirect(
-            url_for(
-                "auth.login"
-            )
-        )
 
 
     categoria = db.session.get(
@@ -789,10 +884,20 @@ def editor_editar_categoria(id_categoria):
             return "Formato de imagen no válido."
 
 
+        imagen_anterior = categoria.imagen
+
+
         categoria.imagen = subir_imagen(
             imagen_archivo,
             carpeta="categorias"
         )
+
+
+        if imagen_anterior:
+
+            borrar_imagen(
+                imagen_anterior
+            )
 
 
     db.session.commit()
@@ -813,17 +918,11 @@ def editor_editar_categoria(id_categoria):
     "/editor/categorias/<int:id_categoria>/eliminar",
     methods=["POST"]
 )
-def editor_eliminar_categoria(id_categoria):
+def editor_eliminar_categoria(
+    id_categoria
+):
 
     usuario = obtener_usuario_actual()
-
-    if not usuario:
-
-        return redirect(
-            url_for(
-                "auth.login"
-            )
-        )
 
 
     categoria = db.session.get(
@@ -837,12 +936,49 @@ def editor_eliminar_categoria(id_categoria):
         return "Categoría no encontrada."
 
 
+    imagen_categoria = categoria.imagen
+
+
+    publicaciones = Publicacion.query.filter(
+        Publicacion.categorias.any(
+            Categoria.id
+            ==
+            categoria.id
+        )
+    ).all()
+
+
+    for publicacion in publicaciones:
+
+        if categoria in publicacion.categorias:
+
+            publicacion.categorias.remove(
+                categoria
+            )
+
+
+        if (
+            publicacion.categoria_id
+            ==
+            categoria.id
+        ):
+
+            publicacion.categoria_id = None
+
+
     db.session.delete(
         categoria
     )
 
 
     db.session.commit()
+
+
+    if imagen_categoria:
+
+        borrar_imagen(
+            imagen_categoria
+        )
 
 
     return redirect(
@@ -865,15 +1001,6 @@ def editor_etiquetas():
     usuario = obtener_usuario_actual()
 
 
-    if not usuario:
-
-        return redirect(
-            url_for(
-                "auth.login"
-            )
-        )
-
-
     if request.method == "POST":
 
         nombre = request.form.get(
@@ -888,14 +1015,14 @@ def editor_etiquetas():
         ).strip()
 
 
+        nombre = nombre.lstrip(
+            "#"
+        ).strip()
+
+
         if not nombre:
 
             return "Tenés que ingresar un nombre."
-
-
-        if nombre.startswith("#"):
-
-            nombre = nombre[1:]
 
 
         etiqueta_existente = Etiqueta.query.filter_by(
@@ -964,18 +1091,11 @@ def editor_etiquetas():
     "/editor/etiquetas/<int:id_etiqueta>/editar",
     methods=["POST"]
 )
-def editor_editar_etiqueta(id_etiqueta):
+def editor_editar_etiqueta(
+    id_etiqueta
+):
 
     usuario = obtener_usuario_actual()
-
-
-    if not usuario:
-
-        return redirect(
-            url_for(
-                "auth.login"
-            )
-        )
 
 
     etiqueta = db.session.get(
@@ -1001,14 +1121,14 @@ def editor_editar_etiqueta(id_etiqueta):
     ).strip()
 
 
+    nombre = nombre.lstrip(
+        "#"
+    ).strip()
+
+
     if not nombre:
 
         return "Tenés que ingresar un nombre."
-
-
-    if nombre.startswith("#"):
-
-        nombre = nombre[1:]
 
 
     etiqueta_existente = Etiqueta.query.filter(
@@ -1045,18 +1165,11 @@ def editor_editar_etiqueta(id_etiqueta):
     "/editor/etiquetas/<int:id_etiqueta>/eliminar",
     methods=["POST"]
 )
-def editor_eliminar_etiqueta(id_etiqueta):
+def editor_eliminar_etiqueta(
+    id_etiqueta
+):
 
     usuario = obtener_usuario_actual()
-
-
-    if not usuario:
-
-        return redirect(
-            url_for(
-                "auth.login"
-            )
-        )
 
 
     etiqueta = db.session.get(
@@ -1088,6 +1201,10 @@ def editor_eliminar_etiqueta(id_etiqueta):
     )
 
 
+# =====================================
+# PERFIL EDITOR
+# =====================================
+
 @bp.route(
     "/editor/perfil",
     methods=["GET", "POST"]
@@ -1095,24 +1212,6 @@ def editor_eliminar_etiqueta(id_etiqueta):
 def editor_perfil():
 
     usuario = obtener_usuario_actual()
-
-
-    if not usuario:
-
-        return redirect(
-            url_for(
-                "auth.login"
-            )
-        )
-
-
-    if usuario.rol != "editor":
-
-        return redirect(
-            url_for(
-                "main.inicio"
-            )
-        )
 
 
     if request.method == "POST":
@@ -1207,6 +1306,10 @@ def editor_perfil():
     )
 
 
+# =====================================
+# CAMBIAR CONTRASEÑA
+# =====================================
+
 @bp.route(
     "/editor/perfil/cambiar-password",
     methods=["POST"]
@@ -1214,24 +1317,6 @@ def editor_perfil():
 def editor_cambiar_password():
 
     usuario = obtener_usuario_actual()
-
-
-    if not usuario:
-
-        return redirect(
-            url_for(
-                "auth.login"
-            )
-        )
-
-
-    if usuario.rol != "editor":
-
-        return redirect(
-            url_for(
-                "main.inicio"
-            )
-        )
 
 
     if usuario.tipo_login == "google":
@@ -1297,10 +1382,16 @@ def editor_cambiar_password():
     )
 
 
+# =====================================
+# VISTA PREVIA
+# =====================================
+
 @bp.route(
     "/editor/publicaciones/<int:id_publicacion>/vista-previa"
 )
-def editor_vista_previa_publicacion(id_publicacion):
+def editor_vista_previa_publicacion(
+    id_publicacion
+):
 
     usuario = obtener_usuario_actual()
 
@@ -1313,7 +1404,11 @@ def editor_vista_previa_publicacion(id_publicacion):
 
     if not publicacion:
 
-        return "Publicación no encontrada."
+        return redirect(
+            url_for(
+                "editor.editor_publicaciones"
+            )
+        )
 
 
     bloques = BloquePublicacion.query.filter_by(
@@ -1337,7 +1432,9 @@ def editor_vista_previa_publicacion(id_publicacion):
             ).all()
 
 
-            carruseles[bloque.id] = imagenes
+            carruseles[
+                bloque.id
+            ] = imagenes
 
 
     return render_template(
@@ -1350,22 +1447,19 @@ def editor_vista_previa_publicacion(id_publicacion):
     )
 
 
+# =====================================
+# EDITAR PUBLICACIÓN
+# =====================================
+
 @bp.route(
     "/editor/publicaciones/<int:id_publicacion>/editar",
     methods=["GET", "POST"]
 )
-def editor_editar_publicacion(id_publicacion):
+def editor_editar_publicacion(
+    id_publicacion
+):
 
     usuario = obtener_usuario_actual()
-
-
-    if not usuario:
-
-        return redirect(
-            url_for(
-                "auth.login"
-            )
-        )
 
 
     publicacion = Publicacion.query.filter_by(
@@ -1376,7 +1470,11 @@ def editor_editar_publicacion(id_publicacion):
 
     if not publicacion:
 
-        return "Publicación no encontrada."
+        return redirect(
+            url_for(
+                "editor.editor_publicaciones"
+            )
+        )
 
 
     bloques = BloquePublicacion.query.filter_by(
@@ -1418,10 +1516,6 @@ def editor_editar_publicacion(id_publicacion):
         publicacion.resumen = resumen
 
 
-        # =========================
-        # CATEGORÍAS
-        # =========================
-
         categorias_ids = request.form.getlist(
             "categorias"
         )
@@ -1460,10 +1554,6 @@ def editor_editar_publicacion(id_publicacion):
 
             publicacion.categoria_id = None
 
-
-        # =========================
-        # ETIQUETAS
-        # =========================
 
         etiquetas_ids = request.form.getlist(
             "etiquetas"
@@ -1525,10 +1615,22 @@ def editor_editar_publicacion(id_publicacion):
                 return "Formato de portada no válido."
 
 
+            portada_anterior = (
+                publicacion.imagen_portada
+            )
+
+
             publicacion.imagen_portada = subir_imagen(
                 nueva_portada,
                 carpeta="publicaciones"
             )
+
+
+            if portada_anterior:
+
+                borrar_imagen(
+                    portada_anterior
+                )
 
 
         for bloque in bloques:
@@ -1563,10 +1665,22 @@ def editor_editar_publicacion(id_publicacion):
                         return "Formato de imagen no válido."
 
 
+                    imagen_anterior = (
+                        bloque.contenido
+                    )
+
+
                     bloque.contenido = subir_imagen(
                         nueva_imagen,
                         carpeta="publicaciones/contenido"
                     )
+
+
+                    if imagen_anterior:
+
+                        borrar_imagen(
+                            imagen_anterior
+                        )
 
 
         bloques_nuevos_orden = request.form.get(
@@ -1594,7 +1708,6 @@ def editor_editar_publicacion(id_publicacion):
             tipos_nuevos,
             start=1
         ):
-
 
             nuevo_orden = (
                 ultimo_orden
@@ -1750,7 +1863,9 @@ def editor_editar_publicacion(id_publicacion):
             ).all()
 
 
-            carruseles[bloque.id] = imagenes
+            carruseles[
+                bloque.id
+            ] = imagenes
 
 
     return render_template(
@@ -1765,22 +1880,19 @@ def editor_editar_publicacion(id_publicacion):
     )
 
 
+# =====================================
+# ELIMINAR PUBLICACIÓN
+# =====================================
+
 @bp.route(
     "/editor/publicaciones/<int:id_publicacion>/eliminar",
     methods=["POST"]
 )
-def editor_eliminar_publicacion(id_publicacion):
+def editor_eliminar_publicacion(
+    id_publicacion
+):
 
     usuario = obtener_usuario_actual()
-
-
-    if not usuario:
-
-        return redirect(
-            url_for(
-                "auth.login"
-            )
-        )
 
 
     publicacion = Publicacion.query.filter_by(
@@ -1791,7 +1903,21 @@ def editor_eliminar_publicacion(id_publicacion):
 
     if not publicacion:
 
-        return "Publicación no encontrada."
+        return redirect(
+            url_for(
+                "editor.editor_publicaciones"
+            )
+        )
+
+
+    imagenes_a_eliminar = []
+
+
+    if publicacion.imagen_portada:
+
+        imagenes_a_eliminar.append(
+            publicacion.imagen_portada
+        )
 
 
     bloques = BloquePublicacion.query.filter_by(
@@ -1800,6 +1926,16 @@ def editor_eliminar_publicacion(id_publicacion):
 
 
     for bloque in bloques:
+
+        if (
+            bloque.tipo == "imagen"
+            and bloque.contenido
+        ):
+
+            imagenes_a_eliminar.append(
+                bloque.contenido
+            )
+
 
         if bloque.tipo == "carrusel":
 
@@ -1810,16 +1946,26 @@ def editor_eliminar_publicacion(id_publicacion):
 
             for imagen in imagenes:
 
+                if imagen.imagen:
+
+                    imagenes_a_eliminar.append(
+                        imagen.imagen
+                    )
+
+
                 db.session.delete(
                     imagen
                 )
 
 
-    for bloque in bloques:
-
         db.session.delete(
             bloque
         )
+
+
+    publicacion.categorias = []
+
+    publicacion.etiquetas = []
 
 
     db.session.delete(
@@ -1828,6 +1974,13 @@ def editor_eliminar_publicacion(id_publicacion):
 
 
     db.session.commit()
+
+
+    for imagen in imagenes_a_eliminar:
+
+        borrar_imagen(
+            imagen
+        )
 
 
     return redirect(

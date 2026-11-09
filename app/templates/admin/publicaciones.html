@@ -1,1258 +1,697 @@
 <!DOCTYPE html>
 <html lang="es">
+  <head>
+    <meta charset="utf-8" />
 
-<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <meta charset="utf-8">
-
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
-
-    <title>
-        F1 SIN FILTRO - Gestión de Publicaciones
-    </title>
-
+    <title>F1 SIN FILTRO - Gestión de Publicaciones</title>
 
     <!-- FUENTES -->
 
-    <link
-        href="https://fonts.googleapis.com"
-        rel="preconnect"
-    >
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+
+    <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin />
 
     <link
-        href="https://fonts.gstatic.com"
-        rel="preconnect"
-        crossorigin
-    >
+      href="https://fonts.googleapis.com/css2?family=Anybody:wght@100..900&family=Geist:wght@100..900&display=swap"
+      rel="stylesheet"
+    />
 
     <link
-        href="https://fonts.googleapis.com/css2?family=Anybody:wght@100..900&family=Geist:wght@100..900&display=swap"
-        rel="stylesheet"
-    >
-
-    <link
-        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
-        rel="stylesheet"
-    >
-
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
+      rel="stylesheet"
+    />
 
     <!-- CSS GLOBAL -->
 
     <link
-        rel="stylesheet"
-        href="{{ url_for('static', filename='styles/style.css') }}"
-    >
-
+      rel="stylesheet"
+      href="{{ url_for('static', filename='styles/style.css') }}"
+    />
 
     <!-- CSS ADMIN -->
 
     <link
-        rel="stylesheet"
-        href="{{ url_for('static', filename='styles/admin/base.css') }}"
-    >
+      rel="stylesheet"
+      href="{{ url_for('static', filename='styles/admin/base.css') }}"
+    />
 
     <link
-        rel="stylesheet"
-        href="{{ url_for('static', filename='styles/admin/sidebar.css') }}"
-    >
+      rel="stylesheet"
+      href="{{ url_for('static', filename='styles/admin/sidebar.css') }}"
+    />
 
     <link
-        rel="stylesheet"
-        href="{{ url_for('static', filename='styles/admin/dashboard.css') }}"
-    >
+      rel="stylesheet"
+      href="{{ url_for('static', filename='styles/admin/dashboard.css') }}"
+    />
 
     <link
-        rel="stylesheet"
-        href="{{ url_for('static', filename='styles/admin/publicaciones.css') }}"
-    >
-
+      rel="stylesheet"
+      href="{{ url_for('static', filename='styles/admin/publicaciones.css') }}"
+    />
 
     <style>
+      .admin-avatar {
+        width: 38px;
+        height: 38px;
 
-        .admin-avatar {
-            width: 38px;
-            height: 38px;
+        min-width: 38px;
 
-            min-width: 38px;
+        overflow: hidden;
 
-            overflow: hidden;
+        border-radius: 50%;
+      }
 
-            border-radius: 50%;
-        }
+      .admin-avatar img {
+        width: 100%;
+        height: 100%;
 
-        .admin-avatar img {
-            width: 100%;
-            height: 100%;
+        display: block;
 
-            display: block;
+        object-fit: cover;
+        object-position: center;
+      }
 
-            object-fit: cover;
-            object-position: center;
-        }
+      .publication-cover {
+        overflow: hidden;
+      }
 
-        .publication-cover {
-            overflow: hidden;
-        }
+      .publication-cover img {
+        width: 100%;
+        height: 100%;
 
-        .publication-cover img {
-            width: 100%;
-            height: 100%;
+        display: block;
 
-            display: block;
+        object-fit: cover;
+        object-position: center;
+      }
 
-            object-fit: cover;
-            object-position: center;
-        }
+      .publication-author-avatar {
+        width: 38px;
+        height: 38px;
 
-        .publication-author-avatar {
-            width: 38px;
-            height: 38px;
+        min-width: 38px;
 
-            min-width: 38px;
+        overflow: hidden;
 
-            overflow: hidden;
+        border-radius: 50%;
 
-            border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
 
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
+      .publication-author-avatar img {
+        width: 100%;
+        height: 100%;
 
-        .publication-author-avatar img {
-            width: 100%;
-            height: 100%;
+        object-fit: cover;
+        object-position: center;
+      }
 
-            object-fit: cover;
-            object-position: center;
-        }
-
-        .publication-delete-form {
-            margin: 0;
-        }
-
+      .publication-delete-form {
+        margin: 0;
+      }
     </style>
+  </head>
 
-</head>
-
-
-<body>
-
-
-<div class="admin-page">
-
-
-    <!-- =========================
+  <body>
+    <div class="admin-page">
+      <!-- =========================
          SIDEBAR
     ========================== -->
 
-    {% include "admin/sidebar.html" %}
+      {% include "admin/sidebar.html" %}
 
-
-
-    <!-- =========================
+      <!-- =========================
          CONTENIDO
     ========================== -->
 
-    <div class="admin-content">
-
-
+      <div class="admin-content">
         <!-- =========================
              TOPBAR
         ========================== -->
 
         <header class="admin-topbar">
+          <div class="admin-topbar-left">
+            <button
+              class="admin-menu-btn"
+              id="admin-menu-btn"
+              type="button"
+              aria-label="Abrir menú"
+            >
+              <span class="material-symbols-outlined"> menu </span>
+            </button>
 
+            <span class="admin-topbar-section"> GESTIÓN DE PUBLICACIONES </span>
+          </div>
 
-            <div class="admin-topbar-left">
+          <div class="admin-topbar-right">
+            <div class="admin-role-badge">
+              <span class="admin-role-dot"></span>
 
+              <span> ROL: </span>
 
-                <button
-                    class="admin-menu-btn"
-                    id="admin-menu-btn"
-                    type="button"
-                    aria-label="Abrir menú"
-                >
-
-                    <span class="material-symbols-outlined">
-                        menu
-                    </span>
-
-                </button>
-
-
-                <span class="admin-topbar-section">
-                    GESTIÓN DE PUBLICACIONES
-                </span>
-
-
+              <strong> ADMIN </strong>
             </div>
 
+            <div class="admin-user">
+              <div class="admin-user-data">
+                <strong> {{ usuario.nombre }} </strong>
 
-            <div class="admin-topbar-right">
+                <span> {{ usuario.email }} </span>
+              </div>
 
+              {% if usuario.foto %}
 
-                <div class="admin-role-badge">
+              <div class="admin-avatar">
+                <img
+                  src="{{ url_imagen(usuario.foto) }}"
+                  alt="{{ usuario.nombre }}"
+                />
+              </div>
 
-                    <span class="admin-role-dot"></span>
+              {% else %}
 
-                    <span>
-                        ROL:
-                    </span>
+              <div class="admin-avatar">
+                <span class="material-symbols-outlined"> person </span>
+              </div>
 
-                    <strong>
-                        ADMIN
-                    </strong>
-
-                </div>
-
-
-                <div class="admin-user">
-
-
-                    <div class="admin-user-data">
-
-                        <strong>
-                            {{ usuario.nombre }}
-                        </strong>
-
-                        <span>
-                            {{ usuario.email }}
-                        </span>
-
-                    </div>
-
-
-                    {% if usuario.foto %}
-
-                        <div class="admin-avatar">
-
-                            <img
-                                src="{{ url_imagen(usuario.foto) }}"
-                                alt="{{ usuario.nombre }}"
-                            >
-
-                        </div>
-
-                    {% else %}
-
-                        <div class="admin-avatar">
-
-                            <span class="material-symbols-outlined">
-                                person
-                            </span>
-
-                        </div>
-
-                    {% endif %}
-
-
-                </div>
-
-
+              {% endif %}
             </div>
-
-
+          </div>
         </header>
-
-
 
         <!-- =========================
              MAIN
         ========================== -->
 
         <main class="admin-main">
-
-
-            <div class="admin-container">
-
-
-                <!-- =========================
+          <div class="admin-container">
+            <!-- =========================
                      CABECERA
                 ========================== -->
 
-                <div class="publications-head">
+            <div class="publications-head">
+              <div class="publications-path">
+                <span> ADMINISTRACIÓN </span>
 
+                <span> / </span>
 
-                    <div class="publications-path">
+                <strong> PUBLICACIONES </strong>
+              </div>
 
-                        <span>
-                            ADMINISTRACIÓN
-                        </span>
+              <h1>
+                GESTIÓN DE
+                <span>PUBLICACIONES</span>
+              </h1>
 
-                        <span>
-                            /
-                        </span>
+              <p>
+                Revisá y administrá todas las publicaciones creadas por los
+                editores del portal.
+              </p>
+            </div>
 
-                        <strong>
-                            PUBLICACIONES
-                        </strong>
-
-                    </div>
-
-
-                    <h1>
-                        GESTIÓN DE
-                        <span>PUBLICACIONES</span>
-                    </h1>
-
-
-                    <p>
-                        Revisá y administrá todas las publicaciones
-                        creadas por los editores del portal.
-                    </p>
-
-
-                </div>
-
-
-
-                <!-- =========================
+            <!-- =========================
                      ESTADÍSTICAS
                 ========================== -->
 
-                <div class="publications-stats">
+            <div class="publications-stats">
+              <!-- TOTAL -->
 
+              <div class="publication-stat-card">
+                <div class="publication-stat-top">
+                  <span> TOTAL </span>
 
-                    <!-- TOTAL -->
-
-                    <div class="publication-stat-card">
-
-
-                        <div class="publication-stat-top">
-
-                            <span>
-                                TOTAL
-                            </span>
-
-                            <span class="material-symbols-outlined">
-                                article
-                            </span>
-
-                        </div>
-
-
-                        <strong id="stat-total">
-                            {{ cantidad_publicaciones }}
-                        </strong>
-
-
-                        <span>
-                            Publicaciones registradas
-                        </span>
-
-
-                    </div>
-
-
-
-                    <!-- PUBLICADAS -->
-
-                    <div class="publication-stat-card">
-
-
-                        <div class="publication-stat-top">
-
-                            <span>
-                                PUBLICADAS
-                            </span>
-
-                            <span class="material-symbols-outlined">
-                                check_circle
-                            </span>
-
-                        </div>
-
-
-                        <strong id="stat-published">
-                            {{ cantidad_publicadas }}
-                        </strong>
-
-
-                        <span>
-                            Visibles en el portal
-                        </span>
-
-
-                    </div>
-
-
-
-                    <!-- BORRADORES -->
-
-                    <div class="publication-stat-card">
-
-
-                        <div class="publication-stat-top">
-
-                            <span>
-                                BORRADORES
-                            </span>
-
-                            <span class="material-symbols-outlined">
-                                draft
-                            </span>
-
-                        </div>
-
-
-                        <strong id="stat-draft">
-                            {{ cantidad_borradores }}
-                        </strong>
-
-
-                        <span>
-                            Todavía sin publicar
-                        </span>
-
-
-                    </div>
-
-
+                  <span class="material-symbols-outlined"> article </span>
                 </div>
 
+                <strong id="stat-total"> {{ cantidad_publicaciones }} </strong>
 
+                <span> Publicaciones registradas </span>
+              </div>
 
-                <!-- =========================
+              <!-- PUBLICADAS -->
+
+              <div class="publication-stat-card">
+                <div class="publication-stat-top">
+                  <span> PUBLICADAS </span>
+
+                  <span class="material-symbols-outlined"> check_circle </span>
+                </div>
+
+                <strong id="stat-published"> {{ cantidad_publicadas }} </strong>
+
+                <span> Visibles en el portal </span>
+              </div>
+
+              <!-- BORRADORES -->
+
+              <div class="publication-stat-card">
+                <div class="publication-stat-top">
+                  <span> BORRADORES </span>
+
+                  <span class="material-symbols-outlined"> draft </span>
+                </div>
+
+                <strong id="stat-draft"> {{ cantidad_borradores }} </strong>
+
+                <span> Todavía sin publicar </span>
+              </div>
+            </div>
+
+            <!-- =========================
                      FILTROS
                 ========================== -->
 
-                <section class="publications-filters">
+            <section class="publications-filters">
+              <!-- BUSCADOR -->
 
+              <div class="publications-search">
+                <span class="material-symbols-outlined"> search </span>
 
-                    <!-- BUSCADOR -->
+                <input
+                  id="publication-search"
+                  type="text"
+                  placeholder="Buscar por título o autor..."
+                />
 
-                    <div class="publications-search">
+                <button
+                  id="clear-publication-search"
+                  type="button"
+                  aria-label="Limpiar búsqueda"
+                >
+                  <span class="material-symbols-outlined"> close </span>
+                </button>
+              </div>
 
+              <div class="publication-selects">
+                <!-- AUTOR -->
 
-                        <span class="material-symbols-outlined">
-                            search
-                        </span>
+                <div class="publication-select">
+                  <select id="author-filter">
+                    <option value="all">Todos los autores</option>
 
+                    {% for autor in autores %}
 
-                        <input
-                            id="publication-search"
-                            type="text"
-                            placeholder="Buscar por título o autor..."
-                        >
+                    <option value="{{ autor.id }}">
+                      {{ autor.nombre }} {% if autor.apellido %} {{
+                      autor.apellido }} {% endif %}
+                    </option>
 
+                    {% endfor %}
+                  </select>
 
-                        <button
-                            id="clear-publication-search"
-                            type="button"
-                            aria-label="Limpiar búsqueda"
-                        >
+                  <span class="material-symbols-outlined"> expand_more </span>
+                </div>
 
-                            <span class="material-symbols-outlined">
-                                close
-                            </span>
+                <!-- CATEGORÍA -->
 
-                        </button>
+                <div class="publication-select">
+                  <select id="category-filter">
+                    <option value="all">Todas las categorías</option>
 
+                    {% for categoria in categorias %}
 
-                    </div>
+                    <option value="{{ categoria.id }}">
+                      {{ categoria.nombre }}
+                    </option>
 
+                    {% endfor %}
+                  </select>
 
+                  <span class="material-symbols-outlined"> expand_more </span>
+                </div>
 
-                    <div class="publication-selects">
+                <!-- ESTADO -->
 
+                <div class="publication-select">
+                  <select id="status-filter">
+                    <option value="all">Todos los estados</option>
 
-                        <!-- AUTOR -->
+                    <option value="publicada">Publicada</option>
 
-                        <div class="publication-select">
+                    <option value="borrador">Borrador</option>
+                  </select>
 
+                  <span class="material-symbols-outlined"> expand_more </span>
+                </div>
+              </div>
 
-                            <select id="author-filter">
+              <div class="publications-filter-bottom">
+                <span id="publication-result-count">
+                  Mostrando {{ cantidad_publicaciones }} publicación{% if
+                  cantidad_publicaciones != 1 %}es{% endif %}
+                </span>
 
-                                <option value="all">
-                                    Todos los autores
-                                </option>
+                <button
+                  class="publications-reset"
+                  id="reset-publication-filters"
+                  type="button"
+                >
+                  <span class="material-symbols-outlined"> refresh </span>
 
+                  Restablecer filtros
+                </button>
+              </div>
+            </section>
 
-                                {% for autor in autores %}
-
-                                    <option value="{{ autor.id }}">
-
-                                        {{ autor.nombre }}
-
-                                        {% if autor.apellido %}
-                                            {{ autor.apellido }}
-                                        {% endif %}
-
-                                    </option>
-
-                                {% endfor %}
-
-
-                            </select>
-
-
-                            <span class="material-symbols-outlined">
-                                expand_more
-                            </span>
-
-
-                        </div>
-
-
-
-                        <!-- CATEGORÍA -->
-
-                        <div class="publication-select">
-
-
-                            <select id="category-filter">
-
-                                <option value="all">
-                                    Todas las categorías
-                                </option>
-
-
-                                {% for categoria in categorias %}
-
-                                    <option value="{{ categoria.id }}">
-                                        {{ categoria.nombre }}
-                                    </option>
-
-                                {% endfor %}
-
-
-                            </select>
-
-
-                            <span class="material-symbols-outlined">
-                                expand_more
-                            </span>
-
-
-                        </div>
-
-
-
-                        <!-- ESTADO -->
-
-                        <div class="publication-select">
-
-
-                            <select id="status-filter">
-
-                                <option value="all">
-                                    Todos los estados
-                                </option>
-
-                                <option value="publicada">
-                                    Publicada
-                                </option>
-
-                                <option value="borrador">
-                                    Borrador
-                                </option>
-
-                            </select>
-
-
-                            <span class="material-symbols-outlined">
-                                expand_more
-                            </span>
-
-
-                        </div>
-
-
-                    </div>
-
-
-
-                    <div class="publications-filter-bottom">
-
-
-                        <span id="publication-result-count">
-
-                            Mostrando
-                            {{ cantidad_publicaciones }}
-                            publicación{% if cantidad_publicaciones != 1 %}es{% endif %}
-
-                        </span>
-
-
-                        <button
-                            class="publications-reset"
-                            id="reset-publication-filters"
-                            type="button"
-                        >
-
-                            <span class="material-symbols-outlined">
-                                refresh
-                            </span>
-
-                            Restablecer filtros
-
-                        </button>
-
-
-                    </div>
-
-
-                </section>
-
-
-
-                <!-- =========================
+            <!-- =========================
                      TABLA
                 ========================== -->
 
-                <section class="publications-table-card">
+            <section class="publications-table-card">
+              <div class="publications-table-wrapper">
+                <table class="publications-table">
+                  <thead>
+                    <tr>
+                      <th>Publicación</th>
 
+                      <th>Autor</th>
 
-                    <div class="publications-table-wrapper">
+                      <th>Categorías</th>
 
+                      <th>Estado</th>
 
-                        <table class="publications-table">
+                      <th class="publication-actions-title">Acciones</th>
+                    </tr>
+                  </thead>
 
+                  <tbody id="publications-table-body">
+                    {% for publicacion in publicaciones %} {% set autor =
+                    autores_publicaciones[publicacion.id] %}
 
-                            <thead>
-
-                                <tr>
-
-                                    <th>
-                                        Publicación
-                                    </th>
-
-                                    <th>
-                                        Autor
-                                    </th>
-
-                                    <th>
-                                        Categorías
-                                    </th>
-
-                                    <th>
-                                        Estado
-                                    </th>
-
-                                    <th class="publication-actions-title">
-                                        Acciones
-                                    </th>
-
-                                </tr>
-
-                            </thead>
-
-
-                            <tbody id="publications-table-body">
-
-
-                                {% for publicacion in publicaciones %}
-
-
-                                    {% set autor = autores_publicaciones[publicacion.id] %}
-
-
-                                    <tr
-                                        class="publication-row"
-
-                                        data-title="{{ publicacion.titulo|lower }}"
-
-                                        data-author="{{ publicacion.autor_id }}"
-
-                                        data-status="{{ publicacion.estado }}"
-
-                                        data-categories="
+                    <tr
+                      class="publication-row"
+                      data-title="{{ publicacion.titulo|lower }}"
+                      data-author="{{ publicacion.autor_id }}"
+                      data-status="{{ publicacion.estado }}"
+                      data-categories="
                                             {% for categoria in publicacion.categorias %}
                                                 {{ categoria.id }}
                                                 {% if not loop.last %},{% endif %}
                                             {% endfor %}
                                         "
-                                    >
+                    >
+                      <!-- PUBLICACIÓN -->
 
+                      <td>
+                        <div class="publication-info">
+                          <div class="publication-cover">
+                            {% if publicacion.imagen_portada %}
 
-                                        <!-- PUBLICACIÓN -->
+                            <img
+                              src="{{ url_imagen(publicacion.imagen_portada) }}"
+                              alt="{{ publicacion.titulo }}"
+                            />
 
-                                        <td>
+                            {% else %}
 
+                            <span class="material-symbols-outlined">
+                              article
+                            </span>
 
-                                            <div class="publication-info">
+                            {% endif %}
+                          </div>
 
+                          <div>
+                            <strong> {{ publicacion.titulo }} </strong>
 
-                                                <div class="publication-cover">
+                            <span> ID #PUB-{{ publicacion.id }} </span>
+                          </div>
+                        </div>
+                      </td>
 
+                      <!-- AUTOR -->
 
-                                                    {% if publicacion.imagen_portada %}
+                      <td>
+                        {% if autor %}
 
-                                                        <img
-                                                            src="{{ url_imagen(publicacion.imagen_portada) }}"
-                                                            alt="{{ publicacion.titulo }}"
-                                                        >
+                        <div class="publication-author">
+                          <div class="publication-author-avatar">
+                            {% if autor.foto %}
 
-                                                    {% else %}
+                            <img
+                              src="{{ url_imagen(autor.foto) }}"
+                              alt="{{ autor.nombre }}"
+                            />
 
-                                                        <span class="material-symbols-outlined">
-                                                            article
-                                                        </span>
+                            {% else %} {{ autor.nombre[0]|upper }} {% if
+                            autor.apellido %} {{ autor.apellido[0]|upper }} {%
+                            endif %} {% endif %}
+                          </div>
 
-                                                    {% endif %}
+                          <div>
+                            <strong>
+                              {{ autor.nombre }} {% if autor.apellido %} {{
+                              autor.apellido }} {% endif %}
+                            </strong>
 
+                            <span> {{ autor.rol|capitalize }} </span>
+                          </div>
+                        </div>
 
-                                                </div>
+                        {% else %}
 
+                        <span> Usuario no encontrado </span>
 
-                                                <div>
+                        {% endif %}
+                      </td>
 
+                      <!-- CATEGORÍAS -->
 
-                                                    <strong>
-                                                        {{ publicacion.titulo }}
-                                                    </strong>
+                      <td>
+                        {% if publicacion.categorias %} {% for categoria in
+                        publicacion.categorias %}
 
+                        <span class="publication-category">
+                          {{ categoria.nombre }}
+                        </span>
 
-                                                    <span>
-                                                        ID #PUB-{{ publicacion.id }}
-                                                    </span>
+                        {% endfor %} {% else %}
 
+                        <span> Sin categoría </span>
 
-                                                </div>
+                        {% endif %}
+                      </td>
 
+                      <!-- ESTADO -->
 
-                                            </div>
+                      <td>
+                        {% if publicacion.estado == "publicada" %}
 
+                        <span class="publication-state published">
+                          <span></span>
 
-                                        </td>
+                          Publicada
+                        </span>
 
+                        {% else %}
 
+                        <span class="publication-state draft">
+                          <span></span>
 
-                                        <!-- AUTOR -->
-
-                                        <td>
-
-
-                                            {% if autor %}
-
-
-                                                <div class="publication-author">
-
-
-                                                    <div class="publication-author-avatar">
-
-
-                                                        {% if autor.foto %}
-
-                                                            <img
-                                                                src="{{ url_imagen(autor.foto) }}"
-                                                                alt="{{ autor.nombre }}"
-                                                            >
-
-                                                        {% else %}
-
-                                                            {{ autor.nombre[0]|upper }}
-
-                                                            {% if autor.apellido %}
-                                                                {{ autor.apellido[0]|upper }}
-                                                            {% endif %}
-
-                                                        {% endif %}
-
-
-                                                    </div>
-
-
-                                                    <div>
-
-
-                                                        <strong>
-
-                                                            {{ autor.nombre }}
-
-                                                            {% if autor.apellido %}
-                                                                {{ autor.apellido }}
-                                                            {% endif %}
-
-                                                        </strong>
-
-
-                                                        <span>
-                                                            {{ autor.rol|capitalize }}
-                                                        </span>
-
-
-                                                    </div>
-
-
-                                                </div>
-
-
-                                            {% else %}
-
-
-                                                <span>
-                                                    Usuario no encontrado
-                                                </span>
-
-
-                                            {% endif %}
-
-
-                                        </td>
-
-
-
-                                        <!-- CATEGORÍAS -->
-
-                                        <td>
-
-
-                                            {% if publicacion.categorias %}
-
-
-                                                {% for categoria in publicacion.categorias %}
-
-                                                    <span class="publication-category">
-                                                        {{ categoria.nombre }}
-                                                    </span>
-
-                                                {% endfor %}
-
-
-                                            {% else %}
-
-
-                                                <span>
-                                                    Sin categoría
-                                                </span>
-
-
-                                            {% endif %}
-
-
-                                        </td>
-
-
-
-                                        <!-- ESTADO -->
-
-                                        <td>
-
-
-                                            {% if publicacion.estado == "publicada" %}
-
-
-                                                <span class="publication-state published">
-
-                                                    <span></span>
-
-                                                    Publicada
-
-                                                </span>
-
-
-                                            {% else %}
-
-
-                                                <span class="publication-state draft">
-
-                                                    <span></span>
-
-                                                    Borrador
-
-                                                </span>
-
-
-                                            {% endif %}
-
-
-                                        </td>
-
-
-
-                                        <!-- ACCIONES -->
-
-                                        <td>
-
-
-                                            <div class="publication-actions">
-
-
-                                                {% if publicacion.estado == "publicada" %}
-
-                                                    <a
-                                                        href="{{ url_for('main.post', id_publicacion=publicacion.id) }}"
-                                                        class="publication-block-btn"
-                                                        title="Ver publicación"
-                                                    >
-
-                                                        <span class="material-symbols-outlined">
-                                                            visibility
-                                                        </span>
-
-                                                        Ver
-
-                                                    </a>
-
-                                                {% endif %}
-
-
-                                                <form
-                                                    class="publication-delete-form"
-                                                    action="{{ url_for('admin.admin_eliminar_publicacion', id_publicacion=publicacion.id) }}"
-                                                    method="POST"
-                                                    onsubmit="return confirm('¿Seguro que querés eliminar esta publicación? Esta acción no se puede deshacer.');"
-                                                >
-
-
-                                                    <button
-                                                        class="publication-delete-btn"
-                                                        type="submit"
-                                                        title="Eliminar publicación"
-                                                    >
-
-                                                        <span class="material-symbols-outlined">
-                                                            delete
-                                                        </span>
-
-                                                    </button>
-
-
-                                                </form>
-
-
-                                            </div>
-
-
-                                        </td>
-
-
-                                    </tr>
-
-
-                                {% endfor %}
-
-
-                            </tbody>
-
-
-                        </table>
-
-
-                    </div>
-
-
-
-                    <!-- =========================
+                          Borrador
+                        </span>
+
+                        {% endif %}
+                      </td>
+
+                      <!-- ACCIONES -->
+
+                      <td>
+                        <div class="publication-actions">
+                          {% if publicacion.estado == "publicada" %}
+
+                          <a
+                            href="{{ url_for(
+                              'admin.admin_vista_previa_publicacion',
+                              id_publicacion=publicacion.id
+                            ) }}"
+                            class="publication-block-btn"
+                            title="Ver publicación"
+                          >
+                            <span class="material-symbols-outlined">
+                              visibility
+                            </span>
+
+                            Ver
+                          </a>
+
+                          {% endif %}
+
+                          <form
+                            class="publication-delete-form"
+                            action="{{ url_for('admin.admin_eliminar_publicacion', id_publicacion=publicacion.id) }}"
+                            method="POST"
+                            onsubmit="return confirm('¿Seguro que querés eliminar esta publicación? Esta acción no se puede deshacer.');"
+                          >
+                            <button
+                              class="publication-delete-btn"
+                              type="submit"
+                              title="Eliminar publicación"
+                            >
+                              <span class="material-symbols-outlined">
+                                delete
+                              </span>
+                            </button>
+                          </form>
+                        </div>
+                      </td>
+                    </tr>
+
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+
+              <!-- =========================
                          SIN RESULTADOS
                     ========================== -->
 
-                    <div
-                        class="publications-empty"
-                        id="publications-empty"
-                    >
+              <div class="publications-empty" id="publications-empty">
+                <span class="material-symbols-outlined"> article </span>
 
-                        <span class="material-symbols-outlined">
-                            article
-                        </span>
+                <strong> No se encontraron publicaciones </strong>
 
-                        <strong>
-                            No se encontraron publicaciones
-                        </strong>
-
-                        <span>
-                            Probá modificando los filtros.
-                        </span>
-
-                    </div>
-
-
-                </section>
-
-
-            </div>
-
-
+                <span> Probá modificando los filtros. </span>
+              </div>
+            </section>
+          </div>
         </main>
-
-
+      </div>
     </div>
 
-
-</div>
-
-
-
-<!-- =========================
+    <!-- =========================
      FOOTER GLOBAL
 ========================= -->
 
-{% include "base/footer.html" %}
+    {% include "base/footer.html" %}
 
-
-
-<!-- =========================
+    <!-- =========================
      JAVASCRIPT
 ========================= -->
 
-<script>
-
-document.addEventListener(
-    "DOMContentLoaded",
-    function () {
-
-
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
         /* =========================
            ELEMENTOS
         ========================= */
 
+        const searchInput = document.getElementById("publication-search");
 
-        const searchInput =
-            document.getElementById(
-                "publication-search"
-            );
+        const authorFilter = document.getElementById("author-filter");
 
+        const categoryFilter = document.getElementById("category-filter");
 
-        const authorFilter =
-            document.getElementById(
-                "author-filter"
-            );
+        const statusFilter = document.getElementById("status-filter");
 
+        const resultCount = document.getElementById("publication-result-count");
 
-        const categoryFilter =
-            document.getElementById(
-                "category-filter"
-            );
+        const emptyState = document.getElementById("publications-empty");
 
+        const resetButton = document.getElementById(
+          "reset-publication-filters"
+        );
 
-        const statusFilter =
-            document.getElementById(
-                "status-filter"
-            );
-
-
-        const resultCount =
-            document.getElementById(
-                "publication-result-count"
-            );
-
-
-        const emptyState =
-            document.getElementById(
-                "publications-empty"
-            );
-
-
-        const resetButton =
-            document.getElementById(
-                "reset-publication-filters"
-            );
-
-
-        const clearSearch =
-            document.getElementById(
-                "clear-publication-search"
-            );
-
-
+        const clearSearch = document.getElementById("clear-publication-search");
 
         function getRows() {
-
-            return document.querySelectorAll(
-                ".publication-row"
-            );
-
+          return document.querySelectorAll(".publication-row");
         }
-
-
 
         /* =========================
            FILTROS
         ========================= */
 
         function filtrarPublicaciones() {
+          const search = searchInput.value.toLowerCase().trim();
 
+          const author = authorFilter.value;
 
-            const search =
-                searchInput.value
-                    .toLowerCase()
-                    .trim();
+          const category = categoryFilter.value;
 
+          const status = statusFilter.value;
 
-            const author =
-                authorFilter.value;
+          let visible = 0;
 
+          getRows().forEach(function (row) {
+            const texto = row.textContent.toLowerCase();
 
-            const category =
-                categoryFilter.value;
+            const matchesSearch = texto.includes(search);
 
+            const matchesAuthor =
+              author === "all" || row.dataset.author === author;
 
-            const status =
-                statusFilter.value;
+            const categorias = row.dataset.categories
+              .replace(/\s/g, "")
+              .split(",")
+              .filter(Boolean);
 
+            const matchesCategory =
+              category === "all" || categorias.includes(category);
 
-            let visible = 0;
+            const matchesStatus =
+              status === "all" || row.dataset.status === status;
 
+            const show =
+              matchesSearch &&
+              matchesAuthor &&
+              matchesCategory &&
+              matchesStatus;
 
-            getRows().forEach(
-                function (row) {
+            row.style.display = show ? "" : "none";
 
-
-                    const texto =
-                        row.textContent
-                            .toLowerCase();
-
-
-                    const matchesSearch =
-                        texto.includes(
-                            search
-                        );
-
-
-                    const matchesAuthor =
-                        author === "all"
-                        ||
-                        row.dataset.author === author;
-
-
-                    const categorias =
-                        row.dataset.categories
-                            .replace(/\s/g, "")
-                            .split(",")
-                            .filter(Boolean);
-
-
-                    const matchesCategory =
-                        category === "all"
-                        ||
-                        categorias.includes(
-                            category
-                        );
-
-
-                    const matchesStatus =
-                        status === "all"
-                        ||
-                        row.dataset.status === status;
-
-
-                    const show =
-                        matchesSearch
-                        &&
-                        matchesAuthor
-                        &&
-                        matchesCategory
-                        &&
-                        matchesStatus;
-
-
-                    row.style.display =
-                        show
-                        ? ""
-                        : "none";
-
-
-                    if (show) {
-
-                        visible++;
-
-                    }
-
-
-                }
-            );
-
-
-            resultCount.textContent =
-                "Mostrando " +
-                visible +
-                " publicación" +
-                (
-                    visible === 1
-                    ? ""
-                    : "es"
-                );
-
-
-            if (visible === 0) {
-
-                emptyState.classList.add(
-                    "show"
-                );
-
-            } else {
-
-                emptyState.classList.remove(
-                    "show"
-                );
-
+            if (show) {
+              visible++;
             }
+          });
 
+          resultCount.textContent =
+            "Mostrando " +
+            visible +
+            " publicación" +
+            (visible === 1 ? "" : "es");
 
+          if (visible === 0) {
+            emptyState.classList.add("show");
+          } else {
+            emptyState.classList.remove("show");
+          }
         }
 
+        searchInput.addEventListener("input", filtrarPublicaciones);
 
+        authorFilter.addEventListener("change", filtrarPublicaciones);
 
-        searchInput.addEventListener(
-            "input",
-            filtrarPublicaciones
-        );
+        categoryFilter.addEventListener("change", filtrarPublicaciones);
 
+        statusFilter.addEventListener("change", filtrarPublicaciones);
 
-        authorFilter.addEventListener(
-            "change",
-            filtrarPublicaciones
-        );
+        clearSearch.addEventListener("click", function () {
+          searchInput.value = "";
 
+          filtrarPublicaciones();
 
-        categoryFilter.addEventListener(
-            "change",
-            filtrarPublicaciones
-        );
+          searchInput.focus();
+        });
 
+        resetButton.addEventListener("click", function () {
+          searchInput.value = "";
 
-        statusFilter.addEventListener(
-            "change",
-            filtrarPublicaciones
-        );
+          authorFilter.value = "all";
 
+          categoryFilter.value = "all";
 
-        clearSearch.addEventListener(
-            "click",
-            function () {
+          statusFilter.value = "all";
 
-                searchInput.value = "";
-
-                filtrarPublicaciones();
-
-                searchInput.focus();
-
-            }
-        );
-
-
-        resetButton.addEventListener(
-            "click",
-            function () {
-
-                searchInput.value = "";
-
-                authorFilter.value = "all";
-
-                categoryFilter.value = "all";
-
-                statusFilter.value = "all";
-
-                filtrarPublicaciones();
-
-            }
-        );
-
+          filtrarPublicaciones();
+        });
 
         filtrarPublicaciones();
-
-
-    }
-);
-
-</script>
-
-
-</body>
-
+      });
+    </script>
+  </body>
 </html>

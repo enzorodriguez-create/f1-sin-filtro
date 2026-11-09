@@ -44,14 +44,62 @@ def obtener_usuario_actual():
         "usuario"
     )
 
+
     if not datos_usuario:
 
         return None
+
 
     return db.session.get(
         Usuario,
         datos_usuario["id"]
     )
+
+
+# =====================================
+# SEGURIDAD ADMIN
+# =====================================
+
+@bp.before_request
+def proteger_rutas_admin():
+
+    usuario = obtener_usuario_actual()
+
+
+    if not usuario:
+
+        return redirect(
+            url_for(
+                "auth.login"
+            )
+        )
+
+
+    if usuario.rol == "editor":
+
+        return redirect(
+            url_for(
+                "editor.editor"
+            )
+        )
+
+
+    if usuario.rol == "usuario":
+
+        return redirect(
+            url_for(
+                "perfil.perfil"
+            )
+        )
+
+
+    if usuario.rol != "admin":
+
+        return redirect(
+            url_for(
+                "main.inicio"
+            )
+        )
 
 
 # =====================================
@@ -62,22 +110,6 @@ def obtener_usuario_actual():
 def admin_dashboard():
 
     usuario = obtener_usuario_actual()
-
-    if not usuario:
-
-        return redirect(
-            url_for(
-                "auth.login"
-            )
-        )
-
-    if usuario.rol != "admin":
-
-        return redirect(
-            url_for(
-                "main.inicio"
-            )
-        )
 
 
     cantidad_usuarios = Usuario.query.count()
@@ -176,22 +208,6 @@ def admin_usuarios():
 
     usuario = obtener_usuario_actual()
 
-    if not usuario:
-
-        return redirect(
-            url_for(
-                "auth.login"
-            )
-        )
-
-    if usuario.rol != "admin":
-
-        return redirect(
-            url_for(
-                "main.inicio"
-            )
-        )
-
 
     usuarios = Usuario.query.order_by(
         Usuario.id.desc()
@@ -246,22 +262,6 @@ def admin_cambiar_rol(
 ):
 
     admin = obtener_usuario_actual()
-
-    if not admin:
-
-        return redirect(
-            url_for(
-                "auth.login"
-            )
-        )
-
-    if admin.rol != "admin":
-
-        return redirect(
-            url_for(
-                "main.inicio"
-            )
-        )
 
 
     usuario = db.session.get(
@@ -328,22 +328,6 @@ def admin_eliminar_usuario(
 ):
 
     admin = obtener_usuario_actual()
-
-    if not admin:
-
-        return redirect(
-            url_for(
-                "auth.login"
-            )
-        )
-
-    if admin.rol != "admin":
-
-        return redirect(
-            url_for(
-                "main.inicio"
-            )
-        )
 
 
     usuario = db.session.get(
@@ -469,22 +453,6 @@ def admin_solicitudes():
 
     admin = obtener_usuario_actual()
 
-    if not admin:
-
-        return redirect(
-            url_for(
-                "auth.login"
-            )
-        )
-
-    if admin.rol != "admin":
-
-        return redirect(
-            url_for(
-                "main.inicio"
-            )
-        )
-
 
     solicitudes = (
         db.session.query(
@@ -523,18 +491,6 @@ def admin_solicitudes():
 def aprobar_solicitud_editor(
     id_solicitud
 ):
-
-    admin = obtener_usuario_actual()
-
-
-    if not admin or admin.rol != "admin":
-
-        return redirect(
-            url_for(
-                "main.inicio"
-            )
-        )
-
 
     solicitud = db.session.get(
         SolicitudEditor,
@@ -585,18 +541,6 @@ def rechazar_solicitud_editor(
     id_solicitud
 ):
 
-    admin = obtener_usuario_actual()
-
-
-    if not admin or admin.rol != "admin":
-
-        return redirect(
-            url_for(
-                "main.inicio"
-            )
-        )
-
-
     solicitud = db.session.get(
         SolicitudEditor,
         id_solicitud
@@ -625,24 +569,6 @@ def rechazar_solicitud_editor(
 def admin_publicaciones():
 
     usuario = obtener_usuario_actual()
-
-
-    if not usuario:
-
-        return redirect(
-            url_for(
-                "auth.login"
-            )
-        )
-
-
-    if usuario.rol != "admin":
-
-        return redirect(
-            url_for(
-                "main.inicio"
-            )
-        )
 
 
     publicaciones = Publicacion.query.order_by(
@@ -679,6 +605,7 @@ def admin_publicaciones():
                 autor
             )
 
+
             autores_ids.append(
                 autor.id
             )
@@ -708,6 +635,7 @@ def admin_publicaciones():
         "admin/publicaciones.html",
 
         usuario=usuario,
+
         publicaciones=publicaciones,
 
         autores=autores,
@@ -731,6 +659,84 @@ def admin_publicaciones():
 
 
 # =====================================
+# VISTA PREVIA PUBLICACIÓN ADMIN
+# =====================================
+
+@bp.route(
+    "/admin/publicaciones/<int:id_publicacion>/vista-previa"
+)
+def admin_vista_previa_publicacion(
+    id_publicacion
+):
+
+    usuario = obtener_usuario_actual()
+
+
+    publicacion = db.session.get(
+        Publicacion,
+        id_publicacion
+    )
+
+
+    if not publicacion:
+
+        return redirect(
+            url_for(
+                "admin.admin_publicaciones"
+            )
+        )
+
+
+    bloques = BloquePublicacion.query.filter_by(
+        publicacion_id=publicacion.id
+    ).order_by(
+        BloquePublicacion.orden
+    ).all()
+
+
+    carruseles = {}
+
+
+    for bloque in bloques:
+
+        if bloque.tipo == "carrusel":
+
+            imagenes = ImagenCarrusel.query.filter_by(
+                bloque_id=bloque.id
+            ).order_by(
+                ImagenCarrusel.orden
+            ).all()
+
+
+            carruseles[
+                bloque.id
+            ] = imagenes
+
+
+    autor = db.session.get(
+        Usuario,
+        publicacion.autor_id
+    )
+
+
+    return render_template(
+        "admin/vista_previa_publicacion.html",
+
+        usuario=usuario,
+
+        publicacion=publicacion,
+
+        bloques=bloques,
+
+        carruseles=carruseles,
+
+        autor=autor,
+
+        seccion_activa="publicaciones"
+    )
+
+
+# =====================================
 # ELIMINAR PUBLICACIÓN
 # =====================================
 
@@ -743,24 +749,6 @@ def admin_eliminar_publicacion(
 ):
 
     usuario = obtener_usuario_actual()
-
-
-    if not usuario:
-
-        return redirect(
-            url_for(
-                "auth.login"
-            )
-        )
-
-
-    if usuario.rol != "admin":
-
-        return redirect(
-            url_for(
-                "main.inicio"
-            )
-        )
 
 
     publicacion = db.session.get(
@@ -818,7 +806,6 @@ def admin_eliminar_publicacion(
 
 
     for bloque in bloques:
-
 
         if (
             bloque.tipo == "imagen"
@@ -896,24 +883,6 @@ def admin_categorias():
     usuario = obtener_usuario_actual()
 
 
-    if not usuario:
-
-        return redirect(
-            url_for(
-                "auth.login"
-            )
-        )
-
-
-    if usuario.rol != "admin":
-
-        return redirect(
-            url_for(
-                "main.inicio"
-            )
-        )
-
-
     if request.method == "POST":
 
         nombre = request.form.get(
@@ -935,10 +904,7 @@ def admin_categorias():
 
         if not nombre:
 
-            return (
-                "Tenés que ingresar "
-                "un nombre."
-            )
+            return "Tenés que ingresar un nombre."
 
 
         categoria_existente = Categoria.query.filter_by(
@@ -948,10 +914,7 @@ def admin_categorias():
 
         if categoria_existente:
 
-            return (
-                "Ya existe una categoría "
-                "con ese nombre."
-            )
+            return "Ya existe una categoría con ese nombre."
 
 
         imagen = None
@@ -966,10 +929,7 @@ def admin_categorias():
                 imagen_archivo.filename
             ):
 
-                return (
-                    "Formato de imagen "
-                    "no válido."
-                )
+                return "Formato de imagen no válido."
 
 
             imagen = subir_imagen(
@@ -1048,6 +1008,7 @@ def admin_categorias():
         "admin/categorias.html",
 
         usuario=usuario,
+
         categorias=categorias,
 
         cantidad_categorias=
@@ -1084,24 +1045,6 @@ def admin_editar_categoria(
     usuario = obtener_usuario_actual()
 
 
-    if not usuario:
-
-        return redirect(
-            url_for(
-                "auth.login"
-            )
-        )
-
-
-    if usuario.rol != "admin":
-
-        return redirect(
-            url_for(
-                "main.inicio"
-            )
-        )
-
-
     categoria = db.session.get(
         Categoria,
         id_categoria
@@ -1131,10 +1074,7 @@ def admin_editar_categoria(
 
     if not nombre:
 
-        return (
-            "Tenés que ingresar "
-            "un nombre."
-        )
+        return "Tenés que ingresar un nombre."
 
 
     categoria_existente = Categoria.query.filter(
@@ -1145,10 +1085,7 @@ def admin_editar_categoria(
 
     if categoria_existente:
 
-        return (
-            "Ya existe otra categoría "
-            "con ese nombre."
-        )
+        return "Ya existe otra categoría con ese nombre."
 
 
     categoria.nombre = nombre
@@ -1173,10 +1110,7 @@ def admin_editar_categoria(
             imagen_archivo.filename
         ):
 
-            return (
-                "Formato de imagen "
-                "no válido."
-            )
+            return "Formato de imagen no válido."
 
 
         imagen_anterior = categoria.imagen
@@ -1218,24 +1152,6 @@ def admin_eliminar_categoria(
 ):
 
     usuario = obtener_usuario_actual()
-
-
-    if not usuario:
-
-        return redirect(
-            url_for(
-                "auth.login"
-            )
-        )
-
-
-    if usuario.rol != "admin":
-
-        return redirect(
-            url_for(
-                "main.inicio"
-            )
-        )
 
 
     categoria = db.session.get(
@@ -1318,24 +1234,6 @@ def admin_etiquetas():
     usuario = obtener_usuario_actual()
 
 
-    if not usuario:
-
-        return redirect(
-            url_for(
-                "auth.login"
-            )
-        )
-
-
-    if usuario.rol != "admin":
-
-        return redirect(
-            url_for(
-                "main.inicio"
-            )
-        )
-
-
     if request.method == "POST":
 
         nombre = request.form.get(
@@ -1357,10 +1255,7 @@ def admin_etiquetas():
 
         if not nombre:
 
-            return (
-                "Tenés que ingresar "
-                "un nombre."
-            )
+            return "Tenés que ingresar un nombre."
 
 
         etiqueta_existente = Etiqueta.query.filter_by(
@@ -1370,10 +1265,7 @@ def admin_etiquetas():
 
         if etiqueta_existente:
 
-            return (
-                "Ya existe una etiqueta "
-                "con ese nombre."
-            )
+            return "Ya existe una etiqueta con ese nombre."
 
 
         nueva_etiqueta = Etiqueta(
@@ -1442,6 +1334,7 @@ def admin_etiquetas():
         "admin/etiquetas.html",
 
         usuario=usuario,
+
         etiquetas=etiquetas,
 
         cantidad_etiquetas=
@@ -1473,24 +1366,6 @@ def admin_editar_etiqueta(
 ):
 
     usuario = obtener_usuario_actual()
-
-
-    if not usuario:
-
-        return redirect(
-            url_for(
-                "auth.login"
-            )
-        )
-
-
-    if usuario.rol != "admin":
-
-        return redirect(
-            url_for(
-                "main.inicio"
-            )
-        )
 
 
     etiqueta = db.session.get(
@@ -1527,10 +1402,7 @@ def admin_editar_etiqueta(
 
     if not nombre:
 
-        return (
-            "Tenés que ingresar "
-            "un nombre."
-        )
+        return "Tenés que ingresar un nombre."
 
 
     etiqueta_existente = Etiqueta.query.filter(
@@ -1541,10 +1413,7 @@ def admin_editar_etiqueta(
 
     if etiqueta_existente:
 
-        return (
-            "Ya existe otra etiqueta "
-            "con ese nombre."
-        )
+        return "Ya existe otra etiqueta con ese nombre."
 
 
     etiqueta.nombre = nombre
@@ -1575,24 +1444,6 @@ def admin_eliminar_etiqueta(
 ):
 
     usuario = obtener_usuario_actual()
-
-
-    if not usuario:
-
-        return redirect(
-            url_for(
-                "auth.login"
-            )
-        )
-
-
-    if usuario.rol != "admin":
-
-        return redirect(
-            url_for(
-                "main.inicio"
-            )
-        )
 
 
     etiqueta = db.session.get(
@@ -1653,24 +1504,6 @@ def admin_comentarios():
     usuario = obtener_usuario_actual()
 
 
-    if not usuario:
-
-        return redirect(
-            url_for(
-                "auth.login"
-            )
-        )
-
-
-    if usuario.rol != "admin":
-
-        return redirect(
-            url_for(
-                "main.inicio"
-            )
-        )
-
-
     comentarios = Comentario.query.order_by(
         Comentario.fecha.desc()
     ).all()
@@ -1720,27 +1553,6 @@ def admin_eliminar_comentario(
     id_comentario
 ):
 
-    usuario = obtener_usuario_actual()
-
-
-    if not usuario:
-
-        return redirect(
-            url_for(
-                "auth.login"
-            )
-        )
-
-
-    if usuario.rol != "admin":
-
-        return redirect(
-            url_for(
-                "main.inicio"
-            )
-        )
-
-
     comentario = db.session.get(
         Comentario,
         id_comentario
@@ -1781,28 +1593,6 @@ def admin_analiticas():
     usuario = obtener_usuario_actual()
 
 
-    if not usuario:
-
-        return redirect(
-            url_for(
-                "auth.login"
-            )
-        )
-
-
-    if usuario.rol != "admin":
-
-        return redirect(
-            url_for(
-                "main.inicio"
-            )
-        )
-
-
-    # =====================================
-    # ESTADÍSTICAS GENERALES
-    # =====================================
-
     cantidad_usuarios = Usuario.query.count()
 
 
@@ -1827,17 +1617,12 @@ def admin_analiticas():
     ).count()
 
 
-    # =====================================
-    # CATEGORÍAS MÁS USADAS
-    # =====================================
-
     categorias = Categoria.query.order_by(
         Categoria.nombre.asc()
     ).all()
 
 
     categorias_uso = []
-
 
     maximo_categoria = 0
 
@@ -1875,10 +1660,6 @@ def admin_analiticas():
     categorias_uso = categorias_uso[:4]
 
 
-    # =====================================
-    # ETIQUETAS MÁS USADAS
-    # =====================================
-
     etiquetas = Etiqueta.query.order_by(
         Etiqueta.nombre.asc()
     ).all()
@@ -1914,10 +1695,6 @@ def admin_analiticas():
 
     etiquetas_uso = etiquetas_uso[:4]
 
-
-    # =====================================
-    # RENDIMIENTO DE EDITORES
-    # =====================================
 
     editores = Usuario.query.filter_by(
         rol="editor"
@@ -1998,24 +1775,6 @@ def admin_analiticas():
 def admin_perfil():
 
     usuario = obtener_usuario_actual()
-
-
-    if not usuario:
-
-        return redirect(
-            url_for(
-                "auth.login"
-            )
-        )
-
-
-    if usuario.rol != "admin":
-
-        return redirect(
-            url_for(
-                "main.inicio"
-            )
-        )
 
 
     if request.method == "POST":
@@ -2126,20 +1885,11 @@ def admin_cambiar_password():
     usuario = obtener_usuario_actual()
 
 
-    if not usuario:
+    if usuario.tipo_login == "google":
 
         return redirect(
             url_for(
-                "auth.login"
-            )
-        )
-
-
-    if usuario.rol != "admin":
-
-        return redirect(
-            url_for(
-                "main.inicio"
+                "admin.admin_perfil"
             )
         )
 
@@ -2166,10 +1916,12 @@ def admin_cambiar_password():
         password_actual
     ):
 
-        return (
-            "La contraseña actual "
-            "es incorrecta."
-        )
+        return "La contraseña actual es incorrecta."
+
+
+    if not password_nueva:
+
+        return "Tenés que ingresar una nueva contraseña."
 
 
     if (
@@ -2178,10 +1930,7 @@ def admin_cambiar_password():
         password_confirmacion
     ):
 
-        return (
-            "Las contraseñas nuevas "
-            "no coinciden."
-        )
+        return "Las contraseñas nuevas no coinciden."
 
 
     usuario.guardar_password(

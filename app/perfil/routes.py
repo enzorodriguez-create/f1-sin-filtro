@@ -29,6 +29,10 @@ bp = Blueprint(
 )
 
 
+# =====================================
+# USUARIO ACTUAL
+# =====================================
+
 def obtener_usuario_actual():
 
     datos_usuario = session.get(
@@ -47,8 +51,12 @@ def obtener_usuario_actual():
     )
 
 
-@bp.route("/perfil")
-def perfil():
+# =====================================
+# SEGURIDAD USUARIO
+# =====================================
+
+@bp.before_request
+def proteger_rutas_usuario():
 
     usuario = obtener_usuario_actual()
 
@@ -62,27 +70,52 @@ def perfil():
         )
 
 
-    # =========================
-    # CANTIDAD DE COMENTARIOS
-    # =========================
+    if usuario.rol == "editor":
+
+        return redirect(
+            url_for(
+                "editor.editor"
+            )
+        )
+
+
+    if usuario.rol == "admin":
+
+        return redirect(
+            url_for(
+                "admin.admin_dashboard"
+            )
+        )
+
+
+    if usuario.rol != "usuario":
+
+        return redirect(
+            url_for(
+                "main.inicio"
+            )
+        )
+
+
+# =====================================
+# PERFIL
+# =====================================
+
+@bp.route("/perfil")
+def perfil():
+
+    usuario = obtener_usuario_actual()
+
 
     cantidad_comentarios = Comentario.query.filter_by(
         usuario_id=usuario.id
     ).count()
 
 
-    # =========================
-    # PUBLICACIONES GUARDADAS
-    # =========================
-
     cantidad_guardados = PublicacionGuardada.query.filter_by(
         usuario_id=usuario.id
     ).count()
 
-
-    # =========================
-    # ACTIVIDAD RECIENTE
-    # =========================
 
     comentarios_recientes = Comentario.query.filter_by(
         usuario_id=usuario.id
@@ -111,15 +144,6 @@ def perfil():
 def editar_perfil():
 
     usuario = obtener_usuario_actual()
-
-
-    if not usuario:
-
-        return redirect(
-            url_for(
-                "auth.login"
-            )
-        )
 
 
     mensaje = None
@@ -159,24 +183,6 @@ def editar_perfil():
 def solicitar_editor():
 
     usuario = obtener_usuario_actual()
-
-
-    if not usuario:
-
-        return redirect(
-            url_for(
-                "auth.login"
-            )
-        )
-
-
-    if usuario.rol != "usuario":
-
-        return redirect(
-            url_for(
-                "perfil.perfil"
-            )
-        )
 
 
     solicitud_pendiente = SolicitudEditor.query.filter_by(
@@ -223,6 +229,7 @@ def solicitar_editor():
             nueva_solicitud
         )
 
+
         db.session.commit()
 
 
@@ -250,15 +257,6 @@ def comentarios():
     usuario = obtener_usuario_actual()
 
 
-    if not usuario:
-
-        return redirect(
-            url_for(
-                "auth.login"
-            )
-        )
-
-
     comentarios = Comentario.query.filter_by(
         usuario_id=usuario.id
     ).order_by(
@@ -281,18 +279,11 @@ def comentarios():
     "/perfil/comentarios/<int:id_comentario>/editar",
     methods=["GET", "POST"]
 )
-def editar_comentario(id_comentario):
+def editar_comentario(
+    id_comentario
+):
 
     usuario = obtener_usuario_actual()
-
-
-    if not usuario:
-
-        return redirect(
-            url_for(
-                "auth.login"
-            )
-        )
 
 
     comentario = Comentario.query.filter_by(
@@ -334,6 +325,7 @@ def editar_comentario(id_comentario):
 
     return render_template(
         "perfil/editar_comentario.html",
+        usuario=usuario,
         comentario=comentario
     )
 
@@ -346,18 +338,11 @@ def editar_comentario(id_comentario):
     "/perfil/comentarios/<int:id_comentario>/eliminar",
     methods=["POST"]
 )
-def eliminar_comentario(id_comentario):
+def eliminar_comentario(
+    id_comentario
+):
 
     usuario = obtener_usuario_actual()
-
-
-    if not usuario:
-
-        return redirect(
-            url_for(
-                "auth.login"
-            )
-        )
 
 
     comentario = Comentario.query.filter_by(
@@ -379,6 +364,7 @@ def eliminar_comentario(id_comentario):
         comentario
     )
 
+
     db.session.commit()
 
 
@@ -399,15 +385,6 @@ def guardados():
     usuario = obtener_usuario_actual()
 
 
-    if not usuario:
-
-        return redirect(
-            url_for(
-                "auth.login"
-            )
-        )
-
-
     guardados = PublicacionGuardada.query.filter_by(
         usuario_id=usuario.id
     ).order_by(
@@ -421,6 +398,7 @@ def guardados():
         guardados=guardados
     )
 
+
 # =====================================
 # GUARDAR PUBLICACIÓN
 # =====================================
@@ -429,18 +407,11 @@ def guardados():
     "/perfil/guardados/<int:id_publicacion>/guardar",
     methods=["POST"]
 )
-def guardar_publicacion(id_publicacion):
+def guardar_publicacion(
+    id_publicacion
+):
 
     usuario = obtener_usuario_actual()
-
-
-    if not usuario:
-
-        return redirect(
-            url_for(
-                "auth.login"
-            )
-        )
 
 
     guardado_existente = PublicacionGuardada.query.filter_by(
@@ -474,25 +445,18 @@ def guardar_publicacion(id_publicacion):
 
 
 # =====================================
-# QUITAR PUBLICACIÓN GUARDADA
+# QUITAR GUARDADO
 # =====================================
 
 @bp.route(
     "/perfil/guardados/<int:id_publicacion>/quitar",
     methods=["POST"]
 )
-def quitar_publicacion_guardada(id_publicacion):
+def quitar_publicacion_guardada(
+    id_publicacion
+):
 
     usuario = obtener_usuario_actual()
-
-
-    if not usuario:
-
-        return redirect(
-            url_for(
-                "auth.login"
-            )
-        )
 
 
     guardado = PublicacionGuardada.query.filter_by(
@@ -517,15 +481,20 @@ def quitar_publicacion_guardada(id_publicacion):
         )
     )
 
+
 # =====================================
-# ETIQUETAS
+# ETIQUETAS GUARDADAS
 # =====================================
 
 @bp.route("/perfil/etiquetas")
 def etiquetas_guardadas():
 
+    usuario = obtener_usuario_actual()
+
+
     return render_template(
-        "perfil/etiquetas.html"
+        "perfil/etiquetas.html",
+        usuario=usuario
     )
 
 
@@ -533,26 +502,27 @@ def etiquetas_guardadas():
 # ACTUALIZAR PERFIL
 # =====================================
 
-def actualizar_perfil_usuario(usuario):
-
-    # =========================
-    # DATOS PERSONALES
-    # =========================
+def actualizar_perfil_usuario(
+    usuario
+):
 
     usuario.nombre = request.form.get(
         "nombre",
         usuario.nombre
     ).strip()
 
+
     usuario.apellido = request.form.get(
         "apellido",
         usuario.apellido
     ).strip()
 
+
     usuario.usuario = request.form.get(
         "usuario",
         usuario.usuario
     ).strip()
+
 
     usuario.email = request.form.get(
         "email",
@@ -560,9 +530,9 @@ def actualizar_perfil_usuario(usuario):
     ).strip()
 
 
-    # =========================
-    # CAMBIO DE CONTRASEÑA
-    # =========================
+    # =====================================
+    # CONTRASEÑA
+    # =====================================
 
     if usuario.tipo_login == "normal":
 
@@ -571,10 +541,12 @@ def actualizar_perfil_usuario(usuario):
             ""
         )
 
+
         password_nueva = request.form.get(
             "pass_nueva",
             ""
         )
+
 
         password_confirmacion = request.form.get(
             "pass_confirm",
@@ -623,13 +595,14 @@ def actualizar_perfil_usuario(usuario):
             )
 
 
-    # =========================
+    # =====================================
     # FOTO
-    # =========================
+    # =====================================
 
     foto = request.files.get(
         "foto"
     )
+
 
     foto_anterior = None
 
@@ -655,10 +628,6 @@ def actualizar_perfil_usuario(usuario):
         )
 
 
-    # =========================
-    # GUARDO CAMBIOS
-    # =========================
-
     db.session.commit()
 
 
@@ -668,10 +637,6 @@ def actualizar_perfil_usuario(usuario):
             foto_anterior
         )
 
-
-    # =========================
-    # ACTUALIZO LA SESIÓN
-    # =========================
 
     session["usuario"] = {
         "id": usuario.id,
