@@ -18,29 +18,87 @@
     <!-- FUENTES -->
 
     <link
-    rel="stylesheet"
-    href="{{ url_for('static', filename='styles/style.css') }}"
->
+        rel="stylesheet"
+        href="{{ url_for('static', filename='styles/style.css') }}"
+    >
 
-<link
-    rel="stylesheet"
-    href="{{ url_for('static', filename='styles/admin/base.css') }}"
->
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='styles/admin/base.css') }}"
+    >
 
-<link
-    rel="stylesheet"
-    href="{{ url_for('static', filename='styles/admin/sidebar.css') }}"
->
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='styles/admin/sidebar.css') }}"
+    >
 
-<link
-    rel="stylesheet"
-    href="{{ url_for('static', filename='styles/admin/dashboard.css') }}"
->
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='styles/admin/dashboard.css') }}"
+    >
 
-<link
-    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
-    rel="stylesheet"
->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
+        rel="stylesheet"
+    >
+
+
+    <!-- =========================
+         AVATARES
+    ========================== -->
+
+    <style>
+
+        .admin-avatar {
+            width: 38px;
+            height: 38px;
+
+            min-width: 38px;
+
+            overflow: hidden;
+
+            border-radius: 50%;
+        }
+
+
+        .admin-avatar img {
+            width: 100%;
+            height: 100%;
+
+            display: block;
+
+            object-fit: cover;
+            object-position: center;
+        }
+
+
+        .admin-user-avatar {
+            width: 42px;
+            height: 42px;
+
+            min-width: 42px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            overflow: hidden;
+
+            border-radius: 50%;
+        }
+
+
+        .admin-user-avatar img {
+            width: 100%;
+            height: 100%;
+
+            display: block;
+
+            object-fit: cover;
+            object-position: center;
+        }
+
+    </style>
 
 </head>
 
@@ -141,7 +199,7 @@
                         <div class="admin-avatar">
 
                             <img
-                                src="{{ usuario.foto }}"
+                                src="{{ url_imagen(usuario.foto) }}"
                                 alt="{{ usuario.nombre }}"
                             >
 
@@ -255,7 +313,7 @@
 
 
                         <strong>
-                            1.248
+                            {{ cantidad_usuarios }}
                         </strong>
 
 
@@ -290,7 +348,7 @@
 
 
                         <strong>
-                            12
+                            {{ cantidad_editores }}
                         </strong>
 
 
@@ -325,7 +383,7 @@
 
 
                         <strong>
-                            186
+                            {{ cantidad_publicaciones }}
                         </strong>
 
 
@@ -360,7 +418,7 @@
 
 
                         <strong>
-                            842
+                            {{ cantidad_comentarios }}
                         </strong>
 
 
@@ -395,7 +453,7 @@
 
 
                         <strong>
-                            3
+                            {{ cantidad_solicitudes }}
                         </strong>
 
 
@@ -485,15 +543,16 @@
 
                                     <tr>
 
+
                                         <td>
 
                                             <div class="admin-action-name">
 
                                                 <span class="material-symbols-outlined">
-                                                    how_to_reg
+                                                    info
                                                 </span>
 
-                                                Solicitud de editor aprobada
+                                                Actividad del sistema
 
                                             </div>
 
@@ -501,103 +560,7 @@
 
 
                                         <td>
-                                            Martín Alonso
-                                        </td>
-
-
-                                        <td>
-
-                                            <span class="admin-table-role editor">
-                                                Editor
-                                            </span>
-
-                                        </td>
-
-
-                                        <td>
-                                            Hoy, 15:30
-                                        </td>
-
-
-                                        <td>
-
-                                            <span class="admin-state active">
-                                                Completado
-                                            </span>
-
-                                        </td>
-
-                                    </tr>
-
-
-
-                                    <tr>
-
-                                        <td>
-
-                                            <div class="admin-action-name">
-
-                                                <span class="material-symbols-outlined">
-                                                    article
-                                                </span>
-
-                                                Nueva publicación
-
-                                            </div>
-
-                                        </td>
-
-
-                                        <td>
-                                            Carlos Sainz
-                                        </td>
-
-
-                                        <td>
-
-                                            <span class="admin-table-role editor">
-                                                Editor
-                                            </span>
-
-                                        </td>
-
-
-                                        <td>
-                                            Hoy, 14:45
-                                        </td>
-
-
-                                        <td>
-
-                                            <span class="admin-state active">
-                                                Publicada
-                                            </span>
-
-                                        </td>
-
-                                    </tr>
-
-
-
-                                    <tr>
-
-                                        <td>
-
-                                            <div class="admin-action-name">
-
-                                                <span class="material-symbols-outlined">
-                                                    delete
-                                                </span>
-
-                                                Comentario eliminado
-
-                                            </div>
-
-                                        </td>
-
-
-                                        <td>
-                                            Administrador
+                                            {{ usuario.nombre }}
                                         </td>
 
 
@@ -611,65 +574,18 @@
 
 
                                         <td>
-                                            Hoy, 12:18
-                                        </td>
-
-
-                                        <td>
-
-                                            <span class="admin-state removed">
-                                                Eliminado
-                                            </span>
-
-                                        </td>
-
-                                    </tr>
-
-
-
-                                    <tr>
-
-                                        <td>
-
-                                            <div class="admin-action-name">
-
-                                                <span class="material-symbols-outlined">
-                                                    category
-                                                </span>
-
-                                                Categoría actualizada
-
-                                            </div>
-
-                                        </td>
-
-
-                                        <td>
-                                            Administrador
-                                        </td>
-
-
-                                        <td>
-
-                                            <span class="admin-table-role admin">
-                                                Admin
-                                            </span>
-
-                                        </td>
-
-
-                                        <td>
-                                            Ayer, 18:25
+                                            -
                                         </td>
 
 
                                         <td>
 
                                             <span class="admin-state active">
-                                                Actualizada
+                                                Pendiente
                                             </span>
 
                                         </td>
+
 
                                     </tr>
 
@@ -711,7 +627,7 @@
 
 
                             <span class="admin-count-badge">
-                                3
+                                {{ cantidad_solicitudes }}
                             </span>
 
 
@@ -722,186 +638,91 @@
                         <div class="admin-requests">
 
 
-                            <!-- SOLICITUD 1 -->
-
-                            <article class="admin-request">
+                            {% if solicitudes_recientes %}
 
 
-                                <div class="admin-request-head">
+                                {% for solicitud, usuario_solicitud in solicitudes_recientes %}
 
 
-                                    <div>
-
-                                        <strong>
-                                            Martín Alonso
-                                        </strong>
-
-                                        <span>
-                                            @malonso_telemetria
-                                        </span>
-
-                                    </div>
+                                    <article class="admin-request">
 
 
-                                    <span class="admin-request-date">
-                                        Hoy
-                                    </span>
+                                        <div class="admin-request-head">
 
 
-                                </div>
+                                            <div>
+
+                                                <strong>
+
+                                                    {{ usuario_solicitud.nombre }}
+
+                                                    {% if usuario_solicitud.apellido %}
+                                                        {{ usuario_solicitud.apellido }}
+                                                    {% endif %}
+
+                                                </strong>
 
 
-                                <p>
-                                    Solicitud pendiente para convertirse
-                                    en editor de F1 SIN FILTRO.
-                                </p>
+                                                <span>
+                                                    @{{ usuario_solicitud.usuario }}
+                                                </span>
+
+                                            </div>
 
 
-                                <div class="admin-request-actions">
+                                        </div>
 
 
-                                    <button
-                                        class="admin-approve-btn"
-                                        type="button"
-                                    >
-                                        Aprobar
-                                    </button>
+                                        <p>
+                                            Solicitud pendiente para convertirse
+                                            en editor de F1 SIN FILTRO.
+                                        </p>
 
 
-                                    <button
-                                        class="admin-review-btn"
-                                        type="button"
-                                    >
-                                        Revisar
-                                    </button>
+                                        <div class="admin-request-actions">
 
 
-                                </div>
+                                            <form
+                                                action="{{ url_for('admin.aprobar_solicitud_editor', id_solicitud=solicitud.id) }}"
+                                                method="POST"
+                                            >
+
+                                                <button
+                                                    class="admin-approve-btn"
+                                                    type="submit"
+                                                >
+                                                    Aprobar
+                                                </button>
+
+                                            </form>
 
 
-                            </article>
+                                            <a
+                                                href="{{ url_for('admin.admin_solicitudes') }}"
+                                                class="admin-review-btn"
+                                            >
+                                                Revisar
+                                            </a>
 
 
-
-                            <!-- SOLICITUD 2 -->
-
-                            <article class="admin-request">
+                                        </div>
 
 
-                                <div class="admin-request-head">
+                                    </article>
 
 
-                                    <div>
-
-                                        <strong>
-                                            Sofía Barrientos
-                                        </strong>
-
-                                        <span>
-                                            @sofi_pitlane
-                                        </span>
-
-                                    </div>
+                                {% endfor %}
 
 
-                                    <span class="admin-request-date">
-                                        Ayer
-                                    </span>
-
-
-                                </div>
+                            {% else %}
 
 
                                 <p>
-                                    Solicitud pendiente para convertirse
-                                    en editor de F1 SIN FILTRO.
+                                    No hay solicitudes pendientes.
                                 </p>
 
 
-                                <div class="admin-request-actions">
-
-
-                                    <button
-                                        class="admin-approve-btn"
-                                        type="button"
-                                    >
-                                        Aprobar
-                                    </button>
-
-
-                                    <button
-                                        class="admin-review-btn"
-                                        type="button"
-                                    >
-                                        Revisar
-                                    </button>
-
-
-                                </div>
-
-
-                            </article>
-
-
-
-                            <!-- SOLICITUD 3 -->
-
-                            <article class="admin-request">
-
-
-                                <div class="admin-request-head">
-
-
-                                    <div>
-
-                                        <strong>
-                                            Esteban Gómez
-                                        </strong>
-
-                                        <span>
-                                            @gomez_motorsport
-                                        </span>
-
-                                    </div>
-
-
-                                    <span class="admin-request-date">
-                                        23/10/2026
-                                    </span>
-
-
-                                </div>
-
-
-                                <p>
-                                    Solicitud pendiente para convertirse
-                                    en editor de F1 SIN FILTRO.
-                                </p>
-
-
-                                <div class="admin-request-actions">
-
-
-                                    <button
-                                        class="admin-approve-btn"
-                                        type="button"
-                                    >
-                                        Aprobar
-                                    </button>
-
-
-                                    <button
-                                        class="admin-review-btn"
-                                        type="button"
-                                    >
-                                        Revisar
-                                    </button>
-
-
-                                </div>
-
-
-                            </article>
+                            {% endif %}
 
 
                         </div>
@@ -921,7 +742,9 @@
                 <div class="admin-secondary-grid">
 
 
-                    <!-- USUARIOS RECIENTES -->
+                    <!-- =========================
+                         USUARIOS RECIENTES
+                    ========================== -->
 
                     <section class="admin-panel">
 
@@ -949,93 +772,80 @@
                         <div class="admin-recent-users">
 
 
-                            <div class="admin-recent-user">
+                            {% if usuarios_recientes %}
 
 
-                                <div class="admin-user-avatar">
-                                    LR
-                                </div>
+                                {% for usuario_reciente in usuarios_recientes %}
 
 
-                                <div>
-
-                                    <strong>
-                                        Lucas Ramírez
-                                    </strong>
-
-                                    <span>
-                                        @lucasramirez
-                                    </span>
-
-                                </div>
+                                    <div class="admin-recent-user">
 
 
-                                <span class="admin-user-type">
-                                    USUARIO
-                                </span>
+                                        <div class="admin-user-avatar">
 
 
-                            </div>
+                                            {% if usuario_reciente.foto %}
+
+                                                <img
+                                                    src="{{ url_imagen(usuario_reciente.foto) }}"
+                                                    alt="{{ usuario_reciente.nombre }}"
+                                                >
+
+                                            {% else %}
+
+                                                {{ usuario_reciente.nombre[0]|upper }}
+
+                                                {% if usuario_reciente.apellido %}
+                                                    {{ usuario_reciente.apellido[0]|upper }}
+                                                {% endif %}
+
+                                            {% endif %}
 
 
-
-                            <div class="admin-recent-user">
-
-
-                                <div class="admin-user-avatar">
-                                    MS
-                                </div>
+                                        </div>
 
 
-                                <div>
+                                        <div>
 
-                                    <strong>
-                                        Martina Suárez
-                                    </strong>
+                                            <strong>
 
-                                    <span>
-                                        @martinas
-                                    </span>
+                                                {{ usuario_reciente.nombre }}
 
-                                </div>
+                                                {% if usuario_reciente.apellido %}
+                                                    {{ usuario_reciente.apellido }}
+                                                {% endif %}
 
-
-                                <span class="admin-user-type">
-                                    USUARIO
-                                </span>
+                                            </strong>
 
 
-                            </div>
+                                            <span>
+                                                @{{ usuario_reciente.usuario }}
+                                            </span>
 
 
-
-                            <div class="admin-recent-user">
-
-
-                                <div class="admin-user-avatar">
-                                    JP
-                                </div>
+                                        </div>
 
 
-                                <div>
-
-                                    <strong>
-                                        Juan Pérez
-                                    </strong>
-
-                                    <span>
-                                        @juanperez
-                                    </span>
-
-                                </div>
+                                        <span class="admin-user-type">
+                                            {{ usuario_reciente.rol|upper }}
+                                        </span>
 
 
-                                <span class="admin-user-type">
-                                    USUARIO
-                                </span>
+                                    </div>
 
 
-                            </div>
+                                {% endfor %}
+
+
+                            {% else %}
+
+
+                                <p>
+                                    No hay usuarios registrados.
+                                </p>
+
+
+                            {% endif %}
 
 
                         </div>
@@ -1045,7 +855,9 @@
 
 
 
-                    <!-- RESUMEN CONTENIDO -->
+                    <!-- =========================
+                         RESUMEN CONTENIDO
+                    ========================== -->
 
                     <section class="admin-panel">
 
@@ -1073,6 +885,8 @@
                         <div class="admin-content-summary">
 
 
+                            <!-- CATEGORÍAS -->
+
                             <div>
 
                                 <span class="material-symbols-outlined">
@@ -1082,7 +896,7 @@
                                 <div>
 
                                     <strong>
-                                        8
+                                        {{ cantidad_categorias }}
                                     </strong>
 
                                     <span>
@@ -1094,6 +908,7 @@
                             </div>
 
 
+                            <!-- ETIQUETAS -->
 
                             <div>
 
@@ -1104,7 +919,7 @@
                                 <div>
 
                                     <strong>
-                                        24
+                                        {{ cantidad_etiquetas }}
                                     </strong>
 
                                     <span>
@@ -1116,21 +931,22 @@
                             </div>
 
 
+                            <!-- PUBLICADAS -->
 
                             <div>
 
                                 <span class="material-symbols-outlined">
-                                    workspace_premium
+                                    article
                                 </span>
 
                                 <div>
 
                                     <strong>
-                                        32
+                                        {{ cantidad_publicadas }}
                                     </strong>
 
                                     <span>
-                                        Publicaciones Premium
+                                        Publicadas
                                     </span>
 
                                 </div>
@@ -1138,6 +954,7 @@
                             </div>
 
 
+                            <!-- BORRADORES -->
 
                             <div>
 
@@ -1148,7 +965,7 @@
                                 <div>
 
                                     <strong>
-                                        9
+                                        {{ cantidad_borradores }}
                                     </strong>
 
                                     <span>

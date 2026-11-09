@@ -13,12 +13,18 @@ from app.models import (
     Usuario,
     SolicitudEditor,
     Publicacion,
-    Comentario
+    Comentario,
+    Categoria,
+    Etiqueta,
+    BloquePublicacion,
+    ImagenCarrusel,
+    PublicacionGuardada
 )
 
 from almacenamiento import (
     extension_valida,
-    subir_imagen
+    subir_imagen,
+    borrar_imagen
 )
 
 
@@ -27,6 +33,10 @@ bp = Blueprint(
     __name__
 )
 
+
+# =====================================
+# USUARIO ACTUAL
+# =====================================
 
 def obtener_usuario_actual():
 
@@ -74,9 +84,105 @@ def admin_dashboard():
         )
 
 
+    # =====================================
+    # ESTADÍSTICAS
+    # =====================================
+
+    cantidad_usuarios = Usuario.query.count()
+
+
+    cantidad_editores = Usuario.query.filter_by(
+        rol="editor"
+    ).count()
+
+
+    cantidad_publicaciones = Publicacion.query.count()
+
+
+    cantidad_comentarios = Comentario.query.count()
+
+
+    cantidad_solicitudes = SolicitudEditor.query.filter_by(
+        estado="pendiente"
+    ).count()
+
+
+    # =====================================
+    # SOLICITUDES RECIENTES
+    # =====================================
+
+    solicitudes_recientes = (
+        db.session.query(
+            SolicitudEditor,
+            Usuario
+        )
+        .join(
+            Usuario,
+            SolicitudEditor.usuario_id
+            ==
+            Usuario.id
+        )
+        .filter(
+            SolicitudEditor.estado
+            ==
+            "pendiente"
+        )
+        .order_by(
+            SolicitudEditor.id.desc()
+        )
+        .limit(3)
+        .all()
+    )
+
+
+    # =====================================
+    # USUARIOS RECIENTES
+    # =====================================
+
+    usuarios_recientes = Usuario.query.order_by(
+        Usuario.id.desc()
+    ).limit(3).all()
+
+
+    # =====================================
+    # RESUMEN DEL PORTAL
+    # =====================================
+
+    cantidad_categorias = Categoria.query.count()
+
+
+    cantidad_etiquetas = Etiqueta.query.count()
+
+
+    cantidad_publicadas = Publicacion.query.filter_by(
+        estado="publicada"
+    ).count()
+
+
+    cantidad_borradores = Publicacion.query.filter_by(
+        estado="borrador"
+    ).count()
+
+
     return render_template(
         "admin/dashboard.html",
+
         usuario=usuario,
+
+        cantidad_usuarios=cantidad_usuarios,
+        cantidad_editores=cantidad_editores,
+        cantidad_publicaciones=cantidad_publicaciones,
+        cantidad_comentarios=cantidad_comentarios,
+        cantidad_solicitudes=cantidad_solicitudes,
+
+        solicitudes_recientes=solicitudes_recientes,
+        usuarios_recientes=usuarios_recientes,
+
+        cantidad_categorias=cantidad_categorias,
+        cantidad_etiquetas=cantidad_etiquetas,
+        cantidad_publicadas=cantidad_publicadas,
+        cantidad_borradores=cantidad_borradores,
+
         seccion_activa="dashboard"
     )
 
@@ -109,10 +215,292 @@ def admin_usuarios():
         )
 
 
+    usuarios = Usuario.query.order_by(
+        Usuario.id.desc()
+    ).all()
+
+
+    cantidad_usuarios = len(
+        usuarios
+    )
+
+
+    cantidad_editores = Usuario.query.filter_by(
+        rol="editor"
+    ).count()
+
+
+    cantidad_premium = Usuario.query.filter_by(
+        premium=True
+    ).count()
+
+
+    cantidad_usuarios_normales = Usuario.query.filter_by(
+        rol="usuario"
+    ).count()
+
+
     return render_template(
         "admin/usuarios.html",
+
         usuario=usuario,
+        usuarios=usuarios,
+
+        cantidad_usuarios=cantidad_usuarios,
+        cantidad_editores=cantidad_editores,
+        cantidad_premium=cantidad_premium,
+        cantidad_usuarios_normales=cantidad_usuarios_normales,
+
         seccion_activa="usuarios"
+    )
+
+
+# =====================================
+# CAMBIAR ROL
+# =====================================
+
+@bp.route(
+    "/admin/usuarios/<int:id_usuario>/rol",
+    methods=["POST"]
+)
+def admin_cambiar_rol(
+    id_usuario
+):
+
+    admin = obtener_usuario_actual()
+
+
+    if not admin:
+
+        return redirect(
+            url_for(
+                "auth.login"
+            )
+        )
+
+
+    if admin.rol != "admin":
+
+        return redirect(
+            url_for(
+                "main.inicio"
+            )
+        )
+
+
+    usuario = db.session.get(
+        Usuario,
+        id_usuario
+    )
+
+
+    if not usuario:
+
+        return redirect(
+            url_for(
+                "admin.admin_usuarios"
+            )
+        )
+
+
+    # =====================================
+    # NO MODIFICO MI PROPIO ROL
+    # =====================================
+
+    if usuario.id == admin.id:
+
+        return redirect(
+            url_for(
+                "admin.admin_usuarios"
+            )
+        )
+
+
+    nuevo_rol = request.form.get(
+        "rol",
+        ""
+    )
+
+
+    roles_validos = [
+        "usuario",
+        "editor",
+        "admin"
+    ]
+
+
+    if nuevo_rol in roles_validos:
+
+        usuario.rol = nuevo_rol
+
+        db.session.commit()
+
+
+    return redirect(
+        url_for(
+            "admin.admin_usuarios"
+        )
+    )
+
+
+# =====================================
+# ELIMINAR USUARIO
+# =====================================
+
+@bp.route(
+    "/admin/usuarios/<int:id_usuario>/eliminar",
+    methods=["POST"]
+)
+def admin_eliminar_usuario(
+    id_usuario
+):
+
+    admin = obtener_usuario_actual()
+
+
+    if not admin:
+
+        return redirect(
+            url_for(
+                "auth.login"
+            )
+        )
+
+
+    if admin.rol != "admin":
+
+        return redirect(
+            url_for(
+                "main.inicio"
+            )
+        )
+
+
+    usuario = db.session.get(
+        Usuario,
+        id_usuario
+    )
+
+
+    if not usuario:
+
+        return redirect(
+            url_for(
+                "admin.admin_usuarios"
+            )
+        )
+
+
+    # =====================================
+    # PROTEJO CUENTAS ADMIN
+    # =====================================
+
+    if usuario.rol == "admin":
+
+        return redirect(
+            url_for(
+                "admin.admin_usuarios"
+            )
+        )
+
+
+    # =====================================
+    # COMPRUEBO PUBLICACIONES
+    # =====================================
+
+    tiene_publicaciones = Publicacion.query.filter_by(
+        autor_id=usuario.id
+    ).first()
+
+
+    # =====================================
+    # COMPRUEBO COMENTARIOS
+    # =====================================
+
+    tiene_comentarios = Comentario.query.filter_by(
+        usuario_id=usuario.id
+    ).first()
+
+
+    if (
+        tiene_publicaciones
+        or
+        tiene_comentarios
+    ):
+
+        return redirect(
+            url_for(
+                "admin.admin_usuarios"
+            )
+        )
+
+
+    # =====================================
+    # GUARDADOS
+    # =====================================
+
+    guardados = PublicacionGuardada.query.filter_by(
+        usuario_id=usuario.id
+    ).all()
+
+
+    for guardado in guardados:
+
+        db.session.delete(
+            guardado
+        )
+
+
+    # =====================================
+    # SOLICITUDES
+    # =====================================
+
+    solicitudes = SolicitudEditor.query.filter_by(
+        usuario_id=usuario.id
+    ).all()
+
+
+    for solicitud in solicitudes:
+
+        db.session.delete(
+            solicitud
+        )
+
+
+    # =====================================
+    # FOTO
+    # =====================================
+
+    foto_usuario = usuario.foto
+
+
+    # =====================================
+    # ELIMINO USUARIO
+    # =====================================
+
+    db.session.delete(
+        usuario
+    )
+
+
+    db.session.commit()
+
+
+    # =====================================
+    # ELIMINO FOTO
+    # =====================================
+
+    if foto_usuario:
+
+        borrar_imagen(
+            foto_usuario
+        )
+
+
+    return redirect(
+        url_for(
+            "admin.admin_usuarios"
+        )
     )
 
 
@@ -129,7 +517,8 @@ def notificaciones_admin():
 
 
     return {
-        "solicitudes_pendientes": solicitudes_pendientes
+        "solicitudes_pendientes":
+            solicitudes_pendientes
     }
 
 
@@ -171,6 +560,9 @@ def admin_solicitudes():
             SolicitudEditor.usuario_id
             ==
             Usuario.id
+        )
+        .order_by(
+            SolicitudEditor.id.desc()
         )
         .all()
     )
@@ -317,10 +709,290 @@ def admin_publicaciones():
         )
 
 
+    # =====================================
+    # PUBLICACIONES
+    # =====================================
+
+    publicaciones = Publicacion.query.order_by(
+        Publicacion.id.desc()
+    ).all()
+
+
+    # =====================================
+    # AUTORES
+    # =====================================
+
+    autores_publicaciones = {}
+
+    autores = []
+
+    autores_ids = []
+
+
+    for publicacion in publicaciones:
+
+        autor = db.session.get(
+            Usuario,
+            publicacion.autor_id
+        )
+
+
+        autores_publicaciones[
+            publicacion.id
+        ] = autor
+
+
+        if (
+            autor
+            and autor.id not in autores_ids
+        ):
+
+            autores.append(
+                autor
+            )
+
+            autores_ids.append(
+                autor.id
+            )
+
+
+    # =====================================
+    # CATEGORÍAS
+    # =====================================
+
+    categorias = Categoria.query.order_by(
+        Categoria.nombre.asc()
+    ).all()
+
+
+    # =====================================
+    # ESTADÍSTICAS
+    # =====================================
+
+    cantidad_publicaciones = len(
+        publicaciones
+    )
+
+
+    cantidad_publicadas = Publicacion.query.filter_by(
+        estado="publicada"
+    ).count()
+
+
+    cantidad_borradores = Publicacion.query.filter_by(
+        estado="borrador"
+    ).count()
+
+
     return render_template(
         "admin/publicaciones.html",
+
         usuario=usuario,
+
+        publicaciones=publicaciones,
+
+        autores=autores,
+
+        autores_publicaciones=autores_publicaciones,
+
+        categorias=categorias,
+
+        cantidad_publicaciones=cantidad_publicaciones,
+
+        cantidad_publicadas=cantidad_publicadas,
+
+        cantidad_borradores=cantidad_borradores,
+
         seccion_activa="publicaciones"
+    )
+
+
+# =====================================
+# ELIMINAR PUBLICACIÓN
+# =====================================
+
+@bp.route(
+    "/admin/publicaciones/<int:id_publicacion>/eliminar",
+    methods=["POST"]
+)
+def admin_eliminar_publicacion(
+    id_publicacion
+):
+
+    usuario = obtener_usuario_actual()
+
+
+    if not usuario:
+
+        return redirect(
+            url_for(
+                "auth.login"
+            )
+        )
+
+
+    if usuario.rol != "admin":
+
+        return redirect(
+            url_for(
+                "main.inicio"
+            )
+        )
+
+
+    publicacion = db.session.get(
+        Publicacion,
+        id_publicacion
+    )
+
+
+    if not publicacion:
+
+        return redirect(
+            url_for(
+                "admin.admin_publicaciones"
+            )
+        )
+
+
+    # =====================================
+    # IMÁGENES A ELIMINAR
+    # =====================================
+
+    imagenes_a_eliminar = []
+
+
+    if publicacion.imagen_portada:
+
+        imagenes_a_eliminar.append(
+            publicacion.imagen_portada
+        )
+
+
+    # =====================================
+    # COMENTARIOS
+    # =====================================
+
+    comentarios = Comentario.query.filter_by(
+        publicacion_id=publicacion.id
+    ).all()
+
+
+    for comentario in comentarios:
+
+        db.session.delete(
+            comentario
+        )
+
+
+    # =====================================
+    # PUBLICACIONES GUARDADAS
+    # =====================================
+
+    guardados = PublicacionGuardada.query.filter_by(
+        publicacion_id=publicacion.id
+    ).all()
+
+
+    for guardado in guardados:
+
+        db.session.delete(
+            guardado
+        )
+
+
+    # =====================================
+    # BLOQUES
+    # =====================================
+
+    bloques = BloquePublicacion.query.filter_by(
+        publicacion_id=publicacion.id
+    ).all()
+
+
+    for bloque in bloques:
+
+
+        # =====================================
+        # IMAGEN DE BLOQUE
+        # =====================================
+
+        if (
+            bloque.tipo == "imagen"
+            and bloque.contenido
+        ):
+
+            imagenes_a_eliminar.append(
+                bloque.contenido
+            )
+
+
+        # =====================================
+        # CARRUSEL
+        # =====================================
+
+        if bloque.tipo == "carrusel":
+
+            imagenes = ImagenCarrusel.query.filter_by(
+                bloque_id=bloque.id
+            ).all()
+
+
+            for imagen in imagenes:
+
+                if imagen.imagen:
+
+                    imagenes_a_eliminar.append(
+                        imagen.imagen
+                    )
+
+
+                db.session.delete(
+                    imagen
+                )
+
+
+        db.session.delete(
+            bloque
+        )
+
+
+    # =====================================
+    # CATEGORÍAS Y ETIQUETAS
+    # =====================================
+
+    publicacion.categorias = []
+
+    publicacion.etiquetas = []
+
+
+    # =====================================
+    # ELIMINO PUBLICACIÓN
+    # =====================================
+
+    db.session.delete(
+        publicacion
+    )
+
+
+    db.session.commit()
+
+
+    # =====================================
+    # ELIMINO IMÁGENES
+    # =====================================
+
+    for imagen in imagenes_a_eliminar:
+
+        borrar_imagen(
+            imagen
+        )
+
+
+    return redirect(
+        url_for(
+            "admin.admin_publicaciones"
+        )
     )
 
 
@@ -422,95 +1094,10 @@ def admin_comentarios():
         )
 
 
-    # =========================
-    # COMENTARIOS
-    # =========================
-
-    comentarios = Comentario.query.order_by(
-        Comentario.id.desc()
-    ).all()
-
-
-    # =========================
-    # PUBLICACIONES
-    # =========================
-
-    publicaciones = Publicacion.query.order_by(
-        Publicacion.titulo.asc()
-    ).all()
-
-
     return render_template(
         "admin/comentarios.html",
         usuario=usuario,
-        comentarios=comentarios,
-        publicaciones=publicaciones,
-        cantidad_comentarios=len(comentarios),
-        cantidad_publicaciones=len(publicaciones),
         seccion_activa="comentarios"
-    )
-
-
-# =====================================
-# ELIMINAR COMENTARIO
-# =====================================
-
-@bp.route(
-    "/admin/comentarios/<int:id_comentario>/eliminar",
-    methods=["POST"]
-)
-def admin_eliminar_comentario(
-    id_comentario
-):
-
-    usuario = obtener_usuario_actual()
-
-
-    if not usuario:
-
-        return redirect(
-            url_for(
-                "auth.login"
-            )
-        )
-
-
-    if usuario.rol != "admin":
-
-        return redirect(
-            url_for(
-                "main.inicio"
-            )
-        )
-
-
-    comentario = db.session.get(
-        Comentario,
-        id_comentario
-    )
-
-
-    if not comentario:
-
-        return redirect(
-            url_for(
-                "admin.admin_comentarios"
-            )
-        )
-
-
-    db.session.delete(
-        comentario
-    )
-
-
-    db.session.commit()
-
-
-    return redirect(
-        url_for(
-            "admin.admin_comentarios"
-        )
     )
 
 
@@ -550,7 +1137,7 @@ def admin_analiticas():
 
 
 # =====================================
-# PERFIL
+# PERFIL ADMIN
 # =====================================
 
 @bp.route(
@@ -583,9 +1170,9 @@ def admin_perfil():
     if request.method == "POST":
 
 
-        # =========================
+        # =====================================
         # NOMBRE
-        # =========================
+        # =====================================
 
         usuario.nombre = request.form.get(
             "nombre",
@@ -593,9 +1180,9 @@ def admin_perfil():
         ).strip()
 
 
-        # =========================
+        # =====================================
         # APELLIDO
-        # =========================
+        # =====================================
 
         usuario.apellido = request.form.get(
             "apellido",
@@ -603,9 +1190,9 @@ def admin_perfil():
         ).strip()
 
 
-        # =========================
+        # =====================================
         # USUARIO
-        # =========================
+        # =====================================
 
         usuario.usuario = request.form.get(
             "usuario",
@@ -613,9 +1200,9 @@ def admin_perfil():
         ).strip()
 
 
-        # =========================
+        # =====================================
         # EMAIL
-        # =========================
+        # =====================================
 
         usuario.email = request.form.get(
             "email",
@@ -623,13 +1210,16 @@ def admin_perfil():
         ).strip()
 
 
-        # =========================
+        # =====================================
         # FOTO
-        # =========================
+        # =====================================
 
         foto = request.files.get(
             "foto"
         )
+
+
+        foto_anterior = None
 
 
         if (
@@ -647,22 +1237,36 @@ def admin_perfil():
                 )
 
 
+            foto_anterior = usuario.foto
+
+
             usuario.foto = subir_imagen(
                 foto,
                 carpeta="avatares"
             )
 
 
-        # =========================
+        # =====================================
         # GUARDO CAMBIOS
-        # =========================
+        # =====================================
 
         db.session.commit()
 
 
-        # =========================
-        # ACTUALIZO LA SESIÓN
-        # =========================
+        # =====================================
+        # ELIMINO FOTO ANTERIOR
+        # =====================================
+
+        if foto_anterior:
+
+            borrar_imagen(
+                foto_anterior
+            )
+
+
+        # =====================================
+        # ACTUALIZO SESIÓN
+        # =====================================
 
         session["usuario"] = {
             "id": usuario.id,
@@ -740,12 +1344,23 @@ def admin_cambiar_password():
     )
 
 
+    # =====================================
+    # CONTRASEÑA ACTUAL
+    # =====================================
+
     if not usuario.verificar_password(
         password_actual
     ):
 
-        return "La contraseña actual es incorrecta."
+        return (
+            "La contraseña actual "
+            "es incorrecta."
+        )
 
+
+    # =====================================
+    # CONTRASEÑAS NUEVAS
+    # =====================================
 
     if (
         password_nueva
@@ -753,8 +1368,15 @@ def admin_cambiar_password():
         password_confirmacion
     ):
 
-        return "Las contraseñas nuevas no coinciden."
+        return (
+            "Las contraseñas nuevas "
+            "no coinciden."
+        )
 
+
+    # =====================================
+    # GUARDO NUEVA CONTRASEÑA
+    # =====================================
 
     usuario.guardar_password(
         password_nueva

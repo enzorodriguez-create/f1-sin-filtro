@@ -69,6 +69,73 @@
         href="{{ url_for('static', filename='styles/admin/publicaciones.css') }}"
     >
 
+
+    <style>
+
+        .admin-avatar {
+            width: 38px;
+            height: 38px;
+
+            min-width: 38px;
+
+            overflow: hidden;
+
+            border-radius: 50%;
+        }
+
+        .admin-avatar img {
+            width: 100%;
+            height: 100%;
+
+            display: block;
+
+            object-fit: cover;
+            object-position: center;
+        }
+
+        .publication-cover {
+            overflow: hidden;
+        }
+
+        .publication-cover img {
+            width: 100%;
+            height: 100%;
+
+            display: block;
+
+            object-fit: cover;
+            object-position: center;
+        }
+
+        .publication-author-avatar {
+            width: 38px;
+            height: 38px;
+
+            min-width: 38px;
+
+            overflow: hidden;
+
+            border-radius: 50%;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .publication-author-avatar img {
+            width: 100%;
+            height: 100%;
+
+            object-fit: cover;
+            object-position: center;
+        }
+
+        .publication-delete-form {
+            margin: 0;
+        }
+
+    </style>
+
 </head>
 
 
@@ -149,22 +216,22 @@
                     <div class="admin-user-data">
 
                         <strong>
-                            {{ usuario.nombre if usuario else "Administrador" }}
+                            {{ usuario.nombre }}
                         </strong>
 
                         <span>
-                            {{ usuario.email if usuario else "admin@f1sinfiltro.com" }}
+                            {{ usuario.email }}
                         </span>
 
                     </div>
 
 
-                    {% if usuario and usuario.foto %}
+                    {% if usuario.foto %}
 
                         <div class="admin-avatar">
 
                             <img
-                                src="{{ usuario.foto }}"
+                                src="{{ url_imagen(usuario.foto) }}"
                                 alt="{{ usuario.nombre }}"
                             >
 
@@ -228,13 +295,14 @@
 
 
                     <h1>
-                        GESTIÓN DE <span>PUBLICACIONES</span>
+                        GESTIÓN DE
+                        <span>PUBLICACIONES</span>
                     </h1>
 
 
                     <p>
-                        Revisá y administrá todas las publicaciones creadas
-                        por los editores del portal.
+                        Revisá y administrá todas las publicaciones
+                        creadas por los editores del portal.
                     </p>
 
 
@@ -268,7 +336,7 @@
 
 
                         <strong id="stat-total">
-                            5
+                            {{ cantidad_publicaciones }}
                         </strong>
 
 
@@ -300,7 +368,7 @@
 
 
                         <strong id="stat-published">
-                            2
+                            {{ cantidad_publicadas }}
                         </strong>
 
 
@@ -332,76 +400,12 @@
 
 
                         <strong id="stat-draft">
-                            1
+                            {{ cantidad_borradores }}
                         </strong>
 
 
                         <span>
                             Todavía sin publicar
-                        </span>
-
-
-                    </div>
-
-
-
-                    <!-- BLOQUEADAS -->
-
-                    <div class="publication-stat-card publication-stat-blocked">
-
-
-                        <div class="publication-stat-top">
-
-                            <span>
-                                BLOQUEADAS
-                            </span>
-
-                            <span class="material-symbols-outlined">
-                                block
-                            </span>
-
-                        </div>
-
-
-                        <strong id="stat-blocked">
-                            1
-                        </strong>
-
-
-                        <span>
-                            Ocultas por administración
-                        </span>
-
-
-                    </div>
-
-
-
-                    <!-- PREMIUM -->
-
-                    <div class="publication-stat-card premium">
-
-
-                        <div class="publication-stat-top">
-
-                            <span>
-                                PREMIUM
-                            </span>
-
-                            <span class="material-symbols-outlined">
-                                workspace_premium
-                            </span>
-
-                        </div>
-
-
-                        <strong id="stat-premium">
-                            2
-                        </strong>
-
-
-                        <span>
-                            Contenido exclusivo
                         </span>
 
 
@@ -418,6 +422,8 @@
 
                 <section class="publications-filters">
 
+
+                    <!-- BUSCADOR -->
 
                     <div class="publications-search">
 
@@ -458,29 +464,36 @@
 
                         <div class="publication-select">
 
+
                             <select id="author-filter">
 
                                 <option value="all">
                                     Todos los autores
                                 </option>
 
-                                <option value="carlos">
-                                    Carlos Sainz
-                                </option>
 
-                                <option value="lucia">
-                                    Lucía Martínez
-                                </option>
+                                {% for autor in autores %}
 
-                                <option value="laura">
-                                    Laura Méndez
-                                </option>
+                                    <option value="{{ autor.id }}">
+
+                                        {{ autor.nombre }}
+
+                                        {% if autor.apellido %}
+                                            {{ autor.apellido }}
+                                        {% endif %}
+
+                                    </option>
+
+                                {% endfor %}
+
 
                             </select>
+
 
                             <span class="material-symbols-outlined">
                                 expand_more
                             </span>
+
 
                         </div>
 
@@ -490,33 +503,30 @@
 
                         <div class="publication-select">
 
+
                             <select id="category-filter">
 
                                 <option value="all">
                                     Todas las categorías
                                 </option>
 
-                                <option value="tecnica">
-                                    Técnica
-                                </option>
 
-                                <option value="equipos">
-                                    Equipos
-                                </option>
+                                {% for categoria in categorias %}
 
-                                <option value="campeonato">
-                                    Campeonato
-                                </option>
+                                    <option value="{{ categoria.id }}">
+                                        {{ categoria.nombre }}
+                                    </option>
 
-                                <option value="previa">
-                                    Previa
-                                </option>
+                                {% endfor %}
+
 
                             </select>
+
 
                             <span class="material-symbols-outlined">
                                 expand_more
                             </span>
+
 
                         </div>
 
@@ -526,61 +536,28 @@
 
                         <div class="publication-select">
 
+
                             <select id="status-filter">
 
                                 <option value="all">
                                     Todos los estados
                                 </option>
 
-                                <option value="publicado">
-                                    Publicado
+                                <option value="publicada">
+                                    Publicada
                                 </option>
 
                                 <option value="borrador">
                                     Borrador
                                 </option>
 
-                                <option value="programado">
-                                    Programado
-                                </option>
-
-                                <option value="bloqueado">
-                                    Bloqueado
-                                </option>
-
                             </select>
+
 
                             <span class="material-symbols-outlined">
                                 expand_more
                             </span>
 
-                        </div>
-
-
-
-                        <!-- PREMIUM -->
-
-                        <div class="publication-select">
-
-                            <select id="premium-filter">
-
-                                <option value="all">
-                                    Premium: Todos
-                                </option>
-
-                                <option value="si">
-                                    Premium
-                                </option>
-
-                                <option value="no">
-                                    No Premium
-                                </option>
-
-                            </select>
-
-                            <span class="material-symbols-outlined">
-                                expand_more
-                            </span>
 
                         </div>
 
@@ -593,7 +570,11 @@
 
 
                         <span id="publication-result-count">
-                            Mostrando 5 publicaciones
+
+                            Mostrando
+                            {{ cantidad_publicaciones }}
+                            publicación{% if cantidad_publicaciones != 1 %}es{% endif %}
+
                         </span>
 
 
@@ -645,19 +626,11 @@
                                     </th>
 
                                     <th>
-                                        Categoría
+                                        Categorías
                                     </th>
 
                                     <th>
                                         Estado
-                                    </th>
-
-                                    <th>
-                                        Premium
-                                    </th>
-
-                                    <th>
-                                        Fecha
                                     </th>
 
                                     <th class="publication-actions-title">
@@ -672,743 +645,287 @@
                             <tbody id="publications-table-body">
 
 
-                                <!-- =========================
-                                     PUBLICACIÓN 1
-                                ========================== -->
-
-                                <tr
-                                    class="publication-row"
-                                    data-title="Ferrari prepara nuevas mejoras para el próximo Gran Premio"
-                                    data-author="carlos"
-                                    data-category="tecnica"
-                                    data-status="publicado"
-                                    data-previous-status="publicado"
-                                    data-premium="no"
-                                >
+                                {% for publicacion in publicaciones %}
 
 
-                                    <td>
+                                    {% set autor = autores_publicaciones[publicacion.id] %}
 
-                                        <div class="publication-info">
 
-                                            <div class="publication-cover">
+                                    <tr
+                                        class="publication-row"
 
-                                                <span class="material-symbols-outlined">
-                                                    article
-                                                </span>
+                                        data-title="{{ publicacion.titulo|lower }}"
+
+                                        data-author="{{ publicacion.autor_id }}"
+
+                                        data-status="{{ publicacion.estado }}"
+
+                                        data-categories="
+                                            {% for categoria in publicacion.categorias %}
+                                                {{ categoria.id }}
+                                                {% if not loop.last %},{% endif %}
+                                            {% endfor %}
+                                        "
+                                    >
+
+
+                                        <!-- PUBLICACIÓN -->
+
+                                        <td>
+
+
+                                            <div class="publication-info">
+
+
+                                                <div class="publication-cover">
+
+
+                                                    {% if publicacion.imagen_portada %}
+
+                                                        <img
+                                                            src="{{ url_imagen(publicacion.imagen_portada) }}"
+                                                            alt="{{ publicacion.titulo }}"
+                                                        >
+
+                                                    {% else %}
+
+                                                        <span class="material-symbols-outlined">
+                                                            article
+                                                        </span>
+
+                                                    {% endif %}
+
+
+                                                </div>
+
+
+                                                <div>
+
+
+                                                    <strong>
+                                                        {{ publicacion.titulo }}
+                                                    </strong>
+
+
+                                                    <span>
+                                                        ID #PUB-{{ publicacion.id }}
+                                                    </span>
+
+
+                                                </div>
+
 
                                             </div>
 
 
-                                            <div>
+                                        </td>
 
-                                                <strong>
-                                                    Ferrari prepara nuevas mejoras para el próximo Gran Premio
-                                                </strong>
+
+
+                                        <!-- AUTOR -->
+
+                                        <td>
+
+
+                                            {% if autor %}
+
+
+                                                <div class="publication-author">
+
+
+                                                    <div class="publication-author-avatar">
+
+
+                                                        {% if autor.foto %}
+
+                                                            <img
+                                                                src="{{ url_imagen(autor.foto) }}"
+                                                                alt="{{ autor.nombre }}"
+                                                            >
+
+                                                        {% else %}
+
+                                                            {{ autor.nombre[0]|upper }}
+
+                                                            {% if autor.apellido %}
+                                                                {{ autor.apellido[0]|upper }}
+                                                            {% endif %}
+
+                                                        {% endif %}
+
+
+                                                    </div>
+
+
+                                                    <div>
+
+
+                                                        <strong>
+
+                                                            {{ autor.nombre }}
+
+                                                            {% if autor.apellido %}
+                                                                {{ autor.apellido }}
+                                                            {% endif %}
+
+                                                        </strong>
+
+
+                                                        <span>
+                                                            {{ autor.rol|capitalize }}
+                                                        </span>
+
+
+                                                    </div>
+
+
+                                                </div>
+
+
+                                            {% else %}
+
 
                                                 <span>
-                                                    ID #PUB-001
+                                                    Usuario no encontrado
                                                 </span>
 
-                                            </div>
 
-                                        </div>
-
-                                    </td>
+                                            {% endif %}
 
 
-                                    <td>
+                                        </td>
 
-                                        <div class="publication-author">
 
-                                            <div class="publication-author-avatar">
-                                                CS
-                                            </div>
 
-                                            <div>
+                                        <!-- CATEGORÍAS -->
 
-                                                <strong>
-                                                    Carlos Sainz
-                                                </strong>
+                                        <td>
+
+
+                                            {% if publicacion.categorias %}
+
+
+                                                {% for categoria in publicacion.categorias %}
+
+                                                    <span class="publication-category">
+                                                        {{ categoria.nombre }}
+                                                    </span>
+
+                                                {% endfor %}
+
+
+                                            {% else %}
+
 
                                                 <span>
-                                                    Editor
+                                                    Sin categoría
                                                 </span>
 
-                                            </div>
 
-                                        </div>
-
-                                    </td>
+                                            {% endif %}
 
 
-                                    <td>
-
-                                        <span class="publication-category">
-                                            Técnica
-                                        </span>
-
-                                    </td>
+                                        </td>
 
 
-                                    <td>
 
-                                        <span class="publication-state published">
+                                        <!-- ESTADO -->
 
-                                            <span></span>
-
-                                            Publicado
-
-                                        </span>
-
-                                    </td>
+                                        <td>
 
 
-                                    <td>
-
-                                        <span class="publication-premium no">
-                                            NO
-                                        </span>
-
-                                    </td>
+                                            {% if publicacion.estado == "publicada" %}
 
 
-                                    <td class="publication-date">
-                                        22/10/2026
-                                    </td>
+                                                <span class="publication-state published">
 
+                                                    <span></span>
 
-                                    <td>
+                                                    Publicada
 
-                                        <div class="publication-actions">
-
-
-                                            <button
-                                                class="publication-block-btn"
-                                                type="button"
-                                                title="Bloquear publicación"
-                                            >
-
-                                                <span class="material-symbols-outlined">
-                                                    block
                                                 </span>
 
-                                                Bloquear
 
-                                            </button>
+                                            {% else %}
 
 
-                                            <button
-                                                class="publication-delete-btn"
-                                                type="button"
-                                                title="Eliminar publicación"
-                                            >
+                                                <span class="publication-state draft">
 
-                                                <span class="material-symbols-outlined">
-                                                    delete
+                                                    <span></span>
+
+                                                    Borrador
+
                                                 </span>
 
-                                            </button>
+
+                                            {% endif %}
 
 
-                                        </div>
-
-                                    </td>
-
-
-                                </tr>
+                                        </td>
 
 
 
-                                <!-- =========================
-                                     PUBLICACIÓN 2
-                                ========================== -->
+                                        <!-- ACCIONES -->
 
-                                <tr
-                                    class="publication-row"
-                                    data-title="Análisis de la lucha por el campeonato"
-                                    data-author="lucia"
-                                    data-category="campeonato"
-                                    data-status="borrador"
-                                    data-previous-status="borrador"
-                                    data-premium="no"
-                                >
+                                        <td>
 
 
-                                    <td>
+                                            <div class="publication-actions">
 
-                                        <div class="publication-info">
 
-                                            <div class="publication-cover draft">
+                                                {% if publicacion.estado == "publicada" %}
 
-                                                <span class="material-symbols-outlined">
-                                                    draft
-                                                </span>
+                                                    <a
+                                                        href="{{ url_for('main.post', id_publicacion=publicacion.id) }}"
+                                                        class="publication-block-btn"
+                                                        title="Ver publicación"
+                                                    >
+
+                                                        <span class="material-symbols-outlined">
+                                                            visibility
+                                                        </span>
+
+                                                        Ver
+
+                                                    </a>
+
+                                                {% endif %}
+
+
+                                                <form
+                                                    class="publication-delete-form"
+                                                    action="{{ url_for('admin.admin_eliminar_publicacion', id_publicacion=publicacion.id) }}"
+                                                    method="POST"
+                                                    onsubmit="return confirm('¿Seguro que querés eliminar esta publicación? Esta acción no se puede deshacer.');"
+                                                >
+
+
+                                                    <button
+                                                        class="publication-delete-btn"
+                                                        type="submit"
+                                                        title="Eliminar publicación"
+                                                    >
+
+                                                        <span class="material-symbols-outlined">
+                                                            delete
+                                                        </span>
+
+                                                    </button>
+
+
+                                                </form>
+
 
                                             </div>
 
 
-                                            <div>
+                                        </td>
 
-                                                <strong>
-                                                    Análisis de la lucha por el campeonato
-                                                </strong>
 
-                                                <span>
-                                                    ID #PUB-002
-                                                </span>
+                                    </tr>
 
-                                            </div>
 
-                                        </div>
-
-                                    </td>
-
-
-                                    <td>
-
-                                        <div class="publication-author">
-
-                                            <div class="publication-author-avatar">
-                                                LM
-                                            </div>
-
-                                            <div>
-
-                                                <strong>
-                                                    Lucía Martínez
-                                                </strong>
-
-                                                <span>
-                                                    Editor
-                                                </span>
-
-                                            </div>
-
-                                        </div>
-
-                                    </td>
-
-
-                                    <td>
-
-                                        <span class="publication-category">
-                                            Campeonato
-                                        </span>
-
-                                    </td>
-
-
-                                    <td>
-
-                                        <span class="publication-state draft">
-
-                                            <span></span>
-
-                                            Borrador
-
-                                        </span>
-
-                                    </td>
-
-
-                                    <td>
-
-                                        <span class="publication-premium no">
-                                            NO
-                                        </span>
-
-                                    </td>
-
-
-                                    <td class="publication-date">
-                                        21/10/2026
-                                    </td>
-
-
-                                    <td>
-
-                                        <div class="publication-actions">
-
-
-                                            <button
-                                                class="publication-block-btn"
-                                                type="button"
-                                                title="Bloquear publicación"
-                                            >
-
-                                                <span class="material-symbols-outlined">
-                                                    block
-                                                </span>
-
-                                                Bloquear
-
-                                            </button>
-
-
-                                            <button
-                                                class="publication-delete-btn"
-                                                type="button"
-                                                title="Eliminar publicación"
-                                            >
-
-                                                <span class="material-symbols-outlined">
-                                                    delete
-                                                </span>
-
-                                            </button>
-
-
-                                        </div>
-
-                                    </td>
-
-
-                                </tr>
-
-
-
-                                <!-- =========================
-                                     PUBLICACIÓN 3
-                                ========================== -->
-
-                                <tr
-                                    class="publication-row"
-                                    data-title="Todo lo que hay que saber antes del próximo GP"
-                                    data-author="carlos"
-                                    data-category="previa"
-                                    data-status="programado"
-                                    data-previous-status="programado"
-                                    data-premium="si"
-                                >
-
-
-                                    <td>
-
-                                        <div class="publication-info">
-
-                                            <div class="publication-cover premium">
-
-                                                <span class="material-symbols-outlined">
-                                                    workspace_premium
-                                                </span>
-
-                                            </div>
-
-
-                                            <div>
-
-                                                <strong>
-                                                    Todo lo que hay que saber antes del próximo GP
-                                                </strong>
-
-                                                <span>
-                                                    ID #PUB-003
-                                                </span>
-
-                                            </div>
-
-                                        </div>
-
-                                    </td>
-
-
-                                    <td>
-
-                                        <div class="publication-author">
-
-                                            <div class="publication-author-avatar">
-                                                CS
-                                            </div>
-
-                                            <div>
-
-                                                <strong>
-                                                    Carlos Sainz
-                                                </strong>
-
-                                                <span>
-                                                    Editor
-                                                </span>
-
-                                            </div>
-
-                                        </div>
-
-                                    </td>
-
-
-                                    <td>
-
-                                        <span class="publication-category">
-                                            Previa
-                                        </span>
-
-                                    </td>
-
-
-                                    <td>
-
-                                        <span class="publication-state scheduled">
-
-                                            <span></span>
-
-                                            Programado
-
-                                        </span>
-
-                                    </td>
-
-
-                                    <td>
-
-                                        <span class="publication-premium yes">
-                                            PREMIUM
-                                        </span>
-
-                                    </td>
-
-
-                                    <td class="publication-date">
-                                        25/10/2026
-                                    </td>
-
-
-                                    <td>
-
-                                        <div class="publication-actions">
-
-
-                                            <button
-                                                class="publication-block-btn"
-                                                type="button"
-                                                title="Bloquear publicación"
-                                            >
-
-                                                <span class="material-symbols-outlined">
-                                                    block
-                                                </span>
-
-                                                Bloquear
-
-                                            </button>
-
-
-                                            <button
-                                                class="publication-delete-btn"
-                                                type="button"
-                                                title="Eliminar publicación"
-                                            >
-
-                                                <span class="material-symbols-outlined">
-                                                    delete
-                                                </span>
-
-                                            </button>
-
-
-                                        </div>
-
-                                    </td>
-
-
-                                </tr>
-
-
-
-                                <!-- =========================
-                                     PUBLICACIÓN 4 BLOQUEADA
-                                ========================== -->
-
-                                <tr
-                                    class="publication-row blocked-publication-row"
-                                    data-title="Mercedes analiza cambios importantes para 2027"
-                                    data-author="laura"
-                                    data-category="equipos"
-                                    data-status="bloqueado"
-                                    data-previous-status="publicado"
-                                    data-premium="si"
-                                >
-
-
-                                    <td>
-
-                                        <div class="publication-info">
-
-                                            <div class="publication-cover blocked">
-
-                                                <span class="material-symbols-outlined">
-                                                    block
-                                                </span>
-
-                                            </div>
-
-
-                                            <div>
-
-                                                <strong>
-                                                    Mercedes analiza cambios importantes para 2027
-                                                </strong>
-
-                                                <span>
-                                                    ID #PUB-004
-                                                </span>
-
-                                            </div>
-
-                                        </div>
-
-                                    </td>
-
-
-                                    <td>
-
-                                        <div class="publication-author">
-
-                                            <div class="publication-author-avatar">
-                                                LM
-                                            </div>
-
-                                            <div>
-
-                                                <strong>
-                                                    Laura Méndez
-                                                </strong>
-
-                                                <span>
-                                                    Editor
-                                                </span>
-
-                                            </div>
-
-                                        </div>
-
-                                    </td>
-
-
-                                    <td>
-
-                                        <span class="publication-category">
-                                            Equipos
-                                        </span>
-
-                                    </td>
-
-
-                                    <td>
-
-                                        <span class="publication-state blocked">
-
-                                            <span></span>
-
-                                            Bloqueado
-
-                                        </span>
-
-                                    </td>
-
-
-                                    <td>
-
-                                        <span class="publication-premium yes">
-                                            PREMIUM
-                                        </span>
-
-                                    </td>
-
-
-                                    <td class="publication-date">
-                                        20/10/2026
-                                    </td>
-
-
-                                    <td>
-
-                                        <div class="publication-actions">
-
-
-                                            <button
-                                                class="publication-unblock-btn"
-                                                type="button"
-                                                title="Desbloquear publicación"
-                                            >
-
-                                                <span class="material-symbols-outlined">
-                                                    lock_open
-                                                </span>
-
-                                                Desbloquear
-
-                                            </button>
-
-
-                                            <button
-                                                class="publication-delete-btn"
-                                                type="button"
-                                                title="Eliminar publicación"
-                                            >
-
-                                                <span class="material-symbols-outlined">
-                                                    delete
-                                                </span>
-
-                                            </button>
-
-
-                                        </div>
-
-                                    </td>
-
-
-                                </tr>
-
-
-
-                                <!-- =========================
-                                     PUBLICACIÓN 5
-                                ========================== -->
-
-                                <tr
-                                    class="publication-row"
-                                    data-title="Ferrari y su evolución durante la temporada"
-                                    data-author="lucia"
-                                    data-category="equipos"
-                                    data-status="publicado"
-                                    data-previous-status="publicado"
-                                    data-premium="no"
-                                >
-
-
-                                    <td>
-
-                                        <div class="publication-info">
-
-                                            <div class="publication-cover">
-
-                                                <span class="material-symbols-outlined">
-                                                    article
-                                                </span>
-
-                                            </div>
-
-
-                                            <div>
-
-                                                <strong>
-                                                    Ferrari y su evolución durante la temporada
-                                                </strong>
-
-                                                <span>
-                                                    ID #PUB-005
-                                                </span>
-
-                                            </div>
-
-                                        </div>
-
-                                    </td>
-
-
-                                    <td>
-
-                                        <div class="publication-author">
-
-                                            <div class="publication-author-avatar">
-                                                LM
-                                            </div>
-
-                                            <div>
-
-                                                <strong>
-                                                    Lucía Martínez
-                                                </strong>
-
-                                                <span>
-                                                    Editor
-                                                </span>
-
-                                            </div>
-
-                                        </div>
-
-                                    </td>
-
-
-                                    <td>
-
-                                        <span class="publication-category">
-                                            Equipos
-                                        </span>
-
-                                    </td>
-
-
-                                    <td>
-
-                                        <span class="publication-state published">
-
-                                            <span></span>
-
-                                            Publicado
-
-                                        </span>
-
-                                    </td>
-
-
-                                    <td>
-
-                                        <span class="publication-premium no">
-                                            NO
-                                        </span>
-
-                                    </td>
-
-
-                                    <td class="publication-date">
-                                        18/10/2026
-                                    </td>
-
-
-                                    <td>
-
-                                        <div class="publication-actions">
-
-
-                                            <button
-                                                class="publication-block-btn"
-                                                type="button"
-                                                title="Bloquear publicación"
-                                            >
-
-                                                <span class="material-symbols-outlined">
-                                                    block
-                                                </span>
-
-                                                Bloquear
-
-                                            </button>
-
-
-                                            <button
-                                                class="publication-delete-btn"
-                                                type="button"
-                                                title="Eliminar publicación"
-                                            >
-
-                                                <span class="material-symbols-outlined">
-                                                    delete
-                                                </span>
-
-                                            </button>
-
-
-                                        </div>
-
-                                    </td>
-
-
-                                </tr>
+                                {% endfor %}
 
 
                             </tbody>
@@ -1452,94 +969,6 @@
 
 
         </main>
-
-
-    </div>
-
-
-</div>
-
-
-
-<!-- =========================
-     MODAL ELIMINAR
-========================= -->
-
-<div
-    class="publication-modal-overlay"
-    id="delete-publication-modal"
->
-
-
-    <div class="publication-modal">
-
-
-        <div class="publication-modal-icon">
-
-            <span class="material-symbols-outlined">
-                warning
-            </span>
-
-        </div>
-
-
-        <div class="publication-modal-content">
-
-
-            <span class="publication-modal-label">
-                ELIMINAR PUBLICACIÓN
-            </span>
-
-
-            <h2>
-                ¿Eliminar esta publicación?
-            </h2>
-
-
-            <p>
-                Esta acción eliminará definitivamente
-                la publicación seleccionada.
-            </p>
-
-
-            <div class="publication-modal-info">
-
-                <span>
-                    PUBLICACIÓN
-                </span>
-
-                <strong id="delete-publication-title">
-                    -
-                </strong>
-
-            </div>
-
-
-            <div class="publication-modal-actions">
-
-
-                <button
-                    class="publication-modal-cancel"
-                    id="cancel-delete-publication"
-                    type="button"
-                >
-                    Cancelar
-                </button>
-
-
-                <button
-                    class="publication-modal-confirm"
-                    id="confirm-delete-publication"
-                    type="button"
-                >
-                    Eliminar
-                </button>
-
-
-            </div>
-
-
-        </div>
 
 
     </div>
@@ -1597,12 +1026,6 @@ document.addEventListener(
             );
 
 
-        const premiumFilter =
-            document.getElementById(
-                "premium-filter"
-            );
-
-
         const resultCount =
             document.getElementById(
                 "publication-result-count"
@@ -1642,7 +1065,6 @@ document.addEventListener(
            FILTROS
         ========================= */
 
-
         function filtrarPublicaciones() {
 
 
@@ -1664,30 +1086,20 @@ document.addEventListener(
                 statusFilter.value;
 
 
-            const premium =
-                premiumFilter.value;
-
-
-            let visible =
-                0;
+            let visible = 0;
 
 
             getRows().forEach(
                 function (row) {
 
 
-                    const text =
-                        (
-                            row.dataset.title +
-                            " " +
-                            row.querySelector(
-                                ".publication-author strong"
-                            ).textContent
-                        ).toLowerCase();
+                    const texto =
+                        row.textContent
+                            .toLowerCase();
 
 
                     const matchesSearch =
-                        text.includes(
+                        texto.includes(
                             search
                         );
 
@@ -1698,22 +1110,25 @@ document.addEventListener(
                         row.dataset.author === author;
 
 
+                    const categorias =
+                        row.dataset.categories
+                            .replace(/\s/g, "")
+                            .split(",")
+                            .filter(Boolean);
+
+
                     const matchesCategory =
                         category === "all"
                         ||
-                        row.dataset.category === category;
+                        categorias.includes(
+                            category
+                        );
 
 
                     const matchesStatus =
                         status === "all"
                         ||
                         row.dataset.status === status;
-
-
-                    const matchesPremium =
-                        premium === "all"
-                        ||
-                        row.dataset.premium === premium;
 
 
                     const show =
@@ -1723,9 +1138,7 @@ document.addEventListener(
                         &&
                         matchesCategory
                         &&
-                        matchesStatus
-                        &&
-                        matchesPremium;
+                        matchesStatus;
 
 
                     row.style.display =
@@ -1799,595 +1212,37 @@ document.addEventListener(
         );
 
 
-        premiumFilter.addEventListener(
-            "change",
-            filtrarPublicaciones
-        );
-
-
-
         clearSearch.addEventListener(
             "click",
             function () {
 
-
-                searchInput.value =
-                    "";
-
+                searchInput.value = "";
 
                 filtrarPublicaciones();
 
-
                 searchInput.focus();
-
 
             }
         );
-
 
 
         resetButton.addEventListener(
             "click",
             function () {
 
+                searchInput.value = "";
 
-                searchInput.value =
-                    "";
+                authorFilter.value = "all";
 
+                categoryFilter.value = "all";
 
-                authorFilter.value =
-                    "all";
-
-
-                categoryFilter.value =
-                    "all";
-
-
-                statusFilter.value =
-                    "all";
-
-
-                premiumFilter.value =
-                    "all";
-
+                statusFilter.value = "all";
 
                 filtrarPublicaciones();
 
-
             }
         );
 
-
-
-        /* =========================
-           BLOQUEAR
-        ========================= */
-
-
-        document.addEventListener(
-            "click",
-            function (event) {
-
-
-                const blockButton =
-                    event.target.closest(
-                        ".publication-block-btn"
-                    );
-
-
-                if (!blockButton) {
-
-                    return;
-
-                }
-
-
-                const row =
-                    blockButton.closest(
-                        ".publication-row"
-                    );
-
-
-                const title =
-                    row.dataset.title;
-
-
-                const confirmar =
-                    confirm(
-                        "¿Seguro que querés bloquear la publicación \"" +
-                        title +
-                        "\"?"
-                    );
-
-
-                if (!confirmar) {
-
-                    return;
-
-                }
-
-
-                row.dataset.previousStatus =
-                    row.dataset.status;
-
-
-                row.dataset.status =
-                    "bloqueado";
-
-
-                row.classList.add(
-                    "blocked-publication-row"
-                );
-
-
-                const state =
-                    row.querySelector(
-                        ".publication-state"
-                    );
-
-
-                state.className =
-                    "publication-state blocked";
-
-
-                state.innerHTML =
-                    `
-                        <span></span>
-                        Bloqueado
-                    `;
-
-
-                const cover =
-                    row.querySelector(
-                        ".publication-cover"
-                    );
-
-
-                cover.classList.add(
-                    "blocked"
-                );
-
-
-                blockButton.className =
-                    "publication-unblock-btn";
-
-
-                blockButton.title =
-                    "Desbloquear publicación";
-
-
-                blockButton.innerHTML =
-                    `
-                        <span class="material-symbols-outlined">
-                            lock_open
-                        </span>
-
-                        Desbloquear
-                    `;
-
-
-                actualizarEstadisticas();
-
-                filtrarPublicaciones();
-
-
-                alert(
-                    "Por ahora el bloqueo se actualiza solamente de forma visual."
-                );
-
-
-            }
-        );
-
-
-
-        /* =========================
-           DESBLOQUEAR
-        ========================= */
-
-
-        document.addEventListener(
-            "click",
-            function (event) {
-
-
-                const unblockButton =
-                    event.target.closest(
-                        ".publication-unblock-btn"
-                    );
-
-
-                if (!unblockButton) {
-
-                    return;
-
-                }
-
-
-                const row =
-                    unblockButton.closest(
-                        ".publication-row"
-                    );
-
-
-                const previousStatus =
-                    row.dataset.previousStatus
-                    ||
-                    "publicado";
-
-
-                row.dataset.status =
-                    previousStatus;
-
-
-                row.classList.remove(
-                    "blocked-publication-row"
-                );
-
-
-                const state =
-                    row.querySelector(
-                        ".publication-state"
-                    );
-
-
-                if (
-                    previousStatus ===
-                    "publicado"
-                ) {
-
-                    state.className =
-                        "publication-state published";
-
-
-                    state.innerHTML =
-                        `
-                            <span></span>
-                            Publicado
-                        `;
-
-                }
-
-
-                if (
-                    previousStatus ===
-                    "borrador"
-                ) {
-
-                    state.className =
-                        "publication-state draft";
-
-
-                    state.innerHTML =
-                        `
-                            <span></span>
-                            Borrador
-                        `;
-
-                }
-
-
-                if (
-                    previousStatus ===
-                    "programado"
-                ) {
-
-                    state.className =
-                        "publication-state scheduled";
-
-
-                    state.innerHTML =
-                        `
-                            <span></span>
-                            Programado
-                        `;
-
-                }
-
-
-                const cover =
-                    row.querySelector(
-                        ".publication-cover"
-                    );
-
-
-                cover.classList.remove(
-                    "blocked"
-                );
-
-
-                unblockButton.className =
-                    "publication-block-btn";
-
-
-                unblockButton.title =
-                    "Bloquear publicación";
-
-
-                unblockButton.innerHTML =
-                    `
-                        <span class="material-symbols-outlined">
-                            block
-                        </span>
-
-                        Bloquear
-                    `;
-
-
-                actualizarEstadisticas();
-
-                filtrarPublicaciones();
-
-
-                alert(
-                    "Por ahora el desbloqueo se actualiza solamente de forma visual."
-                );
-
-
-            }
-        );
-
-
-
-        /* =========================
-           ELIMINAR
-        ========================= */
-
-
-        const deleteModal =
-            document.getElementById(
-                "delete-publication-modal"
-            );
-
-
-        const deleteTitle =
-            document.getElementById(
-                "delete-publication-title"
-            );
-
-
-        const cancelDelete =
-            document.getElementById(
-                "cancel-delete-publication"
-            );
-
-
-        const confirmDelete =
-            document.getElementById(
-                "confirm-delete-publication"
-            );
-
-
-        let selectedRow =
-            null;
-
-
-
-        document.addEventListener(
-            "click",
-            function (event) {
-
-
-                const deleteButton =
-                    event.target.closest(
-                        ".publication-delete-btn"
-                    );
-
-
-                if (!deleteButton) {
-
-                    return;
-
-                }
-
-
-                selectedRow =
-                    deleteButton.closest(
-                        ".publication-row"
-                    );
-
-
-                deleteTitle.textContent =
-                    selectedRow.dataset.title;
-
-
-                deleteModal.classList.add(
-                    "open"
-                );
-
-
-            }
-        );
-
-
-
-        function cerrarModalEliminar() {
-
-
-            deleteModal.classList.remove(
-                "open"
-            );
-
-
-            selectedRow =
-                null;
-
-
-        }
-
-
-
-        cancelDelete.addEventListener(
-            "click",
-            cerrarModalEliminar
-        );
-
-
-
-        deleteModal.addEventListener(
-            "click",
-            function (event) {
-
-
-                if (
-                    event.target ===
-                    deleteModal
-                ) {
-
-                    cerrarModalEliminar();
-
-                }
-
-
-            }
-        );
-
-
-
-        confirmDelete.addEventListener(
-            "click",
-            function () {
-
-
-                if (!selectedRow) {
-
-                    return;
-
-                }
-
-
-                selectedRow.remove();
-
-
-                cerrarModalEliminar();
-
-
-                actualizarEstadisticas();
-
-                filtrarPublicaciones();
-
-
-                alert(
-                    "Por ahora la publicación se elimina solamente de forma visual."
-                );
-
-
-            }
-        );
-
-
-
-        /* =========================
-           ESTADÍSTICAS
-        ========================= */
-
-
-        function actualizarEstadisticas() {
-
-
-            const rows =
-                getRows();
-
-
-            let published =
-                0;
-
-
-            let draft =
-                0;
-
-
-            let blocked =
-                0;
-
-
-            let premium =
-                0;
-
-
-            rows.forEach(
-                function (row) {
-
-
-                    if (
-                        row.dataset.status ===
-                        "publicado"
-                    ) {
-
-                        published++;
-
-                    }
-
-
-                    if (
-                        row.dataset.status ===
-                        "borrador"
-                    ) {
-
-                        draft++;
-
-                    }
-
-
-                    if (
-                        row.dataset.status ===
-                        "bloqueado"
-                    ) {
-
-                        blocked++;
-
-                    }
-
-
-                    if (
-                        row.dataset.premium ===
-                        "si"
-                    ) {
-
-                        premium++;
-
-                    }
-
-
-                }
-            );
-
-
-            document.getElementById(
-                "stat-total"
-            ).textContent =
-                rows.length;
-
-
-            document.getElementById(
-                "stat-published"
-            ).textContent =
-                published;
-
-
-            document.getElementById(
-                "stat-draft"
-            ).textContent =
-                draft;
-
-
-            document.getElementById(
-                "stat-blocked"
-            ).textContent =
-                blocked;
-
-
-            document.getElementById(
-                "stat-premium"
-            ).textContent =
-                premium;
-
-
-        }
-
-
-
-        actualizarEstadisticas();
 
         filtrarPublicaciones();
 

@@ -69,6 +69,60 @@
         href="{{ url_for('static', filename='styles/admin/usuarios.css') }}"
     >
 
+
+    <style>
+
+        .user-list-avatar {
+            width: 42px;
+            height: 42px;
+
+            min-width: 42px;
+
+            overflow: hidden;
+
+            border-radius: 50%;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+
+        .user-list-avatar img {
+            width: 100%;
+            height: 100%;
+
+            display: block;
+
+            object-fit: cover;
+            object-position: center;
+        }
+
+
+        .admin-avatar {
+            width: 38px;
+            height: 38px;
+
+            min-width: 38px;
+
+            overflow: hidden;
+
+            border-radius: 50%;
+        }
+
+
+        .admin-avatar img {
+            width: 100%;
+            height: 100%;
+
+            display: block;
+
+            object-fit: cover;
+            object-position: center;
+        }
+
+    </style>
+
 </head>
 
 
@@ -149,22 +203,22 @@
                     <div class="admin-user-data">
 
                         <strong>
-                            {{ usuario.nombre if usuario else "Administrador" }}
+                            {{ usuario.nombre }}
                         </strong>
 
                         <span>
-                            {{ usuario.email if usuario else "admin@f1sinfiltro.com" }}
+                            {{ usuario.email }}
                         </span>
 
                     </div>
 
 
-                    {% if usuario and usuario.foto %}
+                    {% if usuario.foto %}
 
                         <div class="admin-avatar">
 
                             <img
-                                src="{{ usuario.foto }}"
+                                src="{{ url_imagen(usuario.foto) }}"
                                 alt="{{ usuario.nombre }}"
                             >
 
@@ -236,8 +290,8 @@
 
 
                         <p>
-                            Administrá las cuentas registradas, sus roles,
-                            suscripciones Premium y estados de acceso.
+                            Administrá las cuentas registradas,
+                            sus roles y suscripciones Premium.
                         </p>
 
 
@@ -259,7 +313,6 @@
 
                     <div class="users-stat-card">
 
-
                         <div class="users-stat-top">
 
                             <span>
@@ -274,7 +327,7 @@
 
 
                         <strong id="stat-total">
-                            6
+                            {{ cantidad_usuarios }}
                         </strong>
 
 
@@ -282,14 +335,12 @@
                             Cuentas registradas
                         </span>
 
-
                     </div>
 
 
                     <!-- EDITORES -->
 
                     <div class="users-stat-card">
-
 
                         <div class="users-stat-top">
 
@@ -305,7 +356,7 @@
 
 
                         <strong id="stat-editors">
-                            2
+                            {{ cantidad_editores }}
                         </strong>
 
 
@@ -313,14 +364,12 @@
                             Usuarios con rol editor
                         </span>
 
-
                     </div>
 
 
                     <!-- PREMIUM -->
 
                     <div class="users-stat-card">
-
 
                         <div class="users-stat-top">
 
@@ -336,7 +385,7 @@
 
 
                         <strong id="stat-premium">
-                            2
+                            {{ cantidad_premium }}
                         </strong>
 
 
@@ -344,37 +393,34 @@
                             Suscripciones activas
                         </span>
 
-
                     </div>
 
 
-                    <!-- BLOQUEADOS -->
+                    <!-- USUARIOS -->
 
-                    <div class="users-stat-card users-stat-danger">
-
+                    <div class="users-stat-card">
 
                         <div class="users-stat-top">
 
                             <span>
-                                BLOQUEADOS
+                                USUARIOS
                             </span>
 
                             <span class="material-symbols-outlined">
-                                block
+                                person
                             </span>
 
                         </div>
 
 
-                        <strong id="stat-blocked">
-                            1
+                        <strong>
+                            {{ cantidad_usuarios_normales }}
                         </strong>
 
 
                         <span>
-                            Cuentas sin acceso
+                            Usuarios con rol normal
                         </span>
-
 
                     </div>
 
@@ -457,34 +503,6 @@
                         </div>
 
 
-                        <!-- ESTADO -->
-
-                        <div class="users-select">
-
-                            <select id="status-filter">
-
-                                <option value="all">
-                                    Todos los estados
-                                </option>
-
-                                <option value="activo">
-                                    Activo
-                                </option>
-
-                                <option value="bloqueado">
-                                    Bloqueado
-                                </option>
-
-                            </select>
-
-
-                            <span class="material-symbols-outlined">
-                                expand_more
-                            </span>
-
-                        </div>
-
-
                         <!-- PREMIUM -->
 
                         <div class="users-select">
@@ -520,7 +538,11 @@
 
 
                         <span id="users-result-count">
-                            Mostrando 6 usuarios
+
+                            Mostrando
+                            {{ cantidad_usuarios }}
+                            usuario{% if cantidad_usuarios != 1 %}s{% endif %}
+
                         </span>
 
 
@@ -579,14 +601,6 @@
                                         Premium
                                     </th>
 
-                                    <th>
-                                        Estado
-                                    </th>
-
-                                    <th>
-                                        Registro
-                                    </th>
-
                                     <th class="users-actions-head">
                                         Acciones
                                     </th>
@@ -599,788 +613,212 @@
                             <tbody id="users-table-body">
 
 
-                                <!-- =========================
-                                     ADMIN
-                                ========================== -->
-
-                                <tr
-                                    class="user-row"
-                                    data-name="Administrador"
-                                    data-username="admin"
-                                    data-email="admin@f1sinfiltro.com"
-                                    data-role="admin"
-                                    data-premium="no"
-                                    data-status="activo"
-                                >
+                                {% for usuario_lista in usuarios %}
 
 
-                                    <td>
+                                    <tr
+                                        class="user-row"
+                                        data-id="{{ usuario_lista.id }}"
+                                        data-name="{{ usuario_lista.nombre }} {{ usuario_lista.apellido or '' }}"
+                                        data-username="{{ usuario_lista.usuario }}"
+                                        data-email="{{ usuario_lista.email }}"
+                                        data-role="{{ usuario_lista.rol }}"
+                                        data-premium="{% if usuario_lista.premium %}si{% else %}no{% endif %}"
+                                    >
 
-                                        <div class="user-identity">
 
-                                            <div class="user-list-avatar admin">
-                                                A
+                                        <!-- USUARIO -->
+
+                                        <td>
+
+
+                                            <div class="user-identity">
+
+
+                                                <div
+                                                    class="user-list-avatar {% if usuario_lista.rol == 'admin' %}admin{% endif %}"
+                                                >
+
+
+                                                    {% if usuario_lista.foto %}
+
+                                                        <img
+                                                            src="{{ url_imagen(usuario_lista.foto) }}"
+                                                            alt="{{ usuario_lista.nombre }}"
+                                                        >
+
+                                                    {% else %}
+
+                                                        {{ usuario_lista.nombre[0]|upper }}
+
+                                                        {% if usuario_lista.apellido %}
+                                                            {{ usuario_lista.apellido[0]|upper }}
+                                                        {% endif %}
+
+                                                    {% endif %}
+
+
+                                                </div>
+
+
+                                                <div>
+
+
+                                                    <strong>
+
+                                                        {{ usuario_lista.nombre }}
+
+                                                        {% if usuario_lista.apellido %}
+                                                            {{ usuario_lista.apellido }}
+                                                        {% endif %}
+
+                                                    </strong>
+
+
+                                                    <span>
+                                                        @{{ usuario_lista.usuario }}
+                                                    </span>
+
+
+                                                </div>
+
+
                                             </div>
 
 
-                                            <div>
-
-                                                <strong>
-                                                    Administrador
-                                                </strong>
-
-                                                <span>
-                                                    @admin
-                                                </span>
-
-                                            </div>
-
-                                        </div>
-
-                                    </td>
+                                        </td>
 
 
-                                    <td>
-                                        admin@f1sinfiltro.com
-                                    </td>
+                                        <!-- EMAIL -->
+
+                                        <td>
+                                            {{ usuario_lista.email }}
+                                        </td>
 
 
-                                    <td>
+                                        <!-- ROL -->
 
-                                        <span class="user-role admin">
-                                            ADMIN
-                                        </span>
+                                        <td>
 
-                                    </td>
-
-
-                                    <td>
-
-                                        <span class="premium-status no">
-                                            NO
-                                        </span>
-
-                                    </td>
-
-
-                                    <td>
-
-                                        <span class="account-status active">
-
-                                            <span></span>
-
-                                            Activo
-
-                                        </span>
-
-                                    </td>
-
-
-                                    <td>
-                                        01/01/2026
-                                    </td>
-
-
-                                    <td>
-
-                                        <div class="user-actions">
-
-                                            <span class="protected-account">
-
-                                                <span class="material-symbols-outlined">
-                                                    lock
-                                                </span>
-
-                                                Cuenta protegida
-
+                                            <span
+                                                class="user-role {{ usuario_lista.rol }}"
+                                            >
+                                                {{ usuario_lista.rol|upper }}
                                             </span>
 
-                                        </div>
-
-                                    </td>
+                                        </td>
 
 
-                                </tr>
+                                        <!-- PREMIUM -->
+
+                                        <td>
 
 
+                                            {% if usuario_lista.premium %}
 
-                                <!-- =========================
-                                     EDITOR 1
-                                ========================== -->
+                                                <span class="premium-status yes">
+                                                    PREMIUM
+                                                </span>
 
-                                <tr
-                                    class="user-row"
-                                    data-name="Carlos Sainz"
-                                    data-username="csainz55"
-                                    data-email="carlos@f1sinfiltro.com"
-                                    data-role="editor"
-                                    data-premium="no"
-                                    data-status="activo"
-                                >
+                                            {% else %}
+
+                                                <span class="premium-status no">
+                                                    NO
+                                                </span>
+
+                                            {% endif %}
 
 
-                                    <td>
+                                        </td>
 
-                                        <div class="user-identity">
 
-                                            <div class="user-list-avatar">
-                                                CS
+                                        <!-- ACCIONES -->
+
+                                        <td>
+
+
+                                            <div class="user-actions">
+
+
+                                                {% if usuario_lista.id == usuario.id %}
+
+
+                                                    <span class="protected-account">
+
+                                                        <span class="material-symbols-outlined">
+                                                            lock
+                                                        </span>
+
+                                                        Cuenta protegida
+
+                                                    </span>
+
+
+                                                {% elif usuario_lista.rol == "admin" %}
+
+
+                                                    <span class="protected-account">
+
+                                                        <span class="material-symbols-outlined">
+                                                            lock
+                                                        </span>
+
+                                                        Admin protegido
+
+                                                    </span>
+
+
+                                                {% else %}
+
+
+                                                    <button
+                                                        class="change-role-btn"
+                                                        type="button"
+                                                    >
+
+                                                        <span class="material-symbols-outlined">
+                                                            badge
+                                                        </span>
+
+                                                        Rol
+
+                                                    </button>
+
+
+                                                    <form
+                                                        action="{{ url_for('admin.admin_eliminar_usuario', id_usuario=usuario_lista.id) }}"
+                                                        method="POST"
+                                                        onsubmit="return confirm('¿Seguro que querés eliminar este usuario?');"
+                                                    >
+
+                                                        <button
+                                                            class="delete-user-btn"
+                                                            type="submit"
+                                                            title="Eliminar usuario"
+                                                        >
+
+                                                            <span class="material-symbols-outlined">
+                                                                delete
+                                                            </span>
+
+                                                        </button>
+
+                                                    </form>
+
+
+                                                {% endif %}
+
+
                                             </div>
 
 
-                                            <div>
+                                        </td>
 
-                                                <strong>
-                                                    Carlos Sainz
-                                                </strong>
 
-                                                <span>
-                                                    @csainz55
-                                                </span>
+                                    </tr>
 
-                                            </div>
 
-                                        </div>
-
-                                    </td>
-
-
-                                    <td>
-                                        carlos@f1sinfiltro.com
-                                    </td>
-
-
-                                    <td>
-
-                                        <span class="user-role editor">
-                                            EDITOR
-                                        </span>
-
-                                    </td>
-
-
-                                    <td>
-
-                                        <span class="premium-status no">
-                                            NO
-                                        </span>
-
-                                    </td>
-
-
-                                    <td>
-
-                                        <span class="account-status active">
-
-                                            <span></span>
-
-                                            Activo
-
-                                        </span>
-
-                                    </td>
-
-
-                                    <td>
-                                        12/01/2026
-                                    </td>
-
-
-                                    <td>
-
-                                        <div class="user-actions">
-
-
-                                            <button
-                                                class="change-role-btn"
-                                                type="button"
-                                            >
-
-                                                <span class="material-symbols-outlined">
-                                                    badge
-                                                </span>
-
-                                                Rol
-
-                                            </button>
-
-
-                                            <button
-                                                class="block-user-btn"
-                                                type="button"
-                                                title="Bloquear usuario"
-                                            >
-
-                                                <span class="material-symbols-outlined">
-                                                    lock
-                                                </span>
-
-                                            </button>
-
-
-                                            <button
-                                                class="delete-user-btn"
-                                                type="button"
-                                                title="Eliminar usuario"
-                                            >
-
-                                                <span class="material-symbols-outlined">
-                                                    delete
-                                                </span>
-
-                                            </button>
-
-
-                                        </div>
-
-                                    </td>
-
-
-                                </tr>
-
-
-
-                                <!-- =========================
-                                     EDITOR 2
-                                ========================== -->
-
-                                <tr
-                                    class="user-row"
-                                    data-name="Lucía Martínez"
-                                    data-username="lucia_aero"
-                                    data-email="lucia@gmail.com"
-                                    data-role="editor"
-                                    data-premium="si"
-                                    data-status="activo"
-                                >
-
-
-                                    <td>
-
-                                        <div class="user-identity">
-
-                                            <div class="user-list-avatar">
-                                                LM
-                                            </div>
-
-
-                                            <div>
-
-                                                <strong>
-                                                    Lucía Martínez
-                                                </strong>
-
-                                                <span>
-                                                    @lucia_aero
-                                                </span>
-
-                                            </div>
-
-                                        </div>
-
-                                    </td>
-
-
-                                    <td>
-                                        lucia@gmail.com
-                                    </td>
-
-
-                                    <td>
-
-                                        <span class="user-role editor">
-                                            EDITOR
-                                        </span>
-
-                                    </td>
-
-
-                                    <td>
-
-                                        <span class="premium-status yes">
-                                            PREMIUM
-                                        </span>
-
-                                    </td>
-
-
-                                    <td>
-
-                                        <span class="account-status active">
-
-                                            <span></span>
-
-                                            Activo
-
-                                        </span>
-
-                                    </td>
-
-
-                                    <td>
-                                        04/03/2026
-                                    </td>
-
-
-                                    <td>
-
-                                        <div class="user-actions">
-
-
-                                            <button
-                                                class="change-role-btn"
-                                                type="button"
-                                            >
-
-                                                <span class="material-symbols-outlined">
-                                                    badge
-                                                </span>
-
-                                                Rol
-
-                                            </button>
-
-
-                                            <button
-                                                class="block-user-btn"
-                                                type="button"
-                                                title="Bloquear usuario"
-                                            >
-
-                                                <span class="material-symbols-outlined">
-                                                    lock
-                                                </span>
-
-                                            </button>
-
-
-                                            <button
-                                                class="delete-user-btn"
-                                                type="button"
-                                                title="Eliminar usuario"
-                                            >
-
-                                                <span class="material-symbols-outlined">
-                                                    delete
-                                                </span>
-
-                                            </button>
-
-
-                                        </div>
-
-                                    </td>
-
-
-                                </tr>
-
-
-
-                                <!-- =========================
-                                     USUARIO 1
-                                ========================== -->
-
-                                <tr
-                                    class="user-row"
-                                    data-name="Fernando Gómez"
-                                    data-username="NanoTelemetry"
-                                    data-email="fgomez@gmail.com"
-                                    data-role="usuario"
-                                    data-premium="si"
-                                    data-status="activo"
-                                >
-
-
-                                    <td>
-
-                                        <div class="user-identity">
-
-                                            <div class="user-list-avatar">
-                                                FG
-                                            </div>
-
-
-                                            <div>
-
-                                                <strong>
-                                                    Fernando Gómez
-                                                </strong>
-
-                                                <span>
-                                                    @NanoTelemetry
-                                                </span>
-
-                                            </div>
-
-                                        </div>
-
-                                    </td>
-
-
-                                    <td>
-                                        fgomez@gmail.com
-                                    </td>
-
-
-                                    <td>
-
-                                        <span class="user-role usuario">
-                                            USUARIO
-                                        </span>
-
-                                    </td>
-
-
-                                    <td>
-
-                                        <span class="premium-status yes">
-                                            PREMIUM
-                                        </span>
-
-                                    </td>
-
-
-                                    <td>
-
-                                        <span class="account-status active">
-
-                                            <span></span>
-
-                                            Activo
-
-                                        </span>
-
-                                    </td>
-
-
-                                    <td>
-                                        22/02/2026
-                                    </td>
-
-
-                                    <td>
-
-                                        <div class="user-actions">
-
-
-                                            <button
-                                                class="change-role-btn"
-                                                type="button"
-                                            >
-
-                                                <span class="material-symbols-outlined">
-                                                    badge
-                                                </span>
-
-                                                Rol
-
-                                            </button>
-
-
-                                            <button
-                                                class="block-user-btn"
-                                                type="button"
-                                                title="Bloquear usuario"
-                                            >
-
-                                                <span class="material-symbols-outlined">
-                                                    lock
-                                                </span>
-
-                                            </button>
-
-
-                                            <button
-                                                class="delete-user-btn"
-                                                type="button"
-                                                title="Eliminar usuario"
-                                            >
-
-                                                <span class="material-symbols-outlined">
-                                                    delete
-                                                </span>
-
-                                            </button>
-
-
-                                        </div>
-
-                                    </td>
-
-
-                                </tr>
-
-
-
-                                <!-- =========================
-                                     USUARIO 2
-                                ========================== -->
-
-                                <tr
-                                    class="user-row"
-                                    data-name="Martín Benítez"
-                                    data-username="MBenitez"
-                                    data-email="m.benitez@gmail.com"
-                                    data-role="usuario"
-                                    data-premium="no"
-                                    data-status="activo"
-                                >
-
-
-                                    <td>
-
-                                        <div class="user-identity">
-
-                                            <div class="user-list-avatar">
-                                                MB
-                                            </div>
-
-
-                                            <div>
-
-                                                <strong>
-                                                    Martín Benítez
-                                                </strong>
-
-                                                <span>
-                                                    @MBenitez
-                                                </span>
-
-                                            </div>
-
-                                        </div>
-
-                                    </td>
-
-
-                                    <td>
-                                        m.benitez@gmail.com
-                                    </td>
-
-
-                                    <td>
-
-                                        <span class="user-role usuario">
-                                            USUARIO
-                                        </span>
-
-                                    </td>
-
-
-                                    <td>
-
-                                        <span class="premium-status no">
-                                            NO
-                                        </span>
-
-                                    </td>
-
-
-                                    <td>
-
-                                        <span class="account-status active">
-
-                                            <span></span>
-
-                                            Activo
-
-                                        </span>
-
-                                    </td>
-
-
-                                    <td>
-                                        09/05/2026
-                                    </td>
-
-
-                                    <td>
-
-                                        <div class="user-actions">
-
-
-                                            <button
-                                                class="change-role-btn"
-                                                type="button"
-                                            >
-
-                                                <span class="material-symbols-outlined">
-                                                    badge
-                                                </span>
-
-                                                Rol
-
-                                            </button>
-
-
-                                            <button
-                                                class="block-user-btn"
-                                                type="button"
-                                                title="Bloquear usuario"
-                                            >
-
-                                                <span class="material-symbols-outlined">
-                                                    lock
-                                                </span>
-
-                                            </button>
-
-
-                                            <button
-                                                class="delete-user-btn"
-                                                type="button"
-                                                title="Eliminar usuario"
-                                            >
-
-                                                <span class="material-symbols-outlined">
-                                                    delete
-                                                </span>
-
-                                            </button>
-
-
-                                        </div>
-
-                                    </td>
-
-
-                                </tr>
-
-
-
-                                <!-- =========================
-                                     BLOQUEADO
-                                ========================== -->
-
-                                <tr
-                                    class="user-row blocked-row"
-                                    data-name="Troll88"
-                                    data-username="Troll88"
-                                    data-email="spammer@gmail.com"
-                                    data-role="usuario"
-                                    data-premium="no"
-                                    data-status="bloqueado"
-                                >
-
-
-                                    <td>
-
-                                        <div class="user-identity">
-
-                                            <div class="user-list-avatar blocked">
-                                                T
-                                            </div>
-
-
-                                            <div>
-
-                                                <strong>
-                                                    Troll88
-                                                </strong>
-
-                                                <span>
-                                                    @Troll88
-                                                </span>
-
-                                            </div>
-
-                                        </div>
-
-                                    </td>
-
-
-                                    <td>
-                                        spammer@gmail.com
-                                    </td>
-
-
-                                    <td>
-
-                                        <span class="user-role usuario">
-                                            USUARIO
-                                        </span>
-
-                                    </td>
-
-
-                                    <td>
-
-                                        <span class="premium-status no">
-                                            NO
-                                        </span>
-
-                                    </td>
-
-
-                                    <td>
-
-                                        <span class="account-status blocked">
-
-                                            <span></span>
-
-                                            Bloqueado
-
-                                        </span>
-
-                                    </td>
-
-
-                                    <td>
-                                        18/10/2026
-                                    </td>
-
-
-                                    <td>
-
-                                        <div class="user-actions">
-
-
-                                            <button
-                                                class="change-role-btn"
-                                                type="button"
-                                            >
-
-                                                <span class="material-symbols-outlined">
-                                                    badge
-                                                </span>
-
-                                                Rol
-
-                                            </button>
-
-
-                                            <button
-                                                class="unblock-user-btn"
-                                                type="button"
-                                                title="Desbloquear usuario"
-                                            >
-
-                                                <span class="material-symbols-outlined">
-                                                    lock_open
-                                                </span>
-
-                                            </button>
-
-
-                                            <button
-                                                class="delete-user-btn"
-                                                type="button"
-                                                title="Eliminar usuario"
-                                            >
-
-                                                <span class="material-symbols-outlined">
-                                                    delete
-                                                </span>
-
-                                            </button>
-
-
-                                        </div>
-
-                                    </td>
-
-
-                                </tr>
+                                {% endfor %}
 
 
                             </tbody>
@@ -1390,6 +828,7 @@
 
 
                     </div>
+
 
 
                     <!-- =========================
@@ -1405,13 +844,16 @@
                             person_search
                         </span>
 
+
                         <strong>
                             No se encontraron usuarios
                         </strong>
 
+
                         <span>
                             Probá modificando los filtros.
                         </span>
+
 
                     </div>
 
@@ -1478,6 +920,7 @@
 
         <div class="selected-user-box">
 
+
             <div>
 
                 <span>
@@ -1507,109 +950,117 @@
 
             </div>
 
-        </div>
-
-
-        <div class="role-options">
-
-
-            <label class="role-option">
-
-                <input
-                    type="radio"
-                    name="new-role"
-                    value="usuario"
-                >
-
-                <div>
-
-                    <strong>
-                        Usuario
-                    </strong>
-
-                    <span>
-                        Puede acceder al contenido público,
-                        comentar y utilizar las funciones de usuario.
-                    </span>
-
-                </div>
-
-            </label>
-
-
-            <label class="role-option">
-
-                <input
-                    type="radio"
-                    name="new-role"
-                    value="editor"
-                >
-
-                <div>
-
-                    <strong>
-                        Editor
-                    </strong>
-
-                    <span>
-                        Puede crear y administrar sus publicaciones,
-                        categorías, etiquetas y comentarios propios.
-                    </span>
-
-                </div>
-
-            </label>
-
-
-            <label class="role-option">
-
-                <input
-                    type="radio"
-                    name="new-role"
-                    value="admin"
-                >
-
-                <div>
-
-                    <strong>
-                        Admin
-                    </strong>
-
-                    <span>
-                        Puede administrar usuarios y todo el contenido
-                        general del sistema.
-                    </span>
-
-                </div>
-
-            </label>
-
 
         </div>
 
 
-        <div class="user-modal-actions">
+        <form
+            id="role-form"
+            method="POST"
+        >
 
 
-            <button
-                class="modal-cancel-btn"
-                id="cancel-role-change"
-                type="button"
-            >
-                Cancelar
-            </button>
+            <div class="role-options">
 
 
-            <button
-                class="modal-save-btn"
-                id="save-role-change"
-                type="button"
-            >
-                Guardar cambio
-            </button>
+                <label class="role-option">
+
+                    <input
+                        type="radio"
+                        name="rol"
+                        value="usuario"
+                    >
+
+                    <div>
+
+                        <strong>
+                            Usuario
+                        </strong>
+
+                        <span>
+                            Puede acceder al contenido público,
+                            comentar y utilizar las funciones de usuario.
+                        </span>
+
+                    </div>
+
+                </label>
 
 
-        </div>
+                <label class="role-option">
+
+                    <input
+                        type="radio"
+                        name="rol"
+                        value="editor"
+                    >
+
+                    <div>
+
+                        <strong>
+                            Editor
+                        </strong>
+
+                        <span>
+                            Puede crear y administrar sus publicaciones.
+                        </span>
+
+                    </div>
+
+                </label>
+
+
+                <label class="role-option">
+
+                    <input
+                        type="radio"
+                        name="rol"
+                        value="admin"
+                    >
+
+                    <div>
+
+                        <strong>
+                            Admin
+                        </strong>
+
+                        <span>
+                            Puede administrar usuarios
+                            y el contenido general del sistema.
+                        </span>
+
+                    </div>
+
+                </label>
+
+
+            </div>
+
+
+            <div class="user-modal-actions">
+
+
+                <button
+                    class="modal-cancel-btn"
+                    id="cancel-role-change"
+                    type="button"
+                >
+                    Cancelar
+                </button>
+
+
+                <button
+                    class="modal-save-btn"
+                    type="submit"
+                >
+                    Guardar cambio
+                </button>
+
+
+            </div>
+
+
+        </form>
 
 
     </div>
@@ -1652,12 +1103,6 @@ document.addEventListener(
         const roleFilter =
             document.getElementById(
                 "role-filter"
-            );
-
-
-        const statusFilter =
-            document.getElementById(
-                "status-filter"
             );
 
 
@@ -1715,10 +1160,6 @@ document.addEventListener(
                 roleFilter.value;
 
 
-            const estado =
-                statusFilter.value;
-
-
             const premium =
                 premiumFilter.value;
 
@@ -1752,12 +1193,6 @@ document.addEventListener(
                         row.dataset.role === rol;
 
 
-                    const coincideEstado =
-                        estado === "all"
-                        ||
-                        row.dataset.status === estado;
-
-
                     const coincidePremium =
                         premium === "all"
                         ||
@@ -1768,8 +1203,6 @@ document.addEventListener(
                         coincideTexto
                         &&
                         coincideRol
-                        &&
-                        coincideEstado
                         &&
                         coincidePremium;
 
@@ -1833,12 +1266,6 @@ document.addEventListener(
         );
 
 
-        statusFilter.addEventListener(
-            "change",
-            filtrarUsuarios
-        );
-
-
         premiumFilter.addEventListener(
             "change",
             filtrarUsuarios
@@ -1867,8 +1294,6 @@ document.addEventListener(
 
                 roleFilter.value = "all";
 
-                statusFilter.value = "all";
-
                 premiumFilter.value = "all";
 
                 filtrarUsuarios();
@@ -1879,13 +1304,19 @@ document.addEventListener(
 
 
         /* =========================
-           MODAL CAMBIAR ROL
+           CAMBIAR ROL
         ========================= */
 
 
         const roleModal =
             document.getElementById(
                 "role-modal"
+            );
+
+
+        const roleForm =
+            document.getElementById(
+                "role-form"
             );
 
 
@@ -1919,20 +1350,14 @@ document.addEventListener(
             );
 
 
-        const saveRoleChange =
-            document.getElementById(
-                "save-role-change"
-            );
+
+        function abrirModalRol(
+            row
+        ) {
 
 
-        let selectedRow = null;
-
-
-
-        function abrirModalRol(row) {
-
-
-            selectedRow = row;
+            const id =
+                row.dataset.id;
 
 
             selectedName.textContent =
@@ -1940,16 +1365,23 @@ document.addEventListener(
 
 
             selectedHandle.textContent =
-                "@" + row.dataset.username;
+                "@" +
+                row.dataset.username;
 
 
             selectedRole.textContent =
                 row.dataset.role.toUpperCase();
 
 
+            roleForm.action =
+                "/admin/usuarios/" +
+                id +
+                "/rol";
+
+
             const radio =
                 document.querySelector(
-                    'input[name="new-role"][value="' +
+                    'input[name="rol"][value="' +
                     row.dataset.role +
                     '"]'
                 );
@@ -1977,8 +1409,6 @@ document.addEventListener(
                 "open"
             );
 
-            selectedRow = null;
-
         }
 
 
@@ -2001,6 +1431,7 @@ document.addEventListener(
                             ".user-row"
                         );
 
+
                     abrirModalRol(
                         row
                     );
@@ -2010,7 +1441,6 @@ document.addEventListener(
 
             }
         );
-
 
 
         closeRoleModal.addEventListener(
@@ -2040,372 +1470,6 @@ document.addEventListener(
 
             }
         );
-
-
-
-        saveRoleChange.addEventListener(
-            "click",
-            function () {
-
-
-                if (!selectedRow) {
-
-                    return;
-
-                }
-
-
-                const selectedRadio =
-                    document.querySelector(
-                        'input[name="new-role"]:checked'
-                    );
-
-
-                if (!selectedRadio) {
-
-                    return;
-
-                }
-
-
-                const nuevoRol =
-                    selectedRadio.value;
-
-
-                selectedRow.dataset.role =
-                    nuevoRol;
-
-
-                const badge =
-                    selectedRow.querySelector(
-                        ".user-role"
-                    );
-
-
-                badge.className =
-                    "user-role " +
-                    nuevoRol;
-
-
-                badge.textContent =
-                    nuevoRol.toUpperCase();
-
-
-                alert(
-                    "Por ahora el cambio de rol se actualiza solamente de forma visual."
-                );
-
-
-                cerrarModalRol();
-
-                filtrarUsuarios();
-
-
-            }
-        );
-
-
-
-        /* =========================
-           BLOQUEAR / DESBLOQUEAR
-        ========================= */
-
-
-        document.addEventListener(
-            "click",
-            function (event) {
-
-
-                const blockButton =
-                    event.target.closest(
-                        ".block-user-btn"
-                    );
-
-
-                if (blockButton) {
-
-
-                    const row =
-                        blockButton.closest(
-                            ".user-row"
-                        );
-
-
-                    const confirmar =
-                        confirm(
-                            "¿Seguro que querés bloquear este usuario?"
-                        );
-
-
-                    if (!confirmar) {
-
-                        return;
-
-                    }
-
-
-                    row.dataset.status =
-                        "bloqueado";
-
-
-                    row.classList.add(
-                        "blocked-row"
-                    );
-
-
-                    const state =
-                        row.querySelector(
-                            ".account-status"
-                        );
-
-
-                    state.className =
-                        "account-status blocked";
-
-
-                    state.innerHTML =
-                        `
-                            <span></span>
-                            Bloqueado
-                        `;
-
-
-                    blockButton.className =
-                        "unblock-user-btn";
-
-
-                    blockButton.title =
-                        "Desbloquear usuario";
-
-
-                    blockButton.innerHTML =
-                        `
-                            <span class="material-symbols-outlined">
-                                lock_open
-                            </span>
-                        `;
-
-
-                    filtrarUsuarios();
-
-
-                    return;
-
-                }
-
-
-
-                const unblockButton =
-                    event.target.closest(
-                        ".unblock-user-btn"
-                    );
-
-
-                if (unblockButton) {
-
-
-                    const row =
-                        unblockButton.closest(
-                            ".user-row"
-                        );
-
-
-                    row.dataset.status =
-                        "activo";
-
-
-                    row.classList.remove(
-                        "blocked-row"
-                    );
-
-
-                    const state =
-                        row.querySelector(
-                            ".account-status"
-                        );
-
-
-                    state.className =
-                        "account-status active";
-
-
-                    state.innerHTML =
-                        `
-                            <span></span>
-                            Activo
-                        `;
-
-
-                    unblockButton.className =
-                        "block-user-btn";
-
-
-                    unblockButton.title =
-                        "Bloquear usuario";
-
-
-                    unblockButton.innerHTML =
-                        `
-                            <span class="material-symbols-outlined">
-                                lock
-                            </span>
-                        `;
-
-
-                    filtrarUsuarios();
-
-
-                }
-
-
-            }
-        );
-
-
-
-        /* =========================
-           ELIMINAR
-        ========================= */
-
-
-        document.addEventListener(
-            "click",
-            function (event) {
-
-
-                const deleteButton =
-                    event.target.closest(
-                        ".delete-user-btn"
-                    );
-
-
-                if (!deleteButton) {
-
-                    return;
-
-                }
-
-
-                const row =
-                    deleteButton.closest(
-                        ".user-row"
-                    );
-
-
-                const nombre =
-                    row.dataset.name;
-
-
-                const confirmar =
-                    confirm(
-                        "¿Seguro que querés eliminar a " +
-                        nombre +
-                        "?"
-                    );
-
-
-                if (!confirmar) {
-
-                    return;
-
-                }
-
-
-                row.remove();
-
-
-                actualizarEstadisticas();
-
-                filtrarUsuarios();
-
-
-            }
-        );
-
-
-
-        /* =========================
-           ESTADÍSTICAS
-        ========================= */
-
-
-        function actualizarEstadisticas() {
-
-
-            const rows =
-                getRows();
-
-
-            let editores = 0;
-
-            let premium = 0;
-
-            let bloqueados = 0;
-
-
-            rows.forEach(
-                function (row) {
-
-
-                    if (
-                        row.dataset.role ===
-                        "editor"
-                    ) {
-
-                        editores++;
-
-                    }
-
-
-                    if (
-                        row.dataset.premium ===
-                        "si"
-                    ) {
-
-                        premium++;
-
-                    }
-
-
-                    if (
-                        row.dataset.status ===
-                        "bloqueado"
-                    ) {
-
-                        bloqueados++;
-
-                    }
-
-
-                }
-            );
-
-
-            document.getElementById(
-                "stat-total"
-            ).textContent =
-                rows.length;
-
-
-            document.getElementById(
-                "stat-editors"
-            ).textContent =
-                editores;
-
-
-            document.getElementById(
-                "stat-premium"
-            ).textContent =
-                premium;
-
-
-            document.getElementById(
-                "stat-blocked"
-            ).textContent =
-                bloqueados;
-
-
-        }
 
 
     }
