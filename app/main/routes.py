@@ -14,6 +14,7 @@ from flask import (
 from app.extensions import db
 
 from app.models import (
+    Usuario,
     Publicacion,
     BloquePublicacion,
     ImagenCarrusel,
@@ -29,6 +30,65 @@ bp = Blueprint(
     "main",
     __name__
 )
+
+
+# =====================================
+# SEGURIDAD VISTAS PÚBLICAS
+# =====================================
+
+@bp.before_request
+def proteger_vistas_publicas():
+
+    datos_usuario = session.get(
+        "usuario"
+    )
+
+
+    # Si no hay sesión, puede navegar
+    # normalmente por las vistas públicas.
+    if not datos_usuario:
+
+        return None
+
+
+    usuario = db.session.get(
+        Usuario,
+        datos_usuario["id"]
+    )
+
+
+    # Si por algún motivo el usuario
+    # ya no existe, dejo continuar.
+    if not usuario:
+
+        return None
+
+
+    # El editor solamente puede utilizar
+    # las vistas del panel de editor.
+    if usuario.rol == "editor":
+
+        return redirect(
+            url_for(
+                "editor.editor"
+            )
+        )
+
+
+    # El administrador solamente puede
+    # utilizar las vistas del panel admin.
+    if usuario.rol == "admin":
+
+        return redirect(
+            url_for(
+                "admin.admin_dashboard"
+            )
+        )
+
+
+    # El usuario normal sí puede navegar
+    # por las vistas públicas.
+    return None
 
 
 # =====================================
@@ -334,7 +394,9 @@ def noticias():
     "/post/<int:id_publicacion>",
     methods=["GET", "POST"]
 )
-def post(id_publicacion):
+def post(
+    id_publicacion
+):
 
     # =====================================
     # PUBLICACIÓN
@@ -389,7 +451,9 @@ def post(id_publicacion):
                 usuario_id=datos_usuario["id"],
                 publicacion_id=publicacion.id,
                 moderacion=moderacion,
-                confianza=float(confianza)
+                confianza=float(
+                    confianza
+                )
             )
 
 
@@ -431,7 +495,9 @@ def post(id_publicacion):
 
         if bloque.tipo == "carrusel":
 
-            carruseles[bloque.id] = ImagenCarrusel.query.filter_by(
+            carruseles[
+                bloque.id
+            ] = ImagenCarrusel.query.filter_by(
                 bloque_id=bloque.id
             ).order_by(
                 ImagenCarrusel.orden
@@ -565,7 +631,9 @@ def categorias():
 @bp.route(
     "/categorias/<int:id_categoria>"
 )
-def publicaciones_categoria(id_categoria):
+def publicaciones_categoria(
+    id_categoria
+):
 
     categoria = db.session.get(
         Categoria,
@@ -579,9 +647,14 @@ def publicaciones_categoria(id_categoria):
 
 
     publicaciones = Publicacion.query.filter(
-        Publicacion.estado == "publicada",
+        Publicacion.estado
+        ==
+        "publicada",
+
         Publicacion.categorias.any(
-            Categoria.id == id_categoria
+            Categoria.id
+            ==
+            id_categoria
         )
     ).order_by(
         Publicacion.id.desc()
@@ -602,7 +675,9 @@ def publicaciones_categoria(id_categoria):
 @bp.route(
     "/etiquetas/<int:id_etiqueta>"
 )
-def publicaciones_etiqueta(id_etiqueta):
+def publicaciones_etiqueta(
+    id_etiqueta
+):
 
     etiqueta = db.session.get(
         Etiqueta,
@@ -616,9 +691,14 @@ def publicaciones_etiqueta(id_etiqueta):
 
 
     publicaciones = Publicacion.query.filter(
-        Publicacion.estado == "publicada",
+        Publicacion.estado
+        ==
+        "publicada",
+
         Publicacion.etiquetas.any(
-            Etiqueta.id == id_etiqueta
+            Etiqueta.id
+            ==
+            id_etiqueta
         )
     ).order_by(
         Publicacion.id.desc()
