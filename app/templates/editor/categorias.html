@@ -1,859 +1,499 @@
 <!DOCTYPE html>
+
 <html lang="es">
+  <head>
+    <meta charset="utf-8" />
 
-<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <meta charset="utf-8">
-
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
-
-    <title>
-        F1 SIN FILTRO - Categorías
-    </title>
-
+    <title>F1 SIN FILTRO - Categorías</title>
 
     <!-- FUENTES -->
 
-    <link
-        href="https://fonts.googleapis.com"
-        rel="preconnect"
-    >
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+
+    <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin />
 
     <link
-        href="https://fonts.gstatic.com"
-        rel="preconnect"
-        crossorigin
-    >
+      href="https://fonts.googleapis.com/css2?family=Chivo:wght@400;600;700;900&family=Geist:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
 
     <link
-        href="https://fonts.googleapis.com/css2?family=Chivo:wght@400;600;700;900&family=Geist:wght@400;500;600;700&display=swap"
-        rel="stylesheet"
-    >
-
-    <link
-        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
-        rel="stylesheet"
-    >
-
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
+      rel="stylesheet"
+    />
 
     <!-- CSS -->
 
     <link
-        rel="stylesheet"
-        href="{{ url_for('static', filename='styles/style.css') }}"
-    >
+      rel="stylesheet"
+      href="{{ url_for('static', filename='styles/style.css') }}"
+    />
 
     <link
-        rel="stylesheet"
-        href="{{ url_for('static', filename='styles/editor/sidebar.css') }}"
-    >
+      rel="stylesheet"
+      href="{{ url_for('static', filename='styles/editor/sidebar.css') }}"
+    />
 
     <link
-        rel="stylesheet"
-        href="{{ url_for('static', filename='styles/editor/dashboard.css') }}"
-    >
+      rel="stylesheet"
+      href="{{ url_for('static', filename='styles/editor/dashboard.css') }}"
+    />
 
     <link
-        rel="stylesheet"
-        href="{{ url_for('static', filename='styles/editor/categorias.css') }}"
-    >
+      rel="stylesheet"
+      href="{{ url_for('static', filename='styles/editor/categorias.css') }}"
+    />
+  </head>
 
-</head>
+  <body>
+    <div class="editor-page">
+      <!-- SIDEBAR -->
 
+      {% include "editor/sidebar.html" %}
 
-<body>
+      <!-- CONTENIDO -->
 
-
-<div class="editor-page">
-
-
-    <!-- SIDEBAR -->
-
-    {% include "editor/sidebar.html" %}
-
-
-    <!-- CONTENIDO -->
-
-    <div class="editor-content">
-
-
+      <div class="editor-content">
         <!-- TOPBAR -->
 
         <header class="editor-topbar">
+          <div class="topbar-left">
+            <button
+              class="menu-btn"
+              type="button"
+              id="editor-menu-btn"
+              aria-label="Abrir menú"
+              onclick="document.getElementById('editor-sidebar').classList.add('open')"
+            >
+              <span class="material-symbols-outlined"> menu </span>
+            </button>
+          </div>
 
+          <div class="topbar-right">
+            <div class="role-badge">
+              <span class="role-dot"></span>
 
-            <div class="topbar-left">
+              <span> ROL: </span>
 
-                <button
-                    class="menu-btn"
-                    type="button"
-                    id="editor-menu-btn"
-                    aria-label="Abrir menú"
-                >
-
-                    <span class="material-symbols-outlined">
-                        menu
-                    </span>
-
-                </button>
-
+              <strong> EDITOR </strong>
             </div>
 
+            <div class="editor-user">
+              <div class="editor-user-data">
+                <strong> {{ usuario.nombre }} </strong>
 
-            <div class="topbar-right">
+                <span> {{ usuario.email }} </span>
+              </div>
 
+              {% if usuario.foto %}
 
-                <div class="role-badge">
+              <img
+                class="editor-avatar editor-avatar-img"
+                src="{{ url_imagen(usuario.foto) }}"
+                alt="{{ usuario.nombre }}"
+              />
 
-                    <span class="role-dot"></span>
+              {% else %}
 
-                    <span>
-                        ROL:
-                    </span>
+              <div class="editor-avatar">
+                <span class="material-symbols-outlined"> person </span>
+              </div>
 
-                    <strong>
-                        EDITOR
-                    </strong>
-
-                </div>
-
-
-                <div class="editor-user">
-
-
-                    <div class="editor-user-data">
-
-                        <strong>
-                            {{ usuario.nombre if usuario else "Editor" }}
-                        </strong>
-
-                        <span>
-                            {{ usuario.email if usuario else "editor@f1sinfiltro.com" }}
-                        </span>
-
-                    </div>
-
-
-                    {% if usuario and usuario.foto %}
-
-                        <img
-                            class="editor-avatar editor-avatar-img"
-                            src="{{ url_imagen(usuario.foto) }}"
-                            alt="{{ usuario.nombre }}"
-                        >
-
-                    {% else %}
-
-                        <div class="editor-avatar">
-
-                            <span class="material-symbols-outlined">
-                                person
-                            </span>
-
-                        </div>
-
-                    {% endif %}
-
-
-                </div>
-
-
+              {% endif %}
             </div>
-
-
+          </div>
         </header>
-
 
         <!-- MAIN -->
 
         <main class="editor-main">
+          <div class="editor-container">
+            <!-- CABECERA -->
 
+            <div class="categories-head">
+              <div>
+                <div class="categories-path">
+                  <span> PANEL DE CONTROL </span>
 
-            <div class="editor-container">
+                  <span> / </span>
 
-
-                <!-- CABECERA -->
-
-                <div class="categories-head">
-
-
-                    <div>
-
-
-                        <div class="categories-path">
-
-                            <span>
-                                PANEL DE CONTROL
-                            </span>
-
-                            <span>
-                                /
-                            </span>
-
-                            <strong>
-                                CATEGORÍAS
-                            </strong>
-
-                        </div>
-
-
-                        <h1>
-                            GESTIÓN DE <span>CATEGORÍAS</span>
-                        </h1>
-
-
-                        <p>
-                            Creá y administrá las categorías utilizadas en las publicaciones.
-                        </p>
-
-
-                    </div>
-
-
-                    <button
-                        class="new-category-btn"
-                        type="button"
-                        id="btn-open-category"
-                    >
-
-                        <span class="material-symbols-outlined">
-                            add
-                        </span>
-
-                        Nueva Categoría
-
-                    </button>
-
-
+                  <strong> CATEGORÍAS </strong>
                 </div>
 
+                <h1>GESTIÓN DE <span>CATEGORÍAS</span></h1>
 
-                <!-- FORMULARIO -->
+                <p>
+                  Creá y administrá las categorías utilizadas en las
+                  publicaciones.
+                </p>
+              </div>
 
-                <div
-                    class="category-form-card hidden"
-                    id="category-form-card"
-                >
+              <button
+                class="new-category-btn"
+                type="button"
+                id="btn-open-category"
+              >
+                <span class="material-symbols-outlined"> add </span>
 
+                Nueva Categoría
+              </button>
+            </div>
 
-                    <form
-                        method="POST"
-                        enctype="multipart/form-data"
-                        id="category-form"
-                        action="{{ url_for('editor.editor_categorias') }}"
-                    >
+            <!-- FORMULARIO -->
 
+            <div class="category-form-card hidden" id="category-form-card">
+              <form
+                method="POST"
+                enctype="multipart/form-data"
+                id="category-form"
+                action="{{ url_for('editor.editor_categorias') }}"
+              >
+                <div class="category-form-head">
+                  <div>
+                    <span class="form-kicker"> CATEGORÍA </span>
 
-                        <div class="category-form-head">
+                    <h2 id="category-form-title">Crear Nueva Categoría</h2>
+                  </div>
 
-
-                            <div>
-
-                                <span class="form-kicker">
-                                    CATEGORÍA
-                                </span>
-
-                                <h2 id="category-form-title">
-                                    Crear Nueva Categoría
-                                </h2>
-
-                            </div>
-
-
-                            <button
-                                class="close-category-form"
-                                type="button"
-                                id="btn-close-category"
-                            >
-
-                                <span class="material-symbols-outlined">
-                                    close
-                                </span>
-
-                            </button>
-
-
-                        </div>
-
-
-                        <div class="category-form">
-
-
-                            <!-- NOMBRE -->
-
-                            <div class="category-field">
-
-                                <label for="category-name">
-                                    NOMBRE
-                                </label>
-
-                                <input
-                                    type="text"
-                                    id="category-name"
-                                    name="nombre"
-                                    placeholder="Ej: Pilotos"
-                                    required
-                                >
-
-                            </div>
-
-
-                            <!-- DESCRIPCIÓN -->
-
-                            <div class="category-field">
-
-                                <label for="category-description">
-                                    DESCRIPCIÓN
-                                </label>
-
-                                <textarea
-                                    id="category-description"
-                                    name="descripcion"
-                                    rows="3"
-                                    placeholder="Descripción breve de la categoría..."
-                                ></textarea>
-
-                            </div>
-
-
-                            <!-- IMAGEN -->
-
-                            <div class="category-field category-image-field">
-
-                                <label for="category-image">
-                                    IMAGEN
-                                </label>
-
-                                <input
-                                    type="file"
-                                    id="category-image"
-                                    name="imagen"
-                                    accept=".jpg,.jpeg,.png,.webp,.gif"
-                                >
-
-                            </div>
-
-
-                        </div>
-
-
-                        <div class="category-form-actions">
-
-
-                            <button
-                                class="cancel-category-btn"
-                                type="button"
-                                id="btn-cancel-category"
-                            >
-                                Cancelar
-                            </button>
-
-
-                            <button
-                                class="save-category-btn"
-                                type="submit"
-                            >
-
-                                <span class="material-symbols-outlined">
-                                    save
-                                </span>
-
-                                Guardar Categoría
-
-                            </button>
-
-
-                        </div>
-
-
-                    </form>
-
-
+                  <button
+                    class="close-category-form"
+                    type="button"
+                    id="btn-close-category"
+                  >
+                    <span class="material-symbols-outlined"> close </span>
+                  </button>
                 </div>
 
+                <div class="category-form">
+                  <!-- NOMBRE -->
 
-                <!-- RESUMEN -->
+                  <div class="category-field">
+                    <label for="category-name"> NOMBRE </label>
 
-                <div class="category-summary">
+                    <input
+                      type="text"
+                      id="category-name"
+                      name="nombre"
+                      placeholder="Ej: Pilotos"
+                      required
+                    />
+                  </div>
 
+                  <!-- DESCRIPCIÓN -->
 
-                    <div class="summary-card">
+                  <div class="category-field">
+                    <label for="category-description"> DESCRIPCIÓN </label>
 
-                        <span class="material-symbols-outlined">
-                            category
-                        </span>
+                    <textarea
+                      id="category-description"
+                      name="descripcion"
+                      rows="3"
+                      placeholder="Descripción breve de la categoría..."
+                    ></textarea>
+                  </div>
 
-                        <div>
+                  <!-- IMAGEN -->
 
-                            <span>
-                                TOTAL CATEGORÍAS
-                            </span>
+                  <div class="category-field category-image-field">
+                    <label for="category-image"> IMAGEN </label>
 
-                            <strong>
-                                {{ categorias|length }}
-                            </strong>
-
-                        </div>
-
-                    </div>
-
-
-                    <div class="summary-card">
-
-                        <span class="material-symbols-outlined">
-                            article
-                        </span>
-
-                        <div>
-
-                            <span>
-                                MÁS UTILIZADA
-                            </span>
-
-                            <strong>
-                                -
-                            </strong>
-
-                        </div>
-
-                    </div>
-
-
+                    <input
+                      type="file"
+                      id="category-image"
+                      name="imagen"
+                      accept=".jpg,.jpeg,.png,.webp,.gif"
+                    />
+                  </div>
                 </div>
 
+                <div class="category-form-actions">
+                  <button
+                    class="cancel-category-btn"
+                    type="button"
+                    id="btn-cancel-category"
+                  >
+                    Cancelar
+                  </button>
 
-                <!-- LISTADO -->
+                  <button class="save-category-btn" type="submit">
+                    <span class="material-symbols-outlined"> save </span>
 
-                <div class="categories-grid">
+                    Guardar Categoría
+                  </button>
+                </div>
+              </form>
+            </div>
 
+            <!-- =====================================
+                     RESUMEN
+                ====================================== -->
 
-                    {% for categoria in categorias %}
+            <div class="category-summary">
+              <!-- TOTAL -->
 
+              <div class="summary-card">
+                <span class="material-symbols-outlined"> category </span>
 
-                        <article
-                            class="category-card"
-                            data-id="{{ categoria.id }}"
-                            data-name="{{ categoria.nombre }}"
-                            data-description="{{ categoria.descripcion or '' }}"
-                            data-edit-url="{{ url_for(
+                <div>
+                  <span> TOTAL CATEGORÍAS </span>
+
+                  <strong> {{ categorias|length }} </strong>
+                </div>
+              </div>
+
+              <!-- MÁS UTILIZADA -->
+
+              <div class="summary-card">
+                <span class="material-symbols-outlined"> article </span>
+
+                <div>
+                  <span> MÁS UTILIZADA </span>
+
+                  <strong>
+                    {% if categoria_mas_utilizada %} {{
+                    categoria_mas_utilizada.nombre }} {% else %} - {% endif %}
+                  </strong>
+
+                  {% if categoria_mas_utilizada %}
+
+                  <small>
+                    {{ mayor_cantidad }} {% if mayor_cantidad == 1 %}
+                    publicación {% else %} publicaciones {% endif %}
+                  </small>
+
+                  {% endif %}
+                </div>
+              </div>
+            </div>
+
+            <!-- =====================================
+                     LISTADO
+                ====================================== -->
+
+            <div class="categories-grid">
+              {% for categoria in categorias %}
+
+              <article
+                class="category-card"
+                data-id="{{ categoria.id }}"
+                data-name="{{ categoria.nombre }}"
+                data-description="{{ categoria.descripcion or '' }}"
+                data-edit-url="{{ url_for(
                                 'editor.editor_editar_categoria',
                                 id_categoria=categoria.id
                             ) }}"
-                        >
+              >
+                <div class="category-card-top">
+                  <!-- IMAGEN -->
 
+                  <div class="category-icon">
+                    {% if categoria.imagen %}
 
-                            <div class="category-card-top">
-
-
-                                <!-- IMAGEN -->
-
-                                <div class="category-icon">
-
-
-                                    {% if categoria.imagen %}
-
-                                        <img
-                                            src="{{ url_imagen(categoria.imagen) }}"
-                                            alt="{{ categoria.nombre }}"
-                                        >
-
-                                    {% else %}
-
-                                        <span class="material-symbols-outlined">
-                                            category
-                                        </span>
-
-                                    {% endif %}
-
-
-                                </div>
-
-
-                                <!-- ACCIONES -->
-
-                                <div class="category-actions">
-
-
-                                    <button
-                                        class="edit-category-btn"
-                                        type="button"
-                                        title="Editar categoría"
-                                    >
-
-                                        <span class="material-symbols-outlined">
-                                            edit
-                                        </span>
-
-                                    </button>
-
-
-                                    <form
-                                        method="POST"
-                                        action="{{ url_for(
-                                            'editor.editor_eliminar_categoria',
-                                            id_categoria=categoria.id
-                                        ) }}"
-                                        class="delete-category-form"
-                                    >
-
-                                        <button
-                                            class="delete-category-btn"
-                                            type="submit"
-                                            title="Eliminar categoría"
-                                        >
-
-                                            <span class="material-symbols-outlined">
-                                                delete
-                                            </span>
-
-                                        </button>
-
-                                    </form>
-
-
-                                </div>
-
-
-                            </div>
-
-
-                            <!-- NOMBRE -->
-
-                            <h2>
-                                {{ categoria.nombre }}
-                            </h2>
-
-
-                            <!-- DESCRIPCIÓN -->
-
-                            <p>
-
-                                {% if categoria.descripcion %}
-
-                                    {{ categoria.descripcion }}
-
-                                {% else %}
-
-                                    Sin descripción.
-
-                                {% endif %}
-
-                            </p>
-
-
-                            <!-- PUBLICACIONES -->
-
-                            <div class="category-card-footer">
-
-                                <span>
-
-                                    <span class="material-symbols-outlined">
-                                        article
-                                    </span>
-
-                                    0 publicaciones
-
-                                </span>
-
-                            </div>
-
-
-                        </article>
-
+                    <img
+                      src="{{ url_imagen(categoria.imagen) }}"
+                      alt="{{ categoria.nombre }}"
+                    />
 
                     {% else %}
 
+                    <span class="material-symbols-outlined"> category </span>
 
-                        <div class="category-empty">
+                    {% endif %}
+                  </div>
 
-                            <span class="material-symbols-outlined">
-                                category
-                            </span>
+                  <!-- ACCIONES -->
 
-                            <p>
-                                Todavía no hay categorías creadas.
-                            </p>
+                  <div class="category-actions">
+                    <button
+                      class="edit-category-btn"
+                      type="button"
+                      title="Editar categoría"
+                    >
+                      <span class="material-symbols-outlined"> edit </span>
+                    </button>
 
-                        </div>
-
-
-                    {% endfor %}
-
-
+                    <form
+                      method="POST"
+                      action="{{ url_for(
+                                            'editor.editor_eliminar_categoria',
+                                            id_categoria=categoria.id
+                                        ) }}"
+                      class="delete-category-form"
+                    >
+                      <button
+                        class="delete-category-btn"
+                        type="submit"
+                        title="Eliminar categoría"
+                      >
+                        <span class="material-symbols-outlined"> delete </span>
+                      </button>
+                    </form>
+                  </div>
                 </div>
 
+                <!-- NOMBRE -->
 
+                <h2>{{ categoria.nombre }}</h2>
+
+                <!-- DESCRIPCIÓN -->
+
+                <p>
+                  {% if categoria.descripcion %} {{ categoria.descripcion }} {%
+                  else %} Sin descripción. {% endif %}
+                </p>
+
+                <!-- =====================================
+                                 PUBLICACIONES REALES
+                            ====================================== -->
+
+                <div class="category-card-footer">
+                  <span>
+                    <span class="material-symbols-outlined"> article </span>
+
+                    {% set cantidad = publicaciones_por_categoria.get(
+                    categoria.id, 0 ) %} {{ cantidad }} {% if cantidad == 1 %}
+                    publicación {% else %} publicaciones {% endif %}
+                  </span>
+                </div>
+              </article>
+
+              {% else %}
+
+              <div class="category-empty">
+                <span class="material-symbols-outlined"> category </span>
+
+                <p>Todavía no hay categorías creadas.</p>
+              </div>
+
+              {% endfor %}
             </div>
-
-
+          </div>
         </main>
-
-
+      </div>
     </div>
 
+    <!-- FOOTER -->
 
-</div>
+    {% include "base/footer.html" %}
 
+    <!-- JAVASCRIPT -->
 
-<!-- FOOTER -->
+    <script>
+      const formCard = document.getElementById("category-form-card");
 
-{% include "base/footer.html" %}
+      const categoryForm = document.getElementById("category-form");
 
+      const formTitle = document.getElementById("category-form-title");
 
-<!-- JAVASCRIPT -->
+      const openButton = document.getElementById("btn-open-category");
 
-<script>
+      const closeButton = document.getElementById("btn-close-category");
 
+      const cancelButton = document.getElementById("btn-cancel-category");
 
-    const formCard =
-        document.getElementById(
-            "category-form-card"
-        );
+      const nameInput = document.getElementById("category-name");
 
+      const descriptionInput = document.getElementById("category-description");
 
-    const categoryForm =
-        document.getElementById(
-            "category-form"
-        );
+      const imageInput = document.getElementById("category-image");
 
+      const createUrl = "{{ url_for('editor.editor_categorias') }}";
 
-    const formTitle =
-        document.getElementById(
-            "category-form-title"
-        );
+      /* =====================================
+       NUEVA CATEGORÍA
+    ====================================== */
 
+      function abrirFormularioNuevo() {
+        formTitle.textContent = "Crear Nueva Categoría";
 
-    const openButton =
-        document.getElementById(
-            "btn-open-category"
-        );
+        categoryForm.action = createUrl;
 
+        nameInput.value = "";
 
-    const closeButton =
-        document.getElementById(
-            "btn-close-category"
-        );
+        descriptionInput.value = "";
 
+        imageInput.value = "";
 
-    const cancelButton =
-        document.getElementById(
-            "btn-cancel-category"
-        );
-
-
-    const nameInput =
-        document.getElementById(
-            "category-name"
-        );
-
-
-    const descriptionInput =
-        document.getElementById(
-            "category-description"
-        );
-
-
-    const imageInput =
-        document.getElementById(
-            "category-image"
-        );
-
-
-    const createUrl =
-        "{{ url_for('editor.editor_categorias') }}";
-
-
-
-    function abrirFormularioNuevo() {
-
-
-        formTitle.textContent =
-            "Crear Nueva Categoría";
-
-
-        categoryForm.action =
-            createUrl;
-
-
-        nameInput.value =
-            "";
-
-
-        descriptionInput.value =
-            "";
-
-
-        imageInput.value =
-            "";
-
-
-        formCard.classList.remove(
-            "hidden"
-        );
-
+        formCard.classList.remove("hidden");
 
         nameInput.focus();
+      }
 
+      /* =====================================
+       CERRAR FORMULARIO
+    ====================================== */
 
-    }
+      function cerrarFormulario() {
+        formCard.classList.add("hidden");
 
+        categoryForm.action = createUrl;
 
+        formTitle.textContent = "Crear Nueva Categoría";
 
-    function cerrarFormulario() {
+        nameInput.value = "";
 
+        descriptionInput.value = "";
 
-        formCard.classList.add(
-            "hidden"
-        );
+        imageInput.value = "";
+      }
 
+      openButton.addEventListener("click", abrirFormularioNuevo);
 
-        categoryForm.action =
-            createUrl;
+      closeButton.addEventListener("click", cerrarFormulario);
 
+      cancelButton.addEventListener("click", cerrarFormulario);
 
-        formTitle.textContent =
-            "Crear Nueva Categoría";
+      /* =====================================
+       EDITAR
+    ====================================== */
 
+      document
+        .querySelectorAll(".edit-category-btn")
+        .forEach(function (button) {
+          button.addEventListener("click", function () {
+            const category = button.closest(".category-card");
 
-        nameInput.value =
-            "";
+            formTitle.textContent = "Editar Categoría";
 
+            nameInput.value = category.dataset.name;
 
-        descriptionInput.value =
-            "";
+            descriptionInput.value = category.dataset.description;
 
+            imageInput.value = "";
 
-        imageInput.value =
-            "";
+            categoryForm.action = category.dataset.editUrl;
 
+            formCard.classList.remove("hidden");
 
-    }
+            nameInput.focus();
 
+            formCard.scrollIntoView({
+              behavior: "smooth",
 
+              block: "start",
+            });
+          });
+        });
 
-    openButton.addEventListener(
-        "click",
-        abrirFormularioNuevo
-    );
+      /* =====================================
+       ELIMINAR
+    ====================================== */
 
+      document
+        .querySelectorAll(".delete-category-form")
+        .forEach(function (form) {
+          form.addEventListener("submit", function (event) {
+            const confirmar = confirm(
+              "¿Seguro que querés eliminar esta categoría?"
+            );
 
-    closeButton.addEventListener(
-        "click",
-        cerrarFormulario
-    );
-
-
-    cancelButton.addEventListener(
-        "click",
-        cerrarFormulario
-    );
-
-
-
-    document
-        .querySelectorAll(
-            ".edit-category-btn"
-        )
-        .forEach(
-            function (button) {
-
-
-                button.addEventListener(
-                    "click",
-                    function () {
-
-
-                        const category =
-                            button.closest(
-                                ".category-card"
-                            );
-
-
-                        formTitle.textContent =
-                            "Editar Categoría";
-
-
-                        nameInput.value =
-                            category.dataset.name;
-
-
-                        descriptionInput.value =
-                            category.dataset.description;
-
-
-                        imageInput.value =
-                            "";
-
-
-                        categoryForm.action =
-                            category.dataset.editUrl;
-
-
-                        formCard.classList.remove(
-                            "hidden"
-                        );
-
-
-                        nameInput.focus();
-
-
-                        formCard.scrollIntoView({
-                            behavior:
-                                "smooth",
-                            block:
-                                "start"
-                        });
-
-
-                    }
-                );
-
-
+            if (!confirmar) {
+              event.preventDefault();
             }
-        );
-
-
-
-    document
-        .querySelectorAll(
-            ".delete-category-form"
-        )
-        .forEach(
-            function (form) {
-
-
-                form.addEventListener(
-                    "submit",
-                    function (event) {
-
-
-                        const confirmar =
-                            confirm(
-                                "¿Seguro que querés eliminar esta categoría?"
-                            );
-
-
-                        if (!confirmar) {
-
-                            event.preventDefault();
-
-                        }
-
-
-                    }
-                );
-
-
-            }
-        );
-
-
-</script>
-
-
-</body>
-
+          });
+        });
+    </script>
+  </body>
 </html>

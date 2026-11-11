@@ -712,6 +712,10 @@ def editor_categorias():
     usuario = obtener_usuario_actual()
 
 
+    # =====================================
+    # CREAR CATEGORÍA
+    # =====================================
+
     if request.method == "POST":
 
         nombre = request.form.get(
@@ -789,15 +793,73 @@ def editor_categorias():
         )
 
 
+    # =====================================
+    # LISTADO DE CATEGORÍAS
+    # =====================================
+
     categorias = Categoria.query.order_by(
         Categoria.id.asc()
     ).all()
+
+
+    # =====================================
+    # CANTIDAD DE PUBLICACIONES
+    # POR CATEGORÍA
+    # =====================================
+
+    publicaciones_por_categoria = {}
+
+
+    for categoria in categorias:
+
+        cantidad = Publicacion.query.filter(
+            Publicacion.categorias.any(
+                Categoria.id
+                ==
+                categoria.id
+            )
+        ).count()
+
+
+        publicaciones_por_categoria[
+            categoria.id
+        ] = cantidad
+
+
+    # =====================================
+    # CATEGORÍA MÁS UTILIZADA
+    # =====================================
+
+    categoria_mas_utilizada = None
+
+    mayor_cantidad = 0
+
+
+    for categoria in categorias:
+
+        cantidad = publicaciones_por_categoria.get(
+            categoria.id,
+            0
+        )
+
+
+        if cantidad > mayor_cantidad:
+
+            mayor_cantidad = cantidad
+
+            categoria_mas_utilizada = categoria
 
 
     return render_template(
         "editor/categorias.html",
         usuario=usuario,
         categorias=categorias,
+        publicaciones_por_categoria=
+            publicaciones_por_categoria,
+        categoria_mas_utilizada=
+            categoria_mas_utilizada,
+        mayor_cantidad=
+            mayor_cantidad,
         seccion_activa="categorias"
     )
 
@@ -1292,10 +1354,6 @@ def editor_perfil():
             )
         )
 
-
-    # =====================================
-    # ACTIVIDAD EDITORIAL
-    # =====================================
 
     cantidad_publicaciones = Publicacion.query.filter_by(
         autor_id=usuario.id
