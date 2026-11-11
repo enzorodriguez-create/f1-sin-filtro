@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="es">
   <head>
     <meta charset="utf-8" />
@@ -70,6 +71,7 @@
               type="button"
               id="editor-menu-btn"
               aria-label="Abrir menú"
+              onclick="document.getElementById('editor-sidebar').classList.add('open')"
             >
               <span class="material-symbols-outlined"> menu </span>
             </button>
@@ -86,14 +88,12 @@
 
             <div class="editor-user">
               <div class="editor-user-data">
-                <strong> {{ usuario.nombre if usuario else "Editor" }} </strong>
+                <strong> {{ usuario.nombre }} </strong>
 
-                <span>
-                  {{ usuario.email if usuario else "editor@f1sinfiltro.com" }}
-                </span>
+                <span> {{ usuario.email }} </span>
               </div>
 
-              {% if usuario and usuario.foto %}
+              {% if usuario.foto %}
 
               <img
                 class="editor-avatar editor-avatar-img"
@@ -132,7 +132,11 @@
                   <strong> MI PERFIL </strong>
                 </div>
 
-                <h1>MI PERFIL DE <span>EDITOR</span></h1>
+                <h1>
+                  MI PERFIL DE
+
+                  <span> EDITOR </span>
+                </h1>
 
                 <p>
                   Administrá tu información personal y revisá tu actividad
@@ -147,7 +151,7 @@
 
             <div class="profile-hero">
               <div class="profile-avatar-large">
-                {% if usuario and usuario.foto %}
+                {% if usuario.foto %}
 
                 <img
                   src="{{ url_imagen(usuario.foto) }}"
@@ -165,11 +169,11 @@
                 <span class="profile-role"> EDITOR </span>
 
                 <h2>
-                  {{ usuario.nombre if usuario else "Editor" }} {% if usuario
-                  and usuario.apellido %} {{ usuario.apellido }} {% endif %}
+                  {{ usuario.nombre }} {% if usuario.apellido %} {{
+                  usuario.apellido }} {% endif %}
                 </h2>
 
-                <span> @{{ usuario.usuario if usuario else "editor" }} </span>
+                <span> @{{ usuario.usuario }} </span>
               </div>
             </div>
 
@@ -188,13 +192,6 @@
                         ========================== -->
 
                 <section class="profile-card">
-                  <!--
-                                El formulario envía los datos
-                                directamente a /editor/perfil.
-                                multipart/form-data permite mandar
-                                también la foto.
-                            -->
-
                   <form
                     method="POST"
                     enctype="multipart/form-data"
@@ -228,7 +225,7 @@
                           id="profile-name"
                           name="nombre"
                           type="text"
-                          value="{{ usuario.nombre if usuario else '' }}"
+                          value="{{ usuario.nombre }}"
                           disabled
                           required
                         />
@@ -243,7 +240,7 @@
                           id="profile-lastname"
                           name="apellido"
                           type="text"
-                          value="{{ usuario.apellido if usuario and usuario.apellido else '' }}"
+                          value="{{ usuario.apellido if usuario.apellido else '' }}"
                           disabled
                           required
                         />
@@ -263,7 +260,7 @@
                             id="profile-username"
                             name="usuario"
                             type="text"
-                            value="{{ usuario.usuario if usuario else '' }}"
+                            value="{{ usuario.usuario }}"
                             disabled
                             required
                           />
@@ -279,13 +276,13 @@
                           id="profile-email"
                           name="email"
                           type="email"
-                          value="{{ usuario.email if usuario else '' }}"
+                          value="{{ usuario.email }}"
                           disabled
                           required
                         />
                       </div>
 
-                      <!-- FOTO DE PERFIL -->
+                      <!-- FOTO -->
 
                       <div
                         class="profile-field profile-field-full profile-photo-field hidden"
@@ -303,7 +300,6 @@
 
                         <span class="profile-photo-help">
                           Formatos permitidos: JPG, JPEG, PNG, WEBP o GIF.
-                          Máximo 5 MB.
                         </span>
                       </div>
 
@@ -324,9 +320,7 @@
                       </div>
                     </div>
 
-                    <!-- =========================
-                                     BOTONES EDICIÓN
-                                ========================== -->
+                    <!-- BOTONES EDICIÓN -->
 
                     <div
                       class="profile-edit-actions hidden"
@@ -354,8 +348,8 @@
                 </section>
 
                 <!-- =========================
-     SEGURIDAD
-========================= -->
+                             SEGURIDAD
+                        ========================== -->
 
                 <section class="profile-card">
                   <div class="profile-card-head">
@@ -367,10 +361,6 @@
                   </div>
 
                   {% if usuario.tipo_login == "normal" %}
-
-                  <!-- =========================
-         CUENTA NORMAL
-    ========================== -->
 
                   <div class="security-row">
                     <div class="security-icon">
@@ -392,9 +382,8 @@
                     </button>
                   </div>
 
-                  <!-- =========================
-         FORM CAMBIAR CONTRASEÑA
-    ========================== -->
+                  <!-- FORM CONTRASEÑA -->
+
                   <form
                     class="password-form hidden"
                     id="password-form"
@@ -460,10 +449,6 @@
 
                   {% else %}
 
-                  <!-- =========================
-         CUENTA GOOGLE
-    ========================== -->
-
                   <div class="security-row">
                     <div class="security-icon">
                       <span class="material-symbols-outlined"> lock </span>
@@ -502,34 +487,42 @@
                   </div>
 
                   <div class="activity-grid">
+                    <!-- PUBLICACIONES -->
+
                     <div class="activity-item">
                       <span class="material-symbols-outlined"> article </span>
 
-                      <strong> 12 </strong>
+                      <strong> {{ cantidad_publicaciones }} </strong>
 
                       <span> Publicaciones </span>
                     </div>
 
+                    <!-- PUBLICADAS -->
+
                     <div class="activity-item">
                       <span class="material-symbols-outlined"> public </span>
 
-                      <strong> 8 </strong>
+                      <strong> {{ cantidad_publicadas }} </strong>
 
                       <span> Publicadas </span>
                     </div>
 
+                    <!-- BORRADORES -->
+
                     <div class="activity-item">
                       <span class="material-symbols-outlined"> edit_note </span>
 
-                      <strong> 3 </strong>
+                      <strong> {{ cantidad_borradores }} </strong>
 
                       <span> Borradores </span>
                     </div>
 
+                    <!-- COMENTARIOS -->
+
                     <div class="activity-item">
                       <span class="material-symbols-outlined"> forum </span>
 
-                      <strong> 42 </strong>
+                      <strong> {{ cantidad_comentarios }} </strong>
 
                       <span> Comentarios </span>
                     </div>
@@ -553,7 +546,7 @@
                     <!-- MIS PUBLICACIONES -->
 
                     <a
-                    href="{{ url_for('editor.editor_publicaciones') }}"
+                      href="{{ url_for('editor.editor_publicaciones') }}"
                       class="quick-action"
                     >
                       <span class="material-symbols-outlined"> article </span>
@@ -569,7 +562,7 @@
                       </span>
                     </a>
 
-                    <!-- CREAR PUBLICACIÓN -->
+                    <!-- CREAR -->
 
                     <a
                       href="{{ url_for('editor.editor_crear_publicacion') }}"
@@ -617,9 +610,7 @@
       </div>
     </div>
 
-    <!-- =========================
-     FOOTER GLOBAL
-========================= -->
+    <!-- FOOTER -->
 
     {% include "base/footer.html" %}
 
@@ -713,9 +704,10 @@
 
         editButton.classList.remove("hidden");
       }
+
       /* =========================
-   CAMBIAR CONTRASEÑA
-========================= */
+       CAMBIAR CONTRASEÑA
+    ========================== */
 
       const passwordButton = document.getElementById("btn-change-password");
 

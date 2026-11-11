@@ -42,11 +42,9 @@ def obtener_usuario_actual():
         "usuario"
     )
 
-
     if not datos_usuario:
 
         return None
-
 
     return db.session.get(
         Usuario,
@@ -63,7 +61,6 @@ def proteger_rutas_editor():
 
     usuario = obtener_usuario_actual()
 
-
     if not usuario:
 
         return redirect(
@@ -71,7 +68,6 @@ def proteger_rutas_editor():
                 "auth.login"
             )
         )
-
 
     if usuario.rol == "admin":
 
@@ -81,7 +77,6 @@ def proteger_rutas_editor():
             )
         )
 
-
     if usuario.rol == "usuario":
 
         return redirect(
@@ -89,7 +84,6 @@ def proteger_rutas_editor():
                 "perfil.perfil"
             )
         )
-
 
     if usuario.rol != "editor":
 
@@ -1299,9 +1293,56 @@ def editor_perfil():
         )
 
 
+    # =====================================
+    # ACTIVIDAD EDITORIAL
+    # =====================================
+
+    cantidad_publicaciones = Publicacion.query.filter_by(
+        autor_id=usuario.id
+    ).count()
+
+
+    cantidad_publicadas = Publicacion.query.filter_by(
+        autor_id=usuario.id,
+        estado="publicada"
+    ).count()
+
+
+    cantidad_borradores = Publicacion.query.filter_by(
+        autor_id=usuario.id,
+        estado="borrador"
+    ).count()
+
+
+    cantidad_comentarios = Comentario.query.join(
+        Publicacion,
+        Comentario.publicacion_id
+        ==
+        Publicacion.id
+    ).filter(
+        Publicacion.autor_id
+        ==
+        usuario.id
+    ).count()
+
+
     return render_template(
         "editor/perfil.html",
+
         usuario=usuario,
+
+        cantidad_publicaciones=
+            cantidad_publicaciones,
+
+        cantidad_publicadas=
+            cantidad_publicadas,
+
+        cantidad_borradores=
+            cantidad_borradores,
+
+        cantidad_comentarios=
+            cantidad_comentarios,
+
         seccion_activa="perfil_editor"
     )
 
