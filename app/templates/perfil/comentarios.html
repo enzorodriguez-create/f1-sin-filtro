@@ -112,13 +112,6 @@
 
                                 {% endfor %}
 
-
-                            {% else %}
-
-                                <span class="comentario-tag">
-                                    #Formula1
-                                </span>
-
                             {% endif %}
 
 
@@ -161,7 +154,10 @@
 
                         <a
                             class="comentario-view"
-                            href="{{ url_for('main.post', id_publicacion=comentario.publicacion_id) }}"
+                            href="{{ url_for(
+                                'main.post',
+                                id_publicacion=comentario.publicacion_id
+                            ) }}"
                         >
 
                             <span class="material-symbols-outlined">
@@ -182,7 +178,10 @@
                             <!-- EDITAR -->
 
                             <a
-                                href="{{ url_for('perfil.editar_comentario', id_comentario=comentario.id) }}"
+                                href="{{ url_for(
+                                    'perfil.editar_comentario',
+                                    id_comentario=comentario.id
+                                ) }}"
                                 class="comentario-action comentario-edit"
                             >
 
@@ -199,7 +198,10 @@
                             <!-- ELIMINAR -->
 
                             <form
-                                action="{{ url_for('perfil.eliminar_comentario', id_comentario=comentario.id) }}"
+                                action="{{ url_for(
+                                    'perfil.eliminar_comentario',
+                                    id_comentario=comentario.id
+                                ) }}"
                                 method="POST"
                             >
 
@@ -296,24 +298,27 @@
             fechas.forEach(
                 function (elemento) {
 
-                    const fechaUTC = elemento.dataset.fecha;
+                    const fechaUTC =
+                        elemento.dataset.fecha;
 
 
-                    const fecha = new Date(
-                        fechaUTC
-                    );
+                    const fecha =
+                        new Date(
+                            fechaUTC
+                        );
 
 
-                    elemento.textContent = fecha.toLocaleString(
-                        undefined,
-                        {
-                            day: "2-digit",
-                            month: "short",
-                            year: "numeric",
-                            hour: "2-digit",
-                            minute: "2-digit"
-                        }
-                    ).toUpperCase();
+                    elemento.textContent =
+                        fecha.toLocaleString(
+                            undefined,
+                            {
+                                day: "2-digit",
+                                month: "short",
+                                year: "numeric",
+                                hour: "2-digit",
+                                minute: "2-digit"
+                            }
+                        ).toUpperCase();
 
                 }
             );
@@ -331,9 +336,10 @@
 
 <script>
 
-    const buscador = document.getElementById(
-        "buscarComentario"
-    );
+    const buscador =
+        document.getElementById(
+            "buscarComentario"
+        );
 
 
     if (buscador) {
@@ -342,12 +348,14 @@
             "input",
             function () {
 
-                const textoBuscado = buscador.value.toLowerCase();
+                const textoBuscado =
+                    buscador.value.toLowerCase();
 
 
-                const comentarios = document.querySelectorAll(
-                    ".comentario-card"
-                );
+                const comentarios =
+                    document.querySelectorAll(
+                        ".comentario-card"
+                    );
 
 
                 comentarios.forEach(

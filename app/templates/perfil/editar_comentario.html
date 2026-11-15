@@ -74,7 +74,10 @@
 
 
             <a
-                href="{{ url_for('main.post', id_publicacion=comentario.publicacion_id) }}"
+                href="{{ url_for(
+                    'main.post',
+                    id_publicacion=comentario.publicacion_id
+                ) }}"
                 class="editar-comentario-ver"
             >
 
@@ -92,6 +95,28 @@
 
 
         <!-- =====================================
+             ERROR
+        ====================================== -->
+
+        {% if error %}
+
+        <div class="editar-comentario-error">
+
+            <span class="material-symbols-outlined">
+                error
+            </span>
+
+            <span>
+                {{ error }}
+            </span>
+
+        </div>
+
+        {% endif %}
+
+
+
+        <!-- =====================================
              FORMULARIO
         ====================================== -->
 
@@ -99,7 +124,10 @@
 
 
             <form
-                action="{{ url_for('perfil.editar_comentario', id_comentario=comentario.id) }}"
+                action="{{ url_for(
+                    'perfil.editar_comentario',
+                    id_comentario=comentario.id
+                ) }}"
                 method="POST"
             >
 
@@ -200,14 +228,16 @@
         "DOMContentLoaded",
         function () {
 
-            const contenido = document.getElementById(
-                "contenido"
-            );
+            const contenido =
+                document.getElementById(
+                    "contenido"
+                );
 
 
-            const contador = document.getElementById(
-                "contadorCaracteres"
-            );
+            const contador =
+                document.getElementById(
+                    "contadorCaracteres"
+                );
 
 
             function actualizarContador() {

@@ -22,6 +22,8 @@ from almacenamiento import (
     borrar_imagen
 )
 
+from ia.moderacion import clasificar_comentario
+
 
 bp = Blueprint(
     "perfil",
@@ -218,6 +220,16 @@ def solicitar_editor():
             )
 
 
+        if len(motivo) > 500:
+
+            return render_template(
+                "perfil/solicitar_editor.html",
+                usuario=usuario,
+                solicitud_pendiente=solicitud_pendiente,
+                error="El motivo no puede superar los 500 caracteres."
+            )
+
+
         nueva_solicitud = SolicitudEditor(
             usuario_id=usuario.id,
             motivo=motivo,
@@ -301,6 +313,9 @@ def editar_comentario(
         )
 
 
+    error = None
+
+
     if request.method == "POST":
 
         contenido = request.form.get(
@@ -309,9 +324,34 @@ def editar_comentario(
         ).strip()
 
 
-        if contenido:
+        if not contenido:
+
+            error = "El comentario no puede estar vacío."
+
+
+        elif len(contenido) > 1000:
+
+            error = (
+                "El comentario no puede superar "
+                "los 1000 caracteres."
+            )
+
+
+        else:
+
+            moderacion, confianza = clasificar_comentario(
+                contenido
+            )
+
 
             comentario.contenido = contenido
+
+            comentario.moderacion = moderacion
+
+            comentario.confianza = float(
+                confianza
+            )
+
 
             db.session.commit()
 
@@ -326,7 +366,8 @@ def editar_comentario(
     return render_template(
         "perfil/editar_comentario.html",
         usuario=usuario,
-        comentario=comentario
+        comentario=comentario,
+        error=error
     )
 
 
@@ -506,6 +547,54 @@ def actualizar_perfil_usuario(
     usuario
 ):
 
+    # =====================================
+    # USUARIO Y EMAIL
+    # =====================================
+
+    nuevo_usuario = request.form.get(
+        "usuario",
+        usuario.usuario
+    ).strip()
+
+
+    nuevo_email = request.form.get(
+        "email",
+        usuario.email
+    ).strip()
+
+
+    usuario_existente = Usuario.query.filter(
+        Usuario.usuario == nuevo_usuario,
+        Usuario.id != usuario.id
+    ).first()
+
+
+    if usuario_existente:
+
+        return (
+            False,
+            "Ya existe otro usuario con ese nombre de usuario."
+        )
+
+
+    email_existente = Usuario.query.filter(
+        Usuario.email == nuevo_email,
+        Usuario.id != usuario.id
+    ).first()
+
+
+    if email_existente:
+
+        return (
+            False,
+            "Ya existe otro usuario con ese email."
+        )
+
+
+    # =====================================
+    # DATOS PERSONALES
+    # =====================================
+
     usuario.nombre = request.form.get(
         "nombre",
         usuario.nombre
@@ -518,16 +607,10 @@ def actualizar_perfil_usuario(
     ).strip()
 
 
-    usuario.usuario = request.form.get(
-        "usuario",
-        usuario.usuario
-    ).strip()
+    usuario.usuario = nuevo_usuario
 
 
-    usuario.email = request.form.get(
-        "email",
-        usuario.email
-    ).strip()
+    usuario.email = nuevo_email
 
 
     # =====================================

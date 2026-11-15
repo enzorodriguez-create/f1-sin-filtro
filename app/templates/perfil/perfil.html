@@ -27,7 +27,7 @@
 
         <div class="avatar-wrap">
 
-          {% if usuario and usuario.foto %}
+          {% if usuario.foto %}
 
           <img
             class="perfil-avatar"
@@ -39,20 +39,11 @@
 
           <img
             class="perfil-avatar"
-            alt="Usuario"
+            alt="{{ usuario.nombre }}"
             src="{{ url_for('static', filename='images/avatar-default.png') }}"
           />
 
           {% endif %}
-
-
-          <div class="perfil-verified">
-
-            <span class="material-symbols-outlined">
-              verified
-            </span>
-
-          </div>
 
         </div>
 
@@ -70,9 +61,9 @@
 
           <h1>
 
-            {{ usuario.nombre if usuario else "Usuario" }}
+            {{ usuario.nombre }}
 
-            {% if usuario and usuario.apellido %}
+            {% if usuario.apellido %}
               {{ usuario.apellido }}
             {% endif %}
 
@@ -81,7 +72,7 @@
 
           <span class="perfil-handle">
 
-            @{{ usuario.usuario if usuario else "usuario" }}
+            @{{ usuario.usuario }}
 
           </span>
 
@@ -99,23 +90,7 @@
               </span>
 
               <span>
-                {{ usuario.email if usuario else "usuario@f1sinfiltro.com" }}
-              </span>
-
-            </div>
-
-
-
-            <!-- FECHA DE REGISTRO -->
-
-            <div class="perfil-meta-item">
-
-              <span class="material-symbols-outlined">
-                calendar_today
-              </span>
-
-              <span>
-                REGISTRO: ENE 2024
+                {{ usuario.email }}
               </span>
 
             </div>
@@ -148,7 +123,7 @@
         </a>
 
 
-        {% if usuario and usuario.rol == "usuario" %}
+        {% if usuario.rol == "usuario" %}
 
         <a
           class="perfil-btn-editor"
@@ -427,7 +402,10 @@
               En
 
               <a
-                href="{{ url_for('main.post', id_publicacion=comentario.publicacion_id) }}"
+                href="{{ url_for(
+                  'main.post',
+                  id_publicacion=comentario.publicacion_id
+                ) }}"
               >
                 {{ comentario.publicacion.titulo }}
               </a>

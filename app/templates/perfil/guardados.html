@@ -150,12 +150,6 @@
                             {{ guardado.publicacion.categorias[0].nombre }}
                         </span>
 
-                        {% else %}
-
-                        <span class="guardado-img-tag">
-                            F1
-                        </span>
-
                         {% endif %}
 
 
@@ -213,7 +207,10 @@
 
 
                             <a
-                                href="{{ url_for('main.post', id_publicacion=guardado.publicacion.id) }}"
+                                href="{{ url_for(
+                                    'main.post',
+                                    id_publicacion=guardado.publicacion.id
+                                ) }}"
                                 class="guardado-btn-outline"
                             >
 
@@ -224,7 +221,10 @@
 
 
                             <form
-                                action="{{ url_for('perfil.quitar_publicacion_guardada', id_publicacion=guardado.publicacion.id) }}"
+                                action="{{ url_for(
+                                    'perfil.quitar_publicacion_guardada',
+                                    id_publicacion=guardado.publicacion.id
+                                ) }}"
                                 method="POST"
                             >
 
