@@ -1273,6 +1273,40 @@ def editor_perfil():
 
     if request.method == "POST":
 
+        nuevo_usuario = request.form.get(
+            "usuario",
+            usuario.usuario
+        ).strip()
+
+
+        nuevo_email = request.form.get(
+            "email",
+            usuario.email
+        ).strip()
+
+
+        usuario_existente = Usuario.query.filter(
+            Usuario.usuario == nuevo_usuario,
+            Usuario.id != usuario.id
+        ).first()
+
+
+        if usuario_existente:
+
+            return "Ya existe otro usuario con ese nombre de usuario."
+
+
+        email_existente = Usuario.query.filter(
+            Usuario.email == nuevo_email,
+            Usuario.id != usuario.id
+        ).first()
+
+
+        if email_existente:
+
+            return "Ya existe otro usuario con ese email."
+
+
         usuario.nombre = request.form.get(
             "nombre",
             usuario.nombre
@@ -1285,16 +1319,10 @@ def editor_perfil():
         ).strip()
 
 
-        usuario.usuario = request.form.get(
-            "usuario",
-            usuario.usuario
-        ).strip()
+        usuario.usuario = nuevo_usuario
 
 
-        usuario.email = request.form.get(
-            "email",
-            usuario.email
-        ).strip()
+        usuario.email = nuevo_email
 
 
         foto = request.files.get(

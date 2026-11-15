@@ -132,17 +132,17 @@
                     <div class="editor-user-data">
 
                         <strong>
-                            {{ usuario.nombre if usuario else "Editor" }}
+                            {{ usuario.nombre }}
                         </strong>
 
                         <span>
-                            {{ usuario.email if usuario else "editor@f1sinfiltro.com" }}
+                            {{ usuario.email }}
                         </span>
 
                     </div>
 
 
-                    {% if usuario and usuario.foto %}
+                    {% if usuario.foto %}
 
                         <img
                             class="editor-avatar editor-avatar-img"
@@ -437,6 +437,10 @@
                                 data-id="{{ etiqueta.id }}"
                                 data-name="{{ etiqueta.nombre }}"
                                 data-description="{{ etiqueta.descripcion or '' }}"
+                                data-edit-url="{{ url_for(
+                                    'editor.editor_editar_etiqueta',
+                                    id_etiqueta=etiqueta.id
+                                ) }}"
                             >
 
 
@@ -581,14 +585,14 @@
 
 <!-- =========================
      FOOTER
-========================== -->
+========================= -->
 
 {% include "base/footer.html" %}
 
 
 <!-- =========================
      JAVASCRIPT
-========================== -->
+========================= -->
 
 <script>
 
@@ -731,10 +735,6 @@
                             );
 
 
-                        const id =
-                            tarjeta.dataset.id;
-
-
                         const nombre =
                             tarjeta.dataset.name;
 
@@ -756,11 +756,7 @@
 
 
                         form.action =
-                            "/editor/etiquetas/"
-                            +
-                            id
-                            +
-                            "/editar";
+                            tarjeta.dataset.editUrl;
 
 
                         formCard.classList.remove(
