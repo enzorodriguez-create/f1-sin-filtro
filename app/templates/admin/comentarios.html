@@ -95,16 +95,12 @@
 
             <div class="admin-user">
               <div class="admin-user-data">
-                <strong>
-                  {{ usuario.nombre if usuario else "Administrador" }}
-                </strong>
+                <strong> {{ usuario.nombre }} </strong>
 
-                <span>
-                  {{ usuario.email if usuario else "admin@f1sinfiltro.com" }}
-                </span>
+                <span> {{ usuario.email }} </span>
               </div>
 
-              {% if usuario and usuario.foto %}
+              {% if usuario.foto %}
 
               <div class="admin-avatar">
                 <img
@@ -429,13 +425,13 @@
 
     <!-- =========================
      FOOTER GLOBAL
-========================== -->
+========================= -->
 
     {% include "base/footer.html" %}
 
     <!-- =========================
      FECHA LOCAL
-========================== -->
+========================= -->
 
     <script>
       document.addEventListener("DOMContentLoaded", function () {
@@ -459,7 +455,7 @@
 
     <!-- =========================
      FILTROS
-========================== -->
+========================= -->
 
     <script>
       document.addEventListener("DOMContentLoaded", function () {

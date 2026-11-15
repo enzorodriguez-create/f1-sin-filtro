@@ -96,21 +96,21 @@
             <div class="admin-user">
               <div class="admin-user-data">
                 <strong>
-                  {{ usuario.nombre if usuario else "Administrador" }}
+                  {{ usuario.nombre }}
                 </strong>
 
                 <span>
-                  {{ usuario.email if usuario else "admin@f1sinfiltro.com" }}
+                  {{ usuario.email }}
                 </span>
               </div>
 
-              {% if usuario and usuario.foto %}
+              {% if usuario.foto %}
 
               <div class="admin-avatar">
                 <img
-                src="{{ url_imagen(usuario.foto) }}"
-                alt="{{ usuario.nombre }}"
-              />
+                  src="{{ url_imagen(usuario.foto) }}"
+                  alt="{{ usuario.nombre }}"
+                />
               </div>
 
               {% else %}
@@ -418,156 +418,132 @@
      JAVASCRIPT
 ========================= -->
 
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-  
-      const searchInput =
-        document.getElementById("request-search");
-  
-      const tabs =
-        document.querySelectorAll(".request-tab");
-  
-      const emptyState =
-        document.getElementById("requests-empty");
-  
-      const pendingCount =
-        document.getElementById("pending-count");
-  
-      const approvedCount =
-        document.getElementById("approved-count");
-  
-      const rejectedCount =
-        document.getElementById("rejected-count");
-  
-      let currentFilter = "pendiente";
-  
-  
-      function getCards() {
-        return document.querySelectorAll(".request-card");
-      }
-  
-  
-      function filtrarSolicitudes() {
-  
-        const text =
-          searchInput.value
-            .toLowerCase()
-            .trim();
-  
-        let visible = 0;
-  
-  
-        getCards().forEach(function (card) {
-  
-          const matchesText =
-            card.dataset.search
-              .toLowerCase()
-              .includes(text);
-  
-          const matchesStatus =
-            currentFilter === "all"
-            ||
-            card.dataset.status === currentFilter;
-  
-  
-          if (matchesText && matchesStatus) {
-  
-            card.style.display = "";
-  
-            visible++;
-  
-          } else {
-  
-            card.style.display = "none";
-  
-          }
-  
-        });
-  
-  
-        if (visible === 0) {
-  
-          emptyState.classList.add("show");
-  
-        } else {
-  
-          emptyState.classList.remove("show");
-  
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const searchInput =
+          document.getElementById("request-search");
+
+        const tabs =
+          document.querySelectorAll(".request-tab");
+
+        const emptyState =
+          document.getElementById("requests-empty");
+
+        const pendingCount =
+          document.getElementById("pending-count");
+
+        const approvedCount =
+          document.getElementById("approved-count");
+
+        const rejectedCount =
+          document.getElementById("rejected-count");
+
+        let currentFilter = "pendiente";
+
+
+        function getCards() {
+          return document.querySelectorAll(".request-card");
         }
-  
-      }
-  
-  
-      function actualizarContadores() {
-  
-        let pending = 0;
-        let approved = 0;
-        let rejected = 0;
-  
-  
-        getCards().forEach(function (card) {
-  
-          if (card.dataset.status === "pendiente") {
-            pending++;
+
+
+        function filtrarSolicitudes() {
+          const text =
+            searchInput.value
+              .toLowerCase()
+              .trim();
+
+          let visible = 0;
+
+
+          getCards().forEach(function (card) {
+            const matchesText =
+              card.dataset.search
+                .toLowerCase()
+                .includes(text);
+
+            const matchesStatus =
+              currentFilter === "all"
+              ||
+              card.dataset.status === currentFilter;
+
+
+            if (matchesText && matchesStatus) {
+              card.style.display = "";
+
+              visible++;
+            } else {
+              card.style.display = "none";
+            }
+          });
+
+
+          if (visible === 0) {
+            emptyState.classList.add("show");
+          } else {
+            emptyState.classList.remove("show");
           }
-  
-          if (card.dataset.status === "aprobada") {
-            approved++;
-          }
-  
-          if (card.dataset.status === "rechazada") {
-            rejected++;
-          }
-  
-        });
-  
-  
-        pendingCount.textContent = pending;
-  
-        approvedCount.textContent = approved;
-  
-        rejectedCount.textContent = rejected;
-  
-      }
-  
-  
-      searchInput.addEventListener(
-        "input",
-        filtrarSolicitudes
-      );
-  
-  
-      tabs.forEach(function (tab) {
-  
-        tab.addEventListener(
-          "click",
-          function () {
-  
-            tabs.forEach(function (item) {
-  
-              item.classList.remove("active");
-  
-            });
-  
-  
-            tab.classList.add("active");
-  
-            currentFilter =
-              tab.dataset.filter;
-  
-            filtrarSolicitudes();
-  
-          }
+        }
+
+
+        function actualizarContadores() {
+          let pending = 0;
+          let approved = 0;
+          let rejected = 0;
+
+
+          getCards().forEach(function (card) {
+            if (card.dataset.status === "pendiente") {
+              pending++;
+            }
+
+            if (card.dataset.status === "aprobada") {
+              approved++;
+            }
+
+            if (card.dataset.status === "rechazada") {
+              rejected++;
+            }
+          });
+
+
+          pendingCount.textContent = pending;
+
+          approvedCount.textContent = approved;
+
+          rejectedCount.textContent = rejected;
+        }
+
+
+        searchInput.addEventListener(
+          "input",
+          filtrarSolicitudes
         );
-  
+
+
+        tabs.forEach(function (tab) {
+          tab.addEventListener(
+            "click",
+            function () {
+              tabs.forEach(function (item) {
+                item.classList.remove("active");
+              });
+
+
+              tab.classList.add("active");
+
+              currentFilter =
+                tab.dataset.filter;
+
+              filtrarSolicitudes();
+            }
+          );
+        });
+
+
+        actualizarContadores();
+
+        filtrarSolicitudes();
       });
-  
-  
-      actualizarContadores();
-  
-      filtrarSolicitudes();
-  
-    });
-  </script>
+    </script>
   </body>
 </html>

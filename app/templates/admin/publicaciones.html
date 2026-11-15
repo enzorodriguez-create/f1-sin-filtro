@@ -503,7 +503,6 @@
 
                       <td>
                         <div class="publication-actions">
-                          {% if publicacion.estado == "publicada" %}
 
                           <a
                             href="{{ url_for(
@@ -519,8 +518,6 @@
 
                             Ver
                           </a>
-
-                          {% endif %}
 
                           <form
                             class="publication-delete-form"
