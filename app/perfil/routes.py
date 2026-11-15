@@ -524,22 +524,6 @@ def quitar_publicacion_guardada(
 
 
 # =====================================
-# ETIQUETAS GUARDADAS
-# =====================================
-
-@bp.route("/perfil/etiquetas")
-def etiquetas_guardadas():
-
-    usuario = obtener_usuario_actual()
-
-
-    return render_template(
-        "perfil/etiquetas.html",
-        usuario=usuario
-    )
-
-
-# =====================================
 # ACTUALIZAR PERFIL
 # =====================================
 
