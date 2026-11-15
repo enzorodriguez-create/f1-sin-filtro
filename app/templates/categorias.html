@@ -12,13 +12,16 @@
     <div class="categorias-container">
 
         <!-- ENCABEZADO -->
+
         <section class="categorias-head">
 
             <span class="categorias-label">
                 // EXPLORAR
             </span>
 
-            <h1>Categorías</h1>
+            <h1>
+                Categorías
+            </h1>
 
             <p>
                 Explorá las publicaciones de F1 Sin Filtro
@@ -29,27 +32,38 @@
 
 
         <!-- CATEGORÍAS -->
+
+        {% if categorias %}
+
         <section class="categorias-grid">
 
             {% for categoria in categorias %}
 
                 <a
-                    href="{{ url_for('main.publicaciones_categoria', id_categoria=categoria.id) }}"
+                    href="{{ url_for(
+                        'main.publicaciones_categoria',
+                        id_categoria=categoria.id
+                    ) }}"
                     class="categoria-card"
                 >
 
                     <div class="categoria-number">
 
                         {% if loop.index < 10 %}
+
                             0{{ loop.index }}
+
                         {% else %}
+
                             {{ loop.index }}
+
                         {% endif %}
 
                     </div>
 
 
                     <!-- IMAGEN -->
+
                     <div class="categoria-imagen">
 
                         {% if categoria.imagen %}
@@ -66,18 +80,23 @@
                                 <span class="material-symbols-outlined">
 
                                     {% if categoria.nombre == "Pilotos" %}
+
                                         sports_motorsports
 
                                     {% elif categoria.nombre == "Escuderías" %}
+
                                         garage
 
                                     {% elif categoria.nombre == "Carreras" %}
+
                                         flag
 
                                     {% elif categoria.nombre == "Clasificación" %}
+
                                         leaderboard
 
                                     {% else %}
+
                                         category
 
                                     {% endif %}
@@ -102,7 +121,7 @@
                         </h2>
 
                         <p>
-                            {{ categoria.descripcion }}
+                            {{ categoria.descripcion or "Sin descripción." }}
                         </p>
 
                     </div>
@@ -125,6 +144,26 @@
             {% endfor %}
 
         </section>
+
+        {% else %}
+
+        <section class="categorias-grid">
+
+            <div class="categorias-vacio">
+
+                <span class="material-symbols-outlined">
+                    category
+                </span>
+
+                <p>
+                    Todavía no hay categorías disponibles.
+                </p>
+
+            </div>
+
+        </section>
+
+        {% endif %}
 
     </div>
 

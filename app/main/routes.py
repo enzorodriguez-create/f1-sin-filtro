@@ -128,160 +128,192 @@ def inicio():
     clasificacion = []
 
 
-    anio_actual = datetime.now().year
+    try:
+
+        anio_actual = datetime.now().year
 
 
-    url_carreras = (
-        "https://api.openf1.org/v1/"
-        f"sessions?year={anio_actual}"
-        "&session_name=Race"
-    )
-
-
-    respuesta_carreras = requests.get(
-        url_carreras
-    )
-
-
-    carreras = respuesta_carreras.json()
-
-
-    ahora = datetime.now(
-        timezone.utc
-    )
-
-
-    carreras_finalizadas = []
-
-
-    for carrera in carreras:
-
-        fecha_fin = carrera.get(
-            "date_end"
+        url_carreras = (
+            "https://api.openf1.org/v1/"
+            f"sessions?year={anio_actual}"
+            "&session_name=Race"
         )
 
 
-        if fecha_fin:
+        respuesta_carreras = requests.get(
+            url_carreras,
+            timeout=10
+        )
 
-            fecha_fin = datetime.fromisoformat(
-                fecha_fin
+
+        respuesta_carreras.raise_for_status()
+
+
+        carreras = respuesta_carreras.json()
+
+
+        ahora = datetime.now(
+            timezone.utc
+        )
+
+
+        carreras_finalizadas = []
+
+
+        for carrera in carreras:
+
+            fecha_fin = carrera.get(
+                "date_end"
             )
 
 
-            if fecha_fin <= ahora:
+            if fecha_fin:
 
-                carreras_finalizadas.append(
-                    carrera
+                fecha_fin = datetime.fromisoformat(
+                    fecha_fin
                 )
 
 
-    carreras_finalizadas.sort(
-        key=lambda carrera:
-            carrera["date_end"],
-        reverse=True
-    )
+                if fecha_fin <= ahora:
+
+                    carreras_finalizadas.append(
+                        carrera
+                    )
 
 
-    if carreras_finalizadas:
-
-        ultima_carrera = (
-            carreras_finalizadas[0]
+        carreras_finalizadas.sort(
+            key=lambda carrera:
+                carrera["date_end"],
+            reverse=True
         )
 
 
-        session_key = ultima_carrera.get(
-            "session_key"
-        )
+        if carreras_finalizadas:
 
-
-        url_clasificacion = (
-            "https://api.openf1.org/v1/"
-            "championship_drivers"
-            f"?session_key={session_key}"
-        )
-
-
-        respuesta_clasificacion = requests.get(
-            url_clasificacion
-        )
-
-
-        datos_clasificacion = (
-            respuesta_clasificacion.json()
-        )
-
-
-        url_pilotos = (
-            "https://api.openf1.org/v1/"
-            "drivers"
-            f"?session_key={session_key}"
-        )
-
-
-        respuesta_pilotos = requests.get(
-            url_pilotos
-        )
-
-
-        pilotos = respuesta_pilotos.json()
-
-
-        for posicion in datos_clasificacion:
-
-            numero_piloto = posicion.get(
-                "driver_number"
+            ultima_carrera = (
+                carreras_finalizadas[0]
             )
 
 
-            piloto_encontrado = None
+            session_key = ultima_carrera.get(
+                "session_key"
+            )
 
 
-            for piloto in pilotos:
-
-                if (
-                    piloto.get(
-                        "driver_number"
-                    )
-                    == numero_piloto
-                ):
-
-                    piloto_encontrado = piloto
+            url_clasificacion = (
+                "https://api.openf1.org/v1/"
+                "championship_drivers"
+                f"?session_key={session_key}"
+            )
 
 
-            if piloto_encontrado:
+            respuesta_clasificacion = requests.get(
+                url_clasificacion,
+                timeout=10
+            )
 
-                clasificacion.append({
 
-                    "posicion":
-                        posicion.get(
-                            "position_current"
-                        ),
+            respuesta_clasificacion.raise_for_status()
 
-                    "puntos":
-                        posicion.get(
-                            "points_current"
-                        ),
 
-                    "nombre":
-                        piloto_encontrado.get(
-                            "broadcast_name"
-                        ),
+            datos_clasificacion = (
+                respuesta_clasificacion.json()
+            )
 
-                    "equipo":
-                        piloto_encontrado.get(
-                            "team_name"
+
+            url_pilotos = (
+                "https://api.openf1.org/v1/"
+                "drivers"
+                f"?session_key={session_key}"
+            )
+
+
+            respuesta_pilotos = requests.get(
+                url_pilotos,
+                timeout=10
+            )
+
+
+            respuesta_pilotos.raise_for_status()
+
+
+            pilotos = respuesta_pilotos.json()
+
+
+            for posicion in datos_clasificacion:
+
+                numero_piloto = posicion.get(
+                    "driver_number"
+                )
+
+
+                piloto_encontrado = None
+
+
+                for piloto in pilotos:
+
+                    if (
+                        piloto.get(
+                            "driver_number"
                         )
+                        ==
+                        numero_piloto
+                    ):
 
-                })
+                        piloto_encontrado = piloto
+
+                        break
 
 
-    clasificacion.sort(
-        key=lambda piloto:
-            piloto["posicion"]
-    )
+                if piloto_encontrado:
+
+                    posicion_actual = posicion.get(
+                        "position_current"
+                    )
 
 
-    clasificacion = clasificacion[:5]
+                    if posicion_actual is not None:
+
+                        clasificacion.append({
+
+                            "posicion":
+                                posicion_actual,
+
+                            "puntos":
+                                posicion.get(
+                                    "points_current"
+                                ),
+
+                            "nombre":
+                                piloto_encontrado.get(
+                                    "broadcast_name"
+                                ),
+
+                            "equipo":
+                                piloto_encontrado.get(
+                                    "team_name"
+                                )
+
+                        })
+
+
+        clasificacion.sort(
+            key=lambda piloto:
+                piloto["posicion"]
+        )
+
+
+        clasificacion = clasificacion[:5]
+
+
+    except (
+        requests.RequestException,
+        ValueError,
+        TypeError,
+        KeyError
+    ):
+
+        clasificacion = []
 
 
     return render_template(
@@ -414,6 +446,16 @@ def post(
 
 
     # =====================================
+    # AUTOR
+    # =====================================
+
+    autor = db.session.get(
+        Usuario,
+        publicacion.autor_id
+    )
+
+
+    # =====================================
     # NUEVO COMENTARIO
     # =====================================
 
@@ -515,12 +557,31 @@ def post(
     ).all()
 
 
+    # =====================================
+    # MÁS NOTICIAS
+    # =====================================
+
+    otras_publicaciones = Publicacion.query.filter(
+        Publicacion.estado
+        ==
+        "publicada",
+
+        Publicacion.id
+        !=
+        publicacion.id
+    ).order_by(
+        Publicacion.id.desc()
+    ).limit(3).all()
+
+
     return render_template(
         "post.html",
         publicacion=publicacion,
+        autor=autor,
         bloques=bloques,
         carruseles=carruseles,
-        comentarios=comentarios
+        comentarios=comentarios,
+        otras_publicaciones=otras_publicaciones
     )
 
 
@@ -531,49 +592,70 @@ def post(
 @bp.route("/calendario")
 def calendario():
 
-    url = (
-        "https://api.openf1.org/v1/"
-        "meetings?year=2026"
-    )
+    carreras = []
 
 
-    respuesta = requests.get(
-        url
-    )
+    try:
 
-
-    carreras = respuesta.json()
-
-
-    tipos_circuito = {
-
-        "Permanent":
-            "Permanente",
-
-        "Street":
-            "Callejero",
-
-        "Temporary":
-            "Temporal",
-
-        "Temporary - Street":
-            "Temporal - Callejero"
-
-    }
-
-
-    for carrera in carreras:
-
-        tipo_original = carrera.get(
-            "circuit_type",
-            ""
+        url = (
+            "https://api.openf1.org/v1/"
+            "meetings?year=2026"
         )
 
 
-        carrera["tipo_es"] = tipos_circuito.get(
-            tipo_original,
-            tipo_original
+        respuesta = requests.get(
+            url,
+            timeout=10
         )
+
+
+        respuesta.raise_for_status()
+
+
+        carreras = respuesta.json()
+
+
+        tipos_circuito = {
+
+            "Permanent":
+                "Permanente",
+
+            "Street":
+                "Callejero",
+
+            "Temporary":
+                "Temporal",
+
+            "Temporary - Street":
+                "Temporal - Callejero",
+
+            "Temporary - Road":
+                "Temporal - Ruta"
+
+        }
+
+
+        for carrera in carreras:
+
+            tipo_original = carrera.get(
+                "circuit_type",
+                ""
+            )
+
+
+            carrera["tipo_es"] = tipos_circuito.get(
+                tipo_original,
+                tipo_original
+            )
+
+
+    except (
+        requests.RequestException,
+        ValueError,
+        TypeError
+    ):
+
+        carreras = []
 
 
     return render_template(

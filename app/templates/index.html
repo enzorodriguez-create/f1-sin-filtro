@@ -20,16 +20,17 @@
 
   <div class="home-main">
     <!-- ========================================
-             NOTICIA PRINCIPAL + CLASIFICACIÓN
-        ========================================= -->
+         NOTICIA PRINCIPAL + CLASIFICACIÓN
+    ========================================= -->
 
     <section class="hero">
       <!-- =========================
-                 NOTICIA PRINCIPAL
-            ========================== -->
+           NOTICIA PRINCIPAL
+      ========================== -->
 
       <div class="hero-main">
         <!-- IMAGEN DE PORTADA -->
+
         {% if publicacion_principal and publicacion_principal.imagen_portada %}
 
         <div
@@ -54,7 +55,7 @@
             <span class="badge-live">
               <span class="badge-dot"></span>
 
-              ÚLTIMA HORA
+              ÚLTIMA PUBLICACIÓN
             </span>
 
             <span class="hero-round"> F1 SIN FILTRO </span>
@@ -82,9 +83,9 @@
           <a
             class="hero-btn"
             href="{{ url_for(
-                            'main.post',
-                            id_publicacion=publicacion_principal.id
-                        ) }}"
+              'main.post',
+              id_publicacion=publicacion_principal.id
+            ) }}"
           >
             LEER NOTICIA
 
@@ -96,8 +97,8 @@
       </div>
 
       <!-- =========================
-                 CLASIFICACIÓN
-            ========================== -->
+           CLASIFICACIÓN
+      ========================== -->
 
       <aside class="ranking">
         <div class="ranking-bar"></div>
@@ -113,7 +114,7 @@
         </div>
 
         <div class="ranking-body">
-          {% for piloto in clasificacion %}
+          {% if clasificacion %} {% for piloto in clasificacion %}
 
           <div class="rank-row">
             <div class="rank-info">
@@ -135,15 +136,18 @@
             </span>
           </div>
 
-          {% endfor %}
-        </div>
+          {% endfor %} {% else %}
 
+          <p>Clasificación no disponible en este momento.</p>
+
+          {% endif %}
+        </div>
       </aside>
     </section>
 
     <!-- ========================================
-             NOTICIAS
-        ========================================= -->
+         NOTICIAS
+    ========================================= -->
 
     <section class="home-news">
       <div class="section-head">
@@ -192,9 +196,9 @@
 
             <a
               href="{{ url_for(
-                    'main.post',
-                    id_publicacion=publicacion.id
-                ) }}"
+                'main.post',
+                id_publicacion=publicacion.id
+              ) }}"
               class="news-link"
             >
               LEER NOTICIA

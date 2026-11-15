@@ -24,12 +24,41 @@
 
           <div class="post-meta">
             <div class="post-author">
-              <div class="post-author-avatar">FSF</div>
+
+              {% if autor.foto %}
+
+              <img
+                class="post-author-avatar"
+                src="{{ url_imagen(autor.foto) }}"
+                alt="{{ autor.nombre }}"
+              />
+
+              {% else %}
+
+              <div class="post-author-avatar">
+
+                {{ autor.nombre[0]|upper }}
+
+                {% if autor.apellido %}
+                  {{ autor.apellido[0]|upper }}
+                {% endif %}
+
+              </div>
+
+              {% endif %}
 
               <div>
-                <p class="post-author-name">F1 Sin Filtro</p>
+                <p class="post-author-name">
+                  {{ autor.nombre }}
 
-                <p class="post-author-date">PUBLICACIÓN</p>
+                  {% if autor.apellido %}
+                    {{ autor.apellido }}
+                  {% endif %}
+                </p>
+
+                <p class="post-author-date">
+                  EDITOR
+                </p>
               </div>
             </div>
 
@@ -43,13 +72,11 @@
                   class="post-icon-btn"
                   title="Guardar publicación"
                 >
-                  <span class="material-symbols-outlined"> bookmark </span>
+                  <span class="material-symbols-outlined">
+                    bookmark
+                  </span>
                 </button>
               </form>
-
-              <button type="button" class="post-icon-btn" title="Compartir">
-                <span class="material-symbols-outlined"> share </span>
-              </button>
             </div>
           </div>
 
@@ -58,21 +85,30 @@
           {% if publicacion.categorias %}
 
           <div class="post-category">
-            <span class="material-symbols-outlined"> news </span>
+            <span class="material-symbols-outlined">
+              news
+            </span>
 
             <div class="post-category-list">
               {% for categoria in publicacion.categorias %}
 
               <a
-                href="{{ url_for('main.publicaciones_categoria', id_categoria=categoria.id) }}"
+                href="{{ url_for(
+                  'main.publicaciones_categoria',
+                  id_categoria=categoria.id
+                ) }}"
                 class="post-category-link"
               >
                 {{ categoria.nombre }}
               </a>
 
               {% if not loop.last %}
-              <span class="post-category-separator">·</span>
-              {% endif %} {% endfor %}
+              <span class="post-category-separator">
+                ·
+              </span>
+              {% endif %}
+
+              {% endfor %}
             </div>
           </div>
 
@@ -80,13 +116,17 @@
 
           <!-- TÍTULO -->
 
-          <h1>{{ publicacion.titulo }}</h1>
+          <h1>
+            {{ publicacion.titulo }}
+          </h1>
 
           <!-- RESUMEN -->
 
           {% if publicacion.resumen %}
 
-          <p class="post-subtitle">{{ publicacion.resumen }}</p>
+          <p class="post-subtitle">
+            {{ publicacion.resumen }}
+          </p>
 
           {% endif %}
 
@@ -95,15 +135,17 @@
           {% if publicacion.etiquetas %}
 
           <div class="post-tags">
-            <span class="post-tags-label"> ETIQUETAS: </span>
+            <span class="post-tags-label">
+              ETIQUETAS:
+            </span>
 
             {% for etiqueta in publicacion.etiquetas %}
 
             <a
               href="{{ url_for(
-                    'main.publicaciones_etiqueta',
-                    id_etiqueta=etiqueta.id
-                  ) }}"
+                'main.publicaciones_etiqueta',
+                id_etiqueta=etiqueta.id
+              ) }}"
               class="post-tag"
             >
               #{{ etiqueta.nombre }}
@@ -135,6 +177,7 @@
         ====================================== -->
 
         <div class="post-body">
+
           {% for bloque in bloques %}
 
           <!-- BLOQUE DE TEXTO -->
@@ -142,7 +185,9 @@
           {% if bloque.tipo == "texto" %}
 
           <div class="post-content-card post-text-block">
-            <p>{{ bloque.contenido }}</p>
+            <p>
+              {{ bloque.contenido }}
+            </p>
           </div>
 
           <!-- BLOQUE DE IMAGEN -->
@@ -171,6 +216,7 @@
               {% if carruseles.get(bloque.id, [])|length > 1 %}
 
               <div class="carousel-indicators">
+
                 {% for imagen in carruseles.get(bloque.id, []) %}
 
                 <button
@@ -183,6 +229,7 @@
                 ></button>
 
                 {% endfor %}
+
               </div>
 
               {% endif %}
@@ -190,9 +237,12 @@
               <!-- IMÁGENES -->
 
               <div class="carousel-inner">
+
                 {% for imagen in carruseles.get(bloque.id, []) %}
 
-                <div class="carousel-item {% if loop.first %}active{% endif %}">
+                <div
+                  class="carousel-item {% if loop.first %}active{% endif %}"
+                >
                   <img
                     src="{{ url_imagen(imagen.imagen) }}"
                     class="d-block w-100"
@@ -201,6 +251,7 @@
                 </div>
 
                 {% endfor %}
+
               </div>
 
               <!-- FLECHAS -->
@@ -218,7 +269,9 @@
                   aria-hidden="true"
                 ></span>
 
-                <span class="visually-hidden"> Anterior </span>
+                <span class="visually-hidden">
+                  Anterior
+                </span>
               </button>
 
               <button
@@ -232,14 +285,19 @@
                   aria-hidden="true"
                 ></span>
 
-                <span class="visually-hidden"> Siguiente </span>
+                <span class="visually-hidden">
+                  Siguiente
+                </span>
               </button>
 
               {% endif %}
             </div>
           </div>
 
-          {% endif %} {% endfor %}
+          {% endif %}
+
+          {% endfor %}
+
         </div>
 
         <!-- =====================================
@@ -247,8 +305,11 @@
         ====================================== -->
 
         <section class="post-comments">
+
           <h3 class="post-comments-title">
-            <span class="material-symbols-outlined"> forum </span>
+            <span class="material-symbols-outlined">
+              forum
+            </span>
 
             COMENTARIOS
           </h3>
@@ -256,11 +317,21 @@
           <!-- FORMULARIO -->
 
           <div class="post-panel post-comment-form">
+
             <form
-              action="{{ url_for('main.post', id_publicacion=publicacion.id) }}"
+              action="{{ url_for(
+                'main.post',
+                id_publicacion=publicacion.id
+              ) }}"
               method="POST"
             >
-              <label class="post-sr-only" for="comment"> Comentario </label>
+
+              <label
+                class="post-sr-only"
+                for="comment"
+              >
+                Comentario
+              </label>
 
               <textarea
                 id="comment"
@@ -271,51 +342,63 @@
               ></textarea>
 
               <div class="post-form-end">
-                <button type="submit" class="post-btn-primary">
+                <button
+                  type="submit"
+                  class="post-btn-primary"
+                >
                   PUBLICAR COMENTARIO
 
-                  <span class="material-symbols-outlined"> send </span>
+                  <span class="material-symbols-outlined">
+                    send
+                  </span>
                 </button>
               </div>
+
             </form>
+
           </div>
 
           <!-- COMENTARIOS -->
 
           <div class="post-comment-list">
-            {% if comentarios %} {% for comentario in comentarios %}
+
+            {% if comentarios %}
+
+            {% for comentario in comentarios %}
 
             <div class="post-comment">
+
               <!-- AVATAR -->
 
               <div class="post-comment-avatar">
 
-                {% if comentario.usuario and comentario.usuario.foto %}
-              
-                  <img
-                    src="{{ url_imagen(comentario.usuario.foto) }}"
-                    alt="{{ comentario.usuario.nombre }}"
-                  >
-              
+                {% if comentario.usuario.foto %}
+
+                <img
+                  src="{{ url_imagen(comentario.usuario.foto) }}"
+                  alt="{{ comentario.usuario.nombre }}"
+                >
+
                 {% else %}
-              
-                  {% if comentario.usuario and comentario.usuario.nombre %}
-                    {{ comentario.usuario.nombre[0]|upper }}
-                  {% endif %}
-              
-                  {% if comentario.usuario and comentario.usuario.apellido %}
+
+                  {{ comentario.usuario.nombre[0]|upper }}
+
+                  {% if comentario.usuario.apellido %}
                     {{ comentario.usuario.apellido[0]|upper }}
                   {% endif %}
-              
+
                 {% endif %}
-              
+
               </div>
+
               <!-- CONTENIDO -->
 
               <div class="post-comment-body">
+
                 <div class="post-comment-head">
+
                   <span class="post-comment-user">
-                    {{ comentario.usuario.usuario }}
+                    @{{ comentario.usuario.usuario }}
                   </span>
 
                   <span
@@ -324,32 +407,52 @@
                   >
                     {{ comentario.fecha.strftime('%d/%m/%Y %H:%M') }}
                   </span>
+
                 </div>
 
-                <p>{{ comentario.contenido }}</p>
+                <p>
+                  {{ comentario.contenido }}
+                </p>
+
               </div>
+
             </div>
 
-            {% endfor %} {% else %}
+            {% endfor %}
+
+            {% else %}
 
             <div class="post-comment">
-              <div class="post-comment-avatar">FSF</div>
+
+              <div class="post-comment-avatar">
+                <span class="material-symbols-outlined">
+                  forum
+                </span>
+              </div>
 
               <div class="post-comment-body">
+
                 <div class="post-comment-head">
-                  <span class="post-comment-user"> F1 Sin Filtro </span>
+                  <span class="post-comment-user">
+                    Sin comentarios
+                  </span>
                 </div>
 
                 <p>
                   Todavía no hay comentarios. Sé el primero en comentar esta
                   publicación.
                 </p>
+
               </div>
+
             </div>
 
             {% endif %}
+
           </div>
+
         </section>
+
       </article>
 
       <!-- =====================================
@@ -357,12 +460,18 @@
       ====================================== -->
 
       <aside class="post-sidebar">
+
         <!-- PREMIUM -->
 
         <div class="post-panel post-premium">
-          <span class="post-sidebar-label"> F1 SIN FILTRO PREMIUM </span>
 
-          <h3>Análisis exclusivos</h3>
+          <span class="post-sidebar-label">
+            F1 SIN FILTRO PREMIUM
+          </span>
+
+          <h3>
+            Análisis exclusivos
+          </h3>
 
           <p>
             Accedé a contenido especial, análisis de Grandes Premios y
@@ -375,46 +484,71 @@
           >
             VER PREMIUM
           </a>
+
         </div>
 
         <!-- MÁS NOTICIAS -->
 
+        {% if otras_publicaciones %}
+
         <div class="post-panel post-trending">
+
           <h3>
-            <span class="material-symbols-outlined"> trending_up </span>
+            <span class="material-symbols-outlined">
+              trending_up
+            </span>
 
             MÁS NOTICIAS
           </h3>
 
           <ul>
-            <li>
-              <span class="post-trend-category"> MERCADO </span>
 
-              <a href="#"> Próximamente más noticias. </a>
-            </li>
+            {% for otra_publicacion in otras_publicaciones %}
 
             <li>
-              <span class="post-trend-category"> CARRERA </span>
 
-              <a href="#"> Próximamente más noticias. </a>
+              {% if otra_publicacion.categorias %}
+
+              <span class="post-trend-category">
+                {{ otra_publicacion.categorias[0].nombre.upper() }}
+              </span>
+
+              {% endif %}
+
+              <a
+                href="{{ url_for(
+                  'main.post',
+                  id_publicacion=otra_publicacion.id
+                ) }}"
+              >
+                {{ otra_publicacion.titulo }}
+              </a>
+
             </li>
 
-            <li>
-              <span class="post-trend-category"> F1 </span>
+            {% endfor %}
 
-              <a href="#"> Próximamente más noticias. </a>
-            </li>
           </ul>
+
         </div>
+
+        {% endif %}
 
         <!-- VOLVER -->
 
-        <a class="post-back-news" href="{{ url_for('main.noticias') }}">
-          <span class="material-symbols-outlined"> arrow_back </span>
+        <a
+          class="post-back-news"
+          href="{{ url_for('main.noticias') }}"
+        >
+          <span class="material-symbols-outlined">
+            arrow_back
+          </span>
 
           VER TODAS LAS NOTICIAS
         </a>
+
       </aside>
+
     </div>
   </div>
 </div>
@@ -424,23 +558,48 @@
 ====================================== -->
 
 <script>
-  document.addEventListener("DOMContentLoaded", function () {
-    const fechas = document.querySelectorAll(".comentario-fecha");
 
-    fechas.forEach(function (elemento) {
-      const fechaUTC = elemento.dataset.fecha;
+  document.addEventListener(
+    "DOMContentLoaded",
+    function () {
 
-      const fecha = new Date(fechaUTC);
+      const fechas =
+        document.querySelectorAll(
+          ".comentario-fecha"
+        );
 
-      elemento.textContent = fecha.toLocaleString(undefined, {
-        day: "2-digit",
-        month: "2-digit",
-        year: "numeric",
-        hour: "2-digit",
-        minute: "2-digit",
-      });
-    });
-  });
+
+      fechas.forEach(
+        function (elemento) {
+
+          const fechaUTC =
+            elemento.dataset.fecha;
+
+
+          const fecha =
+            new Date(
+              fechaUTC
+            );
+
+
+          elemento.textContent =
+            fecha.toLocaleString(
+              undefined,
+              {
+                day: "2-digit",
+                month: "2-digit",
+                year: "numeric",
+                hour: "2-digit",
+                minute: "2-digit",
+              }
+            );
+
+        }
+      );
+
+    }
+  );
+
 </script>
 
 {% include 'base/footer.html' %}
