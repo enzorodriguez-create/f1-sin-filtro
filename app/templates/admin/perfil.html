@@ -151,18 +151,18 @@
                     <div class="admin-user-data">
 
                         <strong>
-                            {{ usuario.nombre if usuario else "Administrador" }}
+                            {{ usuario.nombre }}
                         </strong>
 
                         <span>
-                            {{ usuario.email if usuario else "admin@f1sinfiltro.com" }}
+                            {{ usuario.email }}
                         </span>
 
                     </div>
 
 
 
-                    {% if usuario and usuario.foto %}
+                    {% if usuario.foto %}
 
                         <div class="admin-avatar">
 
@@ -262,7 +262,7 @@
                         <div class="profile-avatar-wrapper">
 
 
-                            {% if usuario and usuario.foto %}
+                            {% if usuario.foto %}
 
                                 <div class="profile-avatar">
 
@@ -299,9 +299,9 @@
 
                             <h2>
 
-                                {{ usuario.nombre if usuario else "Administrador" }}
+                                {{ usuario.nombre }}
 
-                                {% if usuario and usuario.apellido %}
+                                {% if usuario.apellido %}
                                     {{ usuario.apellido }}
                                 {% endif %}
 
@@ -309,7 +309,7 @@
 
 
                             <span class="profile-username">
-                                @{{ usuario.usuario if usuario else "admin" }}
+                                @{{ usuario.usuario }}
                             </span>
 
 
@@ -338,7 +338,7 @@
                                 </span>
 
                                 <strong>
-                                    {{ usuario.email if usuario else "admin@f1sinfiltro.com" }}
+                                    {{ usuario.email }}
                                 </strong>
 
                             </div>
@@ -432,7 +432,7 @@
                                         id="profile-name"
                                         name="nombre"
                                         type="text"
-                                        value="{{ usuario.nombre if usuario else '' }}"
+                                        value="{{ usuario.nombre }}"
                                         required
                                     >
 
@@ -450,7 +450,7 @@
                                         id="profile-lastname"
                                         name="apellido"
                                         type="text"
-                                        value="{{ usuario.apellido if usuario and usuario.apellido else '' }}"
+                                        value="{{ usuario.apellido if usuario.apellido else '' }}"
                                         placeholder="Apellido"
                                     >
 
@@ -476,7 +476,7 @@
                                         id="profile-user"
                                         name="usuario"
                                         type="text"
-                                        value="{{ usuario.usuario if usuario else '' }}"
+                                        value="{{ usuario.usuario }}"
                                         required
                                     >
 
@@ -494,7 +494,7 @@
                                         id="profile-email"
                                         name="email"
                                         type="email"
-                                        value="{{ usuario.email if usuario else '' }}"
+                                        value="{{ usuario.email }}"
                                         required
                                     >
 
@@ -526,7 +526,6 @@
 
                                     Formatos permitidos:
                                     JPG, JPEG, PNG, WEBP o GIF.
-                                    Máximo 5 MB.
 
                                 </span>
 
@@ -619,89 +618,112 @@
 
 
 
-                        <form
-    class="profile-form"
-    id="password-form"
-    method="POST"
-    action="{{ url_for('admin.admin_cambiar_password') }}"
->
+                        {% if usuario.tipo_login == "google" %}
 
 
-                            <div class="profile-field">
+                            <div class="profile-form">
 
-                                <label for="current-password">
-                                    Contraseña actual
-                                </label>
+                                <div class="profile-field">
 
-                                <input
-                                    id="current-password"
-                                    name="password_actual"
-                                    type="password"
-                                    placeholder="Ingresá tu contraseña actual"
-                                    required
-                                >
-
-                            </div>
-
-
-
-                            <div class="profile-field">
-
-                                <label for="new-password">
-                                    Nueva contraseña
-                                </label>
-
-                                <input
-                                    id="new-password"
-                                    name="password_nueva"
-                                    type="password"
-                                    placeholder="Ingresá la nueva contraseña"
-                                    required
-                                >
-
-                            </div>
-
-
-
-                            <div class="profile-field">
-
-                                <label for="confirm-password">
-                                    Confirmar nueva contraseña
-                                </label>
-
-                                <input
-                                    id="confirm-password"
-                                    name="password_confirmacion"
-                                    type="password"
-                                    placeholder="Repetí la nueva contraseña"
-                                    required
-                                >
-
-                            </div>
-
-
-
-                            <div class="profile-form-actions">
-
-
-                                <button
-                                    class="profile-password-btn"
-                                    type="submit"
-                                >
-
-                                    <span class="material-symbols-outlined">
-                                        key
+                                    <span class="profile-field-help">
+                                        Tu cuenta utiliza inicio de sesión con Google.
+                                        La contraseña se administra desde tu cuenta de Google.
                                     </span>
 
-                                    Cambiar contraseña
-
-                                </button>
-
+                                </div>
 
                             </div>
 
 
-                        </form>
+                        {% else %}
+
+
+                            <form
+                                class="profile-form"
+                                id="password-form"
+                                method="POST"
+                                action="{{ url_for('admin.admin_cambiar_password') }}"
+                            >
+
+
+                                <div class="profile-field">
+
+                                    <label for="current-password">
+                                        Contraseña actual
+                                    </label>
+
+                                    <input
+                                        id="current-password"
+                                        name="password_actual"
+                                        type="password"
+                                        placeholder="Ingresá tu contraseña actual"
+                                        required
+                                    >
+
+                                </div>
+
+
+
+                                <div class="profile-field">
+
+                                    <label for="new-password">
+                                        Nueva contraseña
+                                    </label>
+
+                                    <input
+                                        id="new-password"
+                                        name="password_nueva"
+                                        type="password"
+                                        placeholder="Ingresá la nueva contraseña"
+                                        required
+                                    >
+
+                                </div>
+
+
+
+                                <div class="profile-field">
+
+                                    <label for="confirm-password">
+                                        Confirmar nueva contraseña
+                                    </label>
+
+                                    <input
+                                        id="confirm-password"
+                                        name="password_confirmacion"
+                                        type="password"
+                                        placeholder="Repetí la nueva contraseña"
+                                        required
+                                    >
+
+                                </div>
+
+
+
+                                <div class="profile-form-actions">
+
+
+                                    <button
+                                        class="profile-password-btn"
+                                        type="submit"
+                                    >
+
+                                        <span class="material-symbols-outlined">
+                                            key
+                                        </span>
+
+                                        Cambiar contraseña
+
+                                    </button>
+
+
+                                </div>
+
+
+                            </form>
+
+
+                        {% endif %}
 
 
                     </section>
