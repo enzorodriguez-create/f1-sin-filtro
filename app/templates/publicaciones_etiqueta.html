@@ -27,13 +27,9 @@
             </h1>
 
 
-            {% if etiqueta.descripcion %}
-
-                <p class="tag-description">
-                    {{ etiqueta.descripcion }}
-                </p>
-
-            {% endif %}
+            <p class="tag-description">
+                {{ etiqueta.descripcion or "Sin descripción." }}
+            </p>
 
 
             <div class="tag-count">
@@ -112,9 +108,15 @@
 
                                     {% for etiqueta_publicacion in publicacion.etiquetas %}
 
-                                        <span class="tag-card-tag">
+                                        <a
+                                            class="tag-card-tag"
+                                            href="{{ url_for(
+                                                'main.publicaciones_etiqueta',
+                                                id_etiqueta=etiqueta_publicacion.id
+                                            ) }}"
+                                        >
                                             #{{ etiqueta_publicacion.nombre }}
-                                        </span>
+                                        </a>
 
                                     {% endfor %}
 

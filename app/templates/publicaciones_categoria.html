@@ -25,13 +25,9 @@
                     {{ categoria.nombre }}
                 </h1>
 
-                {% if categoria.descripcion %}
-
-                    <p>
-                        {{ categoria.descripcion }}
-                    </p>
-
-                {% endif %}
+                <p>
+                    {{ categoria.descripcion or "Sin descripción." }}
+                </p>
 
             </div>
 
@@ -141,6 +137,8 @@
 
             <!-- RESTO DE PUBLICACIONES -->
 
+            {% if publicaciones|length > 1 %}
+
             <section class="categoria-publicaciones-grid">
 
                 {% for publicacion in publicaciones[1:] %}
@@ -214,6 +212,8 @@
                 {% endfor %}
 
             </section>
+
+            {% endif %}
 
 
         {% else %}
