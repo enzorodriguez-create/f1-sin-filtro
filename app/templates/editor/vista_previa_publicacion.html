@@ -102,7 +102,7 @@
 
               <div class="preview-meta">
                 <div class="preview-author">
-                  {% if usuario and usuario.foto %}
+                  {% if usuario.foto %}
 
                   <img
                     class="preview-author-avatar preview-author-image"
@@ -113,42 +113,22 @@
                   {% else %}
 
                   <div class="preview-author-avatar">
-                    {% if usuario %} {{ usuario.nombre[0] }} {% if
-                    usuario.apellido %} {{ usuario.apellido[0] }} {% endif %} {%
-                    else %} FSF {% endif %}
+                    {{ usuario.nombre[0] }} {% if usuario.apellido %} {{
+                    usuario.apellido[0] }} {% endif %}
                   </div>
 
                   {% endif %}
 
                   <div>
                     <p class="preview-author-name">
-                      {% if usuario %} {{ usuario.nombre }} {% if
-                      usuario.apellido %} {{ usuario.apellido }} {% endif %} {%
-                      else %} F1 Sin Filtro {% endif %}
+                      {{ usuario.nombre }} {% if usuario.apellido %} {{
+                      usuario.apellido }} {% endif %}
                     </p>
 
                     <p class="preview-author-date">
                       PUBLICACIÓN #{{ publicacion.id }}
                     </p>
                   </div>
-                </div>
-
-                <div class="preview-post-actions">
-                  <button
-                    type="button"
-                    class="preview-icon-btn"
-                    title="Guardar publicación"
-                  >
-                    <span class="material-symbols-outlined"> bookmark </span>
-                  </button>
-
-                  <button
-                    type="button"
-                    class="preview-icon-btn"
-                    title="Compartir"
-                  >
-                    <span class="material-symbols-outlined"> share </span>
-                  </button>
                 </div>
               </div>
 
@@ -354,8 +334,7 @@
                 <span> Autor </span>
 
                 <strong>
-                  {% if usuario %} {{ usuario.nombre }} {% else %} Editor {%
-                  endif %}
+                  {{ usuario.nombre }}
                 </strong>
               </div>
             </section>

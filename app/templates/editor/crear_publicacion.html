@@ -129,17 +129,17 @@
                         <div class="editor-user-data">
 
                             <strong>
-                                {{ usuario.nombre if usuario else "Editor" }}
+                                {{ usuario.nombre }}
                             </strong>
 
                             <span>
-                                {{ usuario.email if usuario else "editor@f1sinfiltro.com" }}
+                                {{ usuario.email }}
                             </span>
 
                         </div>
 
 
-                        {% if usuario and usuario.foto %}
+                        {% if usuario.foto %}
 
                             <img
                                 class="editor-avatar editor-avatar-img"
@@ -371,7 +371,7 @@
 
 
                                         <p class="lbl fw600 c-variant">
-                                            JPG, PNG o WebP · Máximo 5MB
+                                            JPG, PNG o WebP
                                         </p>
 
 
@@ -540,79 +540,6 @@
                             <!-- COLUMNA DERECHA -->
 
                             <div class="col-right">
-
-
-                                <!-- PREMIUM -->
-
-                                <div class="card card-side gap16">
-
-
-                                    <div class="row-between">
-
-
-                                        <div class="flex-c gap8">
-
-
-                                            <span class="material-symbols-outlined i20 c-primary">
-                                                stars
-                                            </span>
-
-
-                                            <h2 class="card-h2">
-                                                Nivel de Suscripción
-                                            </h2>
-
-
-                                        </div>
-
-
-                                        <span class="badge-paywall">
-                                            PREMIUM
-                                        </span>
-
-
-                                    </div>
-
-
-                                    <div class="paywall">
-
-
-                                        <div class="col pr8">
-
-
-                                            <span class="radio-title">
-                                                Contenido Premium
-                                            </span>
-
-
-                                            <span class="lbl fw600 c-variant mt4">
-                                                Solo los usuarios Premium podrán acceder al artículo completo.
-                                            </span>
-
-
-                                        </div>
-
-
-                                        <label class="switch">
-
-
-                                            <input
-                                                type="checkbox"
-                                                id="premium-toggle"
-                                                name="premium"
-                                            >
-
-
-                                            <div class="switch-track"></div>
-
-
-                                        </label>
-
-
-                                    </div>
-
-
-                                </div>
 
 
                                 <!-- CATEGORÍAS -->
@@ -881,6 +808,20 @@
                                             Publicar Noticia
                                         </span>
 
+                                    </button>
+
+
+                                    <button
+                                        class="btn-discard"
+                                        type="submit"
+                                        name="accion"
+                                        value="borrador"
+                                    >
+                                        <span class="material-symbols-outlined i20">
+                                            draft
+                                        </span>
+
+                                        Guardar Borrador
                                     </button>
 
 

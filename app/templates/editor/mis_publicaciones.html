@@ -82,14 +82,14 @@
 
             <div class="editor-user">
               <div class="editor-user-data">
-                <strong> {{ usuario.nombre if usuario else "Editor" }} </strong>
+                <strong> {{ usuario.nombre }} </strong>
 
                 <span>
-                  {{ usuario.email if usuario else "editor@f1sinfiltro.com" }}
+                  {{ usuario.email }}
                 </span>
               </div>
 
-              {% if usuario and usuario.foto %}
+              {% if usuario.foto %}
 
               <img
                 class="editor-avatar editor-avatar-img"
@@ -257,19 +257,5 @@
     ========================== -->
 
     {% include "base/footer.html" %}
-
-    <script>
-      function confirmarEliminacion() {
-        const confirmar = confirm(
-          "¿Seguro que querés eliminar esta publicación?"
-        );
-
-        if (confirmar) {
-          alert(
-            "Por ahora la publicación no se elimina porque todavía no está conectada a la base de datos."
-          );
-        }
-      }
-    </script>
   </body>
 </html>

@@ -22,7 +22,8 @@ from app.models import (
     ImagenCarrusel,
     Categoria,
     Etiqueta,
-    Comentario
+    Comentario,
+    PublicacionGuardada
 )
 
 
@@ -2006,6 +2007,30 @@ def editor_eliminar_publicacion(
             url_for(
                 "editor.editor_publicaciones"
             )
+        )
+
+
+    comentarios = Comentario.query.filter_by(
+        publicacion_id=publicacion.id
+    ).all()
+
+
+    for comentario in comentarios:
+
+        db.session.delete(
+            comentario
+        )
+
+
+    guardados = PublicacionGuardada.query.filter_by(
+        publicacion_id=publicacion.id
+    ).all()
+
+
+    for guardado in guardados:
+
+        db.session.delete(
+            guardado
         )
 
 

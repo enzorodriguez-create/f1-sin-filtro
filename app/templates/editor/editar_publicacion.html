@@ -123,17 +123,17 @@
                     <div class="editor-user-data">
 
                         <strong>
-                            {{ usuario.nombre if usuario else "Editor" }}
+                            {{ usuario.nombre }}
                         </strong>
 
                         <span>
-                            {{ usuario.email if usuario else "editor@f1sinfiltro.com" }}
+                            {{ usuario.email }}
                         </span>
 
                     </div>
 
 
-                    {% if usuario and usuario.foto %}
+                    {% if usuario.foto %}
 
                         <img
                             class="editor-avatar editor-avatar-img"
@@ -622,8 +622,8 @@
                                 <div class="editor-foot">
 
                                     <span class="lbl fw600 c-variant">
-                                        Podés modificar los bloques existentes o agregar texto,
-                                        imágenes y carruseles nuevos.
+                                        Podés modificar los textos e imágenes existentes y agregar
+                                        nuevos bloques de texto, imágenes o carruseles.
                                     </span>
 
                                 </div>

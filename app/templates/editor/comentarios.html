@@ -94,14 +94,14 @@
 
             <div class="editor-user">
               <div class="editor-user-data">
-                <strong> {{ usuario.nombre if usuario else "Editor" }} </strong>
+                <strong> {{ usuario.nombre }} </strong>
 
                 <span>
-                  {{ usuario.email if usuario else "editor@f1sinfiltro.com" }}
+                  {{ usuario.email }}
                 </span>
               </div>
 
-              {% if usuario and usuario.foto %}
+              {% if usuario.foto %}
 
               <img
                 class="editor-avatar editor-avatar-img"
@@ -261,10 +261,27 @@
 
                 <div class="comment-user">
                   <div class="comment-avatar">
-                    {% if comentario.usuario.nombre %} {{
-                    comentario.usuario.nombre[0]|upper }} {% endif %} {% if
-                    comentario.usuario.apellido %} {{
-                    comentario.usuario.apellido[0]|upper }} {% endif %}
+
+                    {% if comentario.usuario.foto %}
+
+                    <img
+                      src="{{ url_imagen(comentario.usuario.foto) }}"
+                      alt="{{ comentario.usuario.nombre }}"
+                      class="comment-avatar-img"
+                    />
+
+                    {% else %}
+
+                    {% if comentario.usuario.nombre %}
+                    {{ comentario.usuario.nombre[0]|upper }}
+                    {% endif %}
+
+                    {% if comentario.usuario.apellido %}
+                    {{ comentario.usuario.apellido[0]|upper }}
+                    {% endif %}
+
+                    {% endif %}
+
                   </div>
 
                   <div class="comment-user-info">
