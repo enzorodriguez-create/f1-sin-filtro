@@ -160,6 +160,27 @@ def admin_dashboard():
     ).limit(3).all()
 
 
+    publicaciones_recientes = Publicacion.query.order_by(
+        Publicacion.id.desc()
+    ).limit(3).all()
+
+
+    autores_publicaciones_recientes = {}
+
+
+    for publicacion in publicaciones_recientes:
+
+        autor = db.session.get(
+            Usuario,
+            publicacion.autor_id
+        )
+
+
+        autores_publicaciones_recientes[
+            publicacion.id
+        ] = autor
+
+
     cantidad_categorias = Categoria.query.count()
 
 
@@ -189,6 +210,12 @@ def admin_dashboard():
 
         solicitudes_recientes=solicitudes_recientes,
         usuarios_recientes=usuarios_recientes,
+
+        publicaciones_recientes=
+            publicaciones_recientes,
+
+        autores_publicaciones_recientes=
+            autores_publicaciones_recientes,
 
         cantidad_categorias=cantidad_categorias,
         cantidad_etiquetas=cantidad_etiquetas,

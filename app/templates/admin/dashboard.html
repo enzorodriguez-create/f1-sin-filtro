@@ -184,17 +184,17 @@
                     <div class="admin-user-data">
 
                         <strong>
-                            {{ usuario.nombre if usuario else "Administrador" }}
+                            {{ usuario.nombre }}
                         </strong>
 
                         <span>
-                            {{ usuario.email if usuario else "admin@f1sinfiltro.com" }}
+                            {{ usuario.email }}
                         </span>
 
                     </div>
 
 
-                    {% if usuario and usuario.foto %}
+                    {% if usuario.foto %}
 
                         <div class="admin-avatar">
 
@@ -477,7 +477,7 @@
 
 
                     <!-- =========================
-                         ACTIVIDAD
+                         PUBLICACIONES RECIENTES
                     ========================== -->
 
                     <section class="admin-panel admin-activity-panel">
@@ -489,11 +489,11 @@
                             <div>
 
                                 <span class="admin-panel-kicker">
-                                    ACTIVIDAD
+                                    CONTENIDO
                                 </span>
 
                                 <h2>
-                                    Actividad Reciente
+                                    Publicaciones Recientes
                                 </h2>
 
                             </div>
@@ -514,23 +514,19 @@
                                     <tr>
 
                                         <th>
-                                            Acción
+                                            Publicación
                                         </th>
 
                                         <th>
-                                            Usuario
-                                        </th>
-
-                                        <th>
-                                            Rol
-                                        </th>
-
-                                        <th>
-                                            Fecha
+                                            Autor
                                         </th>
 
                                         <th>
                                             Estado
+                                        </th>
+
+                                        <th>
+                                            Acción
                                         </th>
 
                                     </tr>
@@ -541,53 +537,102 @@
                                 <tbody>
 
 
-                                    <tr>
+                                    {% if publicaciones_recientes %}
 
 
-                                        <td>
-
-                                            <div class="admin-action-name">
-
-                                                <span class="material-symbols-outlined">
-                                                    info
-                                                </span>
-
-                                                Actividad del sistema
-
-                                            </div>
-
-                                        </td>
+                                        {% for publicacion in publicaciones_recientes %}
 
 
-                                        <td>
-                                            {{ usuario.nombre }}
-                                        </td>
+                                            {% set autor = autores_publicaciones_recientes.get(publicacion.id) %}
 
 
-                                        <td>
-
-                                            <span class="admin-table-role admin">
-                                                Admin
-                                            </span>
-
-                                        </td>
+                                            <tr>
 
 
-                                        <td>
-                                            -
-                                        </td>
+                                                <td>
+
+                                                    <div class="admin-action-name">
+
+                                                        <span class="material-symbols-outlined">
+                                                            article
+                                                        </span>
+
+                                                        {{ publicacion.titulo }}
+
+                                                    </div>
+
+                                                </td>
 
 
-                                        <td>
+                                                <td>
 
-                                            <span class="admin-state active">
-                                                Pendiente
-                                            </span>
+                                                    {% if autor %}
 
-                                        </td>
+                                                        {{ autor.nombre }}
+
+                                                        {% if autor.apellido %}
+                                                            {{ autor.apellido }}
+                                                        {% endif %}
+
+                                                    {% else %}
+
+                                                        Sin autor
+
+                                                    {% endif %}
+
+                                                </td>
 
 
-                                    </tr>
+                                                <td>
+
+                                                    {% if publicacion.estado == "publicada" %}
+
+                                                        <span class="admin-state active">
+                                                            Publicada
+                                                        </span>
+
+                                                    {% else %}
+
+                                                        <span class="admin-state">
+                                                            Borrador
+                                                        </span>
+
+                                                    {% endif %}
+
+                                                </td>
+
+
+                                                <td>
+
+                                                    <a
+                                                        href="{{ url_for('admin.admin_vista_previa_publicacion', id_publicacion=publicacion.id) }}"
+                                                        class="admin-review-btn"
+                                                    >
+                                                        Ver
+                                                    </a>
+
+                                                </td>
+
+
+                                            </tr>
+
+
+                                        {% endfor %}
+
+
+                                    {% else %}
+
+
+                                        <tr>
+
+                                            <td colspan="4">
+                                                No hay publicaciones registradas.
+                                            </td>
+
+                                        </tr>
+
+
+                                    {% endif %}
 
 
                                 </tbody>
