@@ -8,6 +8,17 @@ body {
 }
 
 
+/* =========================
+   BOX SIZING
+========================= */
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+
 :root {
     --racing-red: #E10600;
     --racing-red-dark: #b80500;
@@ -56,12 +67,12 @@ body {
     background-image:
         linear-gradient(
             to right,
-            rgba(255,255,255,0.02) 1px,
+            rgba(255, 255, 255, 0.02) 1px,
             transparent 1px
         ),
         linear-gradient(
             to bottom,
-            rgba(255,255,255,0.02) 1px,
+            rgba(255, 255, 255, 0.02) 1px,
             transparent 1px
         );
 }
@@ -109,6 +120,7 @@ body {
 /* =========================
    MAIN
 ========================= */
+
 .login-main {
     min-height: calc(100vh - 140px);
 
@@ -136,6 +148,8 @@ body {
     margin: 1.5rem 0;
 
     padding: 2.5rem;
+
+    box-sizing: border-box;
 
     border-radius: 0.75rem;
 
@@ -260,11 +274,18 @@ body {
 ========================= */
 
 .login-form {
+    width: 100%;
+
     display: flex;
 
     flex-direction: column;
 
     gap: 1.25rem;
+}
+
+
+.field {
+    width: 100%;
 }
 
 
@@ -331,6 +352,8 @@ body {
 
 .input-wrap {
     position: relative;
+
+    width: 100%;
 }
 
 
@@ -356,7 +379,13 @@ body {
 
 
 .input-wrap input {
+    display: block;
+
     width: 100%;
+    max-width: 100%;
+    min-width: 0;
+
+    box-sizing: border-box;
 
     padding:
         0.875rem
@@ -458,6 +487,11 @@ body {
     letter-spacing: 0.1em;
 }
 
+
+/* =========================
+   DIVISOR
+========================= */
+
 .login-divider {
     display: flex;
     align-items: center;
@@ -465,11 +499,13 @@ body {
     margin: 1.75rem 0 1.25rem;
 }
 
+
 .login-divider span {
     flex: 1;
     height: 1px;
     background: var(--border);
 }
+
 
 .login-divider p {
     margin: 0;
@@ -481,8 +517,14 @@ body {
     white-space: nowrap;
 }
 
+
+/* =========================
+   GOOGLE
+========================= */
+
 .google-btn {
     width: 100%;
+
     padding: 0.95rem 1.5rem;
 
     display: flex;
@@ -507,6 +549,7 @@ body {
     transition: all 0.2s;
 }
 
+
 .google-btn:hover {
     background: #232323;
     border-color: var(--racing-red);
@@ -514,6 +557,7 @@ body {
     box-shadow:
         0 0 18px rgba(225, 6, 0, 0.16);
 }
+
 
 .google-icon {
     width: 1.8rem;
@@ -539,6 +583,8 @@ body {
 
 .login-btn {
     width: 100%;
+
+    box-sizing: border-box;
 
     margin-top: 1rem;
 
@@ -654,11 +700,13 @@ body {
         padding: 2rem 1.25rem;
     }
 
+
     .login-card {
         max-width: 30rem;
 
         padding: 2rem;
     }
+
 
     .card-title h1 {
         font-size: 1.875rem;
@@ -679,6 +727,7 @@ body {
         padding: 1.25rem 0.75rem;
     }
 
+
     .login-card {
         margin: 0.75rem 0;
 
@@ -686,6 +735,7 @@ body {
 
         border-radius: 0.625rem;
     }
+
 
     .card-top {
         flex-direction: column;
@@ -695,17 +745,21 @@ body {
         gap: 0.4rem;
     }
 
+
     .card-title {
         margin-bottom: 1.5rem;
     }
+
 
     .card-title h1 {
         font-size: 1.5rem;
     }
 
+
     .card-title p {
         font-size: 0.9rem;
     }
+
 
     .label-row {
         flex-direction: column;
@@ -715,11 +769,13 @@ body {
         gap: 0.4rem;
     }
 
+
     .options {
         flex-direction: column;
 
         align-items: flex-start;
     }
+
 
     .login-btn {
         font-size: 1rem;
@@ -727,10 +783,12 @@ body {
         padding: 0.9rem 1rem;
     }
 
+
     .glow-top {
         width: 18rem;
         height: 18rem;
     }
+
 
     .glow-bottom {
         width: 15rem;
@@ -739,10 +797,16 @@ body {
 
 }
 
+
+/* =========================
+   FONDO CON IMAGEN
+========================= */
+
 .bg-grid,
 .glow {
     display: none;
 }
+
 
 .login-page {
     background:
@@ -758,8 +822,14 @@ body {
     background-attachment: fixed;
 }
 
+
+/* =========================
+   CARD TRANSPARENTE
+========================= */
+
 .login-card {
     background: rgba(18, 18, 18, 0.88);
+
     backdrop-filter: blur(14px);
 
     border: 1px solid rgba(255, 255, 255, 0.10);
@@ -769,25 +839,31 @@ body {
         0 0 30px rgba(225, 6, 0, 0.05);
 }
 
+
+/* =========================
+   ERROR
+========================= */
+
 .login-error {
     display: flex;
     align-items: center;
     gap: 10px;
-  
+
     padding: 12px 14px;
     margin-bottom: 18px;
-  
+
     border: 1px solid #e10600;
     border-radius: 6px;
-  
+
     background: rgba(225, 6, 0, 0.12);
-  
+
     color: #ffffff;
     font-size: 14px;
     font-weight: 600;
-  }
-  
-  .login-error .material-symbols-outlined {
+}
+
+
+.login-error .material-symbols-outlined {
     color: #e10600;
     font-size: 22px;
-  }
+}

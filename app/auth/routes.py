@@ -18,18 +18,32 @@ bp = Blueprint(
     __name__
 )
 
+
 google = oauth.register(
     name="google",
-    client_id=os.environ.get("GOOGLE_CLIENT_ID"),
-    client_secret=os.environ.get("GOOGLE_CLIENT_SECRET"),
-    server_metadata_url="https://accounts.google.com/.well-known/openid-configuration",
+    client_id=os.environ.get(
+        "GOOGLE_CLIENT_ID"
+    ),
+    client_secret=os.environ.get(
+        "GOOGLE_CLIENT_SECRET"
+    ),
+    server_metadata_url=(
+        "https://accounts.google.com/"
+        ".well-known/openid-configuration"
+    ),
     client_kwargs={
         "scope": "openid email profile"
     }
 )
 
 
-def guardar_usuario_en_session(usuario):
+# =====================================
+# GUARDAR USUARIO EN SESIÓN
+# =====================================
+
+def guardar_usuario_en_session(
+    usuario
+):
 
     session["usuario"] = {
         "id": usuario.id,
@@ -44,6 +58,43 @@ def guardar_usuario_en_session(usuario):
     }
 
 
+# =====================================
+# REDIRECCIÓN SEGÚN ROL
+# =====================================
+
+def redirigir_segun_rol(
+    usuario
+):
+
+    if usuario.rol == "admin":
+
+        return redirect(
+            url_for(
+                "admin.admin_dashboard"
+            )
+        )
+
+
+    if usuario.rol == "editor":
+
+        return redirect(
+            url_for(
+                "editor.editor"
+            )
+        )
+
+
+    return redirect(
+        url_for(
+            "main.inicio"
+        )
+    )
+
+
+# =====================================
+# LOGIN
+# =====================================
+
 @bp.route(
     "/login",
     methods=["GET", "POST"]
@@ -53,12 +104,16 @@ def login():
     if request.method == "POST":
 
         email = request.form.get(
-            "email"
-        )
+            "email",
+            ""
+        ).strip()
+
 
         password = request.form.get(
-            "password"
+            "password",
+            ""
         )
+
 
         usuario = Usuario.query.filter_by(
             email=email
@@ -67,6 +122,8 @@ def login():
 
         if (
             usuario
+            and usuario.tipo_login == "normal"
+            and usuario.password
             and usuario.verificar_password(
                 password
             )
@@ -77,39 +134,25 @@ def login():
             )
 
 
-            if usuario.rol == "admin":
-
-                return redirect(
-                    "/admin"
-                )
-
-
-            elif usuario.rol == "editor":
-
-                return redirect(
-                    "/editor"
-                )
-
-
-            else:
-
-                return redirect(
-                    url_for(
-                        "main.inicio"
-                    )
-                )
+            return redirigir_segun_rol(
+                usuario
+            )
 
 
         return render_template(
-    "login.html",
-    error="Email o contraseña incorrectos."
-)
+            "login.html",
+            error="Email o contraseña incorrectos."
+        )
 
 
     return render_template(
         "login.html"
     )
 
+
+# =====================================
+# REGISTRO
+# =====================================
 
 @bp.route(
     "/registro",
@@ -120,28 +163,58 @@ def registro():
     if request.method == "POST":
 
         nombre = request.form.get(
-            "nombre"
-        )
+            "nombre",
+            ""
+        ).strip()
+
 
         apellido = request.form.get(
-            "apellido"
-        )
+            "apellido",
+            ""
+        ).strip()
+
 
         nombre_usuario = request.form.get(
-            "usuario"
-        )
+            "usuario",
+            ""
+        ).strip()
+
 
         email = request.form.get(
-            "email"
-        )
+            "email",
+            ""
+        ).strip()
+
 
         password = request.form.get(
-            "password"
+            "password",
+            ""
         )
 
+
         confirm_password = request.form.get(
-            "confirm_password"
+            "confirm_password",
+            ""
         )
+
+
+        # =========================
+        # CAMPOS OBLIGATORIOS
+        # =========================
+
+        if (
+            not nombre
+            or not apellido
+            or not nombre_usuario
+            or not email
+            or not password
+            or not confirm_password
+        ):
+
+            return render_template(
+                "registro.html",
+                error="Tenés que completar todos los campos."
+            )
 
 
         # =========================
@@ -214,6 +287,7 @@ def registro():
             nuevo_usuario
         )
 
+
         db.session.commit()
 
 
@@ -229,6 +303,10 @@ def registro():
     )
 
 
+# =====================================
+# LOGOUT
+# =====================================
+
 @bp.route("/logout")
 def logout():
 
@@ -237,11 +315,17 @@ def logout():
         None
     )
 
+
     return redirect(
         url_for(
             "main.inicio"
         )
     )
+
+
+# =====================================
+# LOGIN CON GOOGLE
+# =====================================
 
 @bp.route("/auth/google")
 def login_google():
@@ -255,41 +339,106 @@ def login_google():
     )
 
 
+# =====================================
+# CALLBACK GOOGLE
+# =====================================
+
 @bp.route("/auth/google/callback")
 def callback_google():
 
     token = google.authorize_access_token()
 
-    info = token["userinfo"]
 
-    email = info.get("email")
+    info = token[
+        "userinfo"
+    ]
+
+
+    email = info.get(
+        "email"
+    )
+
+
+    if not email:
+
+        return render_template(
+            "login.html",
+            error=(
+                "No se pudo obtener el email "
+                "de la cuenta de Google."
+            )
+        )
+
 
     usuario = Usuario.query.filter_by(
         email=email
     ).first()
 
 
+    # =========================
+    # CREAR USUARIO GOOGLE
+    # =========================
+
     if usuario is None:
 
+        nombre_usuario_base = email.split(
+            "@"
+        )[0]
+
+
+        nombre_usuario = nombre_usuario_base
+
+
+        contador = 1
+
+
+        while Usuario.query.filter_by(
+            usuario=nombre_usuario
+        ).first():
+
+            nombre_usuario = (
+                nombre_usuario_base
+                + str(contador)
+            )
+
+            contador += 1
+
+
         nuevo_usuario = Usuario(
-            nombre=info.get("given_name")
-            or info.get("name"),
-            apellido=info.get("family_name")
-            or "",
-            usuario=email.split("@")[0],
+            nombre=(
+                info.get(
+                    "given_name"
+                )
+                or info.get(
+                    "name"
+                )
+                or "Usuario"
+            ),
+            apellido=(
+                info.get(
+                    "family_name"
+                )
+                or ""
+            ),
+            usuario=nombre_usuario,
             email=email,
             password=None,
-            foto=info.get("picture"),
+            foto=info.get(
+                "picture"
+            ),
             rol="usuario",
             tipo_login="google",
             premium=False
         )
 
+
         db.session.add(
             nuevo_usuario
         )
 
+
         db.session.commit()
+
 
         usuario = nuevo_usuario
 
@@ -299,8 +448,6 @@ def callback_google():
     )
 
 
-    return redirect(
-        url_for(
-            "main.inicio"
-        )
+    return redirigir_segun_rol(
+        usuario
     )
