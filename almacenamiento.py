@@ -1,7 +1,10 @@
 import os
 import uuid
 
-from flask import url_for
+from flask import (
+    url_for,
+    current_app
+)
 
 
 # Extensiones que permito subir como imagen
@@ -14,14 +17,6 @@ EXTENSIONES = {
 }
 
 
-# Si no uso S3, guardo las imágenes localmente
-CARPETA_LOCAL = os.path.join(
-    os.path.dirname(os.path.abspath(__file__)),
-    "static",
-    "uploads"
-)
-
-
 _s3 = None
 
 
@@ -29,7 +24,9 @@ def usa_s3():
 
     # Compruebo si tengo configurado un bucket de S3
     return bool(
-        os.environ.get("S3_BUCKET")
+        os.environ.get(
+            "S3_BUCKET"
+        )
     )
 
 
@@ -59,8 +56,9 @@ def _cliente():
 
             region_name=region,
 
-            endpoint_url=
-                f"https://s3.{region}.amazonaws.com",
+            endpoint_url=(
+                f"https://s3.{region}.amazonaws.com"
+            ),
 
             config=Config(
                 signature_version="s3v4",
@@ -131,9 +129,10 @@ def subir_imagen(
     else:
 
         # Si no tengo S3 configurado,
-        # guardo la imagen localmente
+        # guardo la imagen dentro del static de Flask
         destino = os.path.join(
-            CARPETA_LOCAL,
+            current_app.static_folder,
+            "uploads",
             key
         )
 
@@ -156,9 +155,12 @@ def subir_imagen(
     return key
 
 
-def url_imagen(key):
+def url_imagen(
+    key
+):
 
     if not key:
+
         return None
 
 
@@ -166,25 +168,30 @@ def url_imagen(key):
     # por ejemplo la foto de Google,
     # la utilizo directamente
     if (
-        key.startswith("http://")
+        key.startswith(
+            "http://"
+        )
         or
-        key.startswith("https://")
+        key.startswith(
+            "https://"
+        )
     ):
 
         return key
 
 
-    # Si es una key de S3,
+    # Si utilizo S3,
     # genero una URL temporal
     if usa_s3():
 
         return _cliente().generate_presigned_url(
-
             "get_object",
 
             Params={
                 "Bucket":
-                    os.environ["S3_BUCKET"],
+                    os.environ[
+                        "S3_BUCKET"
+                    ],
 
                 "Key":
                     key
@@ -194,24 +201,35 @@ def url_imagen(key):
         )
 
 
+    # Si utilizo almacenamiento local,
+    # genero la URL desde static/uploads
     return url_for(
         "static",
-        filename=f"uploads/{key}"
+        filename=(
+            f"uploads/{key}"
+        )
     )
 
 
-def borrar_imagen(key):
+def borrar_imagen(
+    key
+):
 
     if not key:
+
         return
 
 
     # No intento borrar una foto externa,
     # por ejemplo la foto de Google
     if (
-        key.startswith("http://")
+        key.startswith(
+            "http://"
+        )
         or
-        key.startswith("https://")
+        key.startswith(
+            "https://"
+        )
     ):
 
         return
@@ -219,24 +237,30 @@ def borrar_imagen(key):
 
     if usa_s3():
 
+        # Borro la imagen del bucket de Amazon S3
         _cliente().delete_object(
+            Bucket=os.environ[
+                "S3_BUCKET"
+            ],
 
-            Bucket=
-                os.environ["S3_BUCKET"],
-
-            Key=
-                key
+            Key=key
         )
 
 
     else:
 
+        # Borro la imagen del almacenamiento local
         ruta = os.path.join(
-            CARPETA_LOCAL,
+            current_app.static_folder,
+            "uploads",
             key
         )
 
 
-        if os.path.exists(ruta):
+        if os.path.exists(
+            ruta
+        ):
 
-            os.remove(ruta)
+            os.remove(
+                ruta
+            )

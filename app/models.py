@@ -68,6 +68,10 @@ class Usuario(db.Model):
 
     def verificar_password(self, password):
 
+        if not self.password:
+
+            return False
+
         return bcrypt.check_password_hash(
             self.password,
             password
