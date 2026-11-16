@@ -949,6 +949,50 @@
                             </div>
 
 
+                            <!-- CONTENIDO PREMIUM -->
+
+                            <div class="card card-side gap12">
+
+
+                                <label class="card-h2">
+
+                                    <span class="material-symbols-outlined i20 c-primary">
+                                        workspace_premium
+                                    </span>
+
+                                    <span>
+                                        Contenido Premium
+                                    </span>
+
+                                </label>
+
+
+                                <p class="lbl fw600 c-variant">
+                                    Marcá esta opción si la publicación será exclusiva para usuarios Premium.
+                                </p>
+
+
+                                <label class="category-check">
+
+                                    <input
+                                        type="checkbox"
+                                        name="premium"
+                                        value="1"
+                                        {% if publicacion.premium %}
+                                            checked
+                                        {% endif %}
+                                    >
+
+                                    <span>
+                                        Publicación exclusiva Premium
+                                    </span>
+
+                                </label>
+
+
+                            </div>
+
+
                             <!-- INFORMACIÓN -->
 
                             <div class="card card-side gap16">

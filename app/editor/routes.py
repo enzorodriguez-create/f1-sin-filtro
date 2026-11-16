@@ -327,6 +327,15 @@ def editor_crear_publicacion():
         ).strip()
 
 
+        premium = (
+            request.form.get(
+                "premium"
+            )
+            ==
+            "1"
+        )
+
+
         categorias_ids = request.form.getlist(
             "categorias"
         )
@@ -416,7 +425,8 @@ def editor_crear_publicacion():
             resumen=resumen,
             imagen_portada=imagen_portada,
             estado=estado,
-            autor_id=usuario.id
+            autor_id=usuario.id,
+            premium=premium
         )
 
 
@@ -1642,6 +1652,15 @@ def editor_editar_publicacion(
 
 
         publicacion.resumen = resumen
+
+
+        publicacion.premium = (
+            request.form.get(
+                "premium"
+            )
+            ==
+            "1"
+        )
 
 
         categorias_ids = request.form.getlist(

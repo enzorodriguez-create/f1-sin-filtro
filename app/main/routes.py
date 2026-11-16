@@ -438,6 +438,45 @@ def post(
     )
 
 
+    # =====================================
+    # COMPROBAR ACCESO PREMIUM
+    # =====================================
+
+    acceso_premium = True
+
+    usuario_actual = None
+
+
+    if publicacion.premium:
+
+        acceso_premium = False
+
+
+        datos_usuario = session.get(
+            "usuario"
+        )
+
+
+        if datos_usuario:
+
+            usuario_actual = db.session.get(
+                Usuario,
+                datos_usuario["id"]
+            )
+
+
+            if (
+                usuario_actual
+                and usuario_actual.premium
+            ):
+
+                acceso_premium = True
+
+
+    # =====================================
+    # NUEVO COMENTARIO
+    # =====================================
+
     if request.method == "POST":
 
         datos_usuario = session.get(
@@ -450,6 +489,18 @@ def post(
             return redirect(
                 url_for(
                     "auth.login"
+                )
+            )
+
+
+        if (
+            publicacion.premium
+            and not acceso_premium
+        ):
+
+            return redirect(
+                url_for(
+                    "main.premium"
                 )
             )
 
@@ -494,35 +545,49 @@ def post(
         )
 
 
-    bloques = BloquePublicacion.query.filter_by(
-        publicacion_id=publicacion.id
-    ).order_by(
-        BloquePublicacion.orden
-    ).all()
+    # =====================================
+    # CONTENIDO
+    # =====================================
 
+    bloques = []
 
     carruseles = {}
 
-
-    for bloque in bloques:
-
-        if bloque.tipo == "carrusel":
-
-            carruseles[
-                bloque.id
-            ] = ImagenCarrusel.query.filter_by(
-                bloque_id=bloque.id
-            ).order_by(
-                ImagenCarrusel.orden
-            ).all()
+    comentarios = []
 
 
-    comentarios = Comentario.query.filter_by(
-        publicacion_id=publicacion.id
-    ).order_by(
-        Comentario.id.desc()
-    ).all()
+    if acceso_premium:
 
+        bloques = BloquePublicacion.query.filter_by(
+            publicacion_id=publicacion.id
+        ).order_by(
+            BloquePublicacion.orden
+        ).all()
+
+
+        for bloque in bloques:
+
+            if bloque.tipo == "carrusel":
+
+                carruseles[
+                    bloque.id
+                ] = ImagenCarrusel.query.filter_by(
+                    bloque_id=bloque.id
+                ).order_by(
+                    ImagenCarrusel.orden
+                ).all()
+
+
+        comentarios = Comentario.query.filter_by(
+            publicacion_id=publicacion.id
+        ).order_by(
+            Comentario.id.desc()
+        ).all()
+
+
+    # =====================================
+    # MÁS NOTICIAS
+    # =====================================
 
     otras_publicaciones = Publicacion.query.filter(
         Publicacion.estado
@@ -544,7 +609,8 @@ def post(
         bloques=bloques,
         carruseles=carruseles,
         comentarios=comentarios,
-        otras_publicaciones=otras_publicaciones
+        otras_publicaciones=otras_publicaciones,
+        acceso_premium=acceso_premium
     )
 
 

@@ -5,25 +5,37 @@
   href="{{ url_for('static', filename='styles/post.css') }}"
 />
 
+
 <div class="post-page">
+
   <div class="post-pattern"></div>
 
+
   <div class="post-container">
+
     <div class="post-layout">
+
+
       <!-- =====================================
            ARTÍCULO
       ====================================== -->
 
       <article class="post-article">
+
+
         <!-- =====================================
              CABECERA
         ====================================== -->
 
         <header class="post-head">
+
+
           <!-- AUTOR + ACCIONES -->
 
           <div class="post-meta">
+
             <div class="post-author">
+
 
               {% if autor.foto %}
 
@@ -47,49 +59,73 @@
 
               {% endif %}
 
+
               <div>
+
                 <p class="post-author-name">
+
                   {{ autor.nombre }}
 
                   {% if autor.apellido %}
                     {{ autor.apellido }}
                   {% endif %}
+
                 </p>
+
 
                 <p class="post-author-date">
                   EDITOR
                 </p>
+
               </div>
+
+
             </div>
 
+
             <div class="post-meta-actions">
+
               <form
-                action="{{ url_for('perfil.guardar_publicacion', id_publicacion=publicacion.id) }}"
+                action="{{ url_for(
+                  'perfil.guardar_publicacion',
+                  id_publicacion=publicacion.id
+                ) }}"
                 method="POST"
               >
+
                 <button
                   type="submit"
                   class="post-icon-btn"
                   title="Guardar publicación"
                 >
+
                   <span class="material-symbols-outlined">
                     bookmark
                   </span>
+
                 </button>
+
               </form>
+
             </div>
+
+
           </div>
+
 
           <!-- CATEGORÍAS -->
 
           {% if publicacion.categorias %}
 
           <div class="post-category">
+
             <span class="material-symbols-outlined">
               news
             </span>
 
+
             <div class="post-category-list">
+
               {% for categoria in publicacion.categorias %}
 
               <a
@@ -102,23 +138,54 @@
                 {{ categoria.nombre }}
               </a>
 
+
               {% if not loop.last %}
+
               <span class="post-category-separator">
                 ·
               </span>
+
               {% endif %}
 
+
               {% endfor %}
+
             </div>
+
           </div>
 
           {% endif %}
+
+
+          <!-- PREMIUM -->
+
+          {% if publicacion.premium %}
+
+          <div class="post-category">
+
+            <span class="material-symbols-outlined">
+              workspace_premium
+            </span>
+
+            <div class="post-category-list">
+
+              <span class="post-category-link">
+                CONTENIDO PREMIUM
+              </span>
+
+            </div>
+
+          </div>
+
+          {% endif %}
+
 
           <!-- TÍTULO -->
 
           <h1>
             {{ publicacion.titulo }}
           </h1>
+
 
           <!-- RESUMEN -->
 
@@ -130,14 +197,17 @@
 
           {% endif %}
 
+
           <!-- ETIQUETAS -->
 
           {% if publicacion.etiquetas %}
 
           <div class="post-tags">
+
             <span class="post-tags-label">
               ETIQUETAS:
             </span>
+
 
             {% for etiqueta in publicacion.etiquetas %}
 
@@ -152,10 +222,15 @@
             </a>
 
             {% endfor %}
+
+
           </div>
 
           {% endif %}
+
+
         </header>
+
 
         <!-- =====================================
              PORTADA
@@ -164,13 +239,61 @@
         {% if publicacion.imagen_portada %}
 
         <div class="post-cover-card">
+
           <img
             src="{{ url_imagen(publicacion.imagen_portada) }}"
             alt="{{ publicacion.titulo }}"
           />
+
         </div>
 
         {% endif %}
+
+
+
+        <!-- =====================================
+             ACCESO PREMIUM
+        ====================================== -->
+
+        {% if publicacion.premium and not acceso_premium %}
+
+
+        <div class="post-panel post-premium">
+
+          <span class="post-sidebar-label">
+            F1 SIN FILTRO PREMIUM
+          </span>
+
+
+          <h3>
+            Contenido exclusivo Premium
+          </h3>
+
+
+          <p>
+            Esta publicación está disponible únicamente para usuarios Premium.
+            Activá Premium para acceder al contenido completo.
+          </p>
+
+
+          <a
+            href="{{ url_for('main.premium') }}"
+            class="post-btn-primary post-btn-full"
+          >
+
+            <span class="material-symbols-outlined">
+              workspace_premium
+            </span>
+
+            VER PREMIUM
+
+          </a>
+
+        </div>
+
+
+        {% else %}
+
 
         <!-- =====================================
              BLOQUES DE LA PUBLICACIÓN
@@ -178,44 +301,57 @@
 
         <div class="post-body">
 
+
           {% for bloque in bloques %}
+
 
           <!-- BLOQUE DE TEXTO -->
 
           {% if bloque.tipo == "texto" %}
 
           <div class="post-content-card post-text-block">
+
             <p>
               {{ bloque.contenido }}
             </p>
+
           </div>
+
 
           <!-- BLOQUE DE IMAGEN -->
 
           {% elif bloque.tipo == "imagen" %}
 
           <div class="post-content-card post-image-block">
+
             <img
               src="{{ url_imagen(bloque.contenido) }}"
               alt="Imagen de {{ publicacion.titulo }}"
             />
+
           </div>
+
 
           <!-- BLOQUE DE CARRUSEL -->
 
           {% elif bloque.tipo == "carrusel" %}
 
           <div class="post-content-card post-carousel-block">
+
+
             <div
               id="carouselPost{{ bloque.id }}"
               class="carousel slide post-carousel-custom"
               data-bs-ride="false"
             >
+
+
               <!-- INDICADORES -->
 
               {% if carruseles.get(bloque.id, [])|length > 1 %}
 
               <div class="carousel-indicators">
+
 
                 {% for imagen in carruseles.get(bloque.id, []) %}
 
@@ -230,29 +366,36 @@
 
                 {% endfor %}
 
+
               </div>
 
               {% endif %}
 
+
               <!-- IMÁGENES -->
 
               <div class="carousel-inner">
+
 
                 {% for imagen in carruseles.get(bloque.id, []) %}
 
                 <div
                   class="carousel-item {% if loop.first %}active{% endif %}"
                 >
+
                   <img
                     src="{{ url_imagen(imagen.imagen) }}"
                     class="d-block w-100"
                     alt="Imagen {{ loop.index }} del carrusel"
                   />
+
                 </div>
 
                 {% endfor %}
 
+
               </div>
+
 
               <!-- FLECHAS -->
 
@@ -264,15 +407,19 @@
                 data-bs-target="#carouselPost{{ bloque.id }}"
                 data-bs-slide="prev"
               >
+
                 <span
                   class="carousel-control-prev-icon"
                   aria-hidden="true"
                 ></span>
 
+
                 <span class="visually-hidden">
                   Anterior
                 </span>
+
               </button>
+
 
               <button
                 class="carousel-control-next"
@@ -280,25 +427,35 @@
                 data-bs-target="#carouselPost{{ bloque.id }}"
                 data-bs-slide="next"
               >
+
                 <span
                   class="carousel-control-next-icon"
                   aria-hidden="true"
                 ></span>
 
+
                 <span class="visually-hidden">
                   Siguiente
                 </span>
+
               </button>
 
               {% endif %}
+
+
             </div>
+
+
           </div>
 
           {% endif %}
 
+
           {% endfor %}
 
+
         </div>
+
 
         <!-- =====================================
              COMENTARIOS
@@ -306,17 +463,22 @@
 
         <section class="post-comments">
 
+
           <h3 class="post-comments-title">
+
             <span class="material-symbols-outlined">
               forum
             </span>
 
             COMENTARIOS
+
           </h3>
+
 
           <!-- FORMULARIO -->
 
           <div class="post-panel post-comment-form">
+
 
             <form
               action="{{ url_for(
@@ -326,12 +488,14 @@
               method="POST"
             >
 
+
               <label
                 class="post-sr-only"
                 for="comment"
               >
                 Comentario
               </label>
+
 
               <textarea
                 id="comment"
@@ -341,36 +505,49 @@
                 required
               ></textarea>
 
+
               <div class="post-form-end">
+
                 <button
                   type="submit"
                   class="post-btn-primary"
                 >
+
                   PUBLICAR COMENTARIO
 
                   <span class="material-symbols-outlined">
                     send
                   </span>
+
                 </button>
+
               </div>
+
 
             </form>
 
+
           </div>
+
 
           <!-- COMENTARIOS -->
 
           <div class="post-comment-list">
 
+
             {% if comentarios %}
+
 
             {% for comentario in comentarios %}
 
+
             <div class="post-comment">
+
 
               <!-- AVATAR -->
 
               <div class="post-comment-avatar">
+
 
                 {% if comentario.usuario.foto %}
 
@@ -378,6 +555,7 @@
                   src="{{ url_imagen(comentario.usuario.foto) }}"
                   alt="{{ comentario.usuario.nombre }}"
                 >
+
 
                 {% else %}
 
@@ -389,11 +567,14 @@
 
                 {% endif %}
 
+
               </div>
+
 
               <!-- CONTENIDO -->
 
               <div class="post-comment-body">
+
 
                 <div class="post-comment-head">
 
@@ -401,59 +582,87 @@
                     @{{ comentario.usuario.usuario }}
                   </span>
 
+
                   <span
                     class="post-comment-time comentario-fecha"
                     data-fecha="{{ comentario.fecha.isoformat() }}Z"
                   >
+
                     {{ comentario.fecha.strftime('%d/%m/%Y %H:%M') }}
+
                   </span>
 
                 </div>
+
 
                 <p>
                   {{ comentario.contenido }}
                 </p>
 
+
               </div>
+
 
             </div>
 
+
             {% endfor %}
+
 
             {% else %}
 
+
             <div class="post-comment">
 
+
               <div class="post-comment-avatar">
+
                 <span class="material-symbols-outlined">
                   forum
                 </span>
+
               </div>
+
 
               <div class="post-comment-body">
 
+
                 <div class="post-comment-head">
+
                   <span class="post-comment-user">
                     Sin comentarios
                   </span>
+
                 </div>
+
 
                 <p>
                   Todavía no hay comentarios. Sé el primero en comentar esta
                   publicación.
                 </p>
 
+
               </div>
+
 
             </div>
 
+
             {% endif %}
+
 
           </div>
 
+
         </section>
 
+
+        {% endif %}
+
+
       </article>
+
+
 
       <!-- =====================================
            BARRA LATERAL
@@ -461,22 +670,27 @@
 
       <aside class="post-sidebar">
 
+
         <!-- PREMIUM -->
 
         <div class="post-panel post-premium">
+
 
           <span class="post-sidebar-label">
             F1 SIN FILTRO PREMIUM
           </span>
 
+
           <h3>
             Análisis exclusivos
           </h3>
+
 
           <p>
             Accedé a contenido especial, análisis de Grandes Premios y
             estadísticas avanzadas.
           </p>
+
 
           <a
             href="{{ url_for('main.premium') }}"
@@ -485,7 +699,9 @@
             VER PREMIUM
           </a>
 
+
         </div>
+
 
         <!-- MÁS NOTICIAS -->
 
@@ -493,19 +709,26 @@
 
         <div class="post-panel post-trending">
 
+
           <h3>
+
             <span class="material-symbols-outlined">
               trending_up
             </span>
 
             MÁS NOTICIAS
+
           </h3>
+
 
           <ul>
 
+
             {% for otra_publicacion in otras_publicaciones %}
 
+
             <li>
+
 
               {% if otra_publicacion.categorias %}
 
@@ -515,24 +738,32 @@
 
               {% endif %}
 
+
               <a
                 href="{{ url_for(
                   'main.post',
                   id_publicacion=otra_publicacion.id
                 ) }}"
               >
+
                 {{ otra_publicacion.titulo }}
+
               </a>
+
 
             </li>
 
+
             {% endfor %}
 
+
           </ul>
+
 
         </div>
 
         {% endif %}
+
 
         <!-- VOLVER -->
 
@@ -540,18 +771,28 @@
           class="post-back-news"
           href="{{ url_for('main.noticias') }}"
         >
+
           <span class="material-symbols-outlined">
             arrow_back
           </span>
 
           VER TODAS LAS NOTICIAS
+
         </a>
+
 
       </aside>
 
+
     </div>
+
+
   </div>
+
+
 </div>
+
+
 
 <!-- =====================================
      FECHA LOCAL DE LOS COMENTARIOS
@@ -559,9 +800,11 @@
 
 <script>
 
+
   document.addEventListener(
     "DOMContentLoaded",
     function () {
+
 
       const fechas =
         document.querySelectorAll(
@@ -571,6 +814,7 @@
 
       fechas.forEach(
         function (elemento) {
+
 
           const fechaUTC =
             elemento.dataset.fecha;
@@ -594,12 +838,16 @@
               }
             );
 
+
         }
       );
+
 
     }
   );
 
+
 </script>
+
 
 {% include 'base/footer.html' %}

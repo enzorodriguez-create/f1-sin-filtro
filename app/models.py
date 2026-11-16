@@ -205,6 +205,12 @@ class Publicacion(db.Model):
         default="borrador"
     )
 
+    premium = db.Column(
+        db.Boolean,
+        nullable=False,
+        default=False
+    )
+
     autor_id = db.Column(
         db.Integer,
         db.ForeignKey(
