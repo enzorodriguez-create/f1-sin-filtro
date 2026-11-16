@@ -60,17 +60,31 @@ class Usuario(db.Model):
         default=False
     )
 
-    def guardar_password(self, password):
+    def guardar_password(
+        self,
+        password
+    ):
 
-        self.password = bcrypt.generate_password_hash(
-            password
-        ).decode("utf-8")
+        self.password = (
+            bcrypt
+            .generate_password_hash(
+                password
+            )
+            .decode(
+                "utf-8"
+            )
+        )
 
-    def verificar_password(self, password):
+
+    def verificar_password(
+        self,
+        password
+    ):
 
         if not self.password:
 
             return False
+
 
         return bcrypt.check_password_hash(
             self.password,
@@ -89,7 +103,9 @@ class SolicitudEditor(db.Model):
 
     usuario_id = db.Column(
         db.Integer,
-        db.ForeignKey("usuarios.id"),
+        db.ForeignKey(
+            "usuarios.id"
+        ),
         nullable=False
     )
 
@@ -115,14 +131,18 @@ publicacion_categoria = db.Table(
     db.Column(
         "publicacion_id",
         db.Integer,
-        db.ForeignKey("publicaciones.id"),
+        db.ForeignKey(
+            "publicaciones.id"
+        ),
         primary_key=True
     ),
 
     db.Column(
         "categoria_id",
         db.Integer,
-        db.ForeignKey("categorias.id"),
+        db.ForeignKey(
+            "categorias.id"
+        ),
         primary_key=True
     )
 )
@@ -138,14 +158,18 @@ publicacion_etiqueta = db.Table(
     db.Column(
         "publicacion_id",
         db.Integer,
-        db.ForeignKey("publicaciones.id"),
+        db.ForeignKey(
+            "publicaciones.id"
+        ),
         primary_key=True
     ),
 
     db.Column(
         "etiqueta_id",
         db.Integer,
-        db.ForeignKey("etiquetas.id"),
+        db.ForeignKey(
+            "etiquetas.id"
+        ),
         primary_key=True
     )
 )
@@ -183,13 +207,17 @@ class Publicacion(db.Model):
 
     autor_id = db.Column(
         db.Integer,
-        db.ForeignKey("usuarios.id"),
+        db.ForeignKey(
+            "usuarios.id"
+        ),
         nullable=False
     )
 
     categoria_id = db.Column(
         db.Integer,
-        db.ForeignKey("categorias.id"),
+        db.ForeignKey(
+            "categorias.id"
+        ),
         nullable=True
     )
 
@@ -220,7 +248,9 @@ class BloquePublicacion(db.Model):
 
     publicacion_id = db.Column(
         db.Integer,
-        db.ForeignKey("publicaciones.id"),
+        db.ForeignKey(
+            "publicaciones.id"
+        ),
         nullable=False
     )
 
@@ -251,7 +281,9 @@ class ImagenCarrusel(db.Model):
 
     bloque_id = db.Column(
         db.Integer,
-        db.ForeignKey("bloques_publicacion.id"),
+        db.ForeignKey(
+            "bloques_publicacion.id"
+        ),
         nullable=False
     )
 
@@ -339,13 +371,17 @@ class Comentario(db.Model):
 
     usuario_id = db.Column(
         db.Integer,
-        db.ForeignKey("usuarios.id"),
+        db.ForeignKey(
+            "usuarios.id"
+        ),
         nullable=False
     )
 
     publicacion_id = db.Column(
         db.Integer,
-        db.ForeignKey("publicaciones.id"),
+        db.ForeignKey(
+            "publicaciones.id"
+        ),
         nullable=False
     )
 
@@ -381,13 +417,17 @@ class PublicacionGuardada(db.Model):
 
     usuario_id = db.Column(
         db.Integer,
-        db.ForeignKey("usuarios.id"),
+        db.ForeignKey(
+            "usuarios.id"
+        ),
         nullable=False
     )
 
     publicacion_id = db.Column(
         db.Integer,
-        db.ForeignKey("publicaciones.id"),
+        db.ForeignKey(
+            "publicaciones.id"
+        ),
         nullable=False
     )
 
@@ -404,4 +444,53 @@ class PublicacionGuardada(db.Model):
             "usuario_id",
             "publicacion_id"
         ),
+    )
+
+
+# =========================
+# PAGO PREMIUM
+# =========================
+
+class PagoPremium(db.Model):
+
+    __tablename__ = "pagos_premium"
+
+    id = db.Column(
+        db.Integer,
+        primary_key=True
+    )
+
+    usuario_id = db.Column(
+        db.Integer,
+        db.ForeignKey(
+            "usuarios.id"
+        ),
+        nullable=False
+    )
+
+    precio = db.Column(
+        db.Float,
+        nullable=False
+    )
+
+    estado = db.Column(
+        db.String(30),
+        nullable=False,
+        default="creada"
+    )
+
+    payment_id = db.Column(
+        db.String(100),
+        nullable=True
+    )
+
+    fecha = db.Column(
+        db.DateTime,
+        nullable=False,
+        server_default=db.func.now()
+    )
+
+    usuario = db.relationship(
+        "Usuario",
+        backref="pagos_premium"
     )

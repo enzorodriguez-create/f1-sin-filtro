@@ -79,6 +79,15 @@ def create_app():
 
 
     # =========================
+    # CREAR TABLAS
+    # =========================
+
+    with app.app_context():
+
+        db.create_all()
+
+
+    # =========================
     # FUNCIONES PARA TEMPLATES
     # =========================
 

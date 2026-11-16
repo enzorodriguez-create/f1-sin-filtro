@@ -29,7 +29,7 @@
             </div>
 
             <a
-            href="{{ url_for('main.premium') }}"
+                href="{{ url_for('main.premium') }}"
                 class="suscripcion-volver"
             >
                 <span class="material-symbols-outlined">
@@ -87,10 +87,6 @@
 
                         <span class="suscripcion-price-currency">
                             ARS
-                        </span>
-
-                        <span class="suscripcion-price-period">
-                            / mes
                         </span>
 
                     </div>
@@ -157,7 +153,7 @@
 
 
                 <h3>
-                    Tu suscripción
+                    Tu acceso Premium
                 </h3>
 
 
@@ -166,11 +162,11 @@
                     <div>
 
                         <span class="suscripcion-resumen-title">
-                            Premium mensual
+                            F1 Sin Filtro Premium
                         </span>
 
                         <span class="suscripcion-resumen-sub">
-                            Renovación mensual
+                            Acceso Premium
                         </span>
 
                     </div>
@@ -198,7 +194,7 @@
                         </strong>
 
                         <small>
-                            ARS / mes
+                            ARS
                         </small>
 
                     </div>
@@ -207,18 +203,25 @@
 
 
                 <!-- BOTÓN MERCADO PAGO -->
-                <button
-                    type="button"
-                    class="suscripcion-pay-btn"
+                <form
+                    action="{{ url_for('main.comprar_premium') }}"
+                    method="POST"
                 >
 
-                    <span class="material-symbols-outlined">
-                        payments
-                    </span>
+                    <button
+                        type="submit"
+                        class="suscripcion-pay-btn"
+                    >
 
-                    CONTINUAR CON MERCADO PAGO
+                        <span class="material-symbols-outlined">
+                            payments
+                        </span>
 
-                </button>
+                        CONTINUAR CON MERCADO PAGO
+
+                    </button>
+
+                </form>
 
 
                 <div class="suscripcion-secure">
@@ -235,9 +238,8 @@
 
 
                 <p class="suscripcion-note">
-                    Por ahora este botón es visual.
-                    La integración real con Mercado Pago se conectará
-                    más adelante.
+                    Al continuar vas a ser redirigido a Mercado Pago
+                    para completar el pago.
                 </p>
 
             </aside>

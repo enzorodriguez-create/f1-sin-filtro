@@ -8,7 +8,9 @@ from flask import (
     request,
     redirect,
     url_for,
-    session
+    session,
+    flash,
+    abort
 )
 
 from app.extensions import db
@@ -20,10 +22,17 @@ from app.models import (
     ImagenCarrusel,
     Categoria,
     Etiqueta,
-    Comentario
+    Comentario,
+    PagoPremium
 )
 
 from ia.moderacion import clasificar_comentario
+
+from pagos import (
+    usa_mercadopago,
+    crear_preferencia,
+    obtener_pago
+)
 
 
 bp = Blueprint(
@@ -686,6 +695,359 @@ def suscripcion():
     return render_template(
         "suscripcion.html"
     )
+
+
+# =====================================
+# COMPRAR PREMIUM
+# =====================================
+
+@bp.route(
+    "/premium/comprar",
+    methods=["POST"]
+)
+def comprar_premium():
+
+    datos_usuario = session.get(
+        "usuario"
+    )
+
+
+    if not datos_usuario:
+
+        return redirect(
+            url_for(
+                "auth.login"
+            )
+        )
+
+
+    usuario = db.session.get(
+        Usuario,
+        datos_usuario["id"]
+    )
+
+
+    if not usuario:
+
+        return redirect(
+            url_for(
+                "auth.login"
+            )
+        )
+
+
+    if usuario.premium:
+
+        flash(
+            "Tu cuenta ya tiene acceso Premium."
+        )
+
+        return redirect(
+            url_for(
+                "main.premium"
+            )
+        )
+
+
+    if not usa_mercadopago():
+
+        flash(
+            "Mercado Pago no está configurado."
+        )
+
+        return redirect(
+            url_for(
+                "main.suscripcion"
+            )
+        )
+
+
+    pago = PagoPremium(
+        usuario_id=usuario.id,
+        precio=5000.0
+    )
+
+
+    db.session.add(
+        pago
+    )
+
+    db.session.commit()
+
+
+    try:
+
+        link_pago = crear_preferencia(
+            pago,
+            url_retorno=url_for(
+                "main.resultado_pago",
+                _external=True
+            ),
+            url_webhook=url_for(
+                "main.webhook_mercadopago",
+                _external=True
+            )
+        )
+
+
+    except Exception as error:
+
+        print(
+            f"[MP] {error}",
+            flush=True
+        )
+
+        flash(
+            "No se pudo iniciar el pago con Mercado Pago."
+        )
+
+        return redirect(
+            url_for(
+                "main.suscripcion"
+            )
+        )
+
+
+    return redirect(
+        link_pago
+    )
+
+
+# =====================================
+# ACTUALIZAR PAGO PREMIUM
+# =====================================
+
+def actualizar_pago_premium(
+    pago_mercadopago
+):
+
+    pago = db.session.get(
+        PagoPremium,
+        int(
+            pago_mercadopago.get(
+                "external_reference"
+            )
+            or 0
+        )
+    )
+
+
+    if not pago:
+
+        return None
+
+
+    pago.estado = pago_mercadopago[
+        "status"
+    ]
+
+    pago.payment_id = str(
+        pago_mercadopago[
+            "id"
+        ]
+    )
+
+
+    if pago.estado == "approved":
+
+        usuario = db.session.get(
+            Usuario,
+            pago.usuario_id
+        )
+
+
+        if usuario:
+
+            usuario.premium = True
+
+
+    db.session.commit()
+
+
+    return pago
+
+
+# =====================================
+# RESULTADO DEL PAGO
+# =====================================
+
+@bp.route("/pago/resultado")
+def resultado_pago():
+
+    datos_usuario = session.get(
+        "usuario"
+    )
+
+
+    if not datos_usuario:
+
+        return redirect(
+            url_for(
+                "auth.login"
+            )
+        )
+
+
+    payment_id = request.args.get(
+        "payment_id"
+    )
+
+
+    pago_mercadopago = (
+        obtener_pago(
+            payment_id
+        )
+        if payment_id
+        and payment_id != "null"
+        else None
+    )
+
+
+    if pago_mercadopago is None:
+
+        flash(
+            "El pago no se completó."
+        )
+
+        return redirect(
+            url_for(
+                "main.suscripcion"
+            )
+        )
+
+
+    pago = actualizar_pago_premium(
+        pago_mercadopago
+    )
+
+
+    if (
+        not pago
+        or pago.usuario_id
+        != datos_usuario["id"]
+    ):
+
+        abort(
+            404,
+            description="Pago no encontrado"
+        )
+
+
+    if pago.estado == "approved":
+
+        usuario = db.session.get(
+            Usuario,
+            datos_usuario["id"]
+        )
+
+
+        if usuario:
+
+            datos_usuario[
+                "premium"
+            ] = usuario.premium
+
+            session[
+                "usuario"
+            ] = datos_usuario
+
+
+    mensajes = {
+
+        "approved":
+            "¡Pago aprobado! Tu cuenta ya es Premium.",
+
+        "pending":
+            "El pago quedó pendiente.",
+
+        "in_process":
+            "El pago se está procesando."
+
+    }
+
+
+    flash(
+        mensajes.get(
+            pago.estado,
+            f"El pago fue rechazado ({pago.estado})."
+        )
+    )
+
+
+    return redirect(
+        url_for(
+            "main.premium"
+        )
+    )
+
+
+# =====================================
+# WEBHOOK MERCADO PAGO
+# =====================================
+
+@bp.route(
+    "/pago/webhook",
+    methods=["POST"]
+)
+def webhook_mercadopago():
+
+    datos = (
+        request.get_json(
+            silent=True
+        )
+        or {}
+    )
+
+
+    tipo = (
+        datos.get(
+            "type"
+        )
+        or request.args.get(
+            "type"
+        )
+        or request.args.get(
+            "topic"
+        )
+    )
+
+
+    payment_id = (
+        (
+            datos.get(
+                "data"
+            )
+            or {}
+        ).get(
+            "id"
+        )
+        or request.args.get(
+            "data.id"
+        )
+        or request.args.get(
+            "id"
+        )
+    )
+
+
+    if (
+        tipo == "payment"
+        and payment_id
+    ):
+
+        pago_mercadopago = obtener_pago(
+            payment_id
+        )
+
+
+        if pago_mercadopago:
+
+            actualizar_pago_premium(
+                pago_mercadopago
+            )
+
+
+    return "", 200
 
 
 # =====================================
