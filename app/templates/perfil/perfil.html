@@ -5,28 +5,19 @@
   href="{{ url_for('static', filename='styles/perfil/perfil_dashboard.css') }}"
 />
 
-
 <div class="perfil-page">
-
   <div class="perfil-container">
-
-
     <!-- =========================
          CABECERA DEL PERFIL
     ========================== -->
 
     <section class="perfil-head">
-
       <div class="perfil-grid-bg"></div>
 
-
       <div class="perfil-left">
-
-
         <!-- FOTO DE PERFIL -->
 
         <div class="avatar-wrap">
-
           {% if usuario.foto %}
 
           <img
@@ -44,84 +35,50 @@
           />
 
           {% endif %}
-
         </div>
-
-
 
         <!-- DATOS DEL USUARIO -->
 
         <div class="perfil-info">
-
-
-          <span class="perfil-label">
-            // MI PADDOCK
-          </span>
-
+          <span class="perfil-label"> // MI PADDOCK </span>
 
           <h1>
-
-            {{ usuario.nombre }}
-
-            {% if usuario.apellido %}
-              {{ usuario.apellido }}
-            {% endif %}
-
+            {{ usuario.nombre }} {% if usuario.apellido %} {{ usuario.apellido
+            }} {% endif %}
           </h1>
 
+          <span class="perfil-handle"> @{{ usuario.usuario }} </span>
 
-          <span class="perfil-handle">
+          {% if usuario.premium %}
 
-            @{{ usuario.usuario }}
+          <div class="perfil-premium-badge">
+            <span class="material-symbols-outlined"> workspace_premium </span>
 
-          </span>
+            PREMIUM
+          </div>
 
-
+          {% endif %}
 
           <div class="perfil-meta">
-
-
             <!-- EMAIL -->
 
             <div class="perfil-meta-item">
+              <span class="material-symbols-outlined"> mail </span>
 
-              <span class="material-symbols-outlined">
-                mail
-              </span>
-
-              <span>
-                {{ usuario.email }}
-              </span>
-
+              <span> {{ usuario.email }} </span>
             </div>
-
-
           </div>
-
         </div>
-
-
       </div>
-
-
 
       <!-- BOTONES DEL PERFIL -->
 
       <div class="perfil-action">
-
-        <a
-          class="perfil-btn-edit"
-          href="{{ url_for('perfil.editar_perfil') }}"
-        >
-
-          <span class="material-symbols-outlined">
-            edit
-          </span>
+        <a class="perfil-btn-edit" href="{{ url_for('perfil.editar_perfil') }}">
+          <span class="material-symbols-outlined"> edit </span>
 
           EDITAR PERFIL
-
         </a>
-
 
         {% if usuario.rol == "usuario" %}
 
@@ -129,412 +86,211 @@
           class="perfil-btn-editor"
           href="{{ url_for('perfil.solicitar_editor') }}"
         >
-
-          <span class="material-symbols-outlined">
-            workspace_premium
-          </span>
+          <span class="material-symbols-outlined"> workspace_premium </span>
 
           SOLICITAR SER EDITOR
-
         </a>
 
         {% endif %}
-
       </div>
-
-
     </section>
-
-
 
     <!-- =========================
          TELEMETRÍA
     ========================== -->
 
     <section class="perfil-block">
-
-
       <h2 class="perfil-block-title">
-
         <span class="perfil-title-mark"></span>
 
         Telemetría de Usuario
-
       </h2>
 
-
-
       <div class="perfil-stats">
-
-
         <!-- COMENTARIOS -->
 
         <div class="perfil-stat">
-
           <div class="perfil-stat-icon">
-
-            <span class="material-symbols-outlined">
-              forum
-            </span>
-
+            <span class="material-symbols-outlined"> forum </span>
           </div>
 
+          <span class="perfil-stat-label"> Comentarios </span>
 
-          <span class="perfil-stat-label">
-            Comentarios
-          </span>
+          <span class="perfil-stat-value"> {{ cantidad_comentarios }} </span>
 
-
-          <span class="perfil-stat-value">
-            {{ cantidad_comentarios }}
-          </span>
-
-
-          <span class="perfil-stat-description">
-            comentarios realizados
-          </span>
-
+          <span class="perfil-stat-description"> comentarios realizados </span>
         </div>
-
-
 
         <!-- GUARDADOS -->
 
         <div class="perfil-stat">
-
           <div class="perfil-stat-icon">
-
-            <span class="material-symbols-outlined">
-              bookmark
-            </span>
-
+            <span class="material-symbols-outlined"> bookmark </span>
           </div>
 
+          <span class="perfil-stat-label"> Publicaciones Guardadas </span>
 
-          <span class="perfil-stat-label">
-            Publicaciones Guardadas
-          </span>
+          <span class="perfil-stat-value"> {{ cantidad_guardados }} </span>
 
-
-          <span class="perfil-stat-value">
-            {{ cantidad_guardados }}
-          </span>
-
-
-          <span class="perfil-stat-description">
-            noticias guardadas
-          </span>
-
+          <span class="perfil-stat-description"> noticias guardadas </span>
         </div>
-
-
       </div>
-
-
     </section>
-
-
 
     <!-- =========================
          MI ACTIVIDAD
     ========================== -->
 
     <section class="perfil-block">
-
-
       <h2 class="perfil-block-title">
-
         <span class="perfil-title-mark"></span>
 
         Mi Actividad
-
       </h2>
 
-
-
       <div class="perfil-links">
-
-
         <!-- MIS COMENTARIOS -->
 
-        <a
-          href="{{ url_for('perfil.comentarios') }}"
-          class="perfil-link-card"
-        >
-
-          <span class="material-symbols-outlined">
-            forum
-          </span>
-
+        <a href="{{ url_for('perfil.comentarios') }}" class="perfil-link-card">
+          <span class="material-symbols-outlined"> forum </span>
 
           <div>
+            <h3>Mis Comentarios</h3>
 
-            <h3>
-              Mis Comentarios
-            </h3>
-
-            <p>
-              Revisá los comentarios que hiciste en las publicaciones.
-            </p>
-
+            <p>Revisá los comentarios que hiciste en las publicaciones.</p>
           </div>
-
 
           <span class="material-symbols-outlined perfil-link-arrow">
             arrow_forward
           </span>
-
         </a>
-
-
 
         <!-- PUBLICACIONES GUARDADAS -->
 
-        <a
-          href="{{ url_for('perfil.guardados') }}"
-          class="perfil-link-card"
-        >
-
-          <span class="material-symbols-outlined">
-            bookmark
-          </span>
-
+        <a href="{{ url_for('perfil.guardados') }}" class="perfil-link-card">
+          <span class="material-symbols-outlined"> bookmark </span>
 
           <div>
+            <h3>Publicaciones Guardadas</h3>
 
-            <h3>
-              Publicaciones Guardadas
-            </h3>
-
-            <p>
-              Accedé a todas las noticias que guardaste.
-            </p>
-
+            <p>Accedé a todas las noticias que guardaste.</p>
           </div>
-
 
           <span class="material-symbols-outlined perfil-link-arrow">
             arrow_forward
           </span>
-
         </a>
-
-
       </div>
-
-
     </section>
-
-
 
     <!-- =========================
          ACTIVIDAD RECIENTE
     ========================== -->
 
     <section class="perfil-block perfil-block-last">
-
-
       <div class="perfil-block-head">
-
-
         <h2 class="perfil-block-title">
-
           <span class="perfil-title-mark"></span>
 
           Actividad Reciente
-
         </h2>
 
-
-        <a
-          href="{{ url_for('perfil.comentarios') }}"
-          class="perfil-see-all"
-        >
+        <a href="{{ url_for('perfil.comentarios') }}" class="perfil-see-all">
           VER TODO_
         </a>
-
-
       </div>
 
-
-
       <div class="perfil-log">
+        {% if comentarios_recientes %} {% for comentario in
+        comentarios_recientes %}
 
+        <div class="perfil-log-row">
+          <!-- FECHA -->
 
-        {% if comentarios_recientes %}
+          <div
+            class="perfil-log-time comentario-fecha"
+            data-fecha="{{ comentario.fecha.isoformat() }}Z"
+          >
+            [{{ comentario.fecha.strftime('%H:%M:%S') }}]
+          </div>
 
+          <!-- ACCIÓN -->
 
-          {% for comentario in comentarios_recientes %}
+          <div class="perfil-log-action">
+            <span class="perfil-dot perfil-dot-red"></span>
 
+            COMENTÓ
+          </div>
 
-          <div class="perfil-log-row">
+          <!-- PUBLICACIÓN -->
 
+          <div class="perfil-log-detail">
+            En
 
-            <!-- FECHA -->
-
-            <div
-              class="perfil-log-time comentario-fecha"
-              data-fecha="{{ comentario.fecha.isoformat() }}Z"
-            >
-
-              [{{ comentario.fecha.strftime('%H:%M:%S') }}]
-
-            </div>
-
-
-
-            <!-- ACCIÓN -->
-
-            <div class="perfil-log-action">
-
-              <span class="perfil-dot perfil-dot-red"></span>
-
-              COMENTÓ
-
-            </div>
-
-
-
-            <!-- PUBLICACIÓN -->
-
-            <div class="perfil-log-detail">
-
-              En
-
-              <a
-                href="{{ url_for(
+            <a
+              href="{{ url_for(
                   'main.post',
                   id_publicacion=comentario.publicacion_id
                 ) }}"
-              >
-                {{ comentario.publicacion.titulo }}
-              </a>
-
-            </div>
-
-
-
-            <span class="material-symbols-outlined">
-              forum
-            </span>
-
-
+            >
+              {{ comentario.publicacion.titulo }}
+            </a>
           </div>
 
+          <span class="material-symbols-outlined"> forum </span>
+        </div>
 
-          {% endfor %}
+        {% endfor %} {% else %}
 
+        <!-- SIN ACTIVIDAD -->
 
-        {% else %}
+        <div class="perfil-log-row">
+          <div class="perfil-log-action">
+            <span class="perfil-dot perfil-dot-grey"></span>
 
-
-          <!-- SIN ACTIVIDAD -->
-
-          <div class="perfil-log-row">
-
-
-            <div class="perfil-log-action">
-
-              <span class="perfil-dot perfil-dot-grey"></span>
-
-              SIN ACTIVIDAD
-
-            </div>
-
-
-            <div class="perfil-log-detail">
-
-              Todavía no realizaste comentarios.
-
-            </div>
-
-
-            <span class="material-symbols-outlined">
-              forum
-            </span>
-
-
+            SIN ACTIVIDAD
           </div>
 
+          <div class="perfil-log-detail">
+            Todavía no realizaste comentarios.
+          </div>
+
+          <span class="material-symbols-outlined"> forum </span>
+        </div>
 
         {% endif %}
-
-
       </div>
-
-
     </section>
-
-
   </div>
-
 </div>
-
-
 
 <!-- =========================
      FECHA LOCAL
 ========================== -->
 
 <script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const fechas = document.querySelectorAll(".comentario-fecha");
 
-  document.addEventListener(
-    "DOMContentLoaded",
-    function () {
+    fechas.forEach(function (elemento) {
+      const fechaUTC = elemento.dataset.fecha;
 
-      const fechas = document.querySelectorAll(
-        ".comentario-fecha"
-      );
+      const fecha = new Date(fechaUTC);
 
+      const fechaLocal = fecha.toLocaleDateString(undefined, {
+        day: "2-digit",
+        month: "2-digit",
+      });
 
-      fechas.forEach(
-        function (elemento) {
+      const horaLocal = fecha.toLocaleTimeString(undefined, {
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit",
+      });
 
-          const fechaUTC =
-            elemento.dataset.fecha;
-
-
-          const fecha =
-            new Date(
-              fechaUTC
-            );
-
-
-          const fechaLocal =
-            fecha.toLocaleDateString(
-              undefined,
-              {
-                day: "2-digit",
-                month: "2-digit"
-              }
-            );
-
-
-          const horaLocal =
-            fecha.toLocaleTimeString(
-              undefined,
-              {
-                hour: "2-digit",
-                minute: "2-digit",
-                second: "2-digit"
-              }
-            );
-
-
-          elemento.textContent =
-            "[" +
-            fechaLocal +
-            " " +
-            horaLocal +
-            "]";
-
-        }
-      );
-
-    }
-  );
-
+      elemento.textContent = "[" + fechaLocal + " " + horaLocal + "]";
+    });
+  });
 </script>
-
 
 {% include 'base/footer.html' %}

@@ -1005,45 +1005,6 @@ def webhook_mercadopago():
 
 
 # =====================================
-# VER PREMIUM - PRUEBA TEMPORAL
-# =====================================
-
-@bp.route("/ver-premium")
-def ver_premium():
-
-    datos_usuario = session.get(
-        "usuario"
-    )
-
-
-    if not datos_usuario:
-
-        return redirect(
-            url_for(
-                "auth.login"
-            )
-        )
-
-
-    usuario = db.session.get(
-        Usuario,
-        datos_usuario["id"]
-    )
-
-
-    if not usuario:
-
-        return "Usuario no encontrado."
-
-
-    return (
-        f"Usuario: {usuario.usuario}<br>"
-        f"ID: {usuario.id}<br>"
-        f"Premium: {usuario.premium}"
-    )
-
-
-# =====================================
 # CATEGORÍAS
 # =====================================
 
