@@ -53,8 +53,6 @@ def proteger_vistas_publicas():
     )
 
 
-    # Si no hay sesión, puede navegar
-    # normalmente por las vistas públicas.
     if not datos_usuario:
 
         return None
@@ -66,15 +64,11 @@ def proteger_vistas_publicas():
     )
 
 
-    # Si por algún motivo el usuario
-    # ya no existe, dejo continuar.
     if not usuario:
 
         return None
 
 
-    # El editor solamente puede utilizar
-    # las vistas del panel de editor.
     if usuario.rol == "editor":
 
         return redirect(
@@ -84,8 +78,6 @@ def proteger_vistas_publicas():
         )
 
 
-    # El administrador solamente puede
-    # utilizar las vistas del panel admin.
     if usuario.rol == "admin":
 
         return redirect(
@@ -95,8 +87,6 @@ def proteger_vistas_publicas():
         )
 
 
-    # El usuario normal sí puede navegar
-    # por las vistas públicas.
     return None
 
 
@@ -106,10 +96,6 @@ def proteger_vistas_publicas():
 
 @bp.route("/")
 def inicio():
-
-    # =====================================
-    # PUBLICACIONES
-    # =====================================
 
     publicaciones = Publicacion.query.filter_by(
         estado="publicada"
@@ -129,10 +115,6 @@ def inicio():
 
         publicaciones_secundarias = publicaciones[1:4]
 
-
-    # =====================================
-    # CLASIFICACIÓN OPENF1
-    # =====================================
 
     clasificacion = []
 
@@ -439,10 +421,6 @@ def post(
     id_publicacion
 ):
 
-    # =====================================
-    # PUBLICACIÓN
-    # =====================================
-
     publicacion = Publicacion.query.filter_by(
         id=id_publicacion,
         estado="publicada"
@@ -454,19 +432,11 @@ def post(
         return "Publicación no encontrada."
 
 
-    # =====================================
-    # AUTOR
-    # =====================================
-
     autor = db.session.get(
         Usuario,
         publicacion.autor_id
     )
 
-
-    # =====================================
-    # NUEVO COMENTARIO
-    # =====================================
 
     if request.method == "POST":
 
@@ -524,20 +494,12 @@ def post(
         )
 
 
-    # =====================================
-    # BLOQUES
-    # =====================================
-
     bloques = BloquePublicacion.query.filter_by(
         publicacion_id=publicacion.id
     ).order_by(
         BloquePublicacion.orden
     ).all()
 
-
-    # =====================================
-    # CARRUSELES
-    # =====================================
 
     carruseles = {}
 
@@ -555,20 +517,12 @@ def post(
             ).all()
 
 
-    # =====================================
-    # COMENTARIOS
-    # =====================================
-
     comentarios = Comentario.query.filter_by(
         publicacion_id=publicacion.id
     ).order_by(
         Comentario.id.desc()
     ).all()
 
-
-    # =====================================
-    # MÁS NOTICIAS
-    # =====================================
 
     otras_publicaciones = Publicacion.query.filter(
         Publicacion.estado
@@ -1048,6 +1002,45 @@ def webhook_mercadopago():
 
 
     return "", 200
+
+
+# =====================================
+# VER PREMIUM - PRUEBA TEMPORAL
+# =====================================
+
+@bp.route("/ver-premium")
+def ver_premium():
+
+    datos_usuario = session.get(
+        "usuario"
+    )
+
+
+    if not datos_usuario:
+
+        return redirect(
+            url_for(
+                "auth.login"
+            )
+        )
+
+
+    usuario = db.session.get(
+        Usuario,
+        datos_usuario["id"]
+    )
+
+
+    if not usuario:
+
+        return "Usuario no encontrado."
+
+
+    return (
+        f"Usuario: {usuario.usuario}<br>"
+        f"ID: {usuario.id}<br>"
+        f"Premium: {usuario.premium}"
+    )
 
 
 # =====================================
